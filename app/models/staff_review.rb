@@ -1,0 +1,2 @@
+class StaffReview < ApplicationRecord
+end

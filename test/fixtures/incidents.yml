@@ -1,0 +1,35 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  driver: MyText
+  occurred_at: 2017-05-09 11:09:12
+  shift: MyString
+  route: MyString
+  vehicle: MyString
+  location: MyString
+  action_before: MyString
+  action_during: MyString
+  weather_conditions: MyString
+  light_conditions: MyString
+  road_conditions: MyString
+  camera_used: false
+  injuries: false
+  damage: false
+  description: MyText
+
+two:
+  driver: MyText
+  occurred_at: 2017-05-09 11:09:12
+  shift: MyString
+  route: MyString
+  vehicle: MyString
+  location: MyString
+  action_before: MyString
+  action_during: MyString
+  weather_conditions: MyString
+  light_conditions: MyString
+  road_conditions: MyString
+  camera_used: false
+  injuries: false
+  damage: false
+  description: MyText
