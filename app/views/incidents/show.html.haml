@@ -1,0 +1,49 @@
+%p#notice= notice
+%p
+  %strong Driver:
+  = @incident.driver
+%p
+  %strong Occurred at:
+  = @incident.occurred_at
+%p
+  %strong Shift:
+  = @incident.shift
+%p
+  %strong Route:
+  = @incident.route
+%p
+  %strong Vehicle:
+  = @incident.vehicle
+%p
+  %strong Location:
+  = @incident.location
+%p
+  %strong Action before:
+  = @incident.action_before
+%p
+  %strong Action during:
+  = @incident.action_during
+%p
+  %strong Weather conditions:
+  = @incident.weather_conditions
+%p
+  %strong Light conditions:
+  = @incident.light_conditions
+%p
+  %strong Road conditions:
+  = @incident.road_conditions
+%p
+  %strong Camera used:
+  = @incident.camera_used
+%p
+  %strong Injuries:
+  = @incident.injuries
+%p
+  %strong Damage:
+  = @incident.damage
+%p
+  %strong Description:
+  = @incident.description
+= link_to 'Edit', edit_incident_path(@incident)
+|
+= link_to 'Back', incidents_path

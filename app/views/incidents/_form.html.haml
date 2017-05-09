@@ -1,0 +1,56 @@
+= form_with(model: incident, local: true) do |form|
+  - if incident.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(incident.errors.count, "error")
+        prohibited this incident from being saved:
+      %ul
+        - incident.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = form.label :driver
+    = form.text_field :driver, id: :incident_driver
+  .field
+    = form.label :occurred_at
+    = form.datetime_select :occurred_at, id: :incident_occurred_at
+  .field
+    = form.label :shift
+    = form.text_field :shift, id: :incident_shift
+  .field
+    = form.label :route
+    = form.text_field :route, id: :incident_route
+  .field
+    = form.label :vehicle
+    = form.text_field :vehicle, id: :incident_vehicle
+  .field
+    = form.label :location
+    = form.text_field :location, id: :incident_location
+  .field
+    = form.label :action_before
+    = form.text_field :action_before, id: :incident_action_before
+  .field
+    = form.label :action_during
+    = form.text_field :action_during, id: :incident_action_during
+  .field
+    = form.label :weather_conditions
+    = form.text_field :weather_conditions, id: :incident_weather_conditions
+  .field
+    = form.label :light_conditions
+    = form.text_field :light_conditions, id: :incident_light_conditions
+  .field
+    = form.label :road_conditions
+    = form.text_field :road_conditions, id: :incident_road_conditions
+  .field
+    = form.label :camera_used
+    = form.check_box :camera_used, id: :incident_camera_used
+  .field
+    = form.label :injuries
+    = form.check_box :injuries, id: :incident_injuries
+  .field
+    = form.label :damage
+    = form.check_box :damage, id: :incident_damage
+  .field
+    = form.label :description
+    = form.text_area :description, id: :incident_description
+  .actions
+    = form.submit
