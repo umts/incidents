@@ -77,10 +77,10 @@ class IncidentsController < ApplicationController
   def parse_dates
     @mode = params[:mode] || 'month'
     if params[:start_date].present?
-      @start_date = Date.parse params[:start_date]
+      @start_date = Time.zone.parse params[:start_date]
     end
     if params[:end_date].present?
-      @end_date = Date.parse params[:end_date]
+      @end_date = Time.zone.parse params[:end_date]
     end
     if @mode == 'week'
       @start_date ||= Time.zone.now.beginning_of_week(:sunday)
