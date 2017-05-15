@@ -3,21 +3,24 @@
   = @start_date.strftime '%A, %B %e'
   &mdash;
   = @end_date.strftime '%A, %B %e'
-= link_to incidents_url(mode: @mode, start_date: @prev_start), class: 'prev' do
-  %button.btn.btn-primary
-    &larr;
-    Previous #{@mode}
-= link_to incidents_url(mode: @mode, start_date: @next_start), class: 'next' do
-  %button.btn.btn-primary
-    &rarr;
-    Next #{@mode}
-- case @mode
-- when 'week'
-  = link_to incidents_url(mode: 'month', start_date: @start_date.beginning_of_month) do
-    %button.btn.btn-primary View for whole month
-- when 'month'
-  = link_to incidents_url(mode: 'week', start_date: @start_date) do
-    %button.btn.btn-primary View single week
+.date-navigation
+  .prev-next
+    = link_to incidents_url(mode: @mode, start_date: @prev_start), class: 'prev' do
+      %button.btn.btn-primary
+        &larr;
+        Previous #{@mode}
+    = link_to incidents_url(mode: @mode, start_date: @next_start), class: 'next' do
+      %button.btn.btn-primary
+        &rarr;
+        Next #{@mode}
+  .switch
+    - case @mode
+    - when 'week'
+      = link_to incidents_url(mode: 'month', start_date: @start_date.beginning_of_month), class: 'switch' do
+        %button.btn.btn-primary View for whole month
+    - when 'month'
+      = link_to incidents_url(mode: 'week', start_date: @start_date), class: 'switch' do
+        %button.btn.btn-primary View single week
 = render partial: 'table'
 %br
 = link_to 'New Incident', new_incident_path
