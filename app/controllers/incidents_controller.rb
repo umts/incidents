@@ -7,8 +7,8 @@ class IncidentsController < ApplicationController
   # GET /incidents.json
   def index
     @incidents = if current_user.staff?
-                   Incident.all
-                 else current_user.incidents
+                   Incident.order :occurred_at
+                 else current_user.incidents.order :occurred_at
                  end
   end
 
