@@ -8,7 +8,14 @@ User.create! name: 'David Faulkenberry',
 
 50.times do
   name = FFaker::Name.name
-  email = name.split.first.downcase + '@example.com'
+  first_name = name.split.first
+  users_with_first_name = User.select{ |u| u.name.start_with? first_name }
+  email = if users_with_first_name.present?
+            name.split.first.downcase +
+              users_with_first_name.count.to_s +
+              '@example.com'
+          else name.split.first.downcase + '@example.com'
+          end
   User.create! name: name,
                email: email,
                password: 'password',
@@ -18,7 +25,7 @@ end
 
 incident_drivers = User.drivers
 
-(2.months.ago.to_date .. 2.months.since.to_date).each do |day|
+(2.months.ago.to_date .. 2.months.since.to_date).to_a.shuffle.each do |day|
   route = 30 + rand(20)
   Incident.create! driver: incident_drivers.sample,
                    occurred_at: day + rand(24 * 60).minutes,

@@ -3,7 +3,7 @@
   %thead
     %tr
       %th Driver
-      %th Occurred at
+      %th{ colspan: 2 } Occurred at
       %th Shift
       %th Route
       %th Vehicle
@@ -16,7 +16,8 @@
     - @incidents.each do |incident|
       %tr
         %td= incident.driver.name
-        %td= incident.occurred_at_readable
+        %td= incident.occurred_date
+        %td= incident.occurred_time
         %td= incident.shift
         %td= incident.route
         %td= incident.vehicle
