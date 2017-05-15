@@ -14,7 +14,7 @@
     - @incidents.each do |incident|
       %tr
         %td= incident.driver
-        %td= incident.occurred_at
+        %td= incident.occurred_at_readable
         %td= incident.shift
         %td= incident.route
         %td= incident.vehicle
