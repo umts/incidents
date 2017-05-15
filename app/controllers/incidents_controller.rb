@@ -1,4 +1,5 @@
 class IncidentsController < ApplicationController
+  before_action :access_control, only: %i[new destroy]
   before_action :set_incident, only: [:show, :edit, :update, :destroy]
 
   # GET /incidents

@@ -1,5 +1,6 @@
 class UsersController < ApplicationController
   before_action :find_user, only: %i(destroy edit update)
+  before_action :access_control
   
   def destroy
     @user.destroy!
