@@ -8,7 +8,7 @@ User.create! name: 'David Faulkenberry',
 
 50.times do
   name = FFaker::Name.name
-  email = name.split.first + '@example.com'
+  email = name.split.first.downcase + '@example.com'
   User.create! name: name,
                email: email,
                password: 'password',

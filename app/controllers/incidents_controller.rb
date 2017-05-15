@@ -6,6 +6,10 @@ class IncidentsController < ApplicationController
   # GET /incidents
   # GET /incidents.json
   def index
+    @incidents = if current_user.staff?
+                   Incident.all
+                 else current_user.incidents
+                 end
     @incidents = Incident.all
   end
 
@@ -68,12 +72,14 @@ class IncidentsController < ApplicationController
   def driver_list
     @drivers = User.drivers.order :name
   end
-  # Use callbacks to share common setup or constraints between actions.
+
   def set_incident
     @incident = Incident.find(params[:id])
+    if @incident.driver != current_user && !current_user.staff?
+      deny_access and return
+    end
   end
 
-  # Never trust parameters from the scary internet, only allow the white list through.
   def incident_params
     params.require(:incident).permit(:driver, :occurred_at, :shift, :route, :vehicle, :location, :action_before, :action_during, :weather_conditions, :light_conditions, :road_conditions, :camera_used, :injuries, :damage, :description)
   end
