@@ -10,7 +10,6 @@ class IncidentsController < ApplicationController
                    Incident.all
                  else current_user.incidents
                  end
-    @incidents = Incident.all
   end
 
   # GET /incidents/1
