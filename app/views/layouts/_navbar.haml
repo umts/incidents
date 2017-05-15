@@ -1,5 +1,17 @@
-%nav.navbar.navbar-default
+%nav.navbar.navbar-default.with-icon
   .container-fluid
     .navbar-header
       %a.navbar-brand{ href: root_path }= image_tag 'favicon.svg'
-    %button.btn.btn-default.navbar-btn.navbar-right Logout
+    - if user_signed_in?
+      - if current_user.staff?
+        = link_to new_user_path do
+          %button.btn.btn-default.navbar-btn.navbar-left New User
+        = link_to users_path do
+          %button.btn.btn-default.navbar-btn.navbar-left Manage Users
+      = link_to destroy_user_session_path, method: :delete do
+        %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
+      = link_to edit_user_registration_path do
+        %button.btn.btn-default.navbar-btn.navbar-right.auth Change Password
+    - else
+      = link_to new_user_session_path do
+        %button.btn.btn-default.navbar-btn.navbar-right Log in

@@ -1,0 +1,25 @@
+%h1 Users
+
+%table.index
+  %thead
+    %tr
+      %th Name
+      %th Email
+      %th Staff?
+      %th
+      %th
+  - @users.each do |user|
+    %tr
+      %td= user.name
+      %td= user.email
+      %td
+        - if user.staff?
+          Yes
+        - else
+          No
+      %td
+        = link_to edit_user_path(user) do
+          %button.btn.btn-default Edit
+      %td
+        = link_to user_path(user), method: :delete do
+          %button.btn.btn-default Delete

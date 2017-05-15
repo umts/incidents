@@ -1,4 +1,3 @@
-%p#notice= notice
 %h1 Incidents
 %table.incidents
   %thead
@@ -19,8 +18,14 @@
         %td= incident.route
         %td= incident.vehicle
         %td= incident.location
-        %td= link_to 'Show', incident
-        %td= link_to 'Edit', edit_incident_path(incident)
-        %td= link_to 'Destroy', incident, method: :delete, data: { confirm: 'Are you sure?' }
+        %td
+          = link_to incident do
+            %button.btn.btn-default View
+        %td
+          = link_to edit_incident_path(incident) do
+            %button.btn.btn-default Edit
+        %td
+          = link_to incident, method: :delete do
+            %button.btn.btn-default Delete
 %br
 = link_to 'New Incident', new_incident_path
