@@ -7,9 +7,6 @@ table.incidents{
   }
   td{
     padding: 3px;
-    &:not(:first-child){
-      border-left: 2px solid lightgrey;
-    }
   }
   th{
     padding: 3px 10px;
