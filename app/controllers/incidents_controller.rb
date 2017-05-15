@@ -6,10 +6,12 @@ class IncidentsController < ApplicationController
   # GET /incidents
   # GET /incidents.json
   def index
-    @incidents = if current_user.staff?
-                   Incident.order :occurred_at
-                 else current_user.incidents.order :occurred_at
-                 end
+    if current_user.staff?
+      parse_dates
+      @incidents = Incident.between(@start_date, @end_date).order :occurred_at
+      render :by_date and return
+    end
+    @incidents = current_user.incidents.order :occurred_at
   end
 
   # GET /incidents/1
@@ -70,6 +72,26 @@ class IncidentsController < ApplicationController
 
   def driver_list
     @drivers = User.drivers.order :name
+  end
+
+  def parse_dates
+    @mode = params[:mode] || 'month'
+    if params[:start_date].present?
+      @start_date = Date.parse params[:start_date]
+    end
+    if params[:end_date].present?
+      @end_date = Date.parse params[:end_date]
+    end
+    if @mode == 'week'
+      @start_date ||= Time.zone.now.beginning_of_week(:sunday)
+      @end_date ||= @start_date.end_of_week(:sunday)
+      @prev_start = @start_date - 1.week
+    else
+      @start_date ||= Time.zone.now.beginning_of_month
+      @prev_start = @start_date - 1.month
+      @end_date ||= @start_date.end_of_month
+    end
+    @next_start = @end_date + 1.day
   end
 
   def set_incident
