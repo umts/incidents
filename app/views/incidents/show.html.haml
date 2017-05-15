@@ -1,10 +1,10 @@
 %p#notice= notice
 %p
   %strong Driver:
-  = @incident.driver
+  = @incident.driver.name
 %p
   %strong Occurred at:
-  = @incident.occurred_at
+  = @incident.occurred_at_readable
 %p
   %strong Shift:
   = @incident.shift

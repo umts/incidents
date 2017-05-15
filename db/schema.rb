@@ -10,10 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170515151343) do
+ActiveRecord::Schema.define(version: 20170515174612) do
 
   create_table "incidents", force: :cascade do |t|
-    t.string "driver"
     t.datetime "occurred_at"
     t.string "shift"
     t.string "route"
@@ -30,6 +29,7 @@ ActiveRecord::Schema.define(version: 20170515151343) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "driver_id"
   end
 
   create_table "staff_reviews", force: :cascade do |t|

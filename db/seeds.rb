@@ -6,15 +6,21 @@ User.create! name: 'David Faulkenberry',
              password_confirmation: 'password',
              staff: true
 
-User.create! name: 'Karin Eichelman',
-             email: 'karin@example.com',
-             password: 'password',
-             password_confirmation: 'password',
-             staff: false
+50.times do
+  name = FFaker::Name.name
+  email = name.split.first + '@example.com'
+  User.create! name: name,
+               email: email,
+               password: 'password',
+               password_confirmation: 'password',
+               staff: false
+end
+
+incident_drivers = User.drivers
 
 (2.months.ago.to_date .. 2.months.since.to_date).each do |day|
   route = 30 + rand(20)
-  Incident.create! driver: FFaker::Name.name,
+  Incident.create! driver: incident_drivers.sample,
                    occurred_at: day + rand(24 * 60).minutes,
                    shift: "#{route}-#{rand(5) + 1} #{%w[AM MID PM EVE].sample}",
                    route: route,

@@ -1,6 +1,7 @@
 class IncidentsController < ApplicationController
   before_action :access_control, only: %i[new destroy]
   before_action :set_incident, only: [:show, :edit, :update, :destroy]
+  before_action :driver_list, only: %i[edit new]
 
   # GET /incidents
   # GET /incidents.json
@@ -63,13 +64,17 @@ class IncidentsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_incident
-      @incident = Incident.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def incident_params
-      params.require(:incident).permit(:driver, :occurred_at, :shift, :route, :vehicle, :location, :action_before, :action_during, :weather_conditions, :light_conditions, :road_conditions, :camera_used, :injuries, :damage, :description)
-    end
+  def driver_list
+    @drivers = User.drivers.order :name
+  end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_incident
+    @incident = Incident.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def incident_params
+    params.require(:incident).permit(:driver, :occurred_at, :shift, :route, :vehicle, :location, :action_before, :action_during, :weather_conditions, :light_conditions, :road_conditions, :camera_used, :injuries, :damage, :description)
+  end
 end

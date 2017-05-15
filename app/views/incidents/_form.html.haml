@@ -9,7 +9,7 @@
           %li= message
   .field
     = form.label :driver
-    = form.text_field :driver, id: :incident_driver
+    = form.select :driver_id, options_from_collection_for_select(@drivers, :id, :name, incident.driver_id)
   .field
     = form.label :occurred_at
     = form.datetime_select :occurred_at, id: :incident_occurred_at
