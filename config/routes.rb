@@ -1,13 +1,12 @@
 Rails.application.routes.draw do
-  devise_for :users
   root 'incidents#index'
   resources :incidents
 
+  devise_for :users
   as :user do
     get 'users/edit', to: 'devise/registrations#edit', as: :edit_user_registration
     put 'users', to: 'devise/registrations#update', as: :user_registration           
   end
-
   scope :staff do
     resources :users, except: :show
   end

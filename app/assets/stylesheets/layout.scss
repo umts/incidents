@@ -31,8 +31,9 @@ body{
     margin: 1em;
 
     .info p{
-      border: 3px solid #a59a93;
+      border: 2px solid #a59a93;
       border-radius: 6px;
+      padding: 3px 0;
       text-align: center;
 
       &.notice{
