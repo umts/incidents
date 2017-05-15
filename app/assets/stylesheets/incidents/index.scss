@@ -1,0 +1,17 @@
+table.incidents{
+  thead{
+    background: #ece3cb;
+  }
+  td,th{
+    text-align: center;
+  }
+  td{
+    padding: 3px;
+    &:not(:first-child){
+      border-left: 2px solid lightgrey;
+    }
+  }
+  th{
+    padding: 3px 10px;
+  }
+}

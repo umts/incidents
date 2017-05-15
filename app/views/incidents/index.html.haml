@@ -1,6 +1,6 @@
 %p#notice= notice
 %h1 Incidents
-%table
+%table.incidents
   %thead
     %tr
       %th Driver
@@ -9,16 +9,7 @@
       %th Route
       %th Vehicle
       %th Location
-      %th Action before
-      %th Action during
-      %th Weather conditions
-      %th Light conditions
-      %th Road conditions
-      %th Camera used
-      %th Injuries
-      %th Damage
-      %th Description
-      %th{:colspan => "3"}
+      %th{ colspan: 3 }
   %tbody
     - @incidents.each do |incident|
       %tr
@@ -28,17 +19,8 @@
         %td= incident.route
         %td= incident.vehicle
         %td= incident.location
-        %td= incident.action_before
-        %td= incident.action_during
-        %td= incident.weather_conditions
-        %td= incident.light_conditions
-        %td= incident.road_conditions
-        %td= incident.camera_used
-        %td= incident.injuries
-        %td= incident.damage
-        %td= incident.description
         %td= link_to 'Show', incident
         %td= link_to 'Edit', edit_incident_path(incident)
         %td= link_to 'Destroy', incident, method: :delete, data: { confirm: 'Are you sure?' }
-%br/
+%br
 = link_to 'New Incident', new_incident_path
