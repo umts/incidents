@@ -6,7 +6,7 @@
     .data
       .staff-name= review.user.name
       .time= review.timestamp
-    %p= review.text
+    .text= simple_format review.text
     - if current_user == review.user
       = form_with model: review, local: true, class: 'edit-review' do |form|
         .field= form.text_area :text

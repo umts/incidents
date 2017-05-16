@@ -38,9 +38,11 @@ table.incidents td em.incomplete{
       font-size: small;
     }
   }
-  p{
+  .text{
+    p{ margin: 0; }
     background: #ebebeb;
     border-radius: 6px;
+    margin-bottom: 10px;
     padding: 5px 10px;
   }
 }

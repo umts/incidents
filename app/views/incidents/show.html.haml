@@ -43,7 +43,7 @@
   = yes_no @incident.damage?
 %p
   %strong Description:
-  = @incident.description
+  = simple_format @incident.description
 = link_to 'Edit', edit_incident_path(@incident)
 |
 = link_to 'Back', incidents_path
