@@ -7,3 +7,10 @@
     a{ margin: 0 auto; }
   }
 }
+
+table.incidents td em.incomplete{
+  background: firebrick;
+  border-radius: 6px;
+  color: white;
+  padding: 8px 25px;
+}
