@@ -6,6 +6,10 @@
       .staff-name= review.user.name
       .time= review.timestamp
     %p= review.text
+    - if current_user == review.user
+      %button.btn.btn-default Edit
+      = link_to review, method: :delete do
+        %button.btn.btn-default.delete Delete
 
 - if current_user.staff?
   = form_with model: StaffReview.new, local: true, class: 'new-review' do |form|
