@@ -17,8 +17,8 @@ body{
     border-bottom: 2px solid $border-color;
 
     a.navbar-brand img{
-      background: white;
       @include default-borders(2px);
+      background: white;
       height: 37px;
       margin-top: -7px;
       padding: 5px;
@@ -47,8 +47,8 @@ body{
   }
 
   #main-panel{
-    background: $main-panel-background;
     @include default-borders(3px);
+    background: $main-panel-background;
     margin: 1em;
 
     h1,h2{
