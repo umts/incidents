@@ -21,6 +21,6 @@
     - when 'month'
       = link_to incidents_url(mode: 'week', start_date: @start_date), class: 'switch' do
         %button.btn.btn-primary View single week
-= render partial: 'table'
-%br
 = link_to 'New Incident', new_incident_path
+%br
+= render partial: 'table'

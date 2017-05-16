@@ -1,7 +1,6 @@
 class IncidentsController < ApplicationController
   before_action :access_control, only: %i[new destroy]
   before_action :set_incident, only: [:show, :edit, :update, :destroy]
-  before_action :driver_list, only: %i[edit new]
 
   # GET /incidents
   # GET /incidents.json
@@ -35,7 +34,7 @@ class IncidentsController < ApplicationController
 
     respond_to do |format|
       if @incident.save
-        format.html { redirect_to @incident, notice: 'Incident was successfully created.' }
+        format.html { redirect_to incidents_url, notice: 'Incident was successfully created.' }
         format.json { render :show, status: :created, location: @incident }
       else
         format.html { render :new }
@@ -70,10 +69,6 @@ class IncidentsController < ApplicationController
 
   private
 
-  def driver_list
-    @drivers = User.drivers.order :name
-  end
-
   def parse_dates
     @mode = params[:mode] || 'month'
     if params[:start_date].present?
@@ -102,6 +97,6 @@ class IncidentsController < ApplicationController
   end
 
   def incident_params
-    params.require(:incident).permit(:driver, :occurred_at, :shift, :route, :vehicle, :location, :action_before, :action_during, :weather_conditions, :light_conditions, :road_conditions, :camera_used, :injuries, :damage, :description)
+    params.require(:incident).permit(:driver_id, :occurred_at, :shift, :route, :vehicle, :location, :action_before, :action_during, :weather_conditions, :light_conditions, :road_conditions, :camera_used, :injuries, :damage, :description)
   end
 end
