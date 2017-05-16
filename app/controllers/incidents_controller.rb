@@ -100,6 +100,9 @@ class IncidentsController < ApplicationController
   end
 
   def incident_params
-    params.require(:incident).permit(:driver_id, :occurred_at, :shift, :route, :vehicle, :location, :action_before, :action_during, :weather_conditions, :light_conditions, :road_conditions, :camera_used, :injuries, :damage, :description)
+    params.require(:incident).permit :driver_id, :occurred_at, :shift, :route,
+      :vehicle, :location, :action_before, :action_during, :weather_conditions,
+      :light_conditions, :road_conditions, :camera_used, :injuries, :damage,
+      :description, :completed
   end
 end

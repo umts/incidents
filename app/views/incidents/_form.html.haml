@@ -8,6 +8,7 @@
         - incident.errors.full_messages.each do |message|
           %li= message
   - if incident.persisted?
+    All text fields are required.
     .field
       = form.label :occurred_at
       = form.datetime_select :occurred_at, id: :incident_occurred_at
@@ -50,6 +51,7 @@
     .field
       = form.label :description
       = form.text_area :description, id: :incident_description, size: '40x8'
+    = form.hidden_field :completed, value: true
   - else
     .field
       = form.label :driver

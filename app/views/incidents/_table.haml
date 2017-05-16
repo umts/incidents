@@ -25,12 +25,15 @@
           %td
             = link_to incident do
               %button.btn.btn-default View
+          %td
+            = link_to edit_incident_path(incident) do
+              %button.btn.btn-default Edit
         - else
-          %td{ colspan: 7 }
+          %td{ colspan: 6 }
             %em Not yet completed
-        %td
-          = link_to edit_incident_path(incident) do
-            %button.btn.btn-default Edit
+          %td{ colspan: 2 }
+            = link_to edit_incident_path(incident) do
+              %button.btn.btn-default Complete
         - if current_user.staff?
           %td
             = link_to incident, method: :delete do
