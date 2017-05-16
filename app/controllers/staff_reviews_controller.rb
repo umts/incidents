@@ -3,7 +3,10 @@ class StaffReviewsController < ApplicationController
   before_action :set_staff_review, except: :create
 
   def create
-    @staff_review = StaffReview.create! staff_review_params.merge(user: current_user)
+    staff_review_params = params.require(:staff_review)
+                                .permit(:incident_id, :text)
+                                .merge(user: current_user)
+    @staff_review = StaffReview.create! staff_review_params
     redirect_to @staff_review.incident
   end
 
@@ -13,7 +16,7 @@ class StaffReviewsController < ApplicationController
   end
 
   def update
-    @staff_review.update! staff_review_params
+    @staff_review.update! params.require(:staff_review).permit :text
     redirect_to @staff_review.incident
   end
 
