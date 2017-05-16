@@ -6,3 +6,9 @@
       .staff-name= review.user.name
       .time= review.timestamp
     %p= review.text
+
+- if current_user.staff?
+  = form_with model: StaffReview.new, local: true, class: 'new-review' do |form|
+    .field= form.text_field :text, placeholder: 'Add your review...'
+    = form.hidden_field :incident_id, value: @incident.id
+    .actions= form.submit 'Create staff review', class: 'btn btn-primary btn-lg'

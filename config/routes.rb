@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       get :unreviewed
     end
   end
+  resources :staff_reviews, only: %i[create destroy update]
 
   devise_for :users
   as :user do

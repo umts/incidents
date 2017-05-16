@@ -17,6 +17,7 @@ table.incidents td em.incomplete{
   background: #d9d9d9;
   border: 2px solid #a59a93;
   border-radius: 6px;
+  margin-top: 10px;
   padding: 5px 2em;
   .data{
     display: flex;
@@ -27,14 +28,24 @@ table.incidents td em.incomplete{
     }
     .time{
       margin-left: 2em;
-      margin-top: 4px;
+      margin-top: 7px;
       display: inline;
-      font-size: medium;
+      font-size: small;
     }
   }
   p{
     background: white;
     border-radius: 6px;
     padding: 5px 10px;
+  }
+}
+
+form.new-review{
+  display: block;
+  font-size: medium;
+  margin-top: 10px;
+  .field input{
+    height: 4em;
+    width: 100%;
   }
 }
