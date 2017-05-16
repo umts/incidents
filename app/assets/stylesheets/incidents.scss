@@ -1,8 +1,13 @@
 .date-navigation{
   display: flex;
   justify-content: center;
-  button{
-    margin: 0 2em;
+  a{
+    &:hover{
+      background: inherit;
+    }
+    button{
+      margin: 0 2em;
+    }
   }
 }
 
