@@ -8,11 +8,18 @@
           %button.btn.btn-default.navbar-btn.navbar-left New User
         = link_to users_path do
           %button.btn.btn-default.navbar-btn.navbar-left Manage Users
+        = link_to new_incident_path do
+          %button.btn.btn-default.navbar-btn.navbar-left New Incident
         - if @incomplete_incidents.any?
           = link_to incomplete_incidents_path do
             %button.btn.btn-default.navbar-btn.navbar-left
-              Incomplete incidents
+              Incomplete Incidents
               .number-icon= @incomplete_incidents.count
+        - if @unreviewed_incidents.any?
+          = link_to unreviewed_incidents_path do
+            %button.btn.btn-default.navbar-btn.navbar-left
+              Unreviewed Incidents
+              .number-icon= @unreviewed_incidents.count
       = link_to destroy_user_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
       = link_to edit_user_registration_path do

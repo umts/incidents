@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :incidents do
     collection do
       get :incomplete
+      get :unreviewed
     end
   end
 

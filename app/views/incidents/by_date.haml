@@ -17,8 +17,7 @@
       %button.btn.btn-primary View single week
   = link_to incidents_url(mode: @mode, start_date: @next_start), class: 'next' do
     %button.btn.btn-primary
-      &rarr;
       Next #{@mode}
-= link_to 'New Incident', new_incident_path
+      &rarr;
 %br
 = render partial: 'table'

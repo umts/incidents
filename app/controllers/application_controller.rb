@@ -11,6 +11,7 @@ class ApplicationController < ActionController::Base
 
   def check_for_incomplete_incidents
     @incomplete_incidents = Incident.incomplete
+    @unreviewed_incidents = Incident.unreviewed
   end
 
   def deny_access

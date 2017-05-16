@@ -5,4 +5,5 @@ class User < ApplicationRecord
   validates :name, :email, presence: true, uniqueness: true
 
   scope :drivers, -> { where staff: false }
+  scope :staff, -> { where staff: true }
 end
