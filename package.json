@@ -1,5 +1,7 @@
 {
   "name": "incidents",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "jquery": "3.2"
+  }
 }

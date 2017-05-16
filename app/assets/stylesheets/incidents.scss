@@ -40,12 +40,15 @@ table.incidents td em.incomplete{
   }
 }
 
-form.new-review{
+form.new-review, form.edit-review{
   display: block;
+  &.edit-review{ display: none; }
   font-size: medium;
   margin-top: 10px;
-  .field input{
+  .field textarea{
+    border-radius: 6px;
     height: 4em;
+    padding: 5px;
     width: 100%;
   }
 }

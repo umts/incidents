@@ -7,12 +7,15 @@
       .time= review.timestamp
     %p= review.text
     - if current_user == review.user
-      %button.btn.btn-default Edit
-      = link_to review, method: :delete do
+      = form_with model: review, local: true, class: 'edit-review' do |form|
+        .field= form.text_area :text
+        .actions= form.submit 'Save', class: 'btn btn-default btn-lg'
+      %button.btn.btn-default.edit Edit
+      = link_to review, method: :delete, class: 'delete' do
         %button.btn.btn-default.delete Delete
 
 - if current_user.staff?
   = form_with model: StaffReview.new, local: true, class: 'new-review' do |form|
-    .field= form.text_field :text, placeholder: 'Add your review...'
+    .field= form.text_area :text, placeholder: 'Add your review...'
     = form.hidden_field :incident_id, value: @incident.id
     .actions= form.submit 'Create staff review', class: 'btn btn-primary btn-lg'
