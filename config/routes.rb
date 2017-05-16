@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   root 'incidents#index'
-  resources :incidents
+  resources :incidents do
+    collection do
+      get :incomplete
+    end
+  end
 
   devise_for :users
   as :user do

@@ -8,6 +8,11 @@
           %button.btn.btn-default.navbar-btn.navbar-left New User
         = link_to users_path do
           %button.btn.btn-default.navbar-btn.navbar-left Manage Users
+        - if @incomplete_incidents.any?
+          = link_to incomplete_incidents_path do
+            %button.btn.btn-default.navbar-btn.navbar-left
+              Incomplete incidents
+              .number-icon= @incomplete_incidents.count
       = link_to destroy_user_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
       = link_to edit_user_registration_path do

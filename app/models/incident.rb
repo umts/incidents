@@ -4,6 +4,7 @@ class Incident < ApplicationRecord
 
   scope :between,
         -> (start_date, end_date) { where occurred_at: start_date..end_date }
+  scope :incomplete, -> { where completed: false }
 
   def occurred_date
     occurred_at.strftime '%A, %B %e'

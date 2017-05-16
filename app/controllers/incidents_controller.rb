@@ -2,6 +2,9 @@ class IncidentsController < ApplicationController
   before_action :access_control, only: %i[new destroy]
   before_action :set_incident, only: [:show, :edit, :update, :destroy]
 
+  def incomplete
+    @incidents = Incident.incomplete.order :occurred_at
+  end
   # GET /incidents
   # GET /incidents.json
   def index
@@ -62,7 +65,7 @@ class IncidentsController < ApplicationController
   def destroy
     @incident.destroy
     respond_to do |format|
-      format.html { redirect_to incidents_url, notice: 'Incident was successfully destroyed.' }
+      format.html { redirect_to incidents_url, notice: 'Incident was successfully deleted.' }
       format.json { head :no_content }
     end
   end
