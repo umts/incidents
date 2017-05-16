@@ -6,8 +6,7 @@
       %th Name
       %th Email
       %th Staff?
-      %th
-      %th
+      %th{ colspan: 3 }
   - @users.each do |user|
     %tr
       %td= user.name
@@ -17,6 +16,10 @@
           Yes
         - else
           No
+      %td
+        - if !user.staff? || user.incidents.present?
+          = link_to incidents_user_path(user) do
+            %button.btn.btn-default View incidents
       %td
         = link_to edit_user_path(user) do
           %button.btn.btn-default Edit

@@ -8,6 +8,10 @@ Rails.application.routes.draw do
     put 'users', to: 'devise/registrations#update', as: :user_registration           
   end
   scope :staff do
-    resources :users, except: :show
+    resources :users, except: :show do
+      member do
+        get :incidents
+      end
+    end
   end
 end

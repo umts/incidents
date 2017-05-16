@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_action :find_user, only: %i(destroy edit update)
+  before_action :find_user, only: %i[destroy edit incidents update]
   before_action :access_control
   
   def destroy
@@ -19,8 +19,12 @@ class UsersController < ApplicationController
     end
   end
 
+  def incidents
+    @incidents = @user.incidents.order :occurred_at
+  end
+
   def index
-    @users = User.all
+    @users = User.includes :incidents
   end
 
   def update
