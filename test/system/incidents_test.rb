@@ -1,9 +1,9 @@
-require "application_system_test_case"
+require 'application_system_test_case'
 
 class IncidentsTest < ApplicationSystemTestCase
-  # test "visiting the index" do
-  #   visit incidents_url
-  #
-  #   assert_selector "h1", text: "Incident"
-  # end
+  test 'visiting the index' do
+    when_current_user_is :staff
+    visit incidents_url
+    assert_selector 'h1', text: 'Incidents'
+  end
 end
