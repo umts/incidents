@@ -45,12 +45,12 @@ incident_drivers = User.drivers
                      camera_used: [true, false].sample,
                      injuries: [true, false].sample,
                      damage: [true, false].sample,
-                     description: FFaker::Lorem.paragraphs.join("\n"),
+                     description: FFaker::BaconIpsum.paragraphs.join("\n"),
                      completed: true
   end
   # Every eighth incident shall be not reviewed.
   unless i % 8 == 0
     StaffReview.create! incident: Incident.last, user: User.first,
-      text: FFaker::Lorem.paragraph
+      text: FFaker::BaconIpsum.paragraph
   end
 end
