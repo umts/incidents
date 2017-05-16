@@ -1,0 +1,8 @@
+%h3 Staff Review
+
+- @staff_reviews.each do |review|
+  .staff-review
+    .data
+      .staff-name= review.user.name
+      .time= review.timestamp
+    %p= review.text

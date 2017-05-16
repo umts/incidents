@@ -87,6 +87,7 @@ class IncidentsController < ApplicationController
 
   def set_incident
     @incident = Incident.find(params[:id])
+    @staff_reviews = @incident.staff_reviews.order :created_at
     if @incident.driver != current_user && !current_user.staff?
       deny_access and return
     end
