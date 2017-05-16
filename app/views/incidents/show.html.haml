@@ -34,13 +34,13 @@
   = @incident.road_conditions
 %p
   %strong Camera used:
-  = @incident.camera_used
+  = yes_no @incident.camera_used?
 %p
   %strong Injuries:
-  = @incident.injuries
+  = yes_no @incident.injuries?
 %p
   %strong Damage:
-  = @incident.damage
+  = yes_no @incident.damage?
 %p
   %strong Description:
   = @incident.description

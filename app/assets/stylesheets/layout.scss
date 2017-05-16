@@ -64,6 +64,12 @@ body{
       }
     }
 
+    span.glyphicon{
+      font-size: large;
+      &.glyphicon-ok{ color: green; }
+      &.glyphicon-remove{ color: red; }
+    }
+
     .info p{
       @include default-borders(2px);
       padding: 3px 0;

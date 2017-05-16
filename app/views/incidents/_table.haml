@@ -24,11 +24,7 @@
           %td= incident.vehicle
           %td= incident.location
           - if current_user.staff?
-            %td
-              - if incident.reviewed?
-                Yes
-              - else
-                No
+            %td= yes_no_image incident.reviewed?
           %td
             = link_to incident do
               %button.btn.btn-default View

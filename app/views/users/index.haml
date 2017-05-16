@@ -11,11 +11,7 @@
     %tr
       %td= user.name
       %td= user.email
-      %td
-        - if user.staff?
-          Yes
-        - else
-          No
+      %td= yes_no_image user.staff?
       %td
         - if !user.staff? || user.incidents.present?
           = link_to incidents_user_path(user) do

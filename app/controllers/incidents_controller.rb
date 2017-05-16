@@ -18,13 +18,16 @@ class IncidentsController < ApplicationController
   def destroy
     @incident.destroy
     respond_to do |format|
-      format.html { redirect_to incidents_url, notice: 'Incident was successfully deleted.' }
+      format.html { redirect_to request.referer, notice: 'Incident was successfully deleted.' }
       format.json { head :no_content }
     end
   end
 
   def incomplete
     @incidents = Incident.incomplete.order :occurred_at
+    if @incidents.blank?
+      redirect_to incidents_url, notice: 'No incomplete incidents.'
+    end
   end
 
   def index
@@ -42,6 +45,9 @@ class IncidentsController < ApplicationController
 
   def unreviewed
     @incidents = Incident.unreviewed.order :occurred_at
+    if @incidents.blank?
+      redirect_to incidents_url, notice: 'No unreviewed incidents.'
+    end
   end
 
   def update
