@@ -16,7 +16,7 @@ class IncidentsController < ApplicationController
   end
 
   def edit
-    # TODO: drivers should not be able to edit reviewed incidents
+    deny_access and return if !current_user.staff? && @incident.reviewed?
   end
 
   def incomplete

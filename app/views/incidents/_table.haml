@@ -29,7 +29,7 @@
             = link_to incident do
               %button.btn.btn-default View
           %td
-            - unless incident.reviewed?
+            - if current_user.staff? || !incident.reviewed?
               = link_to edit_incident_path(incident) do
                 %button.btn.btn-default Edit
         - else
