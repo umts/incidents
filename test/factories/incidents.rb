@@ -28,5 +28,11 @@ FactoryGirl.define do
     description        nil
     completed false
   end
+
+  trait :reviewed do
+    after :create do |incident|
+      create :staff_review, incident: incident
+    end
+  end
 end
 

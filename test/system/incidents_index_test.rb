@@ -2,14 +2,6 @@ require 'application_system_test_case'
 
 class IncidentsIndexTest < ApplicationSystemTestCase
 
-  def assert_incident_for(driver_name)
-    assert_selector 'table.incidents td', text: driver_name
-  end
-
-  def assert_no_incident_for(driver_name)
-    assert_no_selector 'table.incidents td', text: driver_name
-  end
-
   test 'visiting the index as staff shows incidents in the current month' do
     when_current_user_is :staff
 
@@ -76,6 +68,14 @@ class IncidentsIndexTest < ApplicationSystemTestCase
     click_button 'View for whole month'
 
     assert_selector 'h2', text: 'Monday, May 1 — Wednesday, May 31'
+  end
+
+  test 'one can specify an end date if one wishes' do
+    when_current_user_is :staff
+
+    visit incidents_url(start_date: '2017-05-01', end_date: '2017-06-30')
+
+    assert_selector 'h2', text: 'Monday, May 1 — Friday, June 30'
   end
 
   test "visiting the index as a driver shows all of the driver's incidents" do

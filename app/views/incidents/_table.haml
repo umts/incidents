@@ -29,8 +29,9 @@
             = link_to incident do
               %button.btn.btn-default View
           %td
-            = link_to edit_incident_path(incident) do
-              %button.btn.btn-default Edit
+            - unless incident.reviewed?
+              = link_to edit_incident_path(incident) do
+                %button.btn.btn-default Edit
         - else
           %td{ colspan: 7 }
             %em.incomplete Not yet completed

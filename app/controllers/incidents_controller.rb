@@ -3,16 +3,8 @@ class IncidentsController < ApplicationController
   before_action :set_incident, only: %i[destroy edit show update]
 
   def create
-    @incident = Incident.new(incident_params)
-    respond_to do |format|
-      if @incident.save
-        format.html { redirect_to incidents_url, notice: 'Incident was successfully created.' }
-        format.json { render :show, status: :created, location: @incident }
-      else
-        format.html { render :new }
-        format.json { render json: @incident.errors, status: :unprocessable_entity }
-      end
-    end
+    Incident.create incident_params
+    redirect_to incidents_url, notice: 'Incident was successfully created.'
   end
 
   def destroy
@@ -21,6 +13,10 @@ class IncidentsController < ApplicationController
       format.html { redirect_to request.referer, notice: 'Incident was successfully deleted.' }
       format.json { head :no_content }
     end
+  end
+
+  def edit
+    # TODO: drivers should not be able to edit reviewed incidents
   end
 
   def incomplete

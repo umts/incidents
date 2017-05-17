@@ -31,6 +31,19 @@ class ActiveSupport::TestCase
       when User then driver
       else raise ArgumentError, 'Invalid user type'
       end
-    create :incident, attrs.merge(driver: user)
+    case attrs
+    when Hash
+      create :incident, attrs.merge(driver: user)
+    when Symbol
+      create :incident, attrs, driver: user
+    end
+  end
+
+  def assert_incident_for(driver_name)
+    assert_selector 'table.incidents td', text: driver_name
+  end
+
+  def assert_no_incident_for(driver_name)
+    assert_no_selector 'table.incidents td', text: driver_name
   end
 end

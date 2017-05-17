@@ -5,7 +5,6 @@ class NewIncidentTest < ApplicationSystemTestCase
     when_current_user_is :driver
     visit incidents_url
     assert_no_selector '.navbar button', text: 'New Incident'
-
   end
 
   test 'staff members can create new incidents' do
@@ -15,7 +14,7 @@ class NewIncidentTest < ApplicationSystemTestCase
 
     click_button 'New Incident'
 
-    assert_selector 'h1', 'New Incident'
+    assert_selector 'h1', text: 'New Incident'
   end
 
   test 'staff members need only specify the incident driver' do
@@ -32,7 +31,6 @@ class NewIncidentTest < ApplicationSystemTestCase
       assert_no_selector '.field label', text: 'Route'
       # etc.
     end
-
   end
 
   test 'staff members can specify the incident driver and create an incomplete incident' do
@@ -46,6 +44,8 @@ class NewIncidentTest < ApplicationSystemTestCase
       click_button 'Create Incident'
     end
 
+    assert_selector '.info p.notice', text: 'Incident was successfully created.'
+
     within '.navbar' do
       assert_selector 'button', text: 'Incomplete Incidents'
       assert_selector 'button .number-icon', text: '1'
@@ -53,6 +53,6 @@ class NewIncidentTest < ApplicationSystemTestCase
     end
 
     assert_selector 'h1', text: 'Incomplete Incidents'
-    assert_selector 'table.incidents td', text: driver.name
+    assert_incident_for driver.name
   end
 end

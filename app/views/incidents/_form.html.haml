@@ -56,7 +56,7 @@
     .field
       = form.label :driver
       = form.select :driver_id, options_from_collection_for_select(User.drivers.order(:name),
-                                                                   :id, :name, incident.driver_id)
+        :id, :name, incident.driver_id)
     The driver will be able to fill in the remaining details.
   .actions
     = form.submit
