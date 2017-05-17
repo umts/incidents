@@ -25,8 +25,4 @@ class StaffReviewsController < ApplicationController
   def set_staff_review
     @staff_review = StaffReview.find params.require(:id)
   end
-
-  def staff_review_params
-    params.require(:staff_review).permit :incident_id, :text
-  end
 end

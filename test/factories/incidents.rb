@@ -12,6 +12,7 @@ FactoryGirl.define do
     light_conditions   'Fine'
     road_conditions    'Fine'
     description        'Collided mirrors.'
+    completed true
   end
 
   trait :incomplete do
