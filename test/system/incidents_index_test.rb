@@ -94,4 +94,12 @@ class IncidentsIndexTest < ApplicationSystemTestCase
     assert_no_incident_for 'Evelyn Parisian'
     assert_no_incident_for 'Eusebia Farrell'
   end
+
+  test "visiting the index with no incidents doesn't display an empty table" do
+    when_current_user_is :driver
+    visit incidents_url
+
+    assert_no_selector 'table.incidents'
+    assert_selector 'h2', text: 'No incidents found.'
+  end
 end

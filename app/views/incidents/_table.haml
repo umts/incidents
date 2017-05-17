@@ -1,45 +1,48 @@
-%table.incidents
-  %thead
-    %tr
-      %th Driver
-      %th{ colspan: 2 } Occurred at
-      %th Shift
-      %th Route
-      %th Vehicle
-      %th Location
-      - if current_user.staff?
-        %th Reviewed?
-        %th{ colspan: 3 }
-      - else
-        %th{ colspan: 2 }
-  %tbody
-    - @incidents.each do |incident|
+- if @incidents.present?
+  %table.incidents
+    %thead
       %tr
-        %td= incident.driver.name
-        - if incident.completed?
-          %td= incident.occurred_date
-          %td= incident.occurred_time
-          %td= incident.shift
-          %td= incident.route
-          %td= incident.vehicle
-          %td= incident.location
-          - if current_user.staff?
-            %td= yes_no_image incident.reviewed?
-          %td
-            = link_to incident do
-              %button.btn.btn-default View
-          %td
-            - if current_user.staff? || !incident.reviewed?
-              = link_to edit_incident_path(incident) do
-                %button.btn.btn-default Edit
-        - else
-          %td{ colspan: 7 }
-            %em.incomplete Not yet completed
-          %td{ colspan: 2 }
-            - if current_user == incident.driver
-              = link_to edit_incident_path(incident) do
-                %button.btn.btn-default Complete
+        %th Driver
+        %th{ colspan: 2 } Occurred at
+        %th Shift
+        %th Route
+        %th Vehicle
+        %th Location
         - if current_user.staff?
-          %td
-            = link_to incident, method: :delete do
-              %button.btn.btn-default.delete Delete
+          %th Reviewed?
+          %th{ colspan: 3 }
+        - else
+          %th{ colspan: 2 }
+    %tbody
+      - @incidents.each do |incident|
+        %tr
+          %td= incident.driver.name
+          - if incident.completed?
+            %td= incident.occurred_date
+            %td= incident.occurred_time
+            %td= incident.shift
+            %td= incident.route
+            %td= incident.vehicle
+            %td= incident.location
+            - if current_user.staff?
+              %td= yes_no_image incident.reviewed?
+            %td
+              = link_to incident do
+                %button.btn.btn-default View
+            %td
+              - if current_user.staff? || !incident.reviewed?
+                = link_to edit_incident_path(incident) do
+                  %button.btn.btn-default Edit
+          - else
+            %td{ colspan: 7 }
+              %em.incomplete Not yet completed
+            %td{ colspan: 2 }
+              - if current_user == incident.driver
+                = link_to edit_incident_path(incident) do
+                  %button.btn.btn-default Complete
+          - if current_user.staff?
+            %td
+              = link_to incident, method: :delete do
+                %button.btn.btn-default.delete Delete
+- else
+  %h2 No incidents found.
