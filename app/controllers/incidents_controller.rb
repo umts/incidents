@@ -85,6 +85,7 @@ class IncidentsController < ApplicationController
       @prev_start = @start_date - 1.week
     else
       @start_date ||= Time.zone.now.beginning_of_month
+      @week_start_date = @start_date.beginning_of_week(:sunday)
       @prev_start = @start_date - 1.month
       @end_date ||= @start_date.end_of_month
     end
