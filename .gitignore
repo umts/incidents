@@ -21,3 +21,8 @@
 /yarn-error.log
 
 .byebug_history
+
+# Ignore all of coverage, except the .last_run.json
+/coverage/index.html
+/coverage/assets/*
+/coverage/.resultset.*

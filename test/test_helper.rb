@@ -1,5 +1,12 @@
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+require 'simplecov'
+
+SimpleCov.start 'rails' do
+  %w[channels config jobs mailers spec].each do |dir|
+    add_filter "/#{dir}/"
+  end
+end
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
