@@ -66,6 +66,18 @@ class IncidentsIndexTest < ApplicationSystemTestCase
     assert_no_incident_for 'Marclinea Okuneva'
   end
 
+  test 'switching from mid-month week to month works as expected' do
+    when_current_user_is :staff
+
+    visit incidents_url(mode: 'week', start_date: '2017-05-07')
+
+    assert_selector 'h2', text: 'Sunday, May 7 — Saturday, May 13'
+
+    click_button 'View for whole month'
+
+    assert_selector 'h2', text: 'Monday, May 1 — Wednesday, May 31'
+  end
+
   test "visiting the index as a driver shows all of the driver's incidents" do
     driver = create :user, :driver, name: 'Alfred Bergnaum'
     when_current_user_is driver
