@@ -6,7 +6,7 @@ class Incident < ApplicationRecord
 
   validates :shift, :route, :vehicle, :location, :action_before,
             :action_during, :weather_conditions, :light_conditions,
-            :road_conditions, :description,
+            :road_conditions, :description, :occurred_at,
             presence: true, if: :completed?
 
   scope :between,

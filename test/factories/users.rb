@@ -7,7 +7,7 @@ FactoryGirl.define do
     staff false
   end
 
-  trait :drivers do
+  trait :driver do
     staff false
   end
 

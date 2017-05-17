@@ -15,4 +15,14 @@ class ActiveSupport::TestCase
       end
     sign_in current_user
   end
+
+  def incident_for(driver, attrs = {})
+    user = 
+      case driver
+      when String then create :user, :driver, name: driver
+      when User then driver
+      else raise ArgumentError, 'Invalid user type'
+      end
+    create :incident, attrs.merge(driver: user)
+  end
 end

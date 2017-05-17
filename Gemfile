@@ -21,6 +21,7 @@ group :development, :test do
   gem 'ffaker'
   gem 'pry-byebug'
   gem 'selenium-webdriver'
+  gem 'timecop'
 end
 
 group :development do
