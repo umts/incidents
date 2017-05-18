@@ -21,13 +21,16 @@ group :development, :test do
   gem 'capybara', '~> 2.13.0'
   gem 'factory_girl_rails'
   gem 'ffaker'
-  gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'pry-byebug'
-  gem 'rubocop'
   gem 'selenium-webdriver'
   gem 'simplecov'
+  gem 'timecop'
+end
+
+group :development do
+  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'rubocop'
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
-  gem 'timecop'
   gem 'web-console', '>= 3.3.0'
 end

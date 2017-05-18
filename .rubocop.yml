@@ -45,6 +45,12 @@ Style/GuardClause:
 Style/IfUnlessModifier:
   Enabled: true
 
+# The only alternative with long lambdas is to say (lambda do ... end),
+# wrapped in parentheses, which looks TERRIBLE.
+Style/Lambda:
+  Exclude:
+    - 'app/models/incident.rb'
+
 # I like to write FactoryGirl calls without parentheses.
 Style/NestedParenthesizedCalls:
   Exclude:
