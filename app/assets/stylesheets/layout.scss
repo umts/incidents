@@ -78,7 +78,7 @@ body{
       &.notice{
         background: #b5e8ce;
       }
-      &.alert{
+      &.alert,&.errors{
         background: #e8b5b5;
       }
     }

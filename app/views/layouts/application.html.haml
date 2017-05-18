@@ -20,4 +20,7 @@
             %p.notice= flash[:notice]
           - if flash[:alert].present?
             %p.alert= flash[:alert]
+          - if flash[:errors].present?
+            - flash[:errors].each do |error|
+              %p.errors= error
         = yield

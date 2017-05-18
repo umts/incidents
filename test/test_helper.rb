@@ -1,5 +1,3 @@
-require File.expand_path('../../config/environment', __FILE__)
-require 'rails/test_help'
 require 'simplecov'
 
 SimpleCov.start 'rails' do
@@ -9,6 +7,9 @@ SimpleCov.start 'rails' do
   add_filter '/app/models/application_record.rb'
 end
 
+require File.expand_path('../../config/environment', __FILE__)
+require 'rails/test_help'
+
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
   include Devise::Test::IntegrationHelpers
@@ -17,6 +18,7 @@ class ActiveSupport::TestCase
     current_user =
       case user
       when Symbol then create :user, user
+      when String then User.find_by name: user
       when User then user
       when nil then nil
       else raise ArgumentError, 'Invalid user type'
