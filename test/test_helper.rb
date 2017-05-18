@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'simplecov'
 
 SimpleCov.start 'rails' do
@@ -27,7 +29,7 @@ class ActiveSupport::TestCase
   end
 
   def incident_for(driver, attrs = {})
-    user = 
+    user =
       case driver
       when String then create :user, :driver, name: driver
       when User then driver

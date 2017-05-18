@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Incident < ApplicationRecord
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
@@ -10,10 +12,11 @@ class Incident < ApplicationRecord
             presence: true, if: :completed?
 
   scope :between,
-        -> (start_date, end_date) { where occurred_at: start_date..end_date }
+        ->(start_date, end_date) { where occurred_at: start_date..end_date }
   scope :incomplete, -> { where completed: false }
-  scope :unreviewed,
-        -> { includes(:staff_reviews).where(completed: true, staff_reviews: { id: nil }) }
+  scope :unreviewed, lambda do
+    includes(:staff_reviews).where(completed: true, staff_reviews: { id: nil })
+  end
 
   def occurred_at_readable
     [occurred_date, occurred_time].join ' '

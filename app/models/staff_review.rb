@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class StaffReview < ApplicationRecord
   belongs_to :incident
   belongs_to :user
@@ -11,8 +13,7 @@ class StaffReview < ApplicationRecord
   private
 
   def user_is_staff
-    unless user.staff?
-      errors.add :user, 'must be a staff member'
-    end
+    return if user.staff?
+    errors.add :user, 'must be a staff member'
   end
 end

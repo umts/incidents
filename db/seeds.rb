@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'ffaker'
 
 User.create! name: 'David Faulkenberry',
@@ -9,7 +11,7 @@ User.create! name: 'David Faulkenberry',
 50.times do
   name = FFaker::Name.name
   first_name = name.split.first
-  users_with_first_name = User.select{ |u| u.name.start_with? first_name }
+  users_with_first_name = User.select { |u| u.name.start_with? first_name }
   email = if users_with_first_name.present?
             name.split.first.downcase +
               users_with_first_name.count.to_s +
@@ -25,16 +27,19 @@ end
 
 incident_drivers = User.drivers
 
-(2.months.ago.to_date .. 2.months.since.to_date).to_a.shuffle.each.with_index do |day, i|
+dates = (2.months.ago.to_date..2.months.since.to_date).to_a
+
+dates.shuffle.each.with_index do |day, i|
   route = 30 + rand(20)
-  if i % 20 == 0
+  shift = "#{route}-#{rand(5) + 1} #{%w[AM MID PM EVE].sample}"
+  if (i % 20).zero?
     Incident.create! driver: incident_drivers.sample,
                      completed: false
   else
     Incident.create! driver: incident_drivers.sample,
                      occurred_at: day + rand(24 * 60).minutes,
-                     shift: "#{route}-#{rand(5) + 1} #{%w[AM MID PM EVE].sample}",
                      route: route,
+                     shift: shift,
                      vehicle: (30 + rand(4)) * 100 + rand(20),
                      location: FFaker::Address.street_name,
                      action_before: %w[Turning Stopped Driving].sample,
@@ -49,8 +54,8 @@ incident_drivers = User.drivers
                      completed: true
   end
   # Every eighth incident shall be not reviewed.
-  unless i % 8 == 0
+  unless (i % 8).zero?
     StaffReview.create! incident: Incident.last, user: User.first,
-      text: FFaker::BaconIpsum.paragraph
+                        text: FFaker::BaconIpsum.paragraph
   end
 end

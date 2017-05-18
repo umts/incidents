@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class ViewingUserIncidentsTest < ApplicationSystemTestCase
@@ -10,7 +12,7 @@ class ViewingUserIncidentsTest < ApplicationSystemTestCase
       assert_selector 'button', text: 'View incidents'
       click_button 'View incidents'
     end
-    
+
     assert_selector 'h1', text: "Tommie Gorczany's Incidents"
   end
 

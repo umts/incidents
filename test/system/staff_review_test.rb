@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class StaffReviewTest < ApplicationSystemTestCase
@@ -10,8 +12,9 @@ class StaffReviewTest < ApplicationSystemTestCase
     assert_selector 'form.new-review'
 
     within 'form.new-review' do
-      fill_in 'staff_review[text]', with: 'This is my awesome review of this incident.'
-      Timecop.freeze Time.zone.local(2017, 5, 17, 12, 04) do
+      fill_in 'staff_review[text]',
+              with: 'This is my awesome review of this incident.'
+      Timecop.freeze Time.zone.local(2017, 5, 17, 12, 4) do
         click_button 'Create staff review'
       end
     end
@@ -49,7 +52,8 @@ class StaffReviewTest < ApplicationSystemTestCase
       end
     end
 
-    assert_selector '.staff-review .text', text: 'This is my edited review text.'
+    assert_selector '.staff-review .text',
+                    text: 'This is my edited review text.'
   end
 
   test 'staff members cannot edit the reviews of others' do

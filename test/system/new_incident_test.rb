@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class NewIncidentTest < ApplicationSystemTestCase
@@ -33,7 +35,7 @@ class NewIncidentTest < ApplicationSystemTestCase
     end
   end
 
-  test 'staff members can specify the incident driver and create an incomplete incident' do
+  test 'staff members can specify a driver and create an incomplete incident' do
     driver = create :user, :driver
 
     when_current_user_is :staff

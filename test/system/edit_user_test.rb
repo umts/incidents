@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class EditUserTest < ApplicationSystemTestCase
@@ -26,7 +28,7 @@ class EditUserTest < ApplicationSystemTestCase
     end
 
     assert_selector '.info p.notice', text: 'User was updated.'
-    
+
     click_button 'Logout'
 
     within 'form.new_user' do
@@ -38,7 +40,7 @@ class EditUserTest < ApplicationSystemTestCase
     assert_selector '.info p.notice', text: 'Signed in successfully.'
   end
 
-  test 'staff members can edit user attributes without changing their password' do
+  test 'staff members can edit user fields without changing their password' do
     driver = create :user, :driver
     when_current_user_is :staff
     visit edit_user_url(driver)

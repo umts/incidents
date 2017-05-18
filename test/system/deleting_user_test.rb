@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class DeletingUserTest < ApplicationSystemTestCase
   test 'drivers cannot manage users' do
     when_current_user_is :driver
     visit incidents_url
-    
+
     assert_no_selector '.navbar button', text: 'Manage Users'
 
     visit users_url

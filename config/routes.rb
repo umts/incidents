@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 Rails.application.routes.draw do
   root 'incidents#index'
   resources :incidents do
@@ -10,8 +12,10 @@ Rails.application.routes.draw do
 
   devise_for :users
   as :user do
-    get 'users/edit', to: 'devise/registrations#edit', as: :edit_user_registration
-    put 'users', to: 'devise/registrations#update', as: :user_registration           
+    get 'users/edit', to: 'devise/registrations#edit',
+                      as: :edit_user_registration
+    put 'users', to: 'devise/registrations#update',
+                 as: :user_registration
   end
   scope :staff do
     resources :users, except: :show do

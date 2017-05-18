@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class IncidentsController < ApplicationController
   before_action :access_control, only: %i[destroy incomplete new]
   before_action :set_incident, only: %i[destroy edit show update]
@@ -10,7 +12,10 @@ class IncidentsController < ApplicationController
   def destroy
     @incident.destroy
     respond_to do |format|
-      format.html { redirect_to request.referer, notice: 'Incident was successfully deleted.' }
+      format.html do
+        redirect_to request.referer,
+                    notice: 'Incident was successfully deleted.'
+      end
       format.json { head :no_content }
     end
   end
@@ -49,11 +54,17 @@ class IncidentsController < ApplicationController
   def update
     respond_to do |format|
       if @incident.update(incident_params)
-        format.html { redirect_to @incident, notice: 'Incident was successfully updated.' }
+        format.html do
+          redirect_to @incident,
+                      notice: 'Incident was successfully updated.'
+        end
         format.json { render :show, status: :ok, location: @incident }
       else
         format.html { render :edit }
-        format.json { render json: @incident.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @incident.errors,
+                 status: :unprocessable_entity
+        end
       end
     end
   end
@@ -62,11 +73,15 @@ class IncidentsController < ApplicationController
 
   def incident_params
     params.require(:incident).permit :driver_id, :occurred_at, :shift, :route,
-      :vehicle, :location, :action_before, :action_during, :weather_conditions,
-      :light_conditions, :road_conditions, :camera_used, :injuries, :damage,
-      :description, :completed
+                                     :vehicle, :location, :action_before,
+                                     :action_during, :weather_conditions,
+                                     :light_conditions, :road_conditions,
+                                     :camera_used, :injuries, :damage,
+                                     :description, :completed
   end
 
+  # rubocop:disable Style/IfUnlessModifier
+  # I don't want to write start_date and end_date differently.
   def parse_dates
     @mode = params[:mode] || 'month'
     if params[:start_date].present?
@@ -87,6 +102,7 @@ class IncidentsController < ApplicationController
     end
     @next_start = @end_date + 1.day
   end
+  # rubocop:enable Style/IfUnlessModifier
 
   def set_incident
     @incident = Incident.find(params[:id])

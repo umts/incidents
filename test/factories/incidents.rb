@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   factory :incident do
     association :driver, factory: :user
@@ -35,4 +37,3 @@ FactoryGirl.define do
     end
   end
 end
-

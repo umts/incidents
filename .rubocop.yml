@@ -1,0 +1,51 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  Exclude:
+    - Rakefile
+    - bin/**/*
+    - config/environments/**/*
+    - config/initializers/**/*
+    - config/application.rb
+    - config/puma.rb
+    - db/schema.rb
+    - db/migrate/**/*
+    - vendor/**/*
+
+# I've never seen this one go bad.
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Metrics/AbcSize:
+  Max: 36
+
+Metrics/BlockLength:
+  Max: 45
+
+Metrics/MethodLength:
+  Max: 18
+
+# 'and' and && are different. I know when I want one and when I want the other.
+Style/AndOr:
+  Enabled: false
+
+# It's straight from the Rails docs.
+Style/ClassAndModuleChildren:
+  Exclude:
+    - test/test_helper.rb
+
+# Not bothering for this repo.
+Style/Documentation:
+  Enabled: false
+
+# This doesn't apply to controllers, where the final render is implied.
+Style/GuardClause:
+  Exclude:
+    - app/controllers/*
+
+Style/IfUnlessModifier:
+  Enabled: true
+
+# I like to write FactoryGirl calls without parentheses.
+Style/NestedParenthesizedCalls:
+  Exclude:
+    - test/**/*

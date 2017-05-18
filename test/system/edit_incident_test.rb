@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class EditIncidentTest < ApplicationSystemTestCase
@@ -44,7 +46,7 @@ class EditIncidentTest < ApplicationSystemTestCase
     click_button 'Update Incident'
 
     assert_selector '.info p.notice', text: 'Incident was successfully updated.'
-    
+
     visit incident_url(incident)
 
     assert_selector 'p', text: 'Shift: A new shift'
@@ -76,7 +78,7 @@ class EditIncidentTest < ApplicationSystemTestCase
       assert_no_selector 'button', text: 'Edit'
     end
   end
-  
+
   test 'staff can edit other incidents' do
     create :incident
     create :incident, :reviewed

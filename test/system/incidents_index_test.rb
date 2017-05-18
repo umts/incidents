@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class IncidentsIndexTest < ApplicationSystemTestCase
-
   test 'visiting the index as staff shows incidents in the current month' do
     when_current_user_is :staff
 
