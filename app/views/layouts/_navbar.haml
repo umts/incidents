@@ -5,9 +5,9 @@
     - if user_signed_in?
       - if current_user.staff?
         = link_to new_user_path do
-          %button.btn.btn-default.navbar-btn.navbar-left New User
+          %button.btn.btn-default.navbar-btn.navbar-left New Driver
         = link_to users_path do
-          %button.btn.btn-default.navbar-btn.navbar-left Manage Users
+          %button.btn.btn-default.navbar-btn.navbar-left Manage Drivers
         = link_to new_incident_path do
           %button.btn.btn-default.navbar-btn.navbar-left New Incident
         - if @incomplete_incidents.any?

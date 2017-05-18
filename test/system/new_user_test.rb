@@ -6,17 +6,17 @@ class NewUserTest < ApplicationSystemTestCase
   test 'drivers cannot create new users' do
     when_current_user_is :driver
     visit incidents_url
-    assert_no_selector '.navbar button', text: 'New User'
+    assert_no_selector '.navbar button', text: 'New Driver'
   end
 
   test 'staff members can create new users' do
     when_current_user_is :staff
     visit incidents_url
-    assert_selector '.navbar button', text: 'New User'
+    assert_selector '.navbar button', text: 'New Driver'
 
-    click_button 'New User'
+    click_button 'New Driver'
 
-    assert_selector 'h1', text: 'New User'
+    assert_selector 'h1', text: 'New Driver'
   end
 
   test 'users can be created with all the correct attributes' do
@@ -27,10 +27,10 @@ class NewUserTest < ApplicationSystemTestCase
       fill_in 'Email', with: 'gabriel@example.com'
       fill_in 'Password', with: 'cherries'
       fill_in 'Password confirmation', with: 'cherries'
-      click_button 'Save user'
+      click_button 'Save driver'
     end
 
-    assert_selector '.info p.notice', text: 'User was created.'
+    assert_selector '.info p.notice', text: 'Driver was created.'
 
     click_button 'Logout'
 
@@ -51,7 +51,7 @@ class NewUserTest < ApplicationSystemTestCase
       fill_in 'Email', with: 'gabriel@example.com'
       fill_in 'Password', with: 'cherries'
       fill_in 'Password confirmation', with: 'dates'
-      click_button 'Save user'
+      click_button 'Save driver'
     end
 
     assert_selector '.info p.errors',

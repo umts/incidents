@@ -7,7 +7,7 @@ class DeletingUserTest < ApplicationSystemTestCase
     when_current_user_is :driver
     visit incidents_url
 
-    assert_no_selector '.navbar button', text: 'Manage Users'
+    assert_no_selector '.navbar button', text: 'Manage Drivers'
 
     visit users_url
     assert_text 'You do not have permission to access this page.'
@@ -17,10 +17,10 @@ class DeletingUserTest < ApplicationSystemTestCase
     when_current_user_is :staff
     visit incidents_url
 
-    assert_selector '.navbar button', text: 'Manage Users'
-    click_button 'Manage Users'
+    assert_selector '.navbar button', text: 'Manage Drivers'
+    click_button 'Manage Drivers'
 
-    assert_selector 'h1', text: 'Manage Users'
+    assert_selector 'h1', text: 'Manage Drivers'
   end
 
   test 'staff members can delete users' do
@@ -36,6 +36,6 @@ class DeletingUserTest < ApplicationSystemTestCase
       within(first('tr')) { click_button 'Delete' }
     end
 
-    assert_selector '.info p.notice', text: 'User was deleted.'
+    assert_selector '.info p.notice', text: 'Driver was deleted.'
   end
 end

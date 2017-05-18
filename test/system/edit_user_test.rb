@@ -24,10 +24,10 @@ class EditUserTest < ApplicationSystemTestCase
     within '.edit-form' do
       fill_in 'Password', with: 'grapefruits'
       fill_in 'Password confirmation', with: 'grapefruits'
-      click_button 'Save user'
+      click_button 'Save driver'
     end
 
-    assert_selector '.info p.notice', text: 'User was updated.'
+    assert_selector '.info p.notice', text: 'Driver was updated.'
 
     click_button 'Logout'
 
@@ -47,10 +47,10 @@ class EditUserTest < ApplicationSystemTestCase
 
     within '.edit-form' do
       fill_in 'Name', with: 'Laureen Klein'
-      click_button 'Save user'
+      click_button 'Save driver'
     end
 
-    assert_selector '.info p.notice', text: 'User was updated.'
+    assert_selector '.info p.notice', text: 'Driver was updated.'
 
     within first('table.index tbody tr') do
       assert_selector 'td', text: 'Laureen Klein'
