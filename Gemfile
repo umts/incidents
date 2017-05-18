@@ -19,6 +19,7 @@ end
 
 group :development, :test do
   gem 'capybara', '~> 2.13.0'
+  gem 'chromedriver-helper'
   gem 'factory_girl_rails'
   gem 'ffaker'
   gem 'pry-byebug'
