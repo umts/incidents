@@ -12,13 +12,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new user_params
-    if @user.save
-      flash[:notice] = 'Driver was created.'
-      redirect_to users_path
-    else
-      flash[:errors] = @user.errors.full_messages
-      render 'edit'
-    end
+    attempt_save
   end
 
   def incidents
@@ -31,16 +25,20 @@ class UsersController < ApplicationController
 
   def update
     @user.assign_attributes user_params
+    attempt_save
+  end
+
+  private
+
+  def attempt_save
     if @user.save
-      flash[:notice] = 'Driver was updated.'
+      flash[:notice] = "Driver was #{params[:action]}d."
       redirect_to users_path
     else
       flash[:errors] = @user.errors.full_messages
       render 'edit'
     end
   end
-
-  private
 
   def find_user
     @user = User.find_by id: params.require(:id)
