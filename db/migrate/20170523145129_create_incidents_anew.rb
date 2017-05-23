@@ -33,7 +33,6 @@ class CreateIncidentsAnew < ActiveRecord::Migration[5.1]
       t.string :other_driver_name
       t.string :other_driver_license_number
       t.string :other_driver_license_state
-      t.string :other_vehicle_owner_name
       t.string :other_vehicle_driver_address
       t.string :other_vehicle_driver_address_town
       t.string :other_vehicle_driver_address_state
@@ -41,6 +40,8 @@ class CreateIncidentsAnew < ActiveRecord::Migration[5.1]
       t.string :other_vehicle_driver_home_phone
       t.string :other_vehicle_driver_cell_phone
       t.string :other_vehicle_driver_work_phone
+      t.boolean :other_vehicle_owned_by_other_driver
+      t.string :other_vehicle_owner_name
       t.string :other_vehicle_owner_address
       t.string :other_vehicle_owner_address_town
       t.string :other_vehicle_owner_address_state

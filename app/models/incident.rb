@@ -8,25 +8,61 @@ class Incident < ApplicationRecord
   DIRECTION_OPTIONS = %w[North East South West]
   BUS_MOTION_OPTIONS = %w[Stopped Braking Accelerating Other]
   STEP_CONDITION_OPTIONS = %w[Dry Wet Icy Other]
+  PASSENGERS_REQUIRED_FIELDS = %i[name address town state zip phone]
 
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
 
   validates :driver, presence: true
 
-  # validates presence of incident fields
-  # validates presence of motor vehicle collision fields, if motor vehicle collision
-  # validates presence of passenger incident fields, if passenger incident
-  # validates weather conditions inclusion in weather options
-  # validates road conditions inclusion in road options
-  # validates light conditions inclusion in light options
-  # validates direction inclusion in direction options
-  # validates presence of police badge if police on scene
-  # validates motion of bus in motion options
-  # validates condition of steps in step condition options
-  # validates presence of reason not up to curb unless bus up to curb
-  # serialize injured passengers, Hash
-  # validate :injured_passengers_required_fields
+  # INCIDENT FIELDS
+  
+  validates :run, :block, :bus, :occurred_at, :passengers_onboard,
+    :courtesy_cards_distributed, :courtesy_cards_collected, :speed, :location,
+    :town, :weather_conditions, :road_conditions, :light_conditions,
+    presence: true, if: -> { completed? }
+  validates :weather_conditions, inclusion: { in: WEATHER_OPTIONS }
+  validates :road_conditions, inclusion: { in: ROAD_OPTIONS }
+  validates :light_conditions, inclusion: { in: LIGHT_OPTIONS }
+
+  # MOTOR VEHICLE COLLISION FIELDS
+  
+  validates :other_vehicle_plate, :other_vehicle_state, :other_vehicle_make,
+    :other_vehicle_model, :other_vehicle_year, :other_vehicle_color,
+    :other_vehicle_passengers, :direction, :other_vehicle_direction,
+    :other_driver_name, :other_driver_license_number,
+    :other_driver_license_state, :other_vehicle_driver_address,
+    :other_vehicle_driver_address_town, :other_vehicle_driver_address_state,
+    :other_vehicle_driver_address_zip, :other_vehicle_driver_home_phone,
+    :damage_to_bus_point_of_impact, :damage_to_other_vehicle_point_of_impact,
+    :insurance_carrier, :insurance_policy_number, :insurance_effective_date,
+    presence: true, if: -> { completed? &&
+                             motor_vehicle_collision? }
+  validates :direction, inclusion: { in: DIRECTION_OPTIONS }
+  
+  validates :other_vehicle_owner_name, :other_vehicle_owner_address,
+    :other_vehicle_owner_address_town, :other_vehicle_owner_address_state,
+    :other_vehicle_owner_address_zip, :other_vehicle_owner_home_phone,
+    presence: true, if: -> { completed? &&
+                             motor_vehicle_collision? &&
+                             !other_vehicle_owned_by_other_driver? }
+
+  validates :police_badge_number, :police_state, :police_case_assigned,
+    presence: true, if: -> { completed &&
+                             motor_vehicle_collision? &&
+                             police_on_scene? }
+
+  # PASSENGER INCIDENT FIELDS
+  
+  validates :motion_of_bus, :condition_of_steps,
+    presence: true, if: -> { completed &&
+                             passenger_incident? }
+  validates :reason_not_up_to_curb,
+    presence: true, if: -> { completed &&
+                             passenger_incident? &&
+                             !bus_up_to_curb? }
+  serialize :injured_passengers, Array
+  validate :injured_passengers_required_fields
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
@@ -51,9 +87,16 @@ class Incident < ApplicationRecord
     staff_reviews.present?
   end
 
-  # private
-  #
-  # def injured_passengers_required_fields
-  #   # validate that injured passengers each have name, address, and phone
-  # end
+   private
+  
+  def injured_passengers_required_fields
+    if injured_passengers.present?
+      injured_passengers.each do |pax|
+        unless PASSENGERS_REQUIRED_FIELDS.all?{|key| pax[key].present? }
+          errors.add :injured_passengers,
+            "must have #{PASSENGERS_REQUIRED_FIELDS.to_sentence}"
+        end
+      end
+    end
+  end
 end
