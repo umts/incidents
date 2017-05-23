@@ -22,9 +22,9 @@ class Incident < ApplicationRecord
     :town, :weather_conditions, :road_conditions, :light_conditions,
     :description,
     presence: true, if: -> { completed? }
-  validates :weather_conditions, inclusion: { in: WEATHER_OPTIONS }
-  validates :road_conditions, inclusion: { in: ROAD_OPTIONS }
-  validates :light_conditions, inclusion: { in: LIGHT_OPTIONS }
+  validates :weather_conditions, inclusion: { in: WEATHER_OPTIONS }, if: :completed?
+  validates :road_conditions, inclusion: { in: ROAD_OPTIONS }, if: :completed?
+  validates :light_conditions, inclusion: { in: LIGHT_OPTIONS }, if: :completed?
 
   # MOTOR VEHICLE COLLISION FIELDS
   
@@ -39,7 +39,9 @@ class Incident < ApplicationRecord
     :insurance_carrier, :insurance_policy_number, :insurance_effective_date,
     presence: true, if: -> { completed? &&
                              motor_vehicle_collision? }
-  validates :direction, inclusion: { in: DIRECTION_OPTIONS }
+  validates :direction,
+    inclusion: { in: DIRECTION_OPTIONS }, if: -> { completed? &&
+                                                   motor_vehicle_collision? }
   validates :other_vehicle_owner_name, :other_vehicle_owner_address,
     :other_vehicle_owner_address_town, :other_vehicle_owner_address_state,
     :other_vehicle_owner_address_zip, :other_vehicle_owner_home_phone,
@@ -59,6 +61,7 @@ class Incident < ApplicationRecord
   validates :reason_not_up_to_curb,
     presence: true, if: -> { completed &&
                              passenger_incident? &&
+                             motion_of_bus == 'Stopped' &&
                              !bus_up_to_curb? }
   serialize :injured_passengers, Array
   validate :injured_passengers_required_fields
