@@ -20,6 +20,7 @@ class Incident < ApplicationRecord
   validates :run, :block, :bus, :occurred_at, :passengers_onboard,
     :courtesy_cards_distributed, :courtesy_cards_collected, :speed, :location,
     :town, :weather_conditions, :road_conditions, :light_conditions,
+    :description,
     presence: true, if: -> { completed? }
   validates :weather_conditions, inclusion: { in: WEATHER_OPTIONS }
   validates :road_conditions, inclusion: { in: ROAD_OPTIONS }
@@ -39,14 +40,12 @@ class Incident < ApplicationRecord
     presence: true, if: -> { completed? &&
                              motor_vehicle_collision? }
   validates :direction, inclusion: { in: DIRECTION_OPTIONS }
-  
   validates :other_vehicle_owner_name, :other_vehicle_owner_address,
     :other_vehicle_owner_address_town, :other_vehicle_owner_address_state,
     :other_vehicle_owner_address_zip, :other_vehicle_owner_home_phone,
     presence: true, if: -> { completed? &&
                              motor_vehicle_collision? &&
                              !other_vehicle_owned_by_other_driver? }
-
   validates :police_badge_number, :police_state, :police_case_assigned,
     presence: true, if: -> { completed &&
                              motor_vehicle_collision? &&
