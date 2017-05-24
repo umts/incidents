@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(version: 20170523145129) do
     t.string "weather_conditions"
     t.string "road_conditions"
     t.string "light_conditions"
-    t.boolean "headlights_used"
-    t.boolean "motor_vehicle_collision"
+    t.boolean "headlights_used", default: false
+    t.boolean "motor_vehicle_collision", default: false
     t.string "other_vehicle_plate"
     t.string "other_vehicle_state"
     t.string "other_vehicle_make"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(version: 20170523145129) do
     t.string "other_driver_name"
     t.string "other_driver_license_number"
     t.string "other_driver_license_state"
-    t.boolean "other_vehicle_owned_by_other_driver"
+    t.boolean "other_vehicle_owned_by_other_driver", default: false
     t.string "other_vehicle_owner_name"
     t.string "other_vehicle_driver_address"
     t.string "other_vehicle_driver_address_town"
@@ -57,7 +57,7 @@ ActiveRecord::Schema.define(version: 20170523145129) do
     t.string "other_vehicle_owner_home_phone"
     t.string "other_vehicle_owner_cell_phone"
     t.string "other_vehicle_owner_work_phone"
-    t.boolean "police_on_scene"
+    t.boolean "police_on_scene", default: false
     t.string "police_badge_number"
     t.string "police_town_or_state"
     t.string "police_case_assigned"
@@ -66,26 +66,26 @@ ActiveRecord::Schema.define(version: 20170523145129) do
     t.string "insurance_carrier"
     t.string "insurance_policy_number"
     t.date "insurance_effective_date"
-    t.boolean "passenger_incident"
-    t.boolean "occurred_front_door"
-    t.boolean "occurred_rear_door"
-    t.boolean "occurred_front_steps"
-    t.boolean "occurred_rear_steps"
-    t.boolean "occurred_sudden_stop"
-    t.boolean "occurred_before_boarding"
-    t.boolean "occurred_while_boarding"
-    t.boolean "occurred_after_boarding"
-    t.boolean "occurred_while_exiting"
-    t.boolean "occurred_after_exiting"
+    t.boolean "passenger_incident", default: false
+    t.boolean "occurred_front_door", default: false
+    t.boolean "occurred_rear_door", default: false
+    t.boolean "occurred_front_steps", default: false
+    t.boolean "occurred_rear_steps", default: false
+    t.boolean "occurred_sudden_stop", default: false
+    t.boolean "occurred_before_boarding", default: false
+    t.boolean "occurred_while_boarding", default: false
+    t.boolean "occurred_after_boarding", default: false
+    t.boolean "occurred_while_exiting", default: false
+    t.boolean "occurred_after_exiting", default: false
     t.string "motion_of_bus"
     t.string "condition_of_steps"
-    t.boolean "bus_kneeled"
-    t.boolean "bus_up_to_curb"
+    t.boolean "bus_kneeled", default: false
+    t.boolean "bus_up_to_curb", default: false
     t.string "reason_not_up_to_curb"
     t.string "vehicle_in_bus_stop_plate"
     t.text "injured_passengers"
     t.text "description"
-    t.boolean "completed"
+    t.boolean "completed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
