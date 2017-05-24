@@ -51,7 +51,7 @@ class CreateIncidentsAnew < ActiveRecord::Migration[5.1]
       t.string :other_vehicle_owner_work_phone
       t.boolean :police_on_scene
       t.string :police_badge_number
-      t.string :police_state
+      t.string :police_town_or_state
       t.string :police_case_assigned
       t.string :damage_to_bus_point_of_impact
       t.string :damage_to_other_vehicle_point_of_impact

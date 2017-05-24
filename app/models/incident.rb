@@ -2,9 +2,9 @@
 
 class Incident < ApplicationRecord
 
-  WEATHER_OPTIONS = %w[clear raining fog snowing sleet]
-  ROAD_OPTIONS = %w[dry wet icy snowy slushy]
-  LIGHT_OPTIONS = %w[daylight dawn/dusk darkness]
+  WEATHER_OPTIONS = %w[Clear Raining Fog Snowing Sleet]
+  ROAD_OPTIONS = %w[Dry Wet Icy Snowy Slushy]
+  LIGHT_OPTIONS = %w[Daylight Dawn/Dusk Darkness]
   DIRECTION_OPTIONS = %w[North East South West]
   BUS_MOTION_OPTIONS = %w[Stopped Braking Accelerating Other]
   STEP_CONDITION_OPTIONS = %w[Dry Wet Icy Other]
@@ -89,6 +89,32 @@ class Incident < ApplicationRecord
 
   def occurred_time
     occurred_at.strftime '%l:%M %P'
+  end
+
+  def other_vehicle_driver_full_address
+    [
+      other_vehicle_driver_address,
+      other_vehicle_driver_address_town,
+      other_vehicle_driver_address_state,
+      other_vehicle_driver_address_zip
+    ].join ', '
+  end
+
+  def other_vehicle_owner_full_address
+    [
+      other_vehicle_owner_address,
+      other_vehicle_owner_address_town,
+      other_vehicle_owner_address_state,
+      other_vehicle_owner_address_zip
+    ].join ', '
+  end
+
+  def occurred_full_location
+    self.class.columns.select do |col|
+      col.type == :boolean && col.name.start_with?('occurred') && send(col.name)
+    end.map do |col|
+      col.name.split('_')[1..-1].join(' ')
+    end.join(', ').capitalize
   end
 
   def reviewed?
