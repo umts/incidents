@@ -33,7 +33,7 @@
   %strong Location:
   = @incident.location
 %p
-  %strong Town
+  %strong Town:
   = @incident.town
 %p
   %strong Motor vehicle collision?
@@ -54,6 +54,7 @@
   %strong Headlights on?
   = yes_no @incident.headlights_used?
 - if @incident.motor_vehicle_collision?
+  %h3 Motor Vehicle Collision Information
   %p
     %strong Other vehicle plate #:
     = @incident.other_vehicle_plate
@@ -156,6 +157,7 @@
     %strong Effective date:
     = @incident.insurance_effective_date
 - if @incident.passenger_incident?
+  %h3 Passenger Incident Information
   %p
     %strong Incident occurred:
     = @incident.occurred_full_location
@@ -171,7 +173,7 @@
   %p
     %strong Bus up to curb?
     = yes_no @incident.bus_up_to_curb?
-  - if @incident.motion_of_bus == 'Stopped' && !@incident.bus_up_to_curb?
+  - if @incident.needs_reason_not_up_to_curb?
     %p
       %strong Reason not up to curb:
       = @incident.reason_not_up_to_curb

@@ -79,6 +79,10 @@ class Incident < ApplicationRecord
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
   }
 
+  def needs_reason_not_up_to_curb?
+    motion_of_bus == 'Stopped' && !bus_up_to_curb?
+  end
+
   def occurred_at_readable
     [occurred_date, occurred_time].join ' '
   end

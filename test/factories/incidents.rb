@@ -31,7 +31,7 @@ FactoryGirl.define do
     other_vehicle_make                      { FFaker::Vehicle.make }
     other_vehicle_model                     { FFaker::Vehicle.model }
     other_vehicle_year                      { 1_997 + rand(20) }
-    other_vehicle_color                     { FFaker::Color.name }
+    other_vehicle_color                     { FFaker::Vehicle.base_color }
     other_vehicle_passengers                { 1 + rand(3) }
     direction                               { Incident::DIRECTION_OPTIONS.sample }
     other_vehicle_direction                 { Incident::DIRECTION_OPTIONS.sample }
@@ -74,6 +74,7 @@ FactoryGirl.define do
     occurred_rear_door       { FFaker::Boolean.random }
     occurred_front_steps     { FFaker::Boolean.random }
     occurred_rear_steps      { FFaker::Boolean.random }
+    occurred_sudden_stop     { FFaker::Boolean.random }
     occurred_before_boarding { FFaker::Boolean.random }
     occurred_while_boarding  { FFaker::Boolean.random }
     occurred_after_boarding  { FFaker::Boolean.random }
