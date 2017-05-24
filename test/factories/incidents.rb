@@ -50,6 +50,23 @@ FactoryGirl.define do
     insurance_effective_date                { Date.today - rand(365).days }
   end
 
+  trait :other_vehicle_not_driven_by_owner do
+    other_vehicle_owned_by_other_driver false
+    other_vehicle_owner_name               { FFaker::Name.name }
+    other_vehicle_owner_address            { FFaker::Address.street_address }
+    other_vehicle_owner_address_town       { FFaker::Address.city }
+    other_vehicle_owner_address_state      { %w[MA RI CT NY].sample }
+    other_vehicle_owner_address_zip        { FFaker::AddressUS.zip_code }
+    other_vehicle_owner_home_phone         { FFaker::PhoneNumber.short_phone_number }
+  end
+
+  trait :police_on_scene do
+    police_on_scene true
+    police_badge_number { rand(9_999) }
+    police_town_or_state { %w[Amherst Northampton Springfield State].sample }
+    police_case_assigned { rand(99_999_999) }
+  end
+
   trait :passenger_incident do
     passenger_incident true
     bus_up_to_curb true # so that we don't need reason_not_up_to_curb
@@ -65,6 +82,28 @@ FactoryGirl.define do
     motion_of_bus            { Incident::BUS_MOTION_OPTIONS.sample }
     condition_of_steps       { Incident::STEP_CONDITION_OPTIONS.sample }
     bus_kneeled              { FFaker::Boolean.random }
+  end
+
+  trait :not_up_to_curb do
+    motion_of_bus 'Stopped'
+    bus_up_to_curb false
+    reason_not_up_to_curb     { FFaker::BaconIpsum.sentence }
+    vehicle_in_bus_stop_plate { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
+  end
+
+  trait :injured_passengers do
+    injured_passengers do
+      3.times.map do
+        {
+          name:    FFaker::Name.name,
+          address: FFaker::Address.street_address,
+          town:    FFaker::Address.city,
+          state:   %w[MA RI CT NY].sample,
+          zip:     FFaker::AddressUS.zip_code,
+          phone:   FFaker::PhoneNumber.short_phone_number
+        }
+      end
+    end
   end
 
   trait :incomplete do

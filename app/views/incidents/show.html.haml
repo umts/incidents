@@ -52,7 +52,7 @@
   = @incident.light_conditions
 %p
   %strong Headlights on?
-  = @incident.headlights_used?
+  = yes_no @incident.headlights_used?
 - if @incident.motor_vehicle_collision?
   %p
     %strong Other vehicle plate #:
@@ -107,7 +107,7 @@
       = @incident.other_vehicle_driver_work_phone
   %p
     %strong Vehicle owned by driver?
-    = @incident.other_vehicle_owned_by_other_driver?
+    = yes_no @incident.other_vehicle_owned_by_other_driver?
   - unless @incident.other_vehicle_owned_by_other_driver?
     %p
       %strong Name of owner:
@@ -170,14 +170,14 @@
     = @incident.bus_kneeled?
   %p
     %strong Bus up to curb?
-    = @incident.bus_up_to_curb?
+    = yes_no @incident.bus_up_to_curb?
   - if @incident.motion_of_bus == 'Stopped' && !@incident.bus_up_to_curb?
     %p
-      %strong Reason not up to curb?
-      = @incident.reason_not_up_to_curb?
+      %strong Reason not up to curb:
+      = @incident.reason_not_up_to_curb
     - if @incident.vehicle_in_bus_stop_plate.present?
       %p
-        %strong Plate # of vehicle in bus stop
+        %strong Plate # of vehicle in bus stop:
         = @incident.vehicle_in_bus_stop_plate
   - if @incident.injured_passengers.present?
     - @incident.injured_passengers.each.with_index do |pax, i|

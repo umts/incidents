@@ -48,7 +48,7 @@ class Incident < ApplicationRecord
     presence: true, if: -> { completed? &&
                              motor_vehicle_collision? &&
                              !other_vehicle_owned_by_other_driver? }
-  validates :police_badge_number, :police_state, :police_case_assigned,
+  validates :police_badge_number, :police_town_or_state, :police_case_assigned,
     presence: true, if: -> { completed &&
                              motor_vehicle_collision? &&
                              police_on_scene? }
