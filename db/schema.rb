@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(version: 20170523145129) do
     t.string "other_driver_name"
     t.string "other_driver_license_number"
     t.string "other_driver_license_state"
+    t.boolean "other_vehicle_owned_by_other_driver"
     t.string "other_vehicle_owner_name"
     t.string "other_vehicle_driver_address"
     t.string "other_vehicle_driver_address_town"

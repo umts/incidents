@@ -58,6 +58,12 @@ class Incident < ApplicationRecord
   validates :motion_of_bus, :condition_of_steps,
     presence: true, if: -> { completed &&
                              passenger_incident? }
+  validates :motion_of_bus,
+    inclusion: { in: BUS_MOTION_OPTIONS }, if: -> { completed? &&
+                                                    passenger_incident? }
+  validates :condition_of_steps,
+    inclusion: { in: STEP_CONDITION_OPTIONS }, if: -> { completed? &&
+                                                        passenger_incident? }
   validates :reason_not_up_to_curb,
     presence: true, if: -> { completed &&
                              passenger_incident? &&

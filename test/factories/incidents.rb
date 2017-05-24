@@ -52,7 +52,19 @@ FactoryGirl.define do
 
   trait :passenger_incident do
     passenger_incident true
-    # TODO
+    bus_up_to_curb true # so that we don't need reason_not_up_to_curb
+    occurred_front_door      { FFaker::Boolean.random }
+    occurred_rear_door       { FFaker::Boolean.random }
+    occurred_front_steps     { FFaker::Boolean.random }
+    occurred_rear_steps      { FFaker::Boolean.random }
+    occurred_before_boarding { FFaker::Boolean.random }
+    occurred_while_boarding  { FFaker::Boolean.random }
+    occurred_after_boarding  { FFaker::Boolean.random }
+    occurred_while_exiting   { FFaker::Boolean.random }
+    occurred_after_exiting   { FFaker::Boolean.random }
+    motion_of_bus            { Incident::BUS_MOTION_OPTIONS.sample }
+    condition_of_steps       { Incident::STEP_CONDITION_OPTIONS.sample }
+    bus_kneeled              { FFaker::Boolean.random }
   end
 
   trait :incomplete do
