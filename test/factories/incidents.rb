@@ -22,9 +22,32 @@ FactoryGirl.define do
     description                { FFaker::BaconIpsum.paragraphs.join "\n" }
   end
 
-  trait :motor_vehicle_collision do
+  trait :collision do
     motor_vehicle_collision true
-    # TODO
+    other_vehicle_owned_by_other_driver true # so that we don't need all those fields
+    police_on_scene false # so that we don't need those fields
+    other_vehicle_plate                     { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
+    other_vehicle_state                     { %w[MA RI CT NY].sample }
+    other_vehicle_make                      { FFaker::Vehicle.make }
+    other_vehicle_model                     { FFaker::Vehicle.model }
+    other_vehicle_year                      { 1_997 + rand(20) }
+    other_vehicle_color                     { FFaker::Color.name }
+    other_vehicle_passengers                { 1 + rand(3) }
+    direction                               { Incident::DIRECTION_OPTIONS.sample }
+    other_vehicle_direction                 { Incident::DIRECTION_OPTIONS.sample }
+    other_driver_name                       { FFaker::Name.name }
+    other_driver_license_number             { "S" + rand(99_999_999).to_s.rjust(8, '0') }
+    other_driver_license_state              { %w[MA RI CT NY].sample }
+    other_vehicle_driver_address            { FFaker::Address.street_address }
+    other_vehicle_driver_address_town       { FFaker::Address.city }
+    other_vehicle_driver_address_state      { %w[MA RI CT NY].sample }
+    other_vehicle_driver_address_zip        { FFaker::AddressUS.zip_code }
+    other_vehicle_driver_home_phone         { FFaker::PhoneNumber.short_phone_number }
+    damage_to_bus_point_of_impact           { 'Not sure what this should look like' }
+    damage_to_other_vehicle_point_of_impact { 'Not sure what this should look like' }
+    insurance_carrier                       { %w[Geico Progressive AAA].sample }
+    insurance_policy_number                 { rand(999_999_999) }
+    insurance_effective_date                { Date.today - rand(365).days }
   end
 
   trait :passenger_incident do

@@ -39,7 +39,7 @@ class Incident < ApplicationRecord
     :insurance_carrier, :insurance_policy_number, :insurance_effective_date,
     presence: true, if: -> { completed? &&
                              motor_vehicle_collision? }
-  validates :direction,
+  validates :direction, :other_vehicle_direction,
     inclusion: { in: DIRECTION_OPTIONS }, if: -> { completed? &&
                                                    motor_vehicle_collision? }
   validates :other_vehicle_owner_name, :other_vehicle_owner_address,

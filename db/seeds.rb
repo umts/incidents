@@ -18,7 +18,7 @@ dates = (2.months.ago.to_date..2.months.since.to_date).to_a
 dates.shuffle.each.with_index do |day, i|
   # Every 20th incident shall be incomplete.
   incident_type = if (i % 20).zero? then :incomplete
-                  else %i[nil motor_vehicle_collision passenger_incident].sample
+                  else [nil, :collision, :passenger_incident].sample
                   end
   incident_attrs = { driver: incident_drivers.sample,
                      occurred_at: day + rand(24 * 60).minutes }
