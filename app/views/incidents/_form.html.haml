@@ -2,8 +2,9 @@
   - if incident.errors.any?
     #error_explanation
       %h2
-        = pluralize(incident.errors.count, "error")
-        prohibited this incident from being saved:
+        This incident report has
+        = pluralize(incident.errors.count, "missing values")
+        and so cannot be marked as completed.
       %ul
         - incident.errors.full_messages.each do |message|
           %li= message
@@ -48,17 +49,17 @@
       = form.label :weather_conditions
       = form.select :weather_conditions,
         options_for_select(Incident::WEATHER_OPTIONS, incident.weather_conditions),
-        id: :incident_weather_conditions
+        { include_blank: true }, id: :incident_weather_conditions
     .field
       = form.label :road_conditions
       = form.select :road_conditions,
         options_for_select(Incident::ROAD_OPTIONS, incident.road_conditions),
-        id: :incident_road_conditions
+        { include_blank: true }, id: :incident_road_conditions
     .field
       = form.label :light_conditions
       = form.select :light_conditions,
         options_for_select(Incident::LIGHT_OPTIONS, incident.light_conditions),
-        id: :incident_light_conditions
+        { include_blank: true }, id: :incident_light_conditions
     .field
       = form.label :headlights_used
       = form.check_box :headlights_used, id: :incident_headlights_used
@@ -89,12 +90,12 @@
         = form.label :direction
         = form.select :direction,
           options_for_select(Incident::DIRECTION_OPTIONS, incident.direction),
-          id: :incident_direction
+          { include_blank: true }, id: :incident_direction
       .field
         = form.label :other_vehicle_direction
         = form.select :other_vehicle_direction,
           options_for_select(Incident::DIRECTION_OPTIONS, incident.other_vehicle_direction),
-          id: :incident_other_vehicle_direction
+          { include_blank: true }, id: :incident_other_vehicle_direction
       .field
         = form.label :other_driver_name
         = form.text_field :other_driver_name, id: :incident_other_driver_name
@@ -218,12 +219,12 @@
         = form.label :motion_of_bus
         = form.select :motion_of_bus,
           options_for_select(Incident::BUS_MOTION_OPTIONS, incident.motion_of_bus),
-          id: :incident_motion_of_bus
+          { include_blank: true }, id: :incident_motion_of_bus
       .field
         = form.label :condition_of_steps
         = form.select :condition_of_steps,
           options_for_select(Incident::STEP_CONDITION_OPTIONS, incident.condition_of_steps),
-          id: :incident_condition_of_steps
+          { include_blank: true }, id: :incident_condition_of_steps
       .field
         = form.label :bus_kneeled
         = form.check_box :bus_kneeled, id: :incident_bus_kneeled
@@ -245,8 +246,9 @@
   - else
     .field
       = form.label :driver
-      = form.select :driver_id, options_from_collection_for_select(User.drivers.order(:name),
-        :id, :name, incident.driver_id)
+      = form.select :driver_id,
+        options_from_collection_for_select(User.drivers.order(:name), :id, :name, incident.driver_id),
+        { include_blank: true }, id: :incident_driver_id
     The driver will be able to fill in the remaining details.
   .actions
-    = form.submit
+    = form.submit 'Save Incident'
