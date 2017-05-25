@@ -1,33 +1,41 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at http://guides.rubyonrails.org/i18n.html.
-
 en:
-  hello: "Hello world"
+  helpers:
+    label:
+      incident:
+        run: 'Run #'
+        block: 'Block #'
+        bus: 'Bus #'
+        occurred_at: 'Incident occurred'
+        speed: 'Speed at time of incident'
+        motor_vehicle_collision: 'Did the incident involve a collision with a motor vehicle?'
+        passenger_incident: 'Did the incident involve a passenger?'
+        headlights_used: 'Were the bus headlights on at the time of the incident?'
+        other_vehicle_plate: 'License plate of other vehicle'
+        other_vehicle_state: 'State registered'
+        other_vehicle_make: 'Make'
+        other_vehicle_model: 'Model'
+        other_vehicle_year: 'Year'
+        other_vehicle_color: 'Color'
+        other_vehicle_passengers: '# of passengers in other vehicle (including driver)'
+        direction: 'Direction bus was travelling'
+        other_vehicle_direction: 'Direction other vehicle was travelling'
+        other_driver_name: 'Driver of other vehicle'
+        other_driver_license_number: "Other driver's license number"
+        other_driver_license_state: 'State of license'
+        other_vehicle_driver_address: 'Address of other driver'
+        other_vehicle_driver_address_town: 'Town'
+        other_vehicle_driver_address_state: 'State'
+        other_vehicle_driver_address_zip: 'Zip'
+        other_vehicle_driver_home_phone: 'Home phone #'
+        other_vehicle_driver_cell_phone: 'Cell phone #'
+        other_vehicle_driver_work_phone: 'Work phone #'
+        other_vehicle_owned_by_other_driver: 'Is the other driver involved the owner of the vehicle?'
+        police_on_scene: 'Did police respond to the incident?'
+        damage_to_bus_point_of_impact: 'Damage to bus at point of impact'
+        damage_to_other_vehicle_point_of_impact: 'Damage to other vehicle at point of impact'
+        insurance_carrier: "Other driver's insurance carrier"
+        insurance_policy_number: 'Policy #'
+        insurance_effective_date: 'Effective date'
+        description: 'Description of incident'
+
+
