@@ -36,7 +36,7 @@ FactoryGirl.define do
     direction                               { Incident::DIRECTION_OPTIONS.sample }
     other_vehicle_direction                 { Incident::DIRECTION_OPTIONS.sample }
     other_driver_name                       { FFaker::Name.name }
-    other_driver_license_number             { "S" + rand(99_999_999).to_s.rjust(8, '0') }
+    other_driver_license_number             { 'S' + rand(99_999_999).to_s.rjust(8, '0') }
     other_driver_license_state              { %w[MA RI CT NY].sample }
     other_vehicle_driver_address            { FFaker::Address.street_address }
     other_vehicle_driver_address_town       { FFaker::Address.city }
@@ -94,7 +94,7 @@ FactoryGirl.define do
 
   trait :injured_passengers do
     injured_passengers do
-      3.times.map do
+      Array.new 3 do
         {
           name:    FFaker::Name.name,
           address: FFaker::Address.street_address,

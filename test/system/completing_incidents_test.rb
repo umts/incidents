@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'application_system_test_case'
 
 class CompletingIncidentsTest < ApplicationSystemTestCase
@@ -121,7 +123,6 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
 
-
     assert_no_text 'Passenger Incident Information'
     check 'Passenger incident'
     assert_text 'Passenger Incident Information'
@@ -143,7 +144,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     assert_selector '.info p.notice', text: 'Incident was successfully updated.'
   end
 
-  test 'drivers can fill in a reason for not being up to the curb if applicable' do
+  test 'drivers can fill in a reason for not being at the curb if applicable' do
     incident = create :incident, :incomplete
 
     when_current_user_is incident.driver
@@ -187,7 +188,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     select 'Wet', from: 'Road conditions'
     select 'Daylight', from: 'Light conditions'
     check 'Headlights used'
-    fill_in 'Description', with: 'I was preparing to make the right turn when a car went around me.'
+    fill_in 'Description',
+            with: 'I was making the right turn when a car went around me.'
   end
 
   def fill_in_motor_vehicle_collision_fields

@@ -27,7 +27,5 @@ dates.shuffle.each.with_index do |day, i|
              else create :incident, incident_attrs
              end
   # Every 8th incident shall be unreviewed.
-  unless (i % 8).zero?
-    create :staff_review, incident: incident, user: staff
-  end
+  create :staff_review, incident: incident, user: staff unless (i % 8).zero?
 end
