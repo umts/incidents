@@ -111,7 +111,6 @@ FactoryGirl.define do
     run                        nil
     block                      nil
     bus                        nil
-    occurred_at                nil
     passengers_onboard         nil
     courtesy_cards_distributed nil
     courtesy_cards_collected   nil

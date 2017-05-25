@@ -42,14 +42,14 @@ class EditIncidentTest < ApplicationSystemTestCase
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
 
-    fill_in 'incident[shift]', with: 'A new shift'
-    click_button 'Update Incident'
+    fill_in 'incident[run]', with: 'A new run'
+    click_button 'Save Incident'
 
     assert_selector '.info p.notice', text: 'Incident was successfully updated.'
 
     visit incident_url(incident)
 
-    assert_selector 'p', text: 'Shift: A new shift'
+    assert_selector 'p', text: 'Run: A new run'
   end
 
   test 'incomplete fields shows an error message' do
@@ -57,13 +57,13 @@ class EditIncidentTest < ApplicationSystemTestCase
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
 
-    fill_in 'incident[shift]', with: 'Just a shift'
-    click_button 'Update Incident'
+    fill_in 'incident[run]', with: 'Just a run'
+    click_button 'Save Incident'
 
     assert_selector '#error_explanation'
     within '#error_explanation' do
-      assert_text "Route can't be blank"
-      assert_text "Vehicle can't be blank"
+      assert_text "Block can't be blank"
+      assert_text "Bus can't be blank"
       # etc.
     end
   end
