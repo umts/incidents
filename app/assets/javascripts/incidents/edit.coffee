@@ -28,6 +28,9 @@ $(document).ready ->
   $('form').showIfChecked '#incident_passenger_incident',
                           '.passenger-incident-info'
 
+  $('form').showIfChecked '#incident_passenger_injured',
+                          '.injured-passenger-info'
+
   $('form').on 'change', '#incident_motion_of_bus',
                determineShouldProvideReasonNotUpToCurb
 

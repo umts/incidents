@@ -95,13 +95,11 @@ class ViewIncidentTest < ApplicationSystemTestCase
   end
 
   test 'injured passenger information shown if applicable' do
-    incident = create :incident, :passenger_incident, :injured_passengers
+    incident = create :incident, :passenger_incident, :injured_passenger
 
     when_current_user_is :staff
     visit incident_url(incident)
 
-    assert_text 'Injured Passenger #1:'
-    assert_text 'Injured Passenger #2:'
-    assert_text 'Injured Passenger #3:'
+    assert_text 'Injured Passenger:'
   end
 end

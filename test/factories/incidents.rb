@@ -92,18 +92,17 @@ FactoryGirl.define do
     vehicle_in_bus_stop_plate { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
   end
 
-  trait :injured_passengers do
-    injured_passengers do
-      Array.new 3 do
-        {
-          name:    FFaker::Name.name,
-          address: FFaker::Address.street_address,
-          town:    FFaker::Address.city,
-          state:   %w[MA RI CT NY].sample,
-          zip:     FFaker::AddressUS.zip_code,
-          phone:   FFaker::PhoneNumber.short_phone_number
-        }
-      end
+  trait :injured_passenger do
+    passenger_injured true
+    injured_passenger do
+      {
+        name:    FFaker::Name.name,
+        address: FFaker::Address.street_address,
+        town:    FFaker::Address.city,
+        state:   %w[MA RI CT NY].sample,
+        zip:     FFaker::AddressUS.zip_code,
+        phone:   FFaker::PhoneNumber.short_phone_number
+      }
     end
   end
 

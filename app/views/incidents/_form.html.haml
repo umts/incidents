@@ -238,7 +238,29 @@
         .field
           = form.label :vehicle_in_bus_stop_plate
           = form.text_field :vehicle_in_bus_stop_plate, id: :incident_vehicle_in_bus_stop_plate
-      TODO: injured passengers
+      .field
+        = form.label :passenger_injured
+        = form.check_box :passenger_injured, id: :incident_passenger_injured
+      .injured-passenger-info{style: ('display: none;' unless incident.injured_passenger.present?)}
+        = form.fields_for :injured_passenger do |pax_fields|
+          .field
+            = pax_fields.label :name
+            = pax_fields.text_field :name
+          .field
+            = pax_fields.label :address
+            = pax_fields.text_field :address
+          .field
+            = pax_fields.label :town
+            = pax_fields.text_field :town
+          .field
+            = pax_fields.label :state
+            = pax_fields.text_field :state
+          .field
+            = pax_fields.label :zip
+            = pax_fields.text_field :zip
+          .field
+            = pax_fields.label :phone
+            = pax_fields.text_field :phone
     .field
       = form.label :description
       = form.text_area :description, id: :incident_description, size: '80x8'

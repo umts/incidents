@@ -60,7 +60,7 @@ class Incident < ApplicationRecord
                                      !other_vehicle_owned_by_other_driver? }
   validates :police_badge_number, :police_town_or_state, :police_case_assigned,
             presence: true, if: -> {
-                                  completed &&
+                                  completed? &&
                                      motor_vehicle_collision? &&
                                      police_on_scene? }
 
@@ -68,7 +68,7 @@ class Incident < ApplicationRecord
 
   validates :motion_of_bus, :condition_of_steps,
             presence: true, if: -> {
-                                  completed &&
+                                  completed? &&
                                      passenger_incident? }
   validates :motion_of_bus,
             inclusion: { in: BUS_MOTION_OPTIONS },
@@ -82,12 +82,20 @@ class Incident < ApplicationRecord
                      passenger_incident? }
   validates :reason_not_up_to_curb,
             presence: true, if: -> {
-                                  completed &&
+                                  completed? &&
                                      passenger_incident? &&
                                      motion_of_bus == 'Stopped' &&
                                      !bus_up_to_curb? }
-  serialize :injured_passengers, Array
-  validate :injured_passengers_required_fields
+
+  serialize :injured_passenger, Hash
+  validates :injured_passenger,
+    presence: true, if: ->  { completed? &&
+                              passenger_incident? &&
+                              passenger_injured? }
+  validate :injured_passenger_required_fields,
+    if: ->  { completed? &&
+              passenger_incident? &&
+              passenger_injured? }
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
@@ -146,13 +154,11 @@ class Incident < ApplicationRecord
 
   private
 
-  def injured_passengers_required_fields
-    return unless injured_passengers.present?
-    injured_passengers.each do |pax|
-      unless PASSENGERS_REQUIRED_FIELDS.all? { |key| pax[key].present? }
-        errors.add :injured_passengers,
-                   "must have #{PASSENGERS_REQUIRED_FIELDS.to_sentence}"
-      end
+  def injured_passenger_required_fields
+    pax = injured_passenger
+    unless PASSENGERS_REQUIRED_FIELDS.all? { |key| pax[key].present? }
+      errors.add :injured_passenger,
+                 "must have #{PASSENGERS_REQUIRED_FIELDS.to_sentence}"
     end
   end
 end

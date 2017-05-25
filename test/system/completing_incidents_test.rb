@@ -174,6 +174,35 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     assert_selector '.info p.notice', text: 'Incident was successfully updated.'
   end
 
+  test 'drivers can fill in injured passenger information' do
+    incident = create :incident, :incomplete
+
+    when_current_user_is incident.driver
+    visit edit_incident_url(incident)
+
+    check 'Passenger incident'
+
+    fill_in_basic_fields
+    fill_in_passenger_incident_fields
+
+    assert_no_selector '.injured-passenger-info'
+    check 'Passenger injured'
+    assert_selector '.injured-passenger-info'
+
+    click_on 'Save Incident'
+    
+    assert_selector '#error_explanation'
+    within '#error_explanation' do
+      assert_text 'Injured passenger must have name, address, town' # etc.
+    end
+
+    fill_in_injured_passenger_fields
+
+    click_on 'Save Incident'
+
+    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+  end
+
   def fill_in_basic_fields
     fill_in 'Run', with: '30-3 EVE'
     fill_in 'Block', with: '303'
@@ -237,5 +266,16 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     check 'Occurred sudden stop'
     select 'Braking', from: 'Motion of bus'
     select 'Dry', from: 'Condition of steps'
+  end
+
+  def fill_in_injured_passenger_fields
+    within '.injured-passenger-info' do
+      fill_in 'Name', with: 'Fernando Alonso'
+      fill_in 'Address', with: '32 Wins St'
+      fill_in 'Town', with: 'Championsville'
+      fill_in 'State', with: 'MA'
+      fill_in 'Zip', with: '00001'
+      fill_in 'Phone', with: '413 555 0056'
+    end
   end
 end

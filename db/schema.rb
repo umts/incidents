@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170523145129) do
+ActiveRecord::Schema.define(version: 20170525160451) do
 
   create_table "incidents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "driver_id"
@@ -41,8 +41,6 @@ ActiveRecord::Schema.define(version: 20170523145129) do
     t.string "other_driver_name"
     t.string "other_driver_license_number"
     t.string "other_driver_license_state"
-    t.boolean "other_vehicle_owned_by_other_driver", default: false
-    t.string "other_vehicle_owner_name"
     t.string "other_vehicle_driver_address"
     t.string "other_vehicle_driver_address_town"
     t.string "other_vehicle_driver_address_state"
@@ -50,6 +48,8 @@ ActiveRecord::Schema.define(version: 20170523145129) do
     t.string "other_vehicle_driver_home_phone"
     t.string "other_vehicle_driver_cell_phone"
     t.string "other_vehicle_driver_work_phone"
+    t.boolean "other_vehicle_owned_by_other_driver", default: false
+    t.string "other_vehicle_owner_name"
     t.string "other_vehicle_owner_address"
     t.string "other_vehicle_owner_address_town"
     t.string "other_vehicle_owner_address_state"
@@ -83,11 +83,12 @@ ActiveRecord::Schema.define(version: 20170523145129) do
     t.boolean "bus_up_to_curb", default: false
     t.string "reason_not_up_to_curb"
     t.string "vehicle_in_bus_stop_plate"
-    t.text "injured_passengers"
     t.text "description"
     t.boolean "completed", default: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean "passenger_injured", default: false
+    t.text "injured_passenger"
   end
 
   create_table "staff_reviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
