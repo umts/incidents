@@ -4,7 +4,7 @@
   = @incident.driver.name
 %p
   %strong Badge No:
-  TODO
+  = @incident.driver.badge_number || 'None'
 %p
   %strong Run:
   = @incident.run

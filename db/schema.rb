@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170525160451) do
+ActiveRecord::Schema.define(version: 20170525173157) do
 
   create_table "incidents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "driver_id"
@@ -114,6 +114,7 @@ ActiveRecord::Schema.define(version: 20170525160451) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.boolean "staff", default: false
+    t.string "badge_number"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
