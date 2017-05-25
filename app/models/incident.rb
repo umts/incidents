@@ -89,13 +89,13 @@ class Incident < ApplicationRecord
 
   serialize :injured_passenger, Hash
   validates :injured_passenger,
-    presence: true, if: ->  { completed? &&
-                              passenger_incident? &&
-                              passenger_injured? }
+            presence: true, if: -> { completed? &&
+                                      passenger_incident? &&
+                                      passenger_injured? }
   validate :injured_passenger_required_fields,
-    if: ->  { completed? &&
-              passenger_incident? &&
-              passenger_injured? }
+           if: -> { completed? &&
+                     passenger_incident? &&
+                     passenger_injured? }
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
@@ -156,9 +156,8 @@ class Incident < ApplicationRecord
 
   def injured_passenger_required_fields
     pax = injured_passenger
-    unless PASSENGERS_REQUIRED_FIELDS.all? { |key| pax[key].present? }
-      errors.add :injured_passenger,
-                 "must have #{PASSENGERS_REQUIRED_FIELDS.to_sentence}"
-    end
+    return if PASSENGERS_REQUIRED_FIELDS.all? { |key| pax[key].present? }
+    errors.add :injured_passenger,
+               "must have #{PASSENGERS_REQUIRED_FIELDS.to_sentence}"
   end
 end

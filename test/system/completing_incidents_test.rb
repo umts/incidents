@@ -190,7 +190,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     assert_selector '.injured-passenger-info'
 
     click_on 'Save Incident'
-    
+
     assert_selector '#error_explanation'
     within '#error_explanation' do
       assert_text 'Injured passenger must have name, address, town' # etc.
