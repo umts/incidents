@@ -1,48 +1,198 @@
 %p#notice= notice
 %p
-  %strong Driver:
+  %strong Operator:
   = @incident.driver.name
+%p
+  %strong Badge No:
+  = @incident.driver.badge_number || 'None'
+%p
+  %strong Run:
+  = @incident.run
+%p
+  %strong Block:
+  = @incident.block
+%p
+  %strong Bus:
+  = @incident.bus
 %p
   %strong Occurred at:
   = @incident.occurred_at_readable
 %p
-  %strong Shift:
-  = @incident.shift
+  %strong Passengers onboard:
+  = @incident.passengers_onboard
 %p
-  %strong Route:
-  = @incident.route
+  %strong Courtesy cards distributed:
+  = @incident.courtesy_cards_distributed
 %p
-  %strong Vehicle:
-  = @incident.vehicle
+  %strong Courtesy cards collected:
+  = @incident.courtesy_cards_collected
+%p
+  %strong Speed:
+  = @incident.speed
 %p
   %strong Location:
   = @incident.location
 %p
-  %strong Action before:
-  = @incident.action_before
+  %strong Town:
+  = @incident.town
 %p
-  %strong Action during:
-  = @incident.action_during
+  %strong Motor vehicle collision?
+  = yes_no @incident.motor_vehicle_collision?
+%p
+  %strong Passenger incident?
+  = yes_no @incident.passenger_incident?
 %p
   %strong Weather conditions:
   = @incident.weather_conditions
 %p
-  %strong Light conditions:
-  = @incident.light_conditions
-%p
   %strong Road conditions:
   = @incident.road_conditions
 %p
-  %strong Camera used:
-  = yes_no @incident.camera_used?
+  %strong Light conditions:
+  = @incident.light_conditions
 %p
-  %strong Injuries:
-  = yes_no @incident.injuries?
+  %strong Headlights on?
+  = yes_no @incident.headlights_used?
+- if @incident.motor_vehicle_collision?
+  %h3 Motor Vehicle Collision Information
+  %p
+    %strong Other vehicle plate #:
+    = @incident.other_vehicle_plate
+  %p
+    %strong State:
+    = @incident.other_vehicle_state
+  %p
+    %strong Make:
+    = @incident.other_vehicle_make
+  %p
+    %strong Model:
+    = @incident.other_vehicle_model
+  %p
+    %strong Year:
+    = @incident.other_vehicle_year
+  %p
+    %strong Color:
+    = @incident.other_vehicle_color
+  %p
+    %strong # passengers:
+    = @incident.other_vehicle_passengers
+  %p
+    %strong Direction of bus:
+    = @incident.direction
+  %p
+    %strong Direction of other vehicle:
+    = @incident.other_vehicle_direction
+  %p
+    %strong Name of other driver:
+    = @incident.other_driver_name
+  %p
+    %strong License number:
+    = @incident.other_driver_license_number
+  %p
+    %strong State:
+    = @incident.other_driver_license_state
+  %p
+    %strong Address:
+    = @incident.other_vehicle_driver_full_address
+  - if @incident.other_vehicle_driver_home_phone.present?
+    %p
+      %strong Home phone:
+      = @incident.other_vehicle_driver_home_phone
+  - if @incident.other_vehicle_driver_cell_phone.present?
+    %p
+      %strong cell phone:
+      = @incident.other_vehicle_driver_cell_phone
+  - if @incident.other_vehicle_driver_work_phone.present?
+    %p
+      %strong work phone:
+      = @incident.other_vehicle_driver_work_phone
+  %p
+    %strong Vehicle owned by driver?
+    = yes_no @incident.other_vehicle_owned_by_other_driver?
+  - unless @incident.other_vehicle_owned_by_other_driver?
+    %p
+      %strong Name of owner:
+      = @incident.other_vehicle_owner_name
+    %p
+      %strong Address:
+      = @incident.other_vehicle_owner_full_address
+    - if @incident.other_vehicle_owner_home_phone.present?
+      %p
+        %strong Home phone:
+        = @incident.other_vehicle_owner_home_phone
+    - if @incident.other_vehicle_owner_cell_phone.present?
+      %p
+        %strong cell phone:
+        = @incident.other_vehicle_owner_cell_phone
+    - if @incident.other_vehicle_owner_work_phone.present?
+      %p
+        %strong work phone:
+        = @incident.other_vehicle_owner_work_phone
+  %p
+    %strong Police on scene?
+    = yes_no @incident.police_on_scene?
+  - if @incident.police_on_scene?
+    %p
+      %strong Badge number:
+      = @incident.police_badge_number
+    %p
+      %strong Town (or State):
+      = @incident.police_town_or_state
+    %p
+      %strong Case number assigned:
+      = @incident.police_case_assigned
+  %p
+    %strong Damage to bus at point of impact:
+    = @incident.damage_to_bus_point_of_impact
+  %p
+    %strong Damage to other vehicle at point of impact:
+    = @incident.damage_to_other_vehicle_point_of_impact
+  %p
+    %strong Other driver's insurance carrier:
+    = @incident.insurance_carrier
+  %p
+    %strong Policy number:
+    = @incident.insurance_policy_number
+  %p
+    %strong Effective date:
+    = @incident.insurance_effective_date
+- if @incident.passenger_incident?
+  %h3 Passenger Incident Information
+  %p
+    %strong Incident occurred:
+    = @incident.occurred_full_location
+  %p
+    %strong Motion of bus:
+    = @incident.motion_of_bus
+  %p
+    %strong Condition of steps:
+    = @incident.condition_of_steps
+  %p
+    %strong Bus kneeled?
+    = @incident.bus_kneeled?
+  %p
+    %strong Bus up to curb?
+    = yes_no @incident.bus_up_to_curb?
+  - if @incident.needs_reason_not_up_to_curb?
+    %p
+      %strong Reason not up to curb:
+      = @incident.reason_not_up_to_curb
+    - if @incident.vehicle_in_bus_stop_plate.present?
+      %p
+        %strong Plate # of vehicle in bus stop:
+        = @incident.vehicle_in_bus_stop_plate
+  %p
+    %strong Passenger injured?
+    %p= yes_no @incident.passenger_injured?
+  - if @incident.passenger_injured?
+    %p
+      %strong Injured Passenger:
+      %p= @incident.injured_passenger[:name]
+      %p= @incident.injured_passenger[:address]
+      %p= @incident.injured_passenger.values_at(:town, :state, :zip).join ', '
+      %p= @incident.injured_passenger[:phone]
 %p
-  %strong Damage:
-  = yes_no @incident.damage?
-%p
-  %strong Description:
+  %strong Description of incident
   = simple_format @incident.description
 = link_to 'Edit', edit_incident_path(@incident)
 |

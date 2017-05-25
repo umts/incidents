@@ -1,61 +1,31 @@
 # frozen_string_literal: true
 
 require 'ffaker'
+require 'factory_girl_rails'
 
-User.create! name: 'David Faulkenberry',
-             email: 'dave@example.com',
-             password: 'password',
-             password_confirmation: 'password',
-             staff: true
+include FactoryGirl::Syntax::Methods
 
-50.times do
-  name = FFaker::Name.name
-  first_name = name.split.first
-  users_with_first_name = User.select { |u| u.name.start_with? first_name }
-  email = if users_with_first_name.present?
-            name.split.first.downcase +
-              users_with_first_name.count.to_s +
-              '@example.com'
-          else name.split.first.downcase + '@example.com'
-          end
-  User.create! name: name,
-               email: email,
-               password: 'password',
-               password_confirmation: 'password',
-               staff: false
-end
+staff = create :user, :staff, :fake_name
+puts 'Login as staff with:'
+puts " Email:    #{staff.email}"
+puts ' Password: password'
+
+50.times { create :user, :driver, :fake_name }
 
 incident_drivers = User.drivers
 
 dates = (2.months.ago.to_date..2.months.since.to_date).to_a
-
 dates.shuffle.each.with_index do |day, i|
-  route = 30 + rand(20)
-  shift = "#{route}-#{rand(5) + 1} #{%w[AM MID PM EVE].sample}"
-  if (i % 20).zero?
-    Incident.create! driver: incident_drivers.sample,
-                     completed: false
-  else
-    Incident.create! driver: incident_drivers.sample,
-                     occurred_at: day + rand(24 * 60).minutes,
-                     route: route,
-                     shift: shift,
-                     vehicle: (30 + rand(4)) * 100 + rand(20),
-                     location: FFaker::Address.street_name,
-                     action_before: %w[Turning Stopped Driving].sample,
-                     action_during: %w[Turning Stopped Driving].sample,
-                     weather_conditions: %w[Rainy Sunny Cloudy].sample,
-                     light_conditions: %w[Dark Light Gray Fine].sample,
-                     road_conditions: %w[Snow Icy Wet Dry Fine].sample,
-                     camera_used: [true, false].sample,
-                     injuries: [true, false].sample,
-                     damage: [true, false].sample,
-                     description: FFaker::BaconIpsum.paragraphs.join("\n"),
-                     completed: true
-  end
-  # Every eighth incident shall be not reviewed.
-  unless (i % 8).zero?
-    StaffReview.create! incident: Incident.last, user: User.first,
-                        text: FFaker::BaconIpsum.paragraph
-  end
+  # Every 20th incident shall be incomplete.
+  incident_type = if (i % 20).zero? then :incomplete
+                  else [nil, :collision, :passenger_incident].sample
+                  end
+  incident_attrs = { driver: incident_drivers.sample,
+                     occurred_at: day + rand(24 * 60).minutes }
+  incident = if incident_type.present?
+               create :incident, incident_type, incident_attrs
+             else create :incident, incident_attrs
+             end
+  # Every 8th incident shall be unreviewed.
+  create :staff_review, incident: incident, user: staff unless (i % 8).zero?
 end

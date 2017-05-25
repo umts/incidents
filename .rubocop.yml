@@ -20,13 +20,32 @@ Metrics/AbcSize:
 
 Metrics/BlockLength:
   Max: 45
+  Exclude:
+    - test/factories/incidents.rb
+
+Metrics/ClassLength:
+  Exclude:
+    - app/models/incident.rb
+    - test/system/completing_incidents_test.rb
+
+# This class just has long attributes, and longer ways to generate the data.
+Metrics/LineLength:
+  Exclude: 
+    - test/factories/incidents.rb
 
 Metrics/MethodLength:
   Max: 18
+  Exclude:
+    - test/system/completing_incidents_test.rb
 
 # 'and' and && are different. I know when I want one and when I want the other.
 Style/AndOr:
   Enabled: false
+
+# Incidents have complicated validation conditions.
+Style/BlockEndNewline:
+  Exclude:
+    - 'app/models/incident.rb'
 
 # It's straight from the Rails docs.
 Style/ClassAndModuleChildren:
@@ -48,6 +67,14 @@ Style/IfUnlessModifier:
 # The only alternative with long lambdas is to say (lambda do ... end),
 # wrapped in parentheses, which looks TERRIBLE.
 Style/Lambda:
+  Exclude:
+    - 'app/models/incident.rb'
+
+Style/MultilineBlockLayout:
+  Exclude:
+    - 'app/models/incident.rb'
+
+Style/MultilineOperationIndentation:
   Exclude:
     - 'app/models/incident.rb'
 

@@ -43,7 +43,7 @@ class NewIncidentTest < ApplicationSystemTestCase
 
     within 'form' do
       select driver.name, from: 'incident[driver_id]'
-      click_button 'Create Incident'
+      click_button 'Save Incident'
     end
 
     assert_selector '.info p.notice', text: 'Incident was successfully created.'

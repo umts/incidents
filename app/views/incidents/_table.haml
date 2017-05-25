@@ -4,9 +4,9 @@
       %tr
         %th Driver
         %th{ colspan: 2 } Occurred at
-        %th Shift
-        %th Route
-        %th Vehicle
+        %th Run
+        %th Block
+        %th Bus
         %th Location
         - if current_user.staff?
           %th Reviewed?
@@ -20,9 +20,9 @@
           - if incident.completed?
             %td= incident.occurred_date
             %td= incident.occurred_time
-            %td= incident.shift
-            %td= incident.route
-            %td= incident.vehicle
+            %td= incident.run
+            %td= incident.block
+            %td= incident.bus
             %td= incident.location
             - if current_user.staff?
               %td= yes_no_image incident.reviewed?
