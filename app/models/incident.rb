@@ -12,7 +12,7 @@ class Incident < ApplicationRecord
     'Front door', 'Rear door', 'Front steps', 'Rear steps', 'Sudden stop',
     'Before boarding', 'While boarding', 'After boarding', 'While exiting',
     'After exiting'
-  ]
+  ].freeze
 
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
@@ -129,6 +129,7 @@ class Incident < ApplicationRecord
     occurred_at.strftime '%l:%M %P'
   end
 
+  # rubocop:disable Metrics/LineLength
   def other_vehicle_driver_full_address
     first_line = other_vehicle_driver_address
     second_line = "#{other_vehicle_driver_address_town}, #{other_vehicle_driver_address_state} #{other_vehicle_driver_address_zip}"
@@ -140,21 +141,20 @@ class Incident < ApplicationRecord
     second_line = "#{other_vehicle_owner_address_town}, #{other_vehicle_owner_address_state} #{other_vehicle_owner_address_zip}"
     [first_line, second_line]
   end
+  # rubocop:enable Metrics/LineLength
 
-  # rubocop:disable Style/MultilineBlockChain
   def occurred_full_location
     PASSENGER_INCIDENT_LOCATIONS.select do |loc|
-      send(('occurred ' + loc.downcase).gsub(' ', '_') + '?')
+      send(('occurred ' + loc.downcase).tr(' ', '_') + '?')
     end.join ','
   end
-  # rubocop:enable Style/MultilineBlockChain
 
   def occurred_location_matrix
     PASSENGER_INCIDENT_LOCATIONS.map do |loc|
-      send(('occurred ' + loc.downcase).gsub(' ', '_') + '?')
+      send(('occurred ' + loc.downcase).tr(' ', '_') + '?')
     end
   end
-  
+
   def other?
     !(motor_vehicle_collision? || passenger_incident?)
   end
