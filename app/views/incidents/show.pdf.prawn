@@ -24,8 +24,18 @@ prawn_document do |pdf|
       end
     end
 
-    def check_box(checked:)
-      # TODO
+    def check_box(checked:, text:)
+      box_y = cursor
+      bounding_box [0, box_y], width: 7, height: 7 do
+        stroke_bounds
+        if checked
+          move_down 1
+          text 'X', align: :center, size: 6, style: :bold
+        end
+      end
+      bounding_box [9, box_y], width: bounds.width - 9, height: 10 do
+        text text, size: 10
+      end
     end
 
     def check_box_field(start, width:, height:, field:, options:, checked:, per_column: 3)
@@ -42,8 +52,7 @@ prawn_document do |pdf|
             bounds.add_left_padding 2
             bounds.add_right_padding 2
             opts.each.with_index do |opt, j|
-              check_box checked: checked[j]
-              text opt, size: 10
+              check_box checked: checked[j], text: opt
               move_down 2
             end
           end
@@ -235,7 +244,7 @@ prawn_document do |pdf|
     value: @incident.insurance_policy_number
   pdf.text_field [460, 335], width: 100, height: 25,
     field: 'Policy effective date',
-    value: @incident.insurance_effective_date
+    value: @incident.insurance_effective_date.strftime('%m/%d/%Y')
 
   pdf.bounding_box [0, 310], width: pdf.bounds.width, height: 25 do
     pdf.move_down 12
@@ -248,12 +257,12 @@ prawn_document do |pdf|
     field: 'Nature of incident (check all that apply)',
     options: ['TODO'] * 10,
     checked: [], per_column: 5
-  pdf.check_box_field [150, 285], width: 70, height: 80,
+  pdf.check_box_field [150, 285], width: 75, height: 80,
     field: 'Motion of bus',
     options: Incident::BUS_MOTION_OPTIONS,
     checked: Incident::BUS_MOTION_OPTIONS.map{|m| @incident.motion_of_bus == m },
     per_column: 4
-  pdf.check_box_field [220, 285], width: 60, height: 80,
+  pdf.check_box_field [225, 285], width: 55, height: 80,
     field: 'Condition of steps',
     options: Incident::STEP_CONDITION_OPTIONS,
     checked: Incident::STEP_CONDITION_OPTIONS.map{|c| @incident.condition_of_steps == c },

@@ -12,6 +12,7 @@ FactoryGirl.define do
 
   trait :driver do
     staff false
+    badge_number { rand(5000).to_s.rjust 4, '0' }
   end
 
   trait :staff do
