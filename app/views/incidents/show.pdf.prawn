@@ -8,16 +8,18 @@ prawn_document do |pdf|
         bounds.add_left_padding 2
         move_down 2
         text field.upcase, size: 6
+        text_size = options[:size] || 10
         if value.present?
-          if options[:bottom] == false
-            move_down 5
-          else move_cursor_to 12 # pt from bottom
-          end
           unless options[:if] == false || options[:unless] == true
             align = options[:align] || :center
-            value = Array(value)
-            value.each do |line|
-              text line, align: align
+            valign = options[:valign] || :bottom
+            value = value.to_s unless value.is_a? Array
+            text = if value.is_a? Array
+                     value.join "\n"
+                   else value.to_s
+                   end
+            bounding_box [0, cursor], width: bounds.width do
+              text_box text, align: align, size: text_size, valign: valign, overflow: :truncate
             end
           end
         end
@@ -51,8 +53,10 @@ prawn_document do |pdf|
           bounding_box [box_width * i, box_height], width: box_width, height: box_height do
             bounds.add_left_padding 2
             bounds.add_right_padding 2
+            move_down 2
             opts.each.with_index do |opt, j|
-              check_box checked: checked[j], text: opt
+              overall_index = i * per_column + j
+              check_box checked: checked[overall_index], text: opt
               move_down 2
             end
           end
@@ -64,7 +68,7 @@ prawn_document do |pdf|
 
   pdf.start_new_page
   pdf.bounding_box [0, 740], width: 380, height: 80 do
-    pdf.move_down 10
+    pdf.move_down 5
     pdf.font 'Times-Roman', size: 30 do
       pdf.text 'SATCo / VATCo', align: :center
     end
@@ -199,7 +203,7 @@ prawn_document do |pdf|
   pdf.text_field [0, 460], width: 180, height: 75,
     field: 'Address of other driver',
     value: @incident.other_vehicle_driver_full_address,
-    options: { bottom: false }
+    options: { valign: :center }
   pdf.text_field [180, 460], width: 100, height: 25,
     field: 'Home',
     value: @incident.other_vehicle_driver_home_phone
@@ -216,7 +220,8 @@ prawn_document do |pdf|
     options: { unless: @incident.other_vehicle_owned_by_other_driver? }
   pdf.text_field [280, 410], width: 40, height: 25,
     field: 'Police on scene?',
-    value: yes_no(@incident.police_on_scene?)
+    value: yes_no(@incident.police_on_scene?),
+    options: { if: @incident.motor_vehicle_collision? }
   pdf.text_field [320, 410], width: 80, height: 25,
     field: 'Badge #',
     value: @incident.police_badge_number
@@ -230,11 +235,11 @@ prawn_document do |pdf|
   pdf.text_field [0, 385], width: 280, height: 50,
     field: 'Describe damage to bus at point of impact',
     value: @incident.damage_to_bus_point_of_impact,
-    options: { align: :left, bottom: false }
+    options: { align: :left, valign: :top }
   pdf.text_field [280, 385], width: 280, height: 50,
     field: 'Describe damage to other vehicle at point of impact',
     value: @incident.damage_to_other_vehicle_point_of_impact,
-    options: { align: :left, bottom: false }
+    options: { align: :left, valign: :top }
 
   pdf.text_field [0, 335], width: 280, height: 25,
     field: 'Insurance carrier of other driver',
@@ -244,7 +249,7 @@ prawn_document do |pdf|
     value: @incident.insurance_policy_number
   pdf.text_field [460, 335], width: 100, height: 25,
     field: 'Policy effective date',
-    value: @incident.insurance_effective_date.strftime('%m/%d/%Y')
+    value: @incident.insurance_effective_date.try(:strftime, '%m/%d/%Y')
 
   pdf.bounding_box [0, 310], width: pdf.bounds.width, height: 25 do
     pdf.move_down 12
@@ -252,31 +257,30 @@ prawn_document do |pdf|
       align: :center, size: 14, style: :bold
   end
 
-  # TODO
-  pdf.check_box_field [0, 285], width: 150, height: 80,
+  pdf.check_box_field [0, 285], width: 175, height: 80,
     field: 'Nature of incident (check all that apply)',
-    options: ['TODO'] * 10,
-    checked: [], per_column: 5
-  pdf.check_box_field [150, 285], width: 75, height: 80,
+    options: Incident::PASSENGER_INCIDENT_LOCATIONS,
+    checked: @incident.occurred_location_matrix, per_column: 5
+  pdf.check_box_field [175, 285], width: 75, height: 80,
     field: 'Motion of bus',
     options: Incident::BUS_MOTION_OPTIONS,
     checked: Incident::BUS_MOTION_OPTIONS.map{|m| @incident.motion_of_bus == m },
     per_column: 4
-  pdf.check_box_field [225, 285], width: 55, height: 80,
+  pdf.check_box_field [250, 285], width: 50, height: 80,
     field: 'Condition of steps',
     options: Incident::STEP_CONDITION_OPTIONS,
     checked: Incident::STEP_CONDITION_OPTIONS.map{|c| @incident.condition_of_steps == c },
     per_column: 4
-  pdf.text_field [280, 285], width: 40, height: 40,
+  pdf.text_field [300, 285], width: 40, height: 40,
     field: 'Bus kneeled?',
     value: yes_no(@incident.bus_kneeled?)
-  pdf.text_field [280, 245], width: 40, height: 40,
+  pdf.text_field [300, 245], width: 40, height: 40,
     field: 'Bus up to curb?',
     value: yes_no(@incident.bus_up_to_curb?)
-  pdf.text_field [320, 285], width: 240, height: 40,
+  pdf.text_field [340, 285], width: 220, height: 40,
     field: 'If stopped, not up to curb, give reason',
     value: @incident.reason_not_up_to_curb
-  pdf.text_field [320, 245], width: 240, height: 40,
+  pdf.text_field [340, 245], width: 220, height: 40,
     field: 'License # of vehicle in bus stop',
     value: @incident.vehicle_in_bus_stop_plate
 
@@ -294,10 +298,10 @@ prawn_document do |pdf|
     field: 'Phone',
     value: @incident.injured_passenger[:phone]
 
-  pdf.text_field [0, 180], width: 560, height: 130,
+  pdf.text_field [0, 160], width: 560, height: 130,
     field: 'Describe the accident or incident in detail',
     value: @incident.description,
-    options: { bottom: false, align: :left }
+    options: { valign: :top, align: :left }
   
   pdf.text_field [0, 30], width: 180, height: 30,
     field: "Operator's signature", value: ''
