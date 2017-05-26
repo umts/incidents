@@ -104,6 +104,10 @@ class Incident < ApplicationRecord
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
   }
 
+  def injured_passenger_full_address
+    injured_passenger.values_at(:address, :town, :state, :zip).join ', '
+  end
+
   def needs_reason_not_up_to_curb?
     motion_of_bus == 'Stopped' && !bus_up_to_curb?
   end
@@ -121,21 +125,15 @@ class Incident < ApplicationRecord
   end
 
   def other_vehicle_driver_full_address
-    [
-      other_vehicle_driver_address,
-      other_vehicle_driver_address_town,
-      other_vehicle_driver_address_state,
-      other_vehicle_driver_address_zip
-    ].join ', '
+    first_line = other_vehicle_driver_address
+    second_line = "#{other_vehicle_driver_address_town}, #{other_vehicle_driver_address_state} #{other_vehicle_driver_address_zip}"
+    [first_line, second_line]
   end
 
   def other_vehicle_owner_full_address
-    [
-      other_vehicle_owner_address,
-      other_vehicle_owner_address_town,
-      other_vehicle_owner_address_state,
-      other_vehicle_owner_address_zip
-    ].join ', '
+    first_line = other_vehicle_owner_address
+    second_line = "#{other_vehicle_owner_address_town}, #{other_vehicle_owner_address_state} #{other_vehicle_owner_address_zip}"
+    [first_line, second_line]
   end
 
   # rubocop:disable Style/MultilineBlockChain
