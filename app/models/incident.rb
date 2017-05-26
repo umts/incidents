@@ -147,6 +147,10 @@ class Incident < ApplicationRecord
     end.join(', ').capitalize
   end
   # rubocop:enable Style/MultilineBlockChain
+  
+  def other?
+    !(motor_vehicle_collision? || passenger_incident?)
+  end
 
   def reviewed?
     staff_reviews.present?
