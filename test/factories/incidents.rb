@@ -19,7 +19,7 @@ FactoryGirl.define do
     weather_conditions         { Incident::WEATHER_OPTIONS.sample }
     road_conditions            { Incident::ROAD_OPTIONS.sample }
     light_conditions           { Incident::LIGHT_OPTIONS.sample }
-    description                { FFaker::BaconIpsum.paragraphs.join "\n" }
+    description                { FFaker::BaconIpsum.paragraphs(5).join "\n" }
   end
 
   trait :collision do
