@@ -18,8 +18,10 @@ prawn_document do |pdf|
                      value.join "\n"
                    else value.to_s
                    end
+            # cursor is current y position
             bounding_box [0, cursor], width: bounds.width do
-              text_box text, align: align, size: text_size, valign: valign, overflow: :truncate
+              text_box text, align: align, size: text_size, valign: valign,
+                             overflow: :truncate
             end
           end
         end
@@ -58,12 +60,12 @@ prawn_document do |pdf|
               overall_index = i * per_column + j
               check_box checked: checked[overall_index], text: opt
               move_down 2
-            end
-          end
-        end
-      end
-    end
-  end
+            end # each option
+          end # options bounding box
+        end # each set of options
+      end # field bounding box
+    end # method definition
+  end # instance_eval
 
 
   pdf.start_new_page
@@ -76,7 +78,6 @@ prawn_document do |pdf|
     pdf.text 'Fill in all applicable blanks. Be specific. Use black ink only.',
       align: :center, style: :bold
   end
-  pdf.move_up 75
   pdf.bounding_box [380, 740], width: 180, height: 80 do
     pdf.move_down 8
     pdf.bounds.add_left_padding 5
@@ -85,6 +86,7 @@ prawn_document do |pdf|
       pdf.move_down 4
     end
   end
+
   pdf.text_field [0, 660], width: 270, height: 25,
     field: 'Operator',
     value: @incident.driver.name
