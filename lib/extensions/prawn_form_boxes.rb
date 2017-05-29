@@ -1,16 +1,5 @@
 require 'prawn-rails'
 
-  # TODO: figure out how to do something like the following
-=begin
-  pdf.field_row height: 25, units: 8 do |row|
-    row.text_field width: 4, field: 'Operator',  value: @incident.driver.name
-    row.text_field width: 1,  field: 'Badge No.', value: @incident.driver.badge_number
-    row.text_field width: 1,  field: 'Run #',     value: @incident.run
-    row.text_field width: 1,  field: 'Block #',   value: @incident.block
-    row.text_field width: 1,  field: 'Bus #',     value: @incident.bus
-  end
-=end
-
 module PrawnFormBoxes
   class RowHelper
     attr_accessor :height, :units, :x, :y, :unit_width
