@@ -87,6 +87,17 @@ prawn_document do |pdf|
     end
   end
 
+  # TODO: figure out how to do something like the following
+=begin
+  pdf.field_row height: 25 do |row|
+    row.text_field width: 270, field: 'Operator',  value: @incident.driver.name
+    row.text_field width: 72,  field: 'Badge No.', value: @incident.driver.badge_number
+    row.text_field width: 73,  field: 'Run #',     value: @incident.run
+    row.text_field width: 72,  field: 'Block #',   value: @incident.block
+    row.text_field width: 73,  field: 'Bus #',     value: @incident.bus
+  end
+=end
+
   pdf.text_field [0, 660], width: 270, height: 25,
     field: 'Operator',
     value: @incident.driver.name
