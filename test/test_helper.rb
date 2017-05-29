@@ -3,7 +3,7 @@
 require 'simplecov'
 
 SimpleCov.start 'rails' do
-  %w[channels config jobs mailers spec].each do |dir|
+  %w[channels config jobs lib/extensions mailers].each do |dir|
     add_filter "/#{dir}/"
   end
   add_filter '/app/models/application_record.rb'

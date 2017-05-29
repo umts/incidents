@@ -9,60 +9,61 @@
         - incident.errors.full_messages.each do |message|
           %li= message
   - if incident.persisted?
-    .field
-      = form.label :run
-      = form.text_field :run, id: :incident_run
-    .field
-      = form.label :block
-      = form.text_field :block, id: :incident_block
-    .field
-      = form.label :bus
-      = form.text_field :bus, id: :incident_bus
-    .field
-      = form.label :occurred_at
-      = form.datetime_select :occurred_at, id: :incident_occurred_at
-    .field
-      = form.label :passengers_onboard
-      = form.number_field :passengers_onboard, id: :incident_passengers_onboard
-    .field
-      = form.label :courtesy_cards_distributed
-      = form.number_field :courtesy_cards_distributed, id: :incident_courtesy_cards_distributed
-    .field
-      = form.label :courtesy_cards_collected
-      = form.number_field :courtesy_cards_collected, id: :incident_courtesy_cards_collected
-    .field
-      = form.label :speed
-      = form.number_field :speed, id: :incident_speed
-    .field
-      = form.label :location
-      = form.text_field :location, id: :incident_location
-    .field
-      = form.label :town
-      = form.text_field :town, id: :incident_town
-    .field
-      = form.label :motor_vehicle_collision
-      = form.check_box :motor_vehicle_collision, id: :incident_motor_vehicle_collision
-    .field
-      = form.label :passenger_incident
-      = form.check_box :passenger_incident, id: :incident_passenger_incident
-    .field
-      = form.label :weather_conditions
-      = form.select :weather_conditions,
-        options_for_select(Incident::WEATHER_OPTIONS, incident.weather_conditions),
-        { include_blank: true }, id: :incident_weather_conditions
-    .field
-      = form.label :road_conditions
-      = form.select :road_conditions,
-        options_for_select(Incident::ROAD_OPTIONS, incident.road_conditions),
-        { include_blank: true }, id: :incident_road_conditions
-    .field
-      = form.label :light_conditions
-      = form.select :light_conditions,
-        options_for_select(Incident::LIGHT_OPTIONS, incident.light_conditions),
-        { include_blank: true }, id: :incident_light_conditions
-    .field
-      = form.label :headlights_used
-      = form.check_box :headlights_used, id: :incident_headlights_used
+    .basic-info
+      .field
+        = form.label :run
+        = form.text_field :run, id: :incident_run
+      .field
+        = form.label :block
+        = form.text_field :block, id: :incident_block
+      .field
+        = form.label :bus
+        = form.text_field :bus, id: :incident_bus
+      .field
+        = form.label :occurred_at
+        = form.datetime_select :occurred_at, id: :incident_occurred_at
+      .field
+        = form.label :passengers_onboard
+        = form.number_field :passengers_onboard, id: :incident_passengers_onboard
+      .field
+        = form.label :courtesy_cards_distributed
+        = form.number_field :courtesy_cards_distributed, id: :incident_courtesy_cards_distributed
+      .field
+        = form.label :courtesy_cards_collected
+        = form.number_field :courtesy_cards_collected, id: :incident_courtesy_cards_collected
+      .field
+        = form.label :speed
+        = form.number_field :speed, id: :incident_speed
+      .field
+        = form.label :location
+        = form.text_field :location, id: :incident_location
+      .field
+        = form.label :town
+        = form.text_field :town, id: :incident_town
+      .field
+        = form.label :motor_vehicle_collision
+        = form.check_box :motor_vehicle_collision, id: :incident_motor_vehicle_collision
+      .field
+        = form.label :passenger_incident
+        = form.check_box :passenger_incident, id: :incident_passenger_incident
+      .field
+        = form.label :weather_conditions
+        = form.select :weather_conditions,
+          options_for_select(Incident::WEATHER_OPTIONS, incident.weather_conditions),
+          { include_blank: true }, id: :incident_weather_conditions
+      .field
+        = form.label :road_conditions
+        = form.select :road_conditions,
+          options_for_select(Incident::ROAD_OPTIONS, incident.road_conditions),
+          { include_blank: true }, id: :incident_road_conditions
+      .field
+        = form.label :light_conditions
+        = form.select :light_conditions,
+          options_for_select(Incident::LIGHT_OPTIONS, incident.light_conditions),
+          { include_blank: true }, id: :incident_light_conditions
+      .field
+        = form.label :headlights_used
+        = form.check_box :headlights_used, id: :incident_headlights_used
     .motor-vehicle-collision-info{style: ('display: none;' unless incident.motor_vehicle_collision?)}
       %h3 Motor Vehicle Collision Information
       .field

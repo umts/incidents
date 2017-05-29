@@ -33,7 +33,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     visit edit_incident_url(incident)
 
     assert_no_text 'Motor Vehicle Collision Information'
-    check 'Motor vehicle collision'
+    check 'Did the incident involve a collision with a motor vehicle?'
     assert_text 'Motor Vehicle Collision Information'
 
     fill_in_basic_fields
@@ -60,10 +60,10 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
 
-    check 'Motor vehicle collision'
+    check 'Did the incident involve a collision with a motor vehicle?'
 
     assert_no_selector '.police-info'
-    check 'Police on scene'
+    check 'Did police respond to the incident?'
     assert_selector '.police-info'
 
     fill_in_basic_fields
@@ -91,13 +91,13 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
 
-    check 'Motor vehicle collision'
+    check 'Did the incident involve a collision with a motor vehicle?'
 
     fill_in_basic_fields
     fill_in_motor_vehicle_collision_fields
 
     assert_no_selector '.other-vehicle-owner-info'
-    uncheck 'Other vehicle owned by other driver'
+    uncheck 'Is the other driver involved the owner of the vehicle?'
     assert_selector '.other-vehicle-owner-info'
 
     click_on 'Save Incident'
@@ -124,7 +124,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     visit edit_incident_url(incident)
 
     assert_no_text 'Passenger Incident Information'
-    check 'Passenger incident'
+    check 'Did the incident involve a passenger?'
     assert_text 'Passenger Incident Information'
 
     fill_in_basic_fields
@@ -150,7 +150,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
 
-    check 'Passenger incident'
+    check 'Did the incident involve a passenger?'
 
     fill_in_basic_fields
     fill_in_passenger_incident_fields
@@ -180,7 +180,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
 
-    check 'Passenger incident'
+    check 'Did the incident involve a passenger?'
 
     fill_in_basic_fields
     fill_in_passenger_incident_fields
@@ -204,61 +204,69 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
   end
 
   def fill_in_basic_fields
-    fill_in 'Run', with: '30-3 EVE'
-    fill_in 'Block', with: '303'
-    fill_in 'Bus', with: '3308'
-    fill_in 'Passengers onboard', with: 13
-    fill_in 'Courtesy cards distributed', with: 0
-    fill_in 'Courtesy cards collected', with: 0
-    fill_in 'Speed', with: 14
-    fill_in 'Location', with: 'Main St. and S. East St'
-    fill_in 'Town', with: 'Amherst'
-    select 'Raining', from: 'Weather conditions'
-    select 'Wet', from: 'Road conditions'
-    select 'Daylight', from: 'Light conditions'
-    check 'Headlights used'
-    fill_in 'Description',
+    within '.basic-info' do
+      fill_in 'Run #', with: '30-3 EVE'
+      fill_in 'Block #', with: '303'
+      fill_in 'Bus #', with: '3308'
+      fill_in 'Passengers onboard', with: 13
+      fill_in 'Courtesy cards distributed', with: 0
+      fill_in 'Courtesy cards collected', with: 0
+      fill_in 'Speed at time of incident', with: 14
+      fill_in 'Location', with: 'Main St. and S. East St'
+      fill_in 'Town', with: 'Amherst'
+      select 'Raining', from: 'Weather conditions'
+      select 'Wet', from: 'Road conditions'
+      select 'Daylight', from: 'Light conditions'
+      check 'Were the bus headlights on at the time of the incident?'
+    end
+    fill_in 'Description of incident',
             with: 'I was making the right turn when a car went around me.'
   end
 
   def fill_in_motor_vehicle_collision_fields
-    fill_in 'Other vehicle plate', with: '8CHZ50'
-    fill_in 'Other vehicle state', with: 'MA'
-    fill_in 'Other vehicle make', with: 'Nissan'
-    fill_in 'Other vehicle model', with: 'Integra'
-    fill_in 'Other vehicle year', with: '1993'
-    fill_in 'Other vehicle color', with: 'White'
-    fill_in 'Other vehicle passengers', with: 1
-    select 'East', from: 'Direction'
-    select 'East', from: 'Other vehicle direction'
-    fill_in 'Other driver name', with: 'Nico Rosberg'
-    fill_in 'Other driver license number', with: 'S10354298'
-    fill_in 'Other driver license state', with: 'MA'
-    fill_in 'Other vehicle driver address', with: '23 Wins St'
-    fill_in 'Other vehicle driver address town', with: 'Championsville'
-    fill_in 'Other vehicle driver address state', with: 'MA'
-    fill_in 'Other vehicle driver address zip', with: '00001'
-    fill_in 'Other vehicle driver home phone', with: '413 555 0056'
-    fill_in 'Damage to bus point of impact', with: 'Scratches'
-    fill_in 'Damage to other vehicle point of impact', with: 'Scratches'
-    fill_in 'Insurance carrier', with: 'Progressive'
-    fill_in 'Insurance policy number', with: '58925948'
-    check 'Other vehicle owned by other driver'
+    within '.motor-vehicle-collision-info' do
+      fill_in 'License plate of other vehicle', with: '8CHZ50'
+      fill_in 'State registered', with: 'MA'
+      fill_in 'Make', with: 'Nissan'
+      fill_in 'Model', with: 'Integra'
+      fill_in 'Year', with: '1993'
+      fill_in 'Color', with: 'White'
+      fill_in '# of passengers in other vehicle', with: 1
+      select 'East', from: 'Direction bus was travelling'
+      select 'East', from: 'Direction other vehicle was travelling'
+      fill_in 'Driver of other vehicle', with: 'Nico Rosberg'
+      fill_in "Other driver's license number", with: 'S10354298'
+      fill_in 'State of license', with: 'MA'
+      fill_in 'Address of other driver', with: '23 Wins St'
+      fill_in 'Town', with: 'Championsville'
+      fill_in 'State', with: 'MA'
+      fill_in 'Zip', with: '00001'
+      fill_in 'Home phone #', with: '413 555 0056'
+      fill_in 'Damage to bus at point of impact', with: 'Scratches'
+      fill_in 'Damage to other vehicle at point of impact', with: 'Scratches'
+      fill_in "Other driver's insurance carrier", with: 'Progressive'
+      fill_in 'Policy #', with: '58925948'
+      check 'Is the other driver involved the owner of the vehicle?'
+    end
   end
 
   def fill_in_police_fields
-    fill_in 'Police badge number', with: '1024'
-    fill_in 'Police town or state', with: 'Amherst'
-    fill_in 'Police case assigned', with: 'C34059'
+    within '.motor-vehicle-collision-info' do
+      fill_in 'Police badge number', with: '1024'
+      fill_in 'Police town or state', with: 'Amherst'
+      fill_in 'Police case assigned', with: 'C34059'
+    end
   end
 
   def fill_in_other_vehicle_owner_fields
-    fill_in 'Other vehicle owner name', with: 'Lewis Hamilton'
-    fill_in 'Other vehicle owner address', with: '55 Wins St'
-    fill_in 'Other vehicle owner address town', with: 'Championsville'
-    fill_in 'Other vehicle owner address state', with: 'MA'
-    fill_in 'Other vehicle owner address zip', with: '00001'
-    fill_in 'Other vehicle owner home phone', with: '413 555 0056'
+    within '.motor-vehicle-collision-info' do
+      fill_in 'Other vehicle owner name', with: 'Lewis Hamilton'
+      fill_in 'Other vehicle owner address', with: '55 Wins St'
+      fill_in 'Other vehicle owner address town', with: 'Championsville'
+      fill_in 'Other vehicle owner address state', with: 'MA'
+      fill_in 'Other vehicle owner address zip', with: '00001'
+      fill_in 'Other vehicle owner home phone', with: '413 555 0056'
+    end
   end
 
   def fill_in_passenger_incident_fields
