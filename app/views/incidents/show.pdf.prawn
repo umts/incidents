@@ -21,7 +21,7 @@ prawn_document do |pdf|
             # cursor is current y position
             bounding_box [0, cursor], width: bounds.width do
               text_box text, align: align, size: text_size, valign: valign,
-                             overflow: :truncate
+                             overflow: :ellipses
             end
           end
         end
@@ -309,7 +309,7 @@ prawn_document do |pdf|
     field: "Operator's signature", value: ''
   pdf.text_field [180, 30], width: 100, height: 30,
     field: 'Date of this report',
-    value: @incident.occurred_at.strftime('%m/%d/%Y')
+    value: Time.zone.now.strftime('%m/%d/%Y')
   pdf.text_field [280, 30], width: 180, height: 30,
     field: "Recv'd by", value: ''
   pdf.text_field [460, 30], width: 100, height: 30,
