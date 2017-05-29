@@ -39,11 +39,10 @@ module PrawnFormBoxes
                 end
               else args[:start]
               end
-      width = if args[:width].present?
-                if @row_helper.present?
-                  args[:width] * @row_helper.unit_width
-                else args[:width]
-                end
+      width = if @row_helper.present?
+                @row_helper.unit_width * (args[:width] || 1)
+              elsif args[:width].present?
+                args[:width]
               else raise ArgumentError, 'Must specify field width'
               end
       height = if args[:height].present?
