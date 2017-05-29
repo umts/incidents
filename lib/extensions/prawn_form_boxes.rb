@@ -8,6 +8,13 @@ module PrawnFormBoxes
       @height, @units, @x, @y, @unit_width = 
         height, units, x, y, unit_width
     end
+
+    def field_attributes(args)
+      start = [@x, @y]
+      width = @unit_width * (args[:width] || 1)
+      height = args[:height] || @height
+      [start, width, height]
+    end
   end
 
   class PrawnRails::Document
@@ -33,32 +40,13 @@ module PrawnFormBoxes
     end
 
     def text_field(**args)
-      start = if args[:start].blank?
-                if @row_helper.present?
-                  [@row_helper.x, @row_helper.y]
-                else raise ArgumentError, 'Must specify starting position'
-                end
-              else args[:start]
-              end
-      width = if @row_helper.present?
-                @row_helper.unit_width * (args[:width] || 1)
-              elsif args[:width].present?
-                args[:width]
-              else raise ArgumentError, 'Must specify field width'
-              end
-      height = if args[:height].present?
-                 args[:height]
-               elsif @row_helper.present?
-                 @row_helper.height
-               else raise ArgumentError, 'Must specify field height'
-               end
-      args[:options] ||= {}
-      make_text_field start: start, width: width, height: height,
-        field: args[:field], value: args[:value], options: args[:options]
+      raise ArgumentError, 'Must be within a field row' unless @row_helper.present?
+      start, width, height = @row_helper.field_attributes args
+      make_text_field start, width, height, **args.except(:width, :height)
       @row_helper.x += width if @row_helper.present?
     end
 
-    def make_text_field(start:, width:, height:, field:, value:, options:)
+    def make_text_field(start, width, height, field:, value:, options: {})
       bounding_box start, width: width, height: height do
         stroke_bounds
         bounds.add_left_padding 2
@@ -85,34 +73,13 @@ module PrawnFormBoxes
     end
     
     def check_box_field(**args)
-      start = if args[:start].blank?
-                if @row_helper.present?
-                  [@row_helper.x, @row_helper.y]
-                else raise ArgumentError, 'Must specify starting position'
-                end
-              else args[:start]
-              end
-      width = if args[:width].present?
-                if @row_helper.present?
-                  args[:width] * @row_helper.unit_width
-                else args[:width]
-                end
-              else raise ArgumentError, 'Must specify field width'
-              end
-      height = if args[:height].present?
-                 args[:height]
-               elsif @row_helper.present?
-                 @row_helper.height
-               else raise ArgumentError, 'Must specify field height'
-               end
-      args[:per_column] ||= 3
-      make_check_box start: start, width: width, height: height,
-        field: args[:field], options: args[:options],
-        checked: args[:checked], per_column: args[:per_column]
+      raise ArgumentError, 'Must be within a field row' unless @row_helper.present?
+      start, width, height = @row_helper.field_attributes args
+      make_check_box_field start, width, height, **args.except(:width, :height)
       @row_helper.x += width if @row_helper.present?
     end
 
-    def make_check_box(start:, width:, height:, field:, options:, checked:, per_column:)
+    def make_check_box_field(start, width, height, field:, options:, checked:, per_column: 3)
       bounding_box start, width: width, height: height do
         stroke_bounds
         bounds.add_left_padding 2
@@ -128,7 +95,7 @@ module PrawnFormBoxes
             move_down 2
             opts.each.with_index do |opt, j|
               overall_index = i * per_column + j
-              check_box checked: checked[overall_index], text: opt
+              make_check_box checked: checked[overall_index], text: opt
               move_down 2
             end # each option
           end # options bounding box
@@ -136,7 +103,7 @@ module PrawnFormBoxes
       end # field bounding box
     end # method definition
 
-    def check_box(checked:, text:)
+    def make_check_box(checked:, text:)
       box_y = cursor
       bounding_box [0, box_y], width: 7, height: 7 do
         stroke_bounds
