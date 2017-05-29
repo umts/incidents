@@ -31,6 +31,17 @@ module PrawnFormBoxes
       @row_helper = nil
     end
 
+    def at_row_height(height, options = {}, &block)
+      if @row_helper.present?
+        @row_helper.y -= height
+        if options[:unit].present?
+          @row_helper.x = options[:unit] * @row_helper.unit_width
+        end
+      else raise ArgumentError, 'Must be within a field row'
+      end
+      block.call
+    end
+
     def text_field(**args)
       start = if args[:start].blank?
                 if @row_helper.present?
