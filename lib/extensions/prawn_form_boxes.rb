@@ -37,9 +37,10 @@ module PrawnFormBoxes
         if options[:unit].present?
           @row_helper.x = options[:unit] * @row_helper.unit_width
         end
+        block.call
+        @row_helper.y += height
       else raise ArgumentError, 'Must be within a field row'
       end
-      block.call
     end
 
     def text_field(**args)

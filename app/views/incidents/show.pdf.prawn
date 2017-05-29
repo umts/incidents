@@ -95,39 +95,26 @@ prawn_document do |pdf|
     pdf.text_field width: 14, field: 'Owner of other vehicle', value: owner_name
   end
 
-  address_y = pdf.cursor
-  pdf.text_field start: [0, address_y], width: 180, height: 75,
-    field: 'Address of other driver',
-    value: @incident.other_vehicle_driver_full_address,
-    options: { valign: :center }
-  pdf.text_field start: [180, address_y], width: 100, height: 25,
-    field: 'Home',
-    value: @incident.other_vehicle_driver_home_phone
-  pdf.text_field start: [180, pdf.cursor], width: 100, height: 25,
-    field: 'Cell',
-    value: @incident.other_vehicle_driver_cell_phone
-  pdf.text_field start: [180, pdf.cursor], width: 100, height: 25,
-    field: 'Work',
-    value: @incident.other_vehicle_driver_work_phone
-  pdf.text_field start: [280, address_y], width: 280, height: 50,
-    field: 'Address of owner',
-    value: @incident.other_vehicle_owner_full_address,
-    options: { unless: @incident.other_vehicle_owned_by_other_driver? }
+  pdf.field_row height: 75, units: 28 do
+    pdf.text_field width: 9, field: 'Address of other driver', value: @incident.other_vehicle_driver_full_address,
+      options: { valign: :center }
+    pdf.text_field width: 5, height: 25, field: 'Home', value: @incident.other_vehicle_driver_home_phone
+    pdf.text_field width: 14, height: 50, field: 'Address of owner', value: @incident.other_vehicle_owner_full_address,
+      options: { unless: @incident.other_vehicle_owned_by_other_driver? }
 
-  police_y = pdf.cursor
-  pdf.text_field start: [280, police_y], width: 40, height: 25,
-    field: 'Police on scene?',
-    value: yes_no(@incident.police_on_scene?),
-    options: { if: @incident.motor_vehicle_collision? }
-  pdf.text_field start: [320, police_y], width: 80, height: 25,
-    field: 'Badge #',
-    value: @incident.police_badge_number
-  pdf.text_field start: [400, police_y], width: 80, height: 25,
-    field: 'Town (or State)',
-    value: @incident.police_town_or_state
-  pdf.text_field start: [480, police_y], width: 80, height: 25,
-    field: 'Case # assigned',
-    value: @incident.police_case_assigned
+    pdf.at_row_height 25, unit: 9 do
+      pdf.text_field width: 5, height: 25, field: 'Cell', value: @incident.other_vehicle_driver_cell_phone
+    end
+
+    pdf.at_row_height 50, unit: 9 do
+      pdf.text_field width: 5, height: 25, field: 'Work', value: @incident.other_vehicle_driver_work_phone
+      pdf.text_field width: 2, height: 25, field: 'Police on scene?', value: yes_no(@incident.police_on_scene?),
+        options: { if: @incident.motor_vehicle_collision? }
+      pdf.text_field width: 4, height: 25, field: 'Badge #', value: @incident.police_badge_number
+      pdf.text_field width: 4, height: 25, field: 'Town (or State)', value: @incident.police_town_or_state
+      pdf.text_field width: 4, height: 25, field: 'Case # assigned', value: @incident.police_case_assigned
+    end
+  end
 
   pdf.field_row height: 50, units: 2 do
     pdf.text_field field: 'Describe damage to bus at point of impact', value: @incident.damage_to_bus_point_of_impact,
