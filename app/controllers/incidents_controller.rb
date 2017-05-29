@@ -44,6 +44,13 @@ class IncidentsController < ApplicationController
     @incident = Incident.new
   end
 
+  def show
+    respond_to do |format|
+      format.pdf { render pdf: 'show.pdf.prawn' }
+      format.html { render 'show' }
+    end
+  end
+
   def unreviewed
     @incidents = Incident.unreviewed.order :occurred_at
     if @incidents.blank?

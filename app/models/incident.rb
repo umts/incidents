@@ -8,6 +8,11 @@ class Incident < ApplicationRecord
   BUS_MOTION_OPTIONS = %w[Stopped Braking Accelerating Other].freeze
   STEP_CONDITION_OPTIONS = %w[Dry Wet Icy Other].freeze
   PASSENGERS_REQUIRED_FIELDS = %i[name address town state zip phone].freeze
+  PASSENGER_INCIDENT_LOCATIONS = [
+    'Front door', 'Rear door', 'Front steps', 'Rear steps', 'Sudden stop',
+    'Before boarding', 'While boarding', 'After boarding', 'While exiting',
+    'After exiting'
+  ].freeze
 
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
@@ -104,6 +109,10 @@ class Incident < ApplicationRecord
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
   }
 
+  def injured_passenger_full_address
+    injured_passenger.values_at(:address, :town, :state, :zip).join ', '
+  end
+
   def needs_reason_not_up_to_curb?
     motion_of_bus == 'Stopped' && !bus_up_to_curb?
   end
@@ -120,33 +129,35 @@ class Incident < ApplicationRecord
     occurred_at.strftime '%l:%M %P'
   end
 
+  # rubocop:disable Metrics/LineLength
   def other_vehicle_driver_full_address
-    [
-      other_vehicle_driver_address,
-      other_vehicle_driver_address_town,
-      other_vehicle_driver_address_state,
-      other_vehicle_driver_address_zip
-    ].join ', '
+    first_line = other_vehicle_driver_address
+    second_line = "#{other_vehicle_driver_address_town}, #{other_vehicle_driver_address_state} #{other_vehicle_driver_address_zip}"
+    [first_line, second_line]
   end
 
   def other_vehicle_owner_full_address
-    [
-      other_vehicle_owner_address,
-      other_vehicle_owner_address_town,
-      other_vehicle_owner_address_state,
-      other_vehicle_owner_address_zip
-    ].join ', '
+    first_line = other_vehicle_owner_address
+    second_line = "#{other_vehicle_owner_address_town}, #{other_vehicle_owner_address_state} #{other_vehicle_owner_address_zip}"
+    [first_line, second_line]
+  end
+  # rubocop:enable Metrics/LineLength
+
+  def occurred_full_location
+    PASSENGER_INCIDENT_LOCATIONS.select do |loc|
+      send(('occurred ' + loc.downcase).tr(' ', '_') + '?')
+    end.join ','
   end
 
-  # rubocop:disable Style/MultilineBlockChain
-  def occurred_full_location
-    self.class.columns.select do |col|
-      col.type == :boolean && col.name.start_with?('occurred') && send(col.name)
-    end.map do |col|
-      col.name.split('_')[1..-1].join(' ')
-    end.join(', ').capitalize
+  def occurred_location_matrix
+    PASSENGER_INCIDENT_LOCATIONS.map do |loc|
+      send(('occurred ' + loc.downcase).tr(' ', '_') + '?')
+    end
   end
-  # rubocop:enable Style/MultilineBlockChain
+
+  def other?
+    !(motor_vehicle_collision? || passenger_incident?)
+  end
 
   def reviewed?
     staff_reviews.present?

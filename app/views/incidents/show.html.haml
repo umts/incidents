@@ -93,7 +93,7 @@
     = @incident.other_driver_license_state
   %p
     %strong Address:
-    = @incident.other_vehicle_driver_full_address
+    = @incident.other_vehicle_driver_full_address.join ','
   - if @incident.other_vehicle_driver_home_phone.present?
     %p
       %strong Home phone:
@@ -115,7 +115,7 @@
       = @incident.other_vehicle_owner_name
     %p
       %strong Address:
-      = @incident.other_vehicle_owner_full_address
+      = @incident.other_vehicle_owner_full_address.join ', '
     - if @incident.other_vehicle_owner_home_phone.present?
       %p
         %strong Home phone:
