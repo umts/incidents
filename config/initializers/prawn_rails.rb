@@ -1,6 +1,7 @@
 require 'prawn-rails'
+require 'prawn-rails-forms'
 
-include PrawnFormBoxes
+include PrawnRailsForms
 
 PrawnRails.config do |config|
   config.page_layout = :portrait
