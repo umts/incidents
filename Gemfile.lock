@@ -277,8 +277,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   mysql2
-  prawn-rails
-  prawn-rails-forms
+  prawn-rails-forms (~> 0.0)
   pry-byebug
   puma (~> 3.7)
   rails (~> 5.1.0)
