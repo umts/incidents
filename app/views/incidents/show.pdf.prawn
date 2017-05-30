@@ -63,7 +63,7 @@ prawn_document do |pdf|
       options: Incident::LIGHT_OPTIONS,
       checked: Incident::LIGHT_OPTIONS.map{|c| @incident.light_conditions == c}
     pdf.text_field width: 2, field: 'Headlights on at time of incident?',
-      value: yes_no(@incident.headlights_used?)
+      value: yes_no(@incident.headlights_used?), options: { if: @incident.completed? }
   end
 
   pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
@@ -147,16 +147,19 @@ prawn_document do |pdf|
       options: Incident::STEP_CONDITION_OPTIONS,
       checked: Incident::STEP_CONDITION_OPTIONS.map{|c| @incident.condition_of_steps == c },
       per_column: 4
-    pdf.text_field width: 2, height: 36, field: 'Bus kneeled?', value: yes_no(@incident.bus_kneeled?)
+    pdf.text_field width: 2, height: 36, field: 'Bus kneeled?', value: yes_no(@incident.bus_kneeled?),
+      options: { if: @incident.passenger_incident? }
     pdf.text_field width: 8, height: 36, field: 'If stopped, not up to curb, give reason', value: @incident.reason_not_up_to_curb
     pdf.at_row_height 36, unit: 12 do
-      pdf.text_field width: 2, height: 36, field: 'Bus up to curb?', value: yes_no(@incident.bus_up_to_curb?)
+      pdf.text_field width: 2, height: 36, field: 'Bus up to curb?', value: yes_no(@incident.bus_up_to_curb?),
+        options: { if: @incident.passenger_incident? }
       pdf.text_field width: 8, height: 36, field: 'License # of vehicle in bus stop', value: @incident.vehicle_in_bus_stop_plate
     end
   end
 
   pdf.field_row height: 28, units: 28 do
-    pdf.text_field width: 4, field: 'Was passenger injured?', value: yes_no(@incident.passenger_injured?)
+    pdf.text_field width: 4, field: 'Was passenger injured?', value: yes_no(@incident.passenger_injured?),
+      options: { if: @incident.passenger_incident? }
     pdf.text_field width: 5, field: 'Name of injured passenger', value: @incident.injured_passenger[:name]
     pdf.text_field width: 14, field: 'Address', value: @incident.injured_passenger_full_address,
       options: { unless: @incident.injured_passenger.empty? }
