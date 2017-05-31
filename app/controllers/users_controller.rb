@@ -20,7 +20,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.includes :incidents
+    @users = User.includes(:incidents).order :name
   end
 
   def update
