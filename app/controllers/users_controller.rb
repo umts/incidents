@@ -46,7 +46,7 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    attrs = params.require(:user).permit :name, :email, :staff,
+    attrs = params.require(:user).permit :name, :email, :staff, :badge_number,
                                          :password, :password_confirmation
     if attrs[:password].blank?
       attrs.delete :password

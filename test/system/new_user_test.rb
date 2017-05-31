@@ -24,6 +24,7 @@ class NewUserTest < ApplicationSystemTestCase
     visit new_user_url
     within '.edit-form' do
       fill_in 'Name', with: 'Gabriel Tremblay'
+      fill_in 'Badge number', with: 5901
       fill_in 'Email', with: 'gabriel@example.com'
       fill_in 'Password', with: 'cherries'
       fill_in 'Password confirmation', with: 'cherries'
@@ -48,6 +49,7 @@ class NewUserTest < ApplicationSystemTestCase
     visit new_user_url
     within '.edit-form' do
       fill_in 'Name', with: 'Gabriel Tremblay'
+      fill_in 'Badge number', with: 5901
       fill_in 'Email', with: 'gabriel@example.com'
       fill_in 'Password', with: 'cherries'
       fill_in 'Password confirmation', with: 'dates'
@@ -56,5 +58,20 @@ class NewUserTest < ApplicationSystemTestCase
 
     assert_selector '.info p.errors',
                     text: "Password confirmation doesn't match Password"
+  end
+
+  test 'staff do not need badge numbers' do
+    when_current_user_is :staff
+    visit new_user_url
+    within '.edit-form' do
+      fill_in 'Name', with: 'Gabriel Tremblay'
+      fill_in 'Email', with: 'gabriel@example.com'
+      fill_in 'Password', with: 'cherries'
+      fill_in 'Password confirmation', with: 'cherries'
+      check 'Staff'
+      click_button 'Save driver'
+    end
+
+    assert_selector '.info p.notice', text: 'Driver was created.'
   end
 end
