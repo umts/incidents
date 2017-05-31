@@ -35,6 +35,18 @@ class NewIncidentTest < ApplicationSystemTestCase
     end
   end
 
+  test 'staff members cannot pick from inactive users' do
+    active_user = create :user, :driver
+    inactive_user = create :user, :driver, active: false
+    when_current_user_is :staff
+    visit new_incident_url
+
+    within 'form' do
+      assert_selector 'option', text: active_user.name
+      assert_no_selector 'option', text: inactive_user.name
+    end
+  end
+
   test 'staff members can specify a driver and create an incomplete incident' do
     driver = create :user, :driver
 

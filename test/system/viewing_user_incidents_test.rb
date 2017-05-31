@@ -16,6 +16,15 @@ class ViewingUserIncidentsTest < ApplicationSystemTestCase
     assert_selector 'h1', text: "Tommie Gorczany's Incidents"
   end
 
+  test 'staff cannot view incidents by inactive drivers' do
+    inactive_user = create :user, :driver, active: false
+    create :incident, driver: inactive_user
+
+    visit users_url
+
+    assert_no_text inactive_user.name
+  end
+
   test 'only incidents from the driver are included' do
     incident = create :incident
     some_other_incident = create :incident

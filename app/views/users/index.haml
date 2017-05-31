@@ -6,7 +6,7 @@
       %th Name
       %th Email
       %th Staff?
-      %th{ colspan: 3 }
+      %th{ colspan: 4 }
   %tbody
     - @users.each do |user|
       %tr
@@ -20,6 +20,9 @@
         %td
           = link_to edit_user_path(user) do
             %button.btn.btn-default Edit
+        %td
+          = link_to deactivate_user_path(user), method: :post do
+            %button.btn.btn-default.delete Deactivate
         %td
           = link_to user_path(user), method: :delete do
             %button.btn.btn-default.delete Delete

@@ -20,7 +20,8 @@ Rails.application.routes.draw do
   scope :staff do
     resources :users, except: :show do
       member do
-        get :incidents
+        post :deactivate
+        get  :incidents
       end
     end
   end

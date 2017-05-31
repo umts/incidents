@@ -27,7 +27,7 @@ class EditUserTest < ApplicationSystemTestCase
       click_button 'Save driver'
     end
 
-    assert_selector '.info p.notice', text: 'Driver was updated.'
+    assert_selector '.info p.notice', text: 'Driver was updated successfully.'
 
     click_button 'Logout'
 
@@ -50,7 +50,7 @@ class EditUserTest < ApplicationSystemTestCase
       click_button 'Save driver'
     end
 
-    assert_selector '.info p.notice', text: 'Driver was updated.'
+    assert_selector '.info p.notice', text: 'Driver was updated successfully.'
 
     within first('table.index tbody tr') do
       assert_selector 'td', text: 'Laureen Klein'

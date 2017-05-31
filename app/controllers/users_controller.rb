@@ -1,12 +1,21 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :find_user, only: %i[destroy edit incidents update]
+  before_action :find_user, only: %i[deactivate destroy edit incidents update]
   before_action :access_control
 
+  def deactivate
+    @user.update! active: false
+    flash[:notice] = 'Driver was deactivated successfully.'
+    redirect_to users_path
+  end
+
   def destroy
-    @user.destroy!
-    flash[:notice] = 'Driver was deleted.'
+    if @user.destroy
+      flash[:notice] = 'Driver was deleted successfully.'
+    else
+      flash[:alert] = 'Cannot delete drivers who have incidents in their name.'
+    end
     redirect_to users_path
   end
 
@@ -20,7 +29,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.includes(:incidents).order :name
+    @users = User.active.includes(:incidents).order :name
   end
 
   def update
@@ -32,7 +41,7 @@ class UsersController < ApplicationController
 
   def attempt_save
     if @user.save
-      flash[:notice] = "Driver was #{params[:action]}d."
+      flash[:notice] = "Driver was #{params[:action]}d successfully."
       redirect_to users_path
     else
       flash[:errors] = @user.errors.full_messages

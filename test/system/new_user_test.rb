@@ -31,7 +31,7 @@ class NewUserTest < ApplicationSystemTestCase
       click_button 'Save driver'
     end
 
-    assert_selector '.info p.notice', text: 'Driver was created.'
+    assert_selector '.info p.notice', text: 'Driver was created successfully.'
 
     click_button 'Logout'
 
@@ -72,6 +72,6 @@ class NewUserTest < ApplicationSystemTestCase
       click_button 'Save driver'
     end
 
-    assert_selector '.info p.notice', text: 'Driver was created.'
+    assert_selector '.info p.notice', text: 'Driver was created successfully.'
   end
 end

@@ -24,18 +24,19 @@ class DeletingUserTest < ApplicationSystemTestCase
   end
 
   test 'staff members can delete users' do
-    create :user, :driver, name: 'Shannon Schmidt'
+    create :user, :driver, name: 'Felicia Schmidt'
     create :user, :staff, name: 'Rozanne Schaefer'
     when_current_user_is 'Rozanne Schaefer'
     visit users_url
 
     within 'table.index tbody' do
-      assert_selector 'td', text: 'Shannon Schmidt'
+      assert_selector 'td', text: 'Felicia Schmidt'
       assert_selector 'td', text: 'Rozanne Schaefer'
       assert_selector 'button', text: 'Delete', count: 2
+      # F < R
       within(first('tr')) { click_button 'Delete' }
     end
 
-    assert_selector '.info p.notice', text: 'Driver was deleted.'
+    assert_selector '.info p.notice', text: 'Driver was deleted successfully.'
   end
 end
