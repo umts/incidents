@@ -63,7 +63,7 @@ class IncidentsController < ApplicationController
       if @incident.update(incident_params)
         format.html do
           redirect_to @incident,
-                      notice: 'Incident was successfully updated.'
+                      notice: 'Incident report was successfully saved.'
         end
         format.json { render :show, status: :ok, location: @incident }
       else

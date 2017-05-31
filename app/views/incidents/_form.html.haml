@@ -265,7 +265,9 @@
     .field
       = form.label :description
       = form.text_area :description, id: :incident_description, size: '80x8'
-    = form.hidden_field :completed, value: true
+    - if current_user.staff?
+      = form.label :completed
+      = form.check_box :completed, id: :incident_completed
   - else
     .field
       = form.label :driver

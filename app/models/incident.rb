@@ -118,15 +118,15 @@ class Incident < ApplicationRecord
   end
 
   def occurred_at_readable
-    [occurred_date, occurred_time].join ' '
+    [occurred_date, occurred_time].join ' - '
   end
 
   def occurred_date
-    occurred_at.strftime '%A, %B %e'
+    occurred_at.try :strftime, '%A, %B %e'
   end
 
   def occurred_time
-    occurred_at.strftime '%l:%M %P'
+    occurred_at.try :strftime, '%l:%M %P'
   end
 
   # rubocop:disable Metrics/LineLength

@@ -198,4 +198,5 @@
 |
 = link_to 'Back', incidents_path
 
-= render partial: 'staff_reviews'
+- if @incident.completed?
+  = render partial: 'staff_reviews'
