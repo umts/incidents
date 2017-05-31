@@ -102,4 +102,20 @@ class ViewIncidentTest < ApplicationSystemTestCase
 
     assert_text 'Injured Passenger:'
   end
+
+  test 'incidents show when they were last updated' do
+    incident = create :incident
+    staff_member = create :user, :staff
+    when_current_user_is staff_member
+
+    visit edit_incident_url(incident)
+    fill_in 'Description', with: 'New description'
+    with_versioning { click_on 'Save Incident' }
+
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+
+    visit incident_url(incident)
+    assert_text 'Last changed'
+    assert_text "by #{staff_member.name}"
+  end
 end

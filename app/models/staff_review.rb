@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class StaffReview < ApplicationRecord
+  has_paper_trail
+
   belongs_to :incident
   belongs_to :user
   validates :incident, :user, :text, presence: true

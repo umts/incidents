@@ -28,6 +28,15 @@ class ActiveSupport::TestCase
     sign_in current_user
   end
 
+  def with_versioning(&block)
+    was_enabled = PaperTrail.enabled?
+    PaperTrail.enabled = true
+    begin
+      yield
+    ensure PaperTrail.enabled = was_enabled
+    end
+  end
+
   def incident_for(driver, attrs = {})
     user =
       case driver

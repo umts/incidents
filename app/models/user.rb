@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class User < ApplicationRecord
+  has_paper_trail
+
   has_many :incidents, foreign_key: :driver_id
 
   devise :database_authenticatable, :validatable

@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Incident < ApplicationRecord
+  has_paper_trail
+
   WEATHER_OPTIONS = %w[Clear Raining Fog Snowing Sleet].freeze
   ROAD_OPTIONS = %w[Dry Wet Icy Snowy Slushy].freeze
   LIGHT_OPTIONS = %w[Daylight Dawn/Dusk Darkness].freeze
@@ -111,6 +113,18 @@ class Incident < ApplicationRecord
 
   def injured_passenger_full_address
     injured_passenger.values_at(:address, :town, :state, :zip).join ', '
+  end
+
+  def last_update
+    versions.where(event: 'update').last
+  end
+
+  def last_updated_at
+    last_update.created_at.strftime '%A, %B %e - %l:%M %P'
+  end
+
+  def last_updated_by
+    User.find_by(id: last_update.whodunnit).name
   end
 
   def needs_reason_not_up_to_curb?

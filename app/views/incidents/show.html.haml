@@ -1,4 +1,11 @@
 %p#notice= notice
+- if @incident.last_update.present?
+  %p
+    %em
+      Last changed
+      = @incident.last_updated_at
+      by
+      = @incident.last_updated_by
 %p
   %strong Operator:
   = @incident.driver.name
@@ -194,6 +201,7 @@
 %p
   %strong Description of incident
   = simple_format @incident.description
+
 = link_to 'Edit', edit_incident_path(@incident)
 |
 = link_to 'Back', incidents_path
