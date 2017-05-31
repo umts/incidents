@@ -45,14 +45,14 @@ class EditIncidentTest < ApplicationSystemTestCase
     fill_in 'incident[run]', with: 'A new run'
     click_button 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
 
     visit incident_url(incident)
 
     assert_selector 'p', text: 'Run: A new run'
   end
 
-  test 'incomplete fields shows an error message' do
+  test 'incomplete fields do not show an error message' do
     incident = create :incident, :incomplete
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
@@ -60,23 +60,7 @@ class EditIncidentTest < ApplicationSystemTestCase
     fill_in 'incident[run]', with: 'Just a run'
     click_button 'Save Incident'
 
-    assert_selector '#error_explanation'
-    within '#error_explanation' do
-      assert_text "Block can't be blank"
-      assert_text "Bus can't be blank"
-      # etc.
-    end
-  end
-
-  test 'staff cannot edit incomplete incidents' do
-    create :incident, :incomplete
-
-    when_current_user_is :staff
-    visit incidents_url
-
-    within 'table.incidents' do
-      assert_no_selector 'button', text: 'Edit'
-    end
+    assert_no_selector '#error_explanation'
   end
 
   test 'staff can edit other incidents' do

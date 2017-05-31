@@ -3,12 +3,23 @@
 require 'application_system_test_case'
 
 class CompletingIncidentsTest < ApplicationSystemTestCase
-  test 'drivers can fill in basic fields and submit incidents' do
+  test 'drivers can submit incidents regardless of completeness' do
     incident = create :incident, :incomplete
 
     when_current_user_is incident.driver
     visit edit_incident_url(incident)
 
+    click_on 'Save Incident'
+
+    assert_no_selector '#error_explanation'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+  end
+
+  test 'staff can fill in basic fields and submit incidents' do
+    when_current_user_is :staff
+    visit edit_incident_url(create :incident, :incomplete)
+
+    check 'Completed'
     click_on 'Save Incident'
 
     assert_selector '#error_explanation'
@@ -23,14 +34,14 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
   end
 
-  test 'drivers can fill in motor vehicle collision fields' do
-    incident = create :incident, :incomplete
+  test 'users can fill in motor vehicle collision fields' do
+    when_current_user_is :staff
+    visit edit_incident_url(create :incident, :incomplete)
 
-    when_current_user_is incident.driver
-    visit edit_incident_url(incident)
+    check 'Completed'
 
     assert_no_text 'Motor Vehicle Collision Information'
     check 'Did the incident involve a collision with a motor vehicle?'
@@ -51,14 +62,14 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
   end
 
-  test 'drivers can fill in responding officer information' do
-    incident = create :incident, :incomplete
+  test 'users can fill in responding officer information' do
+    when_current_user_is :staff
+    visit edit_incident_url(create :incident, :incomplete)
 
-    when_current_user_is incident.driver
-    visit edit_incident_url(incident)
+    check 'Completed'
 
     check 'Did the incident involve a collision with a motor vehicle?'
 
@@ -82,14 +93,14 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
   end
 
-  test 'drivers can fill in vehicle owner information' do
-    incident = create :incident, :incomplete
+  test 'users can fill in vehicle owner information' do
+    when_current_user_is :staff
+    visit edit_incident_url(create :incident, :incomplete)
 
-    when_current_user_is incident.driver
-    visit edit_incident_url(incident)
+    check 'Completed'
 
     check 'Did the incident involve a collision with a motor vehicle?'
 
@@ -114,14 +125,14 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
   end
 
-  test 'drivers can fill in passenger incident information' do
-    incident = create :incident, :incomplete
+  test 'users can fill in passenger incident information' do
+    when_current_user_is :staff
+    visit edit_incident_url(create :incident, :incomplete)
 
-    when_current_user_is incident.driver
-    visit edit_incident_url(incident)
+    check 'Completed'
 
     assert_no_text 'Passenger Incident Information'
     check 'Did the incident involve a passenger?'
@@ -141,14 +152,14 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
   end
 
-  test 'drivers can fill in a reason for not being at the curb if applicable' do
-    incident = create :incident, :incomplete
+  test 'users can fill in a reason for not being at the curb if applicable' do
+    when_current_user_is :staff
+    visit edit_incident_url(create :incident, :incomplete)
 
-    when_current_user_is incident.driver
-    visit edit_incident_url(incident)
+    check 'Completed'
 
     check 'Did the incident involve a passenger?'
 
@@ -171,14 +182,14 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
   end
 
-  test 'drivers can fill in injured passenger information' do
-    incident = create :incident, :incomplete
+  test 'users can fill in injured passenger information' do
+    when_current_user_is :staff
+    visit edit_incident_url(create :incident, :incomplete)
 
-    when_current_user_is incident.driver
-    visit edit_incident_url(incident)
+    check 'Completed'
 
     check 'Did the incident involve a passenger?'
 
@@ -200,7 +211,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident was successfully updated.'
+    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
   end
 
   def fill_in_basic_fields
