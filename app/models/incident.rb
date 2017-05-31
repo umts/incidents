@@ -26,11 +26,11 @@ class Incident < ApplicationRecord
             :location, :town, :weather_conditions, :road_conditions,
             :light_conditions, :description,
             presence: true, if: -> { completed? }
-  validates :weather_conditions, inclusion: { in: WEATHER_OPTIONS },
+  validates :weather_conditions, inclusion: { in: WEATHER_OPTIONS, allow_blank: true },
                                  if: :completed?
-  validates :road_conditions, inclusion: { in: ROAD_OPTIONS },
+  validates :road_conditions, inclusion: { in: ROAD_OPTIONS, allow_blank: true },
                               if: :completed?
-  validates :light_conditions, inclusion: { in: LIGHT_OPTIONS },
+  validates :light_conditions, inclusion: { in: LIGHT_OPTIONS, allow_blank: true },
                                if: :completed?
 
   # MOTOR VEHICLE COLLISION FIELDS
@@ -51,7 +51,7 @@ class Incident < ApplicationRecord
                                   completed? &&
                                      motor_vehicle_collision? }
   validates :direction, :other_vehicle_direction,
-            inclusion: { in: DIRECTION_OPTIONS },
+            inclusion: { in: DIRECTION_OPTIONS, allow_blank: true },
             if: -> {
                   completed? &&
                      motor_vehicle_collision? }
@@ -76,12 +76,12 @@ class Incident < ApplicationRecord
                                   completed? &&
                                      passenger_incident? }
   validates :motion_of_bus,
-            inclusion: { in: BUS_MOTION_OPTIONS },
+            inclusion: { in: BUS_MOTION_OPTIONS, allow_blank: true },
             if: -> {
                   completed? &&
                      passenger_incident? }
   validates :condition_of_steps,
-            inclusion: { in: STEP_CONDITION_OPTIONS },
+            inclusion: { in: STEP_CONDITION_OPTIONS, allow_blank: true },
             if: -> {
                   completed? &&
                      passenger_incident? }

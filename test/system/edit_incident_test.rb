@@ -74,4 +74,18 @@ class EditIncidentTest < ApplicationSystemTestCase
       assert_selector 'button', text: 'Edit', count: 2
     end
   end
+
+  test 'staff get messages about blank weather condtions, not not being in the list' do
+    when_current_user_is :staff
+    visit edit_incident_url(create :incident)
+
+    select '', from: 'Weather conditions'
+
+    click_on 'Save Incident'
+
+    within '#error_explanation' do
+      assert_text "Weather conditions can't be blank"
+      assert_no_text 'is not included in the list'
+    end
+  end
 end
