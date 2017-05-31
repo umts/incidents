@@ -118,4 +118,14 @@ class ViewIncidentTest < ApplicationSystemTestCase
     assert_text 'Last changed'
     assert_text "by #{staff_member.name}"
   end
+
+  test 'incidents can be viewed in PDF form' do
+    create :incident
+    when_current_user_is :staff
+    visit incidents_url
+
+    click_button 'Print'
+
+    assert_equal find('embed')['type'], 'application/pdf'
+  end
 end

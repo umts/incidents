@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :user do
-    sequence(:name) { |n| "User#{n}" }
+    sequence(:name) { |n| "User#{n.to_s.rjust 4, '0'}" }
     badge_number { rand(5000).to_s.rjust 4, '0' }
     sequence(:email) { |n| "user#{n}@example.com" }
     # Please change the seed file if you change this password.
