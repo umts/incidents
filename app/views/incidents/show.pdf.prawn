@@ -116,10 +116,14 @@ prawn_document do |pdf|
     end
   end
 
-  pdf.field_row height: 50, units: 2 do |row|
-    row.text_field field: 'Describe damage to bus at point of impact', value: @incident.damage_to_bus_point_of_impact,
+  pdf.field_row height: 50, units: 5 do |row|
+    row.text_field field: 'Point of impact on bus', value: @incident.point_of_impact,
+      options: { valign: :center }
+    row.text_field width: 2, field: 'Describe damage to bus at point of impact',
+      value: @incident.damage_to_bus_point_of_impact,
       options: { align: :left, valign: :top }
-    row.text_field field: 'Describe damage to other vehicle at point of impact', value: @incident.damage_to_other_vehicle_point_of_impact,
+    row.text_field width: 2, field: 'Describe damage to other vehicle at point of impact',
+      value: @incident.damage_to_other_vehicle_point_of_impact,
       options: { align: :left, valign: :top }
   end
 
