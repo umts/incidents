@@ -127,6 +127,10 @@ class Incident < ApplicationRecord
     User.find_by(id: last_update.whodunnit).name
   end
 
+  def has_long_description?
+    description.length > 1_000
+  end
+
   def needs_reason_not_up_to_curb?
     motion_of_bus == 'Stopped' && !bus_up_to_curb?
   end

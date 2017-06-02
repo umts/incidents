@@ -168,8 +168,13 @@ prawn_document do |pdf|
 
   pdf.move_cursor_to 160
 
+  description = if @incident.has_long_description?
+                  '(Description on next page due to length)'
+                else @incident.description
+                end
+
   pdf.field_row height: 130, units: 1 do |row|
-    row.text_field field: 'Describe the accident or incident in detail', value: @incident.description,
+    row.text_field field: 'Describe the accident or incident in detail', value: description,
       options: { valign: :top, align: :left }
   end
 
@@ -179,5 +184,46 @@ prawn_document do |pdf|
     row.text_field width: 9, field: "Recv'd by", value: ''
     row.text_field width: 5, field: "Date recv'd", value: ''
   end
-  
+
+  if @incident.has_long_description?
+    
+    pdf.start_new_page
+
+    pdf.bounding_box [0, pdf.bounds.height], width: 380, height: 80 do
+      pdf.move_down 5
+      pdf.font 'Times-Roman', size: 30 do
+        pdf.text 'SATCo / VATCo', align: :center
+      end
+      pdf.text 'Accident / Incident Narrative', size: 18, align: :center
+    end
+    pdf.bounding_box [380, pdf.bounds.height], width: 180, height: 80 do
+      pdf.move_down 8
+      pdf.bounds.add_left_padding 5
+      ['File #', 'Code', 'Cause', 'Claim case #'].each do |field|
+        pdf.text field
+        pdf.move_down 4
+      end
+    end
+
+    pdf.field_row height: 25, units: 8 do |row|
+      row.text_field width: 4, field: 'Operator', value: @incident.driver.name
+      row.text_field field: 'Badge No.', value: @incident.driver.badge_number
+      row.text_field field: 'Bus #', value: @incident.bus
+      row.text_field width: 2, field: 'Date of Incident', value: @incident.occurred_at.strftime('%m/%d/%Y')
+    end
+
+    pdf.field_row height: pdf.cursor - 30, units: 1 do |row|
+      row.text_field field: 'Describe the accident or incident in detail', value: @incident.description,
+        options: { size: 12, valign: :top, align: :left }
+    end
+
+    pdf.move_cursor_to 30
+
+    pdf.field_row height: 30, units: 28 do |row|
+      row.text_field width: 9, field: "Operator's signature", value: ''
+      row.text_field width: 5, field: 'Date of this report', value: Time.zone.now.strftime('%m/%d/%Y')
+      row.text_field width: 9, field: "Recv'd by", value: ''
+      row.text_field width: 5, field: "Date recv'd", value: ''
+    end
+  end
 end
