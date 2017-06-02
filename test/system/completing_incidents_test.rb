@@ -168,7 +168,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     assert_no_selector '.reason-not-up-to-curb-info'
     select 'Stopped', from: 'Motion of bus'
-    uncheck 'Bus up to curb'
+    uncheck 'Was the bus pulled completely up to the curb?'
     assert_selector '.reason-not-up-to-curb-info'
 
     click_on 'Save Incident'
@@ -197,7 +197,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     fill_in_passenger_incident_fields
 
     assert_no_selector '.injured-passenger-info'
-    check 'Passenger injured'
+    check 'Was the passenger injured as a result of the incident?'
     assert_selector '.injured-passenger-info'
 
     click_on 'Save Incident'
@@ -230,7 +230,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
       select 'Daylight', from: 'Light conditions'
       check 'Were the bus headlights on at the time of the incident?'
     end
-    fill_in 'Description of incident',
+    fill_in 'Describe the incident in detail.',
             with: 'I was making the right turn when a car went around me.'
   end
 
@@ -253,8 +253,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
       fill_in 'State', with: 'MA'
       fill_in 'Zip', with: '00001'
       fill_in 'Home phone #', with: '413 555 0056'
-      fill_in 'Damage to bus at point of impact', with: 'Scratches'
-      fill_in 'Damage to other vehicle at point of impact', with: 'Scratches'
+      fill_in 'Describe damage to bus at point of impact', with: 'Scratches'
+      fill_in 'Describe damage to other vehicle at point of impact', with: 'Scratches'
       fill_in "Other driver's insurance carrier", with: 'Progressive'
       fill_in 'Policy #', with: '58925948'
       check 'Is the other driver involved the owner of the vehicle?'
@@ -281,8 +281,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
   end
 
   def fill_in_passenger_incident_fields
-    check 'Occurred front door'
-    check 'Occurred sudden stop'
+    check 'In the front door'
+    check 'Due to a sudden stop'
     select 'Braking', from: 'Motion of bus'
     select 'Dry', from: 'Condition of steps'
   end
