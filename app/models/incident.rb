@@ -15,6 +15,20 @@ class Incident < ApplicationRecord
     'Before boarding', 'While boarding', 'After boarding', 'While exiting',
     'After exiting'
   ].freeze
+  IMPACT_LOCATIONS = [
+    'Bike rack', 'Windshield', 'Front bumper', 'Driver side front bumper',
+    'Curb side front bumper', 'Roof', 'Driver side mirror', 'Curb side mirror',
+    'Driver compartment window', 'Front door', 'Front driver side wheel',
+    'Front curb side wheel', 'Front driver side passenger windows',
+    'Front curb side passenger windows', 'Center driver side passenger windows',
+    'Center curb side passenger windows', 'Center driver side body panels',
+    'Center curb side body panels', 'Rear door', 'Fuel compartment body panel',
+    'Driver side rear duals', 'Curb side rear duals',
+    'Driver side rear body panel', 'Curb side rear body panel',
+    'Driver side rear passenger windows', 'Curb side rear passenger windows',
+    'Rear bumpers', 'Driver side rear bumper', 'Curb side rear bumper',
+    'Driver side tail lights', 'Curb side tail lights', 'Rear of bus'
+  ].freeze
 
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
