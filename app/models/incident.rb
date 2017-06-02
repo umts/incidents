@@ -15,7 +15,7 @@ class Incident < ApplicationRecord
     'Before boarding', 'While boarding', 'After boarding', 'While exiting',
     'After exiting'
   ].freeze
-  IMPACT_LOCATIONS = [
+  IMPACT_LOCATION_OPTIONS = [
     'Bike rack', 'Windshield', 'Front bumper', 'Driver side front bumper',
     'Curb side front bumper', 'Roof', 'Driver side mirror', 'Curb side mirror',
     'Driver compartment window', 'Front door', 'Front driver side wheel',
@@ -59,7 +59,7 @@ class Incident < ApplicationRecord
             :other_vehicle_driver_address_town,
             :other_vehicle_driver_address_state,
             :other_vehicle_driver_address_zip, :other_vehicle_driver_home_phone,
-            :damage_to_bus_point_of_impact,
+            :point_of_impact, :damage_to_bus_point_of_impact,
             :damage_to_other_vehicle_point_of_impact,
             :insurance_carrier, :insurance_policy_number,
             :insurance_effective_date,
@@ -68,6 +68,11 @@ class Incident < ApplicationRecord
                                      motor_vehicle_collision? }
   validates :direction, :other_vehicle_direction,
             inclusion: { in: DIRECTION_OPTIONS, allow_blank: true },
+            if: -> {
+                  completed? &&
+                     motor_vehicle_collision? }
+  validates :point_of_impact,
+            inclusion: { in: IMPACT_LOCATION_OPTIONS, allow_blank: true },
             if: -> {
                   completed? &&
                      motor_vehicle_collision? }

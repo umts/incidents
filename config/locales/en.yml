@@ -31,6 +31,7 @@ en:
         other_vehicle_driver_work_phone: 'Work phone #'
         other_vehicle_owned_by_other_driver: 'Is the other driver involved the owner of the vehicle?'
         police_on_scene: 'Did police respond to the incident?'
+        point_of_impact: 'Where on the bus did the impact occur?'
         damage_to_bus_point_of_impact: 'Describe damage to bus at point of impact'
         damage_to_other_vehicle_point_of_impact: 'Describe damage to other vehicle at point of impact'
         insurance_carrier: "Other driver's insurance carrier"

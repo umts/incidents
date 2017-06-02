@@ -169,6 +169,11 @@
           = form.label :police_case_assigned
           = form.text_field :police_case_assigned, id: :incident_police_case_assigned
       .field
+        = form.label :point_of_impact
+        = form.select :point_of_impact,
+          options_for_select(Incident::IMPACT_LOCATION_OPTIONS, incident.point_of_impact),
+          { include_blank: true }, id: :incident_point_of_impact
+      .field
         = form.label :damage_to_bus_point_of_impact
         = form.text_field :damage_to_bus_point_of_impact, id: :incident_damage_to_bus_point_of_impact
       .field

@@ -253,6 +253,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
       fill_in 'State', with: 'MA'
       fill_in 'Zip', with: '00001'
       fill_in 'Home phone #', with: '413 555 0056'
+      select 'Rear bumper', from: 'Where on the bus did the impact occur?'
       fill_in 'Describe damage to bus at point of impact', with: 'Scratches'
       fill_in 'Describe damage to other vehicle at point of impact', with: 'Scratches'
       fill_in "Other driver's insurance carrier", with: 'Progressive'
