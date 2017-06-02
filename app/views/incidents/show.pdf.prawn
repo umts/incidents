@@ -226,4 +226,9 @@ prawn_document do |pdf|
       row.text_field width: 5, field: "Date recv'd", value: ''
     end
   end
+
+  pdf.start_new_page
+
+  pdf.image Rails.root.join('app/assets/images/bus_diagram.png'),
+    width: pdf.bounds.width, height: pdf.bounds.height
 end
