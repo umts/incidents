@@ -248,6 +248,7 @@
         = form.label :passenger_injured
         = form.check_box :passenger_injured, id: :incident_passenger_injured
       .injured-passenger-info{style: ('display: none;' unless incident.injured_passenger.present?)}
+        %h3 Contact Information of Injured Passenger
         = form.fields_for :injured_passenger do |pax_fields|
           .field
             = pax_fields.label :name

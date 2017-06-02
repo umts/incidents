@@ -72,8 +72,10 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     check 'Completed'
 
     check 'Did the incident involve a collision with a motor vehicle?'
-
     assert_no_selector '.police-info'
+    # The assert_text causes Capybara to wait for the JS animation caused
+    # two lines above to finish before triggering the next one two lines below.
+    assert_text 'Did police respond to the incident?'
     check 'Did police respond to the incident?'
     assert_selector '.police-info'
 
@@ -199,6 +201,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     assert_no_selector '.injured-passenger-info'
     check 'Was the passenger injured as a result of the incident?'
     assert_selector '.injured-passenger-info'
+    assert_selector 'h3', text: 'Contact Information of Injured Passenger'
 
     click_on 'Save Incident'
 

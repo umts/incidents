@@ -4,16 +4,16 @@ $.fn.showIfChecked = (checkbox, selector, options) ->
     if typeof(options) != 'undefined' && options.reverse
       checked = !checked
     if checked
-      $(selector).show()
-    else $(selector).hide()
+      $(selector).slideDown()
+    else $(selector).slideUp()
 
 determineShouldProvideReasonNotUpToCurb = () ->
   motion = $('#incident_motion_of_bus').val()
   upToCurb = $('#incident_bus_up_to_curb').is ':checked'
   formSection = $('.reason-not-up-to-curb-info')
   if motion == 'Stopped' && !upToCurb
-    formSection.show()
-  else formSection.hide()
+    formSection.slideDown()
+  else formSection.slideUp()
 
 $(document).ready ->
   $('form').showIfChecked '#incident_motor_vehicle_collision',
