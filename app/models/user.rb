@@ -10,6 +10,7 @@ class User < ApplicationRecord
   validates :badge_number, presence: true, unless: :staff?
 
   scope :active, -> { where active: true }
+  scope :inactive, -> { where.not active: true }
   scope :drivers, -> { where staff: false }
   scope :staff, -> { where staff: true }
 end

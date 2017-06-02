@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :find_user, only: %i[deactivate destroy edit incidents update]
+  before_action :find_user, except: %i[create new index]
+
   before_action :access_control
 
   def deactivate
@@ -29,7 +30,18 @@ class UsersController < ApplicationController
   end
 
   def index
-    @users = User.active.includes(:incidents).order :name
+    @inactive = params[:inactive] == 'true'
+    @users = if @inactive
+               User.inactive
+             else User.active
+             end
+    @users = @users.includes(:incidents).order :name
+  end
+
+  def reactivate
+    @user.update! active: true
+    flash[:notice] = 'Driver was reactivated successfully.'
+    redirect_to users_path
   end
 
   def update

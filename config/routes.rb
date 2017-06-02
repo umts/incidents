@@ -22,6 +22,7 @@ Rails.application.routes.draw do
       member do
         post :deactivate
         get  :incidents
+        post :reactivate
       end
     end
   end

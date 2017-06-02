@@ -1,4 +1,13 @@
-%h1 Manage Drivers
+- if @inactive
+  %h1 Manage Inactive Drivers
+- else 
+  %h1 Manage Active Drivers
+
+.center
+  - if params[:inactive]
+    = link_to 'Manage active drivers', users_path
+  - elsif User.inactive.present?
+    = link_to 'Manage inactive drivers', users_path(inactive: true)
 
 %table.index
   %thead
@@ -21,8 +30,12 @@
           = link_to edit_user_path(user) do
             %button.btn.btn-default Edit
         %td
-          = link_to deactivate_user_path(user), method: :post do
-            %button.btn.btn-default.delete Deactivate
+          - if user.active?
+            = link_to deactivate_user_path(user), method: :post do
+              %button.btn.btn-default.delete Deactivate
+          - else
+            = link_to reactivate_user_path(user), method: :post do
+              %button.btn.btn-default.delete Reactivate
         %td
           = link_to user_path(user), method: :delete do
             %button.btn.btn-default.delete Delete

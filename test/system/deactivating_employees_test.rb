@@ -31,4 +31,19 @@ class DeactivatingEmployeesTest < ApplicationSystemTestCase
 
     assert_no_text driver.name
   end
+
+  test 'employees can be reactivated by staff' do
+    driver = create :user, active: false
+    when_current_user_is :staff
+    visit users_url(inactive: true)
+
+    within first('table.index tbody tr') do
+      click_button 'Reactivate'
+    end
+
+    assert_selector '.info p.notice', text: 'Driver was reactivated successfully.'
+    assert_selector 'h1', text: 'Manage Active Drivers'
+
+    assert_text driver.name
+  end
 end
