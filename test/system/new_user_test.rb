@@ -12,7 +12,7 @@ class NewUserTest < ApplicationSystemTestCase
   test 'staff members can create new users' do
     when_current_user_is :staff
     visit incidents_url
-    assert_selector '.navbar button', text: 'New Driverz'
+    assert_selector '.navbar button', text: 'New Driver'
 
     click_button 'New Driver'
 
