@@ -11,6 +11,19 @@ AllCops:
     - db/migrate/**/*
     - vendor/**/*
 
+# Incidents have complicated validation conditions.
+Layout/BlockEndNewline:
+  Exclude:
+    - 'app/models/incident.rb'
+
+Layout/MultilineBlockLayout:
+  Exclude:
+    - 'app/models/incident.rb'
+
+Layout/MultilineOperationIndentation:
+  Exclude:
+    - 'app/models/incident.rb'
+
 # I've never seen this one go bad.
 Lint/AmbiguousBlockAssociation:
   Enabled: false
@@ -42,11 +55,6 @@ Metrics/MethodLength:
 Style/AndOr:
   Enabled: false
 
-# Incidents have complicated validation conditions.
-Style/BlockEndNewline:
-  Exclude:
-    - 'app/models/incident.rb'
-
 # It's straight from the Rails docs.
 Style/ClassAndModuleChildren:
   Exclude:
@@ -67,14 +75,6 @@ Style/IfUnlessModifier:
 # The only alternative with long lambdas is to say (lambda do ... end),
 # wrapped in parentheses, which looks TERRIBLE.
 Style/Lambda:
-  Exclude:
-    - 'app/models/incident.rb'
-
-Style/MultilineBlockLayout:
-  Exclude:
-    - 'app/models/incident.rb'
-
-Style/MultilineOperationIndentation:
   Exclude:
     - 'app/models/incident.rb'
 

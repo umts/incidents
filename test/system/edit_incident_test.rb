@@ -45,7 +45,8 @@ class EditIncidentTest < ApplicationSystemTestCase
     fill_in 'incident[run]', with: 'A new run'
     click_button 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
 
     visit incident_url(incident)
 
@@ -75,7 +76,7 @@ class EditIncidentTest < ApplicationSystemTestCase
     end
   end
 
-  test 'staff get messages about blank weather condtions, not not being in the list' do
+  test 'staff get normal messages about blank weather condtions' do
     when_current_user_is :staff
     visit edit_incident_url(create :incident)
 

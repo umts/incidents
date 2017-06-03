@@ -28,7 +28,7 @@ class ActiveSupport::TestCase
     sign_in current_user
   end
 
-  def with_versioning(&block)
+  def with_versioning
     was_enabled = PaperTrail.enabled?
     PaperTrail.enabled = true
     begin

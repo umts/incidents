@@ -112,7 +112,8 @@ class ViewIncidentTest < ApplicationSystemTestCase
     fill_in 'Describe the incident in detail.', with: 'New description'
     with_versioning { click_on 'Save Incident' }
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
 
     visit incident_url(incident)
     assert_text 'Last changed'

@@ -172,7 +172,7 @@ prawn_document do |pdf|
 
   pdf.move_cursor_to 160
 
-  description = if @incident.has_long_description?
+  description = if @incident.long_description?
                   '(Description on next page due to length)'
                 else @incident.description
                 end
@@ -189,7 +189,7 @@ prawn_document do |pdf|
     row.text_field width: 5, field: "Date recv'd", value: ''
   end
 
-  if @incident.has_long_description?
+  if @incident.long_description?
     
     pdf.start_new_page
 

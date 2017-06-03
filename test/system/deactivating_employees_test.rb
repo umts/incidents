@@ -27,7 +27,8 @@ class DeactivatingEmployeesTest < ApplicationSystemTestCase
       click_button 'Deactivate'
     end
 
-    assert_selector '.info p.notice', text: 'Driver was deactivated successfully.'
+    assert_selector '.info p.notice',
+                    text: 'Driver was deactivated successfully.'
 
     assert_no_text driver.name
   end
@@ -41,7 +42,8 @@ class DeactivatingEmployeesTest < ApplicationSystemTestCase
       click_button 'Reactivate'
     end
 
-    assert_selector '.info p.notice', text: 'Driver was reactivated successfully.'
+    assert_selector '.info p.notice',
+                    text: 'Driver was reactivated successfully.'
     assert_selector 'h1', text: 'Manage Active Drivers'
 
     assert_text driver.name

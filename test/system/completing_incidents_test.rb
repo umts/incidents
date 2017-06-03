@@ -12,7 +12,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     click_on 'Save Incident'
 
     assert_no_selector '#error_explanation'
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
   end
 
   test 'staff can fill in basic fields and submit incidents' do
@@ -34,7 +35,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
   end
 
   test 'users can fill in motor vehicle collision fields' do
@@ -62,7 +64,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
   end
 
   test 'users can fill in responding officer information' do
@@ -95,7 +98,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
   end
 
   test 'users can fill in vehicle owner information' do
@@ -127,7 +131,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
   end
 
   test 'users can fill in passenger incident information' do
@@ -154,7 +159,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
   end
 
   test 'users can fill in a reason for not being at the curb if applicable' do
@@ -184,7 +190,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
   end
 
   test 'users can fill in injured passenger information' do
@@ -214,7 +221,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     click_on 'Save Incident'
 
-    assert_selector '.info p.notice', text: 'Incident report was successfully saved.'
+    assert_selector '.info p.notice',
+                    text: 'Incident report was successfully saved.'
   end
 
   def fill_in_basic_fields
@@ -258,7 +266,8 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
       fill_in 'Home phone #', with: '413 555 0056'
       select 'Rear bumper', from: 'Where on the bus did the impact occur?'
       fill_in 'Describe damage to bus at point of impact', with: 'Scratches'
-      fill_in 'Describe damage to other vehicle at point of impact', with: 'Scratches'
+      fill_in 'Describe damage to other vehicle at point of impact',
+              with: 'Scratches'
       fill_in "Other driver's insurance carrier", with: 'Progressive'
       fill_in 'Policy #', with: '58925948'
       check 'Is the other driver involved the owner of the vehicle?'

@@ -42,12 +42,15 @@ class Incident < ApplicationRecord
             :location, :town, :weather_conditions, :road_conditions,
             :light_conditions, :description,
             presence: true, if: -> { completed? }
-  validates :weather_conditions, inclusion: { in: WEATHER_OPTIONS, allow_blank: true },
-                                 if: :completed?
-  validates :road_conditions, inclusion: { in: ROAD_OPTIONS, allow_blank: true },
-                              if: :completed?
-  validates :light_conditions, inclusion: { in: LIGHT_OPTIONS, allow_blank: true },
-                               if: :completed?
+  validates :weather_conditions,
+            inclusion: { in: WEATHER_OPTIONS, allow_blank: true },
+            if: :completed?
+  validates :road_conditions,
+            inclusion: { in: ROAD_OPTIONS, allow_blank: true },
+            if: :completed?
+  validates :light_conditions,
+            inclusion: { in: LIGHT_OPTIONS, allow_blank: true },
+            if: :completed?
 
   # MOTOR VEHICLE COLLISION FIELDS
 
@@ -146,7 +149,7 @@ class Incident < ApplicationRecord
     User.find_by(id: last_update.whodunnit).name
   end
 
-  def has_long_description?
+  def long_description?
     description.length > 1_000
   end
 

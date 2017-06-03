@@ -10,7 +10,7 @@ class ManagingUsersTest < ApplicationSystemTestCase
     visit users_url
     assert_selector 'h1', text: 'Manage Active Drivers'
     assert_no_text inactive_user.name
-    
+
     click_on 'Manage inactive drivers'
     assert_selector 'h1', text: 'Manage Inactive Drivers'
     assert_text inactive_user.name
