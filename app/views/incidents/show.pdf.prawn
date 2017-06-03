@@ -29,7 +29,7 @@ prawn_document do |pdf|
   end
 
   pdf.field_row height: 30, units: 6 do |row|
-    row.text_field field: 'Date of Incident', value: @incident.occurred_at.strftime('%m/%d/%Y')
+    row.text_field field: 'Date of Incident', value: @incident.occurred_at.try(:strftime, '%m/%d/%Y')
     row.text_field field: 'Time of Incident', value: @incident.occurred_time
     row.text_field field: '# passengers on bus', value: @incident.passengers_onboard
     row.text_field field: '# courtesy cards distributed', value: @incident.courtesy_cards_distributed
