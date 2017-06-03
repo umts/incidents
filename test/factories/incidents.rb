@@ -108,6 +108,7 @@ FactoryGirl.define do
   end
 
   trait :incomplete do
+    occurred_at                nil
     run                        nil
     block                      nil
     bus                        nil

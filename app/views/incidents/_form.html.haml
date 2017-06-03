@@ -21,7 +21,8 @@
         = form.text_field :bus, id: :incident_bus
       .field
         = form.label :occurred_at
-        = form.datetime_select :occurred_at, id: :incident_occurred_at
+        = form.datetime_select :occurred_at, id: :incident_occurred_at,
+          prompt: true, ampm: true
       .field
         = form.label :passengers_onboard
         = form.number_field :passengers_onboard, id: :incident_passengers_onboard

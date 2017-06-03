@@ -59,4 +59,11 @@ class ActiveSupport::TestCase
   def assert_no_incident_for(driver_name)
     assert_no_selector 'table.incidents td', text: driver_name
   end
+
+  def select_datetime(datetime, from:)
+    base_tag = find('label', text: from)['for']
+    %w[%Y %B %-e %I\ %p %m].each.with_index do |format, index|
+      select datetime.strftime(format), from: base_tag + "_#{index + 1}i"
+    end
+  end
 end

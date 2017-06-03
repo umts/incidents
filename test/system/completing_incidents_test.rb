@@ -230,6 +230,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
       fill_in 'Run #', with: '30-3 EVE'
       fill_in 'Block #', with: '303'
       fill_in 'Bus #', with: '3308'
+      select_datetime DateTime.now, from: 'Date and time of incident'
       fill_in 'Passengers onboard', with: 13
       fill_in 'Courtesy cards distributed', with: 0
       fill_in 'Courtesy cards collected', with: 0

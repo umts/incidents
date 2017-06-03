@@ -20,8 +20,10 @@ dates.shuffle.each.with_index do |day, i|
   incident_type = if (i % 20).zero? then :incomplete
                   else [nil, :collision, :passenger_incident].sample
                   end
-  incident_attrs = { driver: incident_drivers.sample,
-                     occurred_at: day + rand(24 * 60).minutes }
+  incident_attrs = { driver: incident_drivers.sample }
+  unless incident_type == :incomplete
+    incident_attrs[:occurred_at] = day + rand(24 * 60).minutes
+  end
   incident = if incident_type.present?
                create :incident, incident_type, incident_attrs
              else create :incident, incident_attrs
