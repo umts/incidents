@@ -4,8 +4,11 @@ Rails.application.routes.draw do
   root 'incidents#index'
   resources :incidents do
     collection do
-      get :incomplete
-      get :unreviewed
+      get  :incomplete
+      get  :unreviewed
+    end
+    member do
+      get  :history
     end
   end
   resources :staff_reviews, only: %i[create destroy update]
