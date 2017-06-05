@@ -43,14 +43,14 @@ class Incident < ApplicationRecord
             :light_conditions, :description,
             presence: true, if: -> { completed? }
   validates :weather_conditions,
-            inclusion: { in: WEATHER_OPTIONS, allow_blank: true },
-            if: :completed?
+            inclusion: { in: WEATHER_OPTIONS },
+            if: -> { completed? && weather_conditions.present? }
   validates :road_conditions,
-            inclusion: { in: ROAD_OPTIONS, allow_blank: true },
-            if: :completed?
+            inclusion: { in: ROAD_OPTIONS },
+            if: -> { completed? && road_conditions.present? }
   validates :light_conditions,
-            inclusion: { in: LIGHT_OPTIONS, allow_blank: true },
-            if: :completed?
+            inclusion: { in: LIGHT_OPTIONS },
+            if: -> { completed? && light_conditions.present? }
 
   # MOTOR VEHICLE COLLISION FIELDS
 
