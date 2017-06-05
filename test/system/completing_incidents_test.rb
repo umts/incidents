@@ -47,6 +47,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     assert_no_text 'Motor Vehicle Collision Information'
     check 'Did the incident involve a collision with a motor vehicle?'
+    assert_selector '.motor-vehicle-collision-info'
     assert_text 'Motor Vehicle Collision Information'
 
     fill_in_basic_fields
@@ -208,7 +209,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     assert_no_selector '.injured-passenger-info'
     check 'Was the passenger injured as a result of the incident?'
     assert_selector '.injured-passenger-info'
-    assert_selector 'h3', text: 'Contact Information of Injured Passenger'
+    assert_text 'Contact Information of Injured Passenger'
 
     click_on 'Save Incident'
 
@@ -277,6 +278,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
   def fill_in_police_fields
     within '.motor-vehicle-collision-info' do
+      assert_text 'Police badge number'
       fill_in 'Police badge number', with: '1024'
       fill_in 'Police town or state', with: 'Amherst'
       fill_in 'Police case assigned', with: 'C34059'
@@ -285,6 +287,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
   def fill_in_other_vehicle_owner_fields
     within '.motor-vehicle-collision-info' do
+      assert_text 'Motor Vehicle Collision Information'
       fill_in 'Other vehicle owner name', with: 'Lewis Hamilton'
       fill_in 'Other vehicle owner address', with: '55 Wins St'
       fill_in 'Other vehicle owner address town', with: 'Championsville'
@@ -295,6 +298,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
   end
 
   def fill_in_passenger_incident_fields
+    assert_text 'Passenger Incident Information'
     check 'In the front door'
     check 'Due to a sudden stop'
     select 'Braking', from: 'Motion of bus'
@@ -303,6 +307,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
   def fill_in_injured_passenger_fields
     within '.injured-passenger-info' do
+      assert_text 'Contact Information of Injured Passenger'
       fill_in 'Name', with: 'Fernando Alonso'
       fill_in 'Address', with: '32 Wins St'
       fill_in 'Town', with: 'Championsville'
