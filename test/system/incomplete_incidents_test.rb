@@ -43,4 +43,14 @@ class IncompleteIncidentsTest < ApplicationSystemTestCase
 
     assert page.current_url.include? incidents_path
   end
+
+  test 'incomplete incidents print properly' do
+    create :incident, :incomplete
+    when_current_user_is :staff
+    visit incomplete_incidents_url
+
+    click_button 'Print'
+
+    assert_equal find('embed')['type'], 'application/pdf'
+  end
 end
