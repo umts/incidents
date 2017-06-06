@@ -188,7 +188,8 @@
         = form.text_field :insurance_policy_number, id: :incident_insurance_policy_number
       .field
         = form.label :insurance_effective_date
-        = form.date_select :insurance_effective_date, id: :incident_insurance_effective_date
+        = form.date_select :insurance_effective_date, id: :incident_insurance_effective_date,
+          prompt: true
     .passenger-incident-info{style: ('display: none;' unless incident.passenger_incident?)}
       %h3 Passenger Incident Information
       %b Where / how did the incident occur? Check all that apply.

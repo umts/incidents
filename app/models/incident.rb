@@ -30,6 +30,8 @@ class Incident < ApplicationRecord
     'Driver side tail lights', 'Curb side tail lights', 'Rear of bus'
   ].freeze
 
+  HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at]
+
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
 
@@ -125,6 +127,9 @@ class Incident < ApplicationRecord
            if: -> { completed? &&
                      passenger_incident? &&
                      passenger_injured? }
+  before_save do
+    self.injured_passenger = {} unless passenger_injured?
+  end
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }

@@ -1,6 +1,6 @@
 en:
-  helpers:
-    label:
+  activerecord:
+    attributes:
       incident:
         run: 'Run #'
         block: 'Block #'
