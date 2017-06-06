@@ -8,6 +8,7 @@ class ViewIncidentTest < ApplicationSystemTestCase
     when_current_user_is incident.driver
     visit incident_url(incident)
 
+    assert_selector 'h1', text: 'Incident Report'
     assert_text incident.description
   end
 

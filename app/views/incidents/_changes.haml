@@ -1,0 +1,7 @@
+%table
+  %tbody
+    - changes.each_pair do |attribute, new_value|
+      %tr
+        %td
+          %b= attribute
+        %td= new_value

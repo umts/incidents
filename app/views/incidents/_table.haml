@@ -28,7 +28,7 @@
             = link_to incident do
               %button.btn.btn-default View
           %td
-            = link_to incident_url(incident, format: :pdf) do
+            = link_to incident_path(incident, format: :pdf) do
               %button.btn.btn-default Print
           %td
             - if current_user.staff? || !incident.reviewed?

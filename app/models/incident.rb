@@ -138,7 +138,7 @@ class Incident < ApplicationRecord
   end
 
   def last_update
-    versions.where(event: 'update').last
+    versions.last
   end
 
   def last_updated_at
@@ -186,7 +186,7 @@ class Incident < ApplicationRecord
   def occurred_full_location
     PASSENGER_INCIDENT_LOCATIONS.select do |loc|
       send(('occurred ' + loc.downcase).tr(' ', '_') + '?')
-    end.join ','
+    end.join ', '
   end
 
   def occurred_location_matrix
