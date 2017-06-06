@@ -2,6 +2,7 @@
 
 require 'simplecov'
 
+
 SimpleCov.start 'rails' do
   %w[channels config jobs lib/extensions mailers].each do |dir|
     add_filter "/#{dir}/"
@@ -11,6 +12,8 @@ end
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
+
+PaperTrail.enabled = true
 
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
@@ -26,15 +29,6 @@ class ActiveSupport::TestCase
       else raise ArgumentError, 'Invalid user type'
       end
     sign_in current_user
-  end
-
-  def with_versioning
-    was_enabled = PaperTrail.enabled?
-    PaperTrail.enabled = true
-    begin
-      yield
-    ensure PaperTrail.enabled = was_enabled
-    end
   end
 
   def incident_for(driver, attrs = {})
@@ -58,6 +52,13 @@ class ActiveSupport::TestCase
 
   def assert_no_incident_for(driver_name)
     assert_no_selector 'table.incidents td', text: driver_name
+  end
+
+  def select_date(date, from:)
+    base_tag = find('label', text: from)['for']
+    %w[%Y %B %-e].each.with_index do |format, index|
+      select date.strftime(format), from: base_tag + "_#{index + 1}i"
+    end
   end
 
   def select_datetime(datetime, from:)

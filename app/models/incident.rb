@@ -151,7 +151,7 @@ class Incident < ApplicationRecord
   end
 
   def last_updated_by
-    User.find_by(id: last_update.whodunnit).name
+    User.find_by(id: last_update.whodunnit).try(:name) || 'Unknown'
   end
 
   def long_description?
