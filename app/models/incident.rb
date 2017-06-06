@@ -30,7 +30,7 @@ class Incident < ApplicationRecord
     'Driver side tail lights', 'Curb side tail lights', 'Rear of bus'
   ].freeze
 
-  HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at]
+  HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
