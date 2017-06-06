@@ -59,3 +59,15 @@ form.new-review, form.edit-review{
     width: 100%;
   }
 }
+
+table.history>tbody>tr{
+  border-bottom: 2px solid lightgrey;
+  text-align: left;
+  vertical-align: top;
+  table.changes tr{
+    td{
+      max-width: 300px;
+      min-width: 40px;
+    }
+  }
+}

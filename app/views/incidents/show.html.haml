@@ -1,3 +1,4 @@
+%h1.title Incident Report
 %p#notice= notice
 - if @incident.last_update.present?
   %p
@@ -6,6 +7,8 @@
       = @incident.last_updated_at
       by
       = @incident.last_updated_by
+    |
+    = link_to 'View full history', history_incident_path(@incident)
 %p
   %strong Operator:
   = @incident.driver.name
@@ -190,7 +193,7 @@
         = @incident.vehicle_in_bus_stop_plate
   %p
     %strong Passenger injured?
-    %p= yes_no @incident.passenger_injured?
+    = yes_no @incident.passenger_injured?
   - if @incident.passenger_injured?
     %p
       %strong Injured Passenger:
@@ -199,7 +202,7 @@
       %p= @incident.injured_passenger.values_at(:town, :state, :zip).join ', '
       %p= @incident.injured_passenger[:phone]
 %p
-  %strong Description of incident
+  %strong Description of incident:
   = simple_format @incident.description
 
 = link_to 'Edit', edit_incident_path(@incident)

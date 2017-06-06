@@ -30,6 +30,8 @@ class Incident < ApplicationRecord
     'Driver side tail lights', 'Curb side tail lights', 'Rear of bus'
   ].freeze
 
+  HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
+
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
 
@@ -125,6 +127,9 @@ class Incident < ApplicationRecord
            if: -> { completed? &&
                      passenger_incident? &&
                      passenger_injured? }
+  before_save do
+    self.injured_passenger = {} unless passenger_injured?
+  end
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
@@ -138,7 +143,7 @@ class Incident < ApplicationRecord
   end
 
   def last_update
-    versions.where(event: 'update').last
+    versions.last
   end
 
   def last_updated_at
@@ -146,7 +151,7 @@ class Incident < ApplicationRecord
   end
 
   def last_updated_by
-    User.find_by(id: last_update.whodunnit).name
+    User.find_by(id: last_update.whodunnit).try(:name) || 'Unknown'
   end
 
   def long_description?
@@ -186,7 +191,7 @@ class Incident < ApplicationRecord
   def occurred_full_location
     PASSENGER_INCIDENT_LOCATIONS.select do |loc|
       send(('occurred ' + loc.downcase).tr(' ', '_') + '?')
-    end.join ','
+    end.join ', '
   end
 
   def occurred_location_matrix

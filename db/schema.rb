@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170602194728) do
+ActiveRecord::Schema.define(version: 20170606163632) do
 
   create_table "incidents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "driver_id"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(version: 20170602194728) do
     t.string "whodunnit"
     t.text "object", limit: 4294967295
     t.datetime "created_at"
+    t.text "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 

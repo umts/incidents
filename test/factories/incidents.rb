@@ -9,7 +9,7 @@ FactoryGirl.define do
     run                        { "Run #{rand 20}" }
     block                      { "Block #{rand 20}" }
     bus                        { 3_000 + 100 * rand(3) + rand(30) }
-    occurred_at                { DateTime.now }
+    occurred_at                { DateTime.now.beginning_of_minute }
     passengers_onboard         { rand 40 }
     courtesy_cards_distributed { rand 5 }
     courtesy_cards_collected   { rand 5 }

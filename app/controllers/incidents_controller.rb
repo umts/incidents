@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class IncidentsController < ApplicationController
-  before_action :access_control, only: %i[destroy incomplete new]
-  before_action :set_incident, only: %i[destroy edit show update]
+  # set_incident handles access control for member routes.
+  before_action :access_control, only: %i[create destroy incomplete new]
+  before_action :set_incident, only: %i[destroy edit history show update]
 
   def create
     Incident.create incident_params
@@ -22,6 +23,10 @@ class IncidentsController < ApplicationController
 
   def edit
     deny_access and return if !current_user.staff? && @incident.reviewed?
+  end
+
+  def history
+    @history = @incident.versions.order 'created_at desc'
   end
 
   def incomplete

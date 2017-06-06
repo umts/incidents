@@ -25,9 +25,9 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     assert_selector '#error_explanation'
     within '#error_explanation' do
-      assert_text "Run can't be blank"
-      assert_text "Block can't be blank"
-      assert_text "Bus can't be blank"
+      assert_text "Run # can't be blank"
+      assert_text "Block # can't be blank"
+      assert_text "Bus # can't be blank"
       # etc.
     end
 
@@ -56,9 +56,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     assert_selector '#error_explanation'
     within '#error_explanation' do
-      assert_text "Other vehicle plate can't be blank"
-      assert_text "Other vehicle state can't be blank"
-      assert_text "Other vehicle make can't be blank"
+      assert_text "License plate of other vehicle can't be blank"
       # etc.
     end
     fill_in_motor_vehicle_collision_fields
@@ -77,9 +75,9 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     check 'Did the incident involve a collision with a motor vehicle?'
     assert_no_selector '.police-info'
-    # The assert_text causes Capybara to wait for the JS animation caused
+    # The assert_selector causes Capybara to wait for the JS animation caused
     # two lines above to finish before triggering the next one two lines below.
-    assert_text 'Did police respond to the incident?'
+    assert_selector '.motor-vehicle-collision-info'
     check 'Did police respond to the incident?'
     assert_selector '.police-info'
 
@@ -272,6 +270,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
               with: 'Scratches'
       fill_in "Other driver's insurance carrier", with: 'Progressive'
       fill_in 'Policy #', with: '58925948'
+      select_date Date.today, from: 'Effective date'
       check 'Is the other driver involved the owner of the vehicle?'
     end
   end
