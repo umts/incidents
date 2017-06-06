@@ -278,7 +278,7 @@
       = form.check_box :completed, id: :incident_completed
   - else
     .field
-      = form.label :driver
+      = form.label :driver_id
       = form.select :driver_id,
         options_from_collection_for_select(User.active.drivers.order(:name), :id, :name, incident.driver_id),
         { include_blank: true }, id: :incident_driver_id

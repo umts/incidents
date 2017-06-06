@@ -60,15 +60,14 @@ form.new-review, form.edit-review{
   }
 }
 
-table.history tbody tr{
-  border-bottom: 1px solid grey;
+table.history>tbody>tr{
+  border-bottom: 2px solid lightgrey;
   text-align: left;
   vertical-align: top;
   table.changes tr{
-    border-bottom: none;
     td{
-      min-width: 40px;
       max-width: 300px;
+      min-width: 40px;
     }
   }
 }

@@ -2,7 +2,6 @@
 
 require 'simplecov'
 
-
 SimpleCov.start 'rails' do
   %w[channels config jobs lib/extensions mailers].each do |dir|
     add_filter "/#{dir}/"

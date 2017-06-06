@@ -2,6 +2,7 @@ en:
   activerecord:
     attributes:
       incident:
+        driver_id: 'Driver'
         run: 'Run #'
         block: 'Block #'
         bus: 'Bus #'
