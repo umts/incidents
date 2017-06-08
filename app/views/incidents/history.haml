@@ -1,7 +1,7 @@
 %h1 Incident History
 
 - if @history.present?
-  %table
+  %table.history
     %thead
       %tr
         %th Occurred
@@ -11,8 +11,8 @@
     %tbody
       - @incident.versions.each do |version|
         %tr
-          %td= version.created_at.strftime '%A, %B %e, %Y %l:%m %P'
-          %td= User.find(version.whodunnit).name
+          %td= version.created_at.strftime '%A, %B %e, %Y %l:%M %P'
+          %td= User.find_by(id: version.whodunnit).try(:name) || 'Unknown'
           %td
             - case version.event
             - when 'create'
@@ -20,11 +20,8 @@
             - when 'update'
               changed incident report data
           %td
-            - changes = version.changeset
-            - changes ||= version.next.try(:reify).try(:attributes)
-            - if changes.present?
-              = render partial: 'changes', locals: { changes:  changes }
-            - else
-              Put into current state
+            - if version.changeset.present?
+              = render partial: 'changes',
+                       locals: { changes: version.changeset }
 - else
   No history available for this incident.

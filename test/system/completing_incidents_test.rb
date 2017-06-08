@@ -25,9 +25,9 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     assert_selector '#error_explanation'
     within '#error_explanation' do
-      assert_text "Run can't be blank"
-      assert_text "Block can't be blank"
-      assert_text "Bus can't be blank"
+      assert_text "Run # can't be blank"
+      assert_text "Block # can't be blank"
+      assert_text "Bus # can't be blank"
       # etc.
     end
 
@@ -47,6 +47,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     assert_no_text 'Motor Vehicle Collision Information'
     check 'Did the incident involve a collision with a motor vehicle?'
+    assert_selector '.motor-vehicle-collision-info'
     assert_text 'Motor Vehicle Collision Information'
 
     fill_in_basic_fields
@@ -55,9 +56,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     assert_selector '#error_explanation'
     within '#error_explanation' do
-      assert_text "Other vehicle plate can't be blank"
-      assert_text "Other vehicle state can't be blank"
-      assert_text "Other vehicle make can't be blank"
+      assert_text "License plate of other vehicle can't be blank"
       # etc.
     end
     fill_in_motor_vehicle_collision_fields
@@ -76,9 +75,9 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
     check 'Did the incident involve a collision with a motor vehicle?'
     assert_no_selector '.police-info'
-    # The assert_text causes Capybara to wait for the JS animation caused
+    # The assert_selector causes Capybara to wait for the JS animation caused
     # two lines above to finish before triggering the next one two lines below.
-    assert_text 'Did police respond to the incident?'
+    assert_selector '.motor-vehicle-collision-info'
     check 'Did police respond to the incident?'
     assert_selector '.police-info'
 
@@ -208,7 +207,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
     assert_no_selector '.injured-passenger-info'
     check 'Was the passenger injured as a result of the incident?'
     assert_selector '.injured-passenger-info'
-    assert_selector 'h3', text: 'Contact Information of Injured Passenger'
+    assert_text 'Contact Information of Injured Passenger'
 
     click_on 'Save Incident'
 
@@ -271,12 +270,14 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
               with: 'Scratches'
       fill_in "Other driver's insurance carrier", with: 'Progressive'
       fill_in 'Policy #', with: '58925948'
+      select_date Date.today, from: 'Effective date'
       check 'Is the other driver involved the owner of the vehicle?'
     end
   end
 
   def fill_in_police_fields
     within '.motor-vehicle-collision-info' do
+      assert_text 'Police badge number'
       fill_in 'Police badge number', with: '1024'
       fill_in 'Police town or state', with: 'Amherst'
       fill_in 'Police case assigned', with: 'C34059'
@@ -285,6 +286,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
   def fill_in_other_vehicle_owner_fields
     within '.motor-vehicle-collision-info' do
+      assert_text 'Motor Vehicle Collision Information'
       fill_in 'Other vehicle owner name', with: 'Lewis Hamilton'
       fill_in 'Other vehicle owner address', with: '55 Wins St'
       fill_in 'Other vehicle owner address town', with: 'Championsville'
@@ -295,6 +297,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
   end
 
   def fill_in_passenger_incident_fields
+    assert_text 'Passenger Incident Information'
     check 'In the front door'
     check 'Due to a sudden stop'
     select 'Braking', from: 'Motion of bus'
@@ -303,6 +306,7 @@ class CompletingIncidentsTest < ApplicationSystemTestCase
 
   def fill_in_injured_passenger_fields
     within '.injured-passenger-info' do
+      assert_text 'Contact Information of Injured Passenger'
       fill_in 'Name', with: 'Fernando Alonso'
       fill_in 'Address', with: '32 Wins St'
       fill_in 'Town', with: 'Championsville'

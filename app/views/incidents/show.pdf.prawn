@@ -213,7 +213,7 @@ prawn_document do |pdf|
       row.text_field width: 4, field: 'Operator', value: @incident.driver.name
       row.text_field field: 'Badge No.', value: @incident.driver.badge_number
       row.text_field field: 'Bus #', value: @incident.bus
-      row.text_field width: 2, field: 'Date of Incident', value: @incident.occurred_at.strftime('%m/%d/%Y')
+      row.text_field width: 2, field: 'Date of Incident', value: @incident.occurred_at.try(:strftime, '%m/%d/%Y')
     end
 
     pdf.field_row height: pdf.cursor - 30, units: 1 do |row|

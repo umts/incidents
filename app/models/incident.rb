@@ -30,6 +30,8 @@ class Incident < ApplicationRecord
     'Driver side tail lights', 'Curb side tail lights', 'Rear of bus'
   ].freeze
 
+  HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
+
   belongs_to :driver, class_name: 'User', foreign_key: :driver_id
   has_many :staff_reviews, dependent: :destroy
 
@@ -43,14 +45,14 @@ class Incident < ApplicationRecord
             :light_conditions, :description,
             presence: true, if: -> { completed? }
   validates :weather_conditions,
-            inclusion: { in: WEATHER_OPTIONS, allow_blank: true },
-            if: :completed?
+            inclusion: { in: WEATHER_OPTIONS },
+            if: -> { completed? && weather_conditions.present? }
   validates :road_conditions,
-            inclusion: { in: ROAD_OPTIONS, allow_blank: true },
-            if: :completed?
+            inclusion: { in: ROAD_OPTIONS },
+            if: -> { completed? && road_conditions.present? }
   validates :light_conditions,
-            inclusion: { in: LIGHT_OPTIONS, allow_blank: true },
-            if: :completed?
+            inclusion: { in: LIGHT_OPTIONS },
+            if: -> { completed? && light_conditions.present? }
 
   # MOTOR VEHICLE COLLISION FIELDS
 
@@ -125,6 +127,9 @@ class Incident < ApplicationRecord
            if: -> { completed? &&
                      passenger_incident? &&
                      passenger_injured? }
+  before_save do
+    self.injured_passenger = {} unless passenger_injured?
+  end
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
@@ -146,11 +151,11 @@ class Incident < ApplicationRecord
   end
 
   def last_updated_by
-    User.find_by(id: last_update.whodunnit).name
+    User.find_by(id: last_update.whodunnit).try(:name) || 'Unknown'
   end
 
   def long_description?
-    description.length > 1_000 if description.present?
+    description.present? && description.length > 1_000
   end
 
   def needs_reason_not_up_to_curb?
