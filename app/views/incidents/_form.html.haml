@@ -190,6 +190,8 @@
         = form.text_field :insurance_policy_number, id: :incident_insurance_policy_number
       .field
         = form.label :insurance_effective_date
+        = a11y_date_labels('incident_insurance_effective_date').each do |label|
+          = label
         = form.date_select :insurance_effective_date, id: :incident_insurance_effective_date,
           prompt: true
     .passenger-incident-info{style: ('display: none;' unless incident.passenger_incident?)}
