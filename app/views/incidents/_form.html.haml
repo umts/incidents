@@ -19,7 +19,7 @@
       .field
         = form.label :bus
         = form.text_field :bus, id: :incident_bus
-      .field
+      .field.high-contrast-options
         = form.label :occurred_at
         - a11y_datetime_labels('incident_occurred_at').each do |label|
           = label
