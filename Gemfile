@@ -20,7 +20,8 @@ source 'https://rails-assets.org' do
 end
 
 group :development, :test do
-  gem 'capybara', '~> 2.13.0'
+  gem 'capybara', '~> 2.13'
+  gem 'capybara-accessible'
   gem 'chromedriver-helper'
   gem 'codeclimate-test-reporter', '~> 1.0'
   gem 'factory_girl_rails'
