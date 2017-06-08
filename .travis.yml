@@ -6,8 +6,7 @@ env: CODECLIMATE_REPO_TOKEN=611cda7a6df35c4ca4df08319797b6eba033ca5f61068f90072c
 install:
   - sudo apt-get update
   - sudo apt-get install firefox
-  - which firefox
-  - dpkg -S $(which firefox)
+  - sudo update-alternatives --config x-www-browser
   - wget https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz
   - tar -zxvf geckodriver*
   - sudo mv geckodriver /usr/local/bin
