@@ -7,7 +7,6 @@ install:
   - whereis firefox | tr ' ' '\n' | grep bin | xargs sudo rm
   - sudo apt-get update
   - sudo apt-get install firefox
-  - sudo update-alternatives --set x-www-browser /usr/bin/firefox
   - wget https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz
   - tar -zxvf geckodriver*
   - sudo mv geckodriver /usr/local/bin
