@@ -12,6 +12,7 @@ install:
   - sudo mv geckodriver /usr/local/bin
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+  - bundle install
 before_script:
   - mysql -e 'CREATE DATABASE incidents_test;'
   - mysql -e "SET PASSWORD FOR 'travis' = PASSWORD('bananas');"
