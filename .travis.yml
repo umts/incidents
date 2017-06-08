@@ -5,15 +5,17 @@ rvm: 2.4.1
 env: CODECLIMATE_REPO_TOKEN=611cda7a6df35c4ca4df08319797b6eba033ca5f61068f90072cb148f71714c8
 before_install:
   - sudo apt-get remove firefox
+install:
   - sudo apt-get update
   - sudo apt-get install firefox
   - firefox -v
-before_script:
+  - whereis firefox | tr ' ' '\n' | grep bin
   - wget https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz
   - tar -zxvf geckodriver*
   - sudo mv geckodriver /usr/local/bin
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+before_script:
   - mysql -e 'CREATE DATABASE incidents_test;'
   - mysql -e "SET PASSWORD FOR 'travis' = PASSWORD('bananas');"
   - mysql -e "GRANT ALL PRIVILEGES on incidents_test.* TO 'travis';"
