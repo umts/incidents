@@ -9,6 +9,13 @@ $thead-background: #ece3cb;
 }
 
 body{
+  // ref: https://snook.ca/archives/html_and_css/hiding-content-for-accessibility
+  .a11y-read{
+    position: absolute !important;
+    clip: rect(1px 1px 1px 1px); // IE6, IE7
+    clip: rect(1px, 1px, 1px, 1px);
+  }
+
   .center{
     text-align: center;
   }

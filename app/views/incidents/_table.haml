@@ -26,7 +26,11 @@
             %td= yes_no_image incident.reviewed?
           %td
             = link_to incident do
-              %button.btn.btn-default View
+              %button.btn.btn-default
+                - if current_user.staff?
+                  View / Review
+                - else
+                  View
           %td
             = link_to incident_path(incident, format: :pdf) do
               %button.btn.btn-default Print
