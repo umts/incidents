@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-
   def a11y_date_labels(tag_id)
     a11y_rails_native_select_labels(tag_id, %w[Year Month Day])
   end
