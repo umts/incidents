@@ -4,6 +4,7 @@ require 'test_helper'
 require 'capybara/accessible'
 require 'selenium-webdriver'
 
+# rubocop:disable Layout/CommentIndentation
 Capybara::Accessible::Auditor.severe_rules = [
   'AX_HTML_01',  # The web page must have the content's human language must be
                  # indicated in the markup
@@ -15,6 +16,7 @@ Capybara::Accessible::Auditor.severe_rules = [
   'AX_COLOR_01', # Text elements should have a reasonable contrast ratio
   'AX_TABLE_01', # Tables must have appropriate headers
 ]
+# rubocop:enable Layout/CommentIndentation
 
 class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
   driven_by :accessible_selenium, using: :firefox, screen_size: [1024, 768]
