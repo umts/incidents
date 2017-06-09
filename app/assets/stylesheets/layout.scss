@@ -66,6 +66,10 @@ body{
       background-color: inherit;
     }
 
+    .field_with_errors{
+      background: #ff9999;
+    }
+
     h1,h2{
       text-align: center;
       margin-bottom: 1em;
