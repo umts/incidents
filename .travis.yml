@@ -19,7 +19,7 @@ before_script:
   - mysql -e "GRANT ALL PRIVILEGES on incidents_test.* TO 'travis';"
   - cp config/database.travis.yml config/database.yml
 script:
-  - bundle exec rails test:system
+  - bundle exec rails test test/system -f
   - bundle exec codeclimate-test-reporter
 notifications:
   email: false
