@@ -8,14 +8,14 @@ class ManagingUsersTest < ApplicationSystemTestCase
     when_current_user_is :staff
 
     visit users_url
-    assert_selector 'h1', text: 'Manage Active Drivers'
+    assert_selector 'h1', text: 'Active Drivers'
     assert_no_text inactive_user.name
 
     click_on 'Manage inactive drivers'
-    assert_selector 'h1', text: 'Manage Inactive Drivers'
+    assert_selector 'h1', text: 'Inactive Drivers'
     assert_text inactive_user.name
 
     click_on 'Manage active drivers'
-    assert_selector 'h1', text: 'Manage Active Drivers'
+    assert_selector 'h1', text: 'Active Drivers'
   end
 end
