@@ -23,8 +23,8 @@ module ApplicationHelper
   private
 
   def a11y_rails_native_select_labels(tag_id, fields)
-    fields.map.with_index do |name, i|
-      content_tag :label, nil, class: 'a11y-read', for: tag_id + "_#{i + 1}i" do
+    fields.map.with_index 1 do |name, index|
+      content_tag :label, nil, class: 'a11y-read', for: tag_id + "_#{index}i" do
         name
       end
     end
