@@ -62,6 +62,14 @@ body{
     background: $main-panel-background;
     margin: 1em;
 
+    a:hover{
+      background-color: inherit;
+    }
+
+    .field_with_errors{
+      background: #ff9999;
+    }
+
     h1,h2{
       text-align: center;
       margin-bottom: 1em;
@@ -71,7 +79,7 @@ body{
       @include default-borders(1px);
 
       &.delete{
-        background: #cdacac;
+        background: #e4d2d2;
       }
     }
 

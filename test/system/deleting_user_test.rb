@@ -20,7 +20,7 @@ class DeletingUserTest < ApplicationSystemTestCase
     assert_selector '.navbar button', text: 'Manage Drivers'
     click_button 'Manage Drivers'
 
-    assert_selector 'h1', text: 'Manage Active Drivers'
+    assert_selector 'h1', text: 'Active Drivers'
   end
 
   test 'staff members can delete users' do
