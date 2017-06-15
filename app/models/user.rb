@@ -3,7 +3,8 @@
 class User < ApplicationRecord
   has_paper_trail
 
-  has_many :incidents, foreign_key: :driver_id, dependent: :restrict_with_error
+  has_many :incident_reports, dependent: :restrict_with_error
+  has_many :supervisor_reports, dependent: :restrict_with_error
 
   devise :database_authenticatable, :validatable
   validates :name, :email, presence: true, uniqueness: true
