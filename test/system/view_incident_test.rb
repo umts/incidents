@@ -127,7 +127,5 @@ class ViewIncidentTest < ApplicationSystemTestCase
     visit incidents_url
 
     click_button 'Print'
-
-    assert_equal find('embed')['type'], 'application/pdf'
   end
 end

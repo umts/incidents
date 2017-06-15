@@ -44,7 +44,7 @@ class DeactivatingEmployeesTest < ApplicationSystemTestCase
 
     assert_selector '.info p.notice',
                     text: 'Driver was reactivated successfully.'
-    assert_selector 'h1', text: 'Manage Active Drivers'
+    assert_selector 'h1', text: 'Active Drivers'
 
     assert_text driver.name
   end
