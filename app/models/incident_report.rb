@@ -33,16 +33,18 @@ class IncidentReport < ApplicationRecord
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
   belongs_to :user
+  has_one :incident
   has_many :staff_reviews, dependent: :destroy
 
-  validates :user, presence: true
-
   validate :injured_passenger_required_fields,
-           if: -> { completed? &&
-                     passenger_incident? &&
-                     passenger_injured? }
+           if: -> { passenger_incident? && passenger_injured? }
   before_save do
     self.injured_passenger = {} unless passenger_injured?
+  end
+
+  def incident
+    Incident.where(driver_incident_report_id: id)
+            .or where(supervisor_incident_report_id: id)
   end
 
   def injured_passenger_full_address
