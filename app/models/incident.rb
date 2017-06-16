@@ -7,8 +7,8 @@ class Incident < ApplicationRecord
     foreign_key: :supervisor_incident_report_id
   belongs_to :supervisor_report
 
-  has_one :driver, through: :driver_incident_report, foreign_key: :user_id
-  has_one :supervisor, through: :supervisor_incident_report, foreign_key: :user_id
+  has_one :driver, through: :driver_incident_report, source: :user
+  has_one :supervisor, through: :supervisor_incident_report, source: :user
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
