@@ -18,9 +18,9 @@
         %tr
           %td= incident.driver.name
           %td= incident.occurred_at_readable
-          %td= incident.run
-          %td= incident.bus
-          %td= incident.location
+          %td= incident.driver_incident_report.run
+          %td= incident.driver_incident_report.bus
+          %td= incident.driver_incident_report.location
           %td= yes_no_image incident.completed?
           - if current_user.staff?
             %td= yes_no_image incident.reviewed?
