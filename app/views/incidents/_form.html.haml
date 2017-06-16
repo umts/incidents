@@ -282,10 +282,16 @@
       = form.check_box :completed, id: :incident_completed
   - else
     .field
-      = form.label :driver_id
-      = form.select :driver_id,
-        options_from_collection_for_select(User.active.drivers.order(:name), :id, :name, incident.driver_id),
-        { include_blank: true }, id: :incident_driver_id
-    The driver will be able to fill in the remaining details.
+      = fields_for :driver_incident_report do |driver_form|
+        = driver_form.label :user_id, 'Driver'
+        = driver_form.select :user_id,
+          options_from_collection_for_select(User.active.drivers.order(:name), :id, :name),
+          { include_blank: true }, id: :incident_driver_id
+    .field
+      = fields_for :supervisor_incident_report do |supervisor_form|
+        = supervisor_form.label :user_id, 'Supervisor'
+        = supervisor_form.select :user_id,
+          options_from_collection_for_select(User.active.staff.order(:name), :id, :name),
+          { include_blank: true }, id: :incident_driver_id
   .actions
     = form.submit 'Save Incident'

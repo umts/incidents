@@ -34,7 +34,6 @@ class IncidentReport < ApplicationRecord
 
   belongs_to :user
   has_one :incident
-  has_many :staff_reviews, dependent: :destroy
 
   validate :injured_passenger_required_fields,
            if: -> { passenger_incident? && passenger_injured? }
@@ -113,9 +112,6 @@ class IncidentReport < ApplicationRecord
     !(motor_vehicle_collision? || passenger_incident?)
   end
 
-  def reviewed?
-    staff_reviews.present?
-  end
 
   private
 
