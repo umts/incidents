@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170615162104) do
+ActiveRecord::Schema.define(version: 20170615182516) do
 
   create_table "incident_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer "driver_id"
@@ -104,6 +104,51 @@ ActiveRecord::Schema.define(version: 20170615162104) do
     t.integer "incident_id"
     t.integer "user_id"
     t.text "text"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "supervisor_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "incident_id"
+    t.integer "user_id"
+    t.boolean "hard_drive_pulled"
+    t.datetime "hard_drive_pulled_at"
+    t.string "hard_drive_removed"
+    t.string "hard_drive_replaced"
+    t.boolean "pictures_saved"
+    t.integer "saved_pictures"
+    t.text "passenger_statement"
+    t.text "description"
+    t.datetime "faxed"
+    t.boolean "completed_drug_or_alcohol_test"
+    t.string "reason_test_completed"
+    t.string "testing_facility"
+    t.datetime "testing_facility_notified_at"
+    t.datetime "employee_notified_of_test_at"
+    t.datetime "employee_departed_to_test_at"
+    t.datetime "employee_arrived_at_test_at"
+    t.datetime "test_started_at"
+    t.datetime "test_ended_at"
+    t.datetime "employee_returned_at"
+    t.datetime "superintendent_notified_at"
+    t.datetime "program_manager_notified_at"
+    t.datetime "director_notified_at"
+    t.text "amplifying_comments"
+    t.boolean "test_due_to_bodily_injury"
+    t.boolean "test_due_to_disabling_damage"
+    t.boolean "test_due_to_fatality"
+    t.boolean "test_not_conducted"
+    t.boolean "completed_drug_test"
+    t.boolean "completed_alcohol_test"
+    t.datetime "observation_made_at"
+    t.boolean "test_due_to_employee_appearance"
+    t.string "employee_appearance"
+    t.boolean "test_due_to_employee_behavior"
+    t.string "employee_behavior"
+    t.boolean "test_due_to_employee_speech"
+    t.string "employee_speech"
+    t.boolean "test_due_to_employee_odor"
+    t.string "employee_odor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
