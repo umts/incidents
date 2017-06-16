@@ -281,17 +281,17 @@
       = form.label :completed
       = form.check_box :completed, id: :incident_completed
   - else
-    .field
-      = fields_for :driver_incident_report do |driver_form|
+    = form.fields_for :driver_incident_report, IncidentReport.new do |driver_form|
+      .field
         = driver_form.label :user_id, 'Driver'
         = driver_form.select :user_id,
           options_from_collection_for_select(User.active.drivers.order(:name), :id, :name),
           { include_blank: true }, id: :incident_driver_id
-    .field
-      = fields_for :supervisor_incident_report do |supervisor_form|
+    = form.fields_for :supervisor_incident_report, IncidentReport.new do |supervisor_form|
+      .field
         = supervisor_form.label :user_id, 'Supervisor'
         = supervisor_form.select :user_id,
-          options_from_collection_for_select(User.active.staff.order(:name), :id, :name),
-          { include_blank: true }, id: :incident_driver_id
+          options_from_collection_for_select(User.active.supervisors.order(:name), :id, :name),
+          { include_blank: true }, id: :incident_supervisor_id
   .actions
     = form.submit 'Save Incident'

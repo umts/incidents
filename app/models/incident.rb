@@ -10,9 +10,9 @@ class Incident < ApplicationRecord
   has_one :driver, through: :driver_incident_report, source: :user
   has_one :supervisor, through: :supervisor_incident_report, source: :user
 
-
   accepts_nested_attributes_for :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report
+  accepts_nested_attributes_for :supervisor_report
 
   has_many :staff_reviews, dependent: :destroy
 
@@ -22,6 +22,18 @@ class Incident < ApplicationRecord
   scope :unreviewed, -> {
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
   }
+
+  def occurred_at_readable
+    [occurred_date, occurred_time].join ' - '
+  end
+
+  def occurred_date
+    occurred_at.try :strftime, '%A, %B %e'
+  end
+
+  def occurred_time
+    occurred_at.try :strftime, '%l:%M %P'
+  end
 
   def reviewed?
     staff_reviews.present?

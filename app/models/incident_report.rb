@@ -70,18 +70,6 @@ class IncidentReport < ApplicationRecord
     motion_of_bus == 'Stopped' && !bus_up_to_curb?
   end
 
-  def occurred_at_readable
-    [occurred_date, occurred_time].join ' - '
-  end
-
-  def occurred_date
-    occurred_at.try :strftime, '%A, %B %e'
-  end
-
-  def occurred_time
-    occurred_at.try :strftime, '%l:%M %P'
-  end
-
   # rubocop:disable Metrics/LineLength
   def other_vehicle_driver_full_address
     first_line = other_vehicle_driver_address

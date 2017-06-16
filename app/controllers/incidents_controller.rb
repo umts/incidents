@@ -6,8 +6,13 @@ class IncidentsController < ApplicationController
   before_action :set_incident, only: %i[destroy edit history show update]
 
   def create
-    Incident.create incident_params
-    redirect_to incidents_url, notice: 'Incident was successfully created.'
+    @incident = Incident.new incident_params
+    supervisor_id = incident_params[:supervisor_incident_report_attributes][:user_id]
+    @incident.supervisor_report = SupervisorReport.new user_id: supervisor_id
+    if @incident.save
+      redirect_to incidents_url, notice: 'Incident was successfully created.'
+    else render :new, status: :unprocessable_entity
+    end
   end
 
   def destroy
