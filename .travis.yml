@@ -23,3 +23,6 @@ script:
   - bundle exec codeclimate-test-reporter
 notifications:
   email: false
+branches:
+  only:
+    - master
