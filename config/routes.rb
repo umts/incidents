@@ -11,6 +11,9 @@ Rails.application.routes.draw do
       get  :history
     end
   end
+
+  resources :incident_reports, only: %i[edit]
+
   resources :staff_reviews, only: %i[create destroy update]
 
   devise_for :users
@@ -20,6 +23,7 @@ Rails.application.routes.draw do
     put 'users', to: 'devise/registrations#update',
                  as: :user_registration
   end
+
   scope :staff do
     resources :users, except: :show do
       member do

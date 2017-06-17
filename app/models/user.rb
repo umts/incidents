@@ -15,4 +15,8 @@ class User < ApplicationRecord
   scope :drivers, -> { where staff: false }
   scope :supervisors, -> { where staff: true } # TODO
   scope :staff, -> { where staff: true }
+
+  def driver?
+    !staff?
+  end
 end

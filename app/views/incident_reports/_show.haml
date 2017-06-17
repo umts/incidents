@@ -1,0 +1,210 @@
+- if report.last_update.present?
+  %p
+    %em
+      Last changed
+      = report.last_updated_at
+      by
+      = report.last_updated_by
+    |
+    = link_to 'View full history', history_incident_path(report)
+%p
+  %strong
+    - if report.user.driver?
+      Driver:
+    - else
+      Supervisor:
+  = report.user.name
+%p
+  %strong Badge No:
+  = report.user.badge_number || 'None'
+%p
+  %strong Run:
+  = report.run
+%p
+  %strong Block:
+  = report.block
+%p
+  %strong Bus:
+  = report.bus
+%p
+  %strong Occurred at:
+  = @incident.occurred_at_readable
+%p
+  %strong Passengers onboard:
+  = report.passengers_onboard
+%p
+  %strong Courtesy cards distributed:
+  = report.courtesy_cards_distributed
+%p
+  %strong Courtesy cards collected:
+  = report.courtesy_cards_collected
+%p
+  %strong Speed:
+  = report.speed
+%p
+  %strong Location:
+  = report.location
+%p
+  %strong Town:
+  = report.town
+%p
+  %strong Motor vehicle collision?
+  = yes_no report.motor_vehicle_collision?
+%p
+  %strong Passenger incident?
+  = yes_no report.passenger_incident?
+%p
+  %strong Weather conditions:
+  = report.weather_conditions
+%p
+  %strong Road conditions:
+  = report.road_conditions
+%p
+  %strong Light conditions:
+  = report.light_conditions
+%p
+  %strong Headlights on?
+  = yes_no report.headlights_used?
+- if report.motor_vehicle_collision?
+  %h3 Motor Vehicle Collision Information
+  %p
+    %strong Other vehicle plate #:
+    = report.other_vehicle_plate
+  %p
+    %strong State:
+    = report.other_vehicle_state
+  %p
+    %strong Make:
+    = report.other_vehicle_make
+  %p
+    %strong Model:
+    = report.other_vehicle_model
+  %p
+    %strong Year:
+    = report.other_vehicle_year
+  %p
+    %strong Color:
+    = report.other_vehicle_color
+  %p
+    %strong # passengers:
+    = report.other_vehicle_passengers
+  %p
+    %strong Direction of bus:
+    = report.direction
+  %p
+    %strong Direction of other vehicle:
+    = report.other_vehicle_direction
+  %p
+    %strong Name of other driver:
+    = report.other_driver_name
+  %p
+    %strong License number:
+    = report.other_driver_license_number
+  %p
+    %strong State:
+    = report.other_driver_license_state
+  %p
+    %strong Address:
+    = report.other_vehicle_driver_full_address.join ','
+  - if report.other_vehicle_driver_home_phone.present?
+    %p
+      %strong Home phone:
+      = report.other_vehicle_driver_home_phone
+  - if report.other_vehicle_driver_cell_phone.present?
+    %p
+      %strong cell phone:
+      = report.other_vehicle_driver_cell_phone
+  - if report.other_vehicle_driver_work_phone.present?
+    %p
+      %strong work phone:
+      = report.other_vehicle_driver_work_phone
+  %p
+    %strong Vehicle owned by driver?
+    = yes_no report.other_vehicle_owned_by_other_driver?
+  - unless report.other_vehicle_owned_by_other_driver?
+    %p
+      %strong Name of owner:
+      = report.other_vehicle_owner_name
+    %p
+      %strong Address:
+      = report.other_vehicle_owner_full_address.join ', '
+    - if report.other_vehicle_owner_home_phone.present?
+      %p
+        %strong Home phone:
+        = report.other_vehicle_owner_home_phone
+    - if report.other_vehicle_owner_cell_phone.present?
+      %p
+        %strong cell phone:
+        = report.other_vehicle_owner_cell_phone
+    - if report.other_vehicle_owner_work_phone.present?
+      %p
+        %strong work phone:
+        = report.other_vehicle_owner_work_phone
+  %p
+    %strong Police on scene?
+    = yes_no report.police_on_scene?
+  - if report.police_on_scene?
+    %p
+      %strong Badge number:
+      = report.police_badge_number
+    %p
+      %strong Town (or State):
+      = report.police_town_or_state
+    %p
+      %strong Case number assigned:
+      = report.police_case_assigned
+  %p
+    %strong Damage to bus at point of impact:
+    = report.damage_to_bus_point_of_impact
+  %p
+    %strong Damage to other vehicle at point of impact:
+    = report.damage_to_other_vehicle_point_of_impact
+  %p
+    %strong Other driver's insurance carrier:
+    = report.insurance_carrier
+  %p
+    %strong Policy number:
+    = report.insurance_policy_number
+  %p
+    %strong Effective date:
+    = report.insurance_effective_date
+- if report.passenger_incident?
+  %h3 Passenger Incident Information
+  %p
+    %strong Incident occurred:
+    = report.occurred_full_location
+  %p
+    %strong Motion of bus:
+    = report.motion_of_bus
+  %p
+    %strong Condition of steps:
+    = report.condition_of_steps
+  %p
+    %strong Bus kneeled?
+    = report.bus_kneeled?
+  %p
+    %strong Bus up to curb?
+    = yes_no report.bus_up_to_curb?
+  - if report.needs_reason_not_up_to_curb?
+    %p
+      %strong Reason not up to curb:
+      = report.reason_not_up_to_curb
+    - if report.vehicle_in_bus_stop_plate.present?
+      %p
+        %strong Plate # of vehicle in bus stop:
+        = report.vehicle_in_bus_stop_plate
+  %p
+    %strong Passenger injured?
+    = yes_no report.passenger_injured?
+  - if report.passenger_injured?
+    %p
+      %strong Injured Passenger:
+      %p= report.injured_passenger[:name]
+      %p= report.injured_passenger[:address]
+      %p= report.injured_passenger.values_at(:town, :state, :zip).join ', '
+      %p= report.injured_passenger[:phone]
+%p
+  %strong Description of incident:
+  = simple_format report.description
+
+= link_to 'Edit', edit_incident_report_path(report)
