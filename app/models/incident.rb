@@ -8,7 +8,9 @@ class Incident < ApplicationRecord
   belongs_to :supervisor_report
 
   has_one :driver, through: :driver_incident_report, source: :user
+  validates :driver, inclusion: { in: ->(_) { User.drivers } }
   has_one :supervisor, through: :supervisor_incident_report, source: :user
+  validates :supervisor, inclusion: { in: ->(_) { User.supervisors } }
 
   accepts_nested_attributes_for :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report

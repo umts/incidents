@@ -14,6 +14,10 @@ FactoryGirl.define do
     staff false
   end
 
+  trait :supervisor do
+    staff true # TODO
+  end
+
   trait :staff do
     staff true
     badge_number nil

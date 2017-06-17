@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :supervisor_report do
-    association :user
+    association :user, factory: %i[user supervisor]
     # TODO: make look more realistic
   end
 end

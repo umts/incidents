@@ -20,6 +20,14 @@ FactoryGirl.define do
     description                { FFaker::BaconIpsum.paragraphs(5).join "\n" }
   end
 
+  trait :driver_report do
+    association :user, factory: %i[user driver]
+  end
+
+  trait :supervisor_report do
+    association :user, factory: %i[user supervisor]
+  end
+
   trait :collision do
     motor_vehicle_collision true
     other_vehicle_owned_by_other_driver true # so that we don't need all those fields
