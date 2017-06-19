@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170616150220) do
+ActiveRecord::Schema.define(version: 20170619143238) do
 
   create_table "incident_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "run"
@@ -117,7 +117,6 @@ ActiveRecord::Schema.define(version: 20170616150220) do
     t.boolean "pictures_saved"
     t.integer "saved_pictures"
     t.text "passenger_statement"
-    t.text "description"
     t.datetime "faxed"
     t.boolean "completed_drug_or_alcohol_test"
     t.string "reason_test_completed"
