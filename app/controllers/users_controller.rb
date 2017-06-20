@@ -35,7 +35,7 @@ class UsersController < ApplicationController
                User.inactive
              else User.active
              end
-    @users = @users.includes(:incidents).order :name
+    @users = @users.includes(:incident_reports).order :name
   end
 
   def reactivate
