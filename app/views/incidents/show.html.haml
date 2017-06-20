@@ -11,6 +11,11 @@
 = render partial: 'incident_reports/show',
   locals: { report: @incident.supervisor_incident_report }
 
+%hr
+%h2 Supervisor Report
+= render partial: 'supervisor_reports/show',
+  locals: { report: @incident.supervisor_report }
+
 - if @incident.completed?
   = render partial: 'staff_reviews'
 
