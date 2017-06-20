@@ -20,12 +20,6 @@
         = form.label :bus
         = form.text_field :bus, id: :report_bus
       .field
-        = form.label :occurred_at
-        - a11y_datetime_labels('report_occurred_at').each do |label|
-          = label
-        = form.datetime_select :occurred_at, id: :report_occurred_at,
-          prompt: true, ampm: true
-      .field
         = form.label :passengers_onboard
         = form.number_field :passengers_onboard, id: :report_passengers_onboard
       .field

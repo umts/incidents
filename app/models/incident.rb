@@ -20,14 +20,14 @@ class Incident < ApplicationRecord
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
-  scope :for_driver, (lambda do |user|
+  scope :for_driver, -> (user) {
     joins(:driver_incident_report)
       .where(incident_reports: { user_id: user.id })
-  end)
-  scope :for_supervisor, (lambda do |user|
+  } 
+  scope :for_supervisor, -> (user) {
     joins(:supervisor_incident_report)
       .where(incident_reports: { user_id: user.id })
-  end)
+  } 
   scope :incomplete, -> { where completed: false }
   scope :unreviewed, -> {
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }

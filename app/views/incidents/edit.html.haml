@@ -10,6 +10,13 @@
 - if current_user == @incident.supervisor || current_user.staff?
   = render 'incident_reports/form',
     report: @incident.supervisor_incident_report
+- if current_user.staff?
+  .field
+    = form.label :occurred_at
+    - a11y_datetime_labels('report_occurred_at').each do |label|
+      = label
+    = form.datetime_select :occurred_at, id: :report_occurred_at,
+      prompt: true, ampm: true
 = link_to 'Show', @incident
 |
 = link_to 'Back', incidents_path
