@@ -8,7 +8,7 @@ class User < ApplicationRecord
 
   devise :database_authenticatable, :validatable
   validates :name, :email, presence: true, uniqueness: true
-  validates :badge_number, presence: true, unless: :staff?
+  validates :badge_number, presence: true, if: :driver?
 
   scope :active, -> { where active: true }
   scope :inactive, -> { where.not active: true }
