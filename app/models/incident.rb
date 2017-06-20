@@ -24,6 +24,10 @@ class Incident < ApplicationRecord
     joins(:driver_incident_report)
       .where(incident_reports: { user_id: user.id })
   end)
+  scope :for_supervisor, (lambda do |user|
+    joins(:supervisor_incident_report)
+      .where(incident_reports: { user_id: user.id })
+  end)
   scope :incomplete, -> { where completed: false }
   scope :unreviewed, -> {
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
