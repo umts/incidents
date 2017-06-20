@@ -47,7 +47,7 @@ class IncidentsController < ApplicationController
       @incidents = Incident.between(@start_date, @end_date).order :occurred_at
       render :by_date and return
     end
-    @incidents = current_user.incidents.order :occurred_at
+    @incidents = Incident.for_driver(current_user).incomplete.order :occurred_at
   end
 
   def new
