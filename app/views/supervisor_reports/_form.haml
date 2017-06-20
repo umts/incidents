@@ -1,0 +1,10 @@
+= form_with model: report, local: true do |form|
+  - if report.errors.any?
+    #error_explanation
+      %h2
+        This incident report has
+        = pluralize(report.errors.count, "missing values")
+        and so cannot be marked as completed.
+      %ul
+        - report.errors.full_messages.each do |message|
+          %li= message

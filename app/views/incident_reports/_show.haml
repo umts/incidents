@@ -207,5 +207,5 @@
 %p
   %strong Description of incident:
   = simple_format report.description
-
-= link_to 'Edit', edit_incident_report_path(report)
+- if current_user.staff? || current_user == report.user
+  = link_to 'Edit', edit_incident_path(report.incident)

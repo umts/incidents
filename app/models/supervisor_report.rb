@@ -10,7 +10,6 @@ class SupervisorReport < ApplicationRecord
 
   belongs_to :user
   validates :user, inclusion: { in: ->(_) { User.supervisors } }
-  validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST }
   has_one :incident
 
   def last_update

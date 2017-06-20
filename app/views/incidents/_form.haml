@@ -1,0 +1,11 @@
+= form_with model: incident, local: true do |form|
+  .field
+    = form.label :occurred_at
+    - a11y_datetime_labels('report_occurred_at').each do |label|
+      = label
+    = form.datetime_select :occurred_at, id: :incident_occurred_at,
+      prompt: true, ampm: true
+  .field
+    = form.label :completed
+    = form.check_box :completed, id: :incident_completed
+  .actions= form.submit 'Save incident details'
