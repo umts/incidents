@@ -1,5 +1,12 @@
-%h1 Editing Incident
-= render 'form', incident: @incident
+%h1
+  - if @incident.completed?
+    Editing
+  - else
+    Completing
+  Incident Report
+- if current_user == @incident.driver
+  = render 'incident_reports/form',
+    report: @incident.driver_incident_report
 = link_to 'Show', @incident
 |
 = link_to 'Back', incidents_path
