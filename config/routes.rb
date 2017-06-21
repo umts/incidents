@@ -12,7 +12,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :incident_reports, only: %i[edit]
+  resources :incident_reports, only: %i[edit update]
 
   resources :staff_reviews, only: %i[create destroy update]
 

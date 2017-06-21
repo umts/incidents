@@ -1,7 +1,7 @@
 en:
   activerecord:
     attributes:
-      incident:
+      incident_report:
         driver_id: 'Driver'
         run: 'Run #'
         block: 'Block #'

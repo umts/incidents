@@ -8,9 +8,9 @@ class Incident < ApplicationRecord
   belongs_to :supervisor_report
 
   has_one :driver, through: :driver_incident_report, source: :user
-  validates :driver, inclusion: { in: ->(_) { User.drivers } }
+  validates :driver, inclusion: { in: Proc.new { User.drivers } }
   has_one :supervisor, through: :supervisor_incident_report, source: :user
-  validates :supervisor, inclusion: { in: ->(_) { User.supervisors } }
+  validates :supervisor, inclusion: { in: Proc.new { User.supervisors } }
 
   accepts_nested_attributes_for :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report
@@ -20,10 +20,19 @@ class Incident < ApplicationRecord
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
+  scope :for_driver, -> (user) {
+    joins(:driver_incident_report)
+      .where(incident_reports: { user_id: user.id })
+  } 
+  scope :for_supervisor, -> (user) {
+    joins(:supervisor_incident_report)
+      .where(incident_reports: { user_id: user.id })
+  } 
   scope :incomplete, -> { where completed: false }
   scope :unreviewed, -> {
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
   }
+
 
   def occurred_at_readable
     [occurred_date, occurred_time].join ' - '

@@ -1,0 +1,284 @@
+= form_with(model: report, local: true) do |form|
+  - if report.errors.any?
+    #error_explanation
+      %h2
+        This incident report has
+        = pluralize(report.errors.count, "missing values")
+        and so cannot be marked as completed.
+      %ul
+        - report.errors.full_messages.each do |message|
+          %li= message
+  .basic-info
+    - if current_user.staff?
+      .field
+        - if report == report.incident.driver_incident_report
+          - label, users = 'Driver', User.active.drivers.order(:name)
+        - else
+          - label, users = 'Supervisor', User.active.supervisors.order(:name)
+        = form.label :user_id, label
+        = form.select :user_id,
+          options_from_collection_for_select(users, :id, :name, report.user_id),
+          { include_blank: true }, id: :report_user_id
+    .field
+      = form.label :run
+      = form.text_field :run, id: :report_run
+    .field
+      = form.label :block
+      = form.text_field :block, id: :report_block
+    .field
+      = form.label :bus
+      = form.text_field :bus, id: :report_bus
+    .field
+      = form.label :passengers_onboard
+      = form.number_field :passengers_onboard, id: :report_passengers_onboard
+    .field
+      = form.label :courtesy_cards_distributed
+      = form.number_field :courtesy_cards_distributed, id: :report_courtesy_cards_distributed
+    .field
+      = form.label :courtesy_cards_collected
+      = form.number_field :courtesy_cards_collected, id: :report_courtesy_cards_collected
+    .field
+      = form.label :speed
+      = form.number_field :speed, id: :report_speed
+    .field
+      = form.label :location
+      = form.text_field :location, id: :report_location
+    .field
+      = form.label :town
+      = form.text_field :town, id: :report_town
+    .field
+      = form.label :motor_vehicle_collision
+      = form.check_box :motor_vehicle_collision, id: :report_motor_vehicle_collision
+    .field
+      = form.label :passenger_incident
+      = form.check_box :passenger_incident, id: :report_passenger_incident
+    .field
+      = form.label :weather_conditions
+      = form.select :weather_conditions,
+        options_for_select(IncidentReport::WEATHER_OPTIONS, report.weather_conditions),
+        { include_blank: true }, id: :report_weather_conditions
+    .field
+      = form.label :road_conditions
+      = form.select :road_conditions,
+        options_for_select(IncidentReport::ROAD_OPTIONS, report.road_conditions),
+        { include_blank: true }, id: :report_road_conditions
+    .field
+      = form.label :light_conditions
+      = form.select :light_conditions,
+        options_for_select(IncidentReport::LIGHT_OPTIONS, report.light_conditions),
+        { include_blank: true }, id: :report_light_conditions
+    .field
+      = form.label :headlights_used
+      = form.check_box :headlights_used, id: :report_headlights_used
+  .motor-vehicle-collision-info{style: ('display: none;' unless report.motor_vehicle_collision?)}
+    %h3 Motor Vehicle Collision Information
+    .field
+      = form.label :other_vehicle_plate
+      = form.text_field :other_vehicle_plate, id: :report_other_vehicle_plate
+    .field
+      = form.label :other_vehicle_state
+      = form.text_field :other_vehicle_state, id: :report_other_vehicle_state
+    .field
+      = form.label :other_vehicle_make
+      = form.text_field :other_vehicle_make, id: :report_other_vehicle_make
+    .field
+      = form.label :other_vehicle_model
+      = form.text_field :other_vehicle_model, id: :report_other_vehicle_model
+    .field
+      = form.label :other_vehicle_year
+      = form.text_field :other_vehicle_year, id: :report_other_vehicle_year
+    .field
+      = form.label :other_vehicle_color
+      = form.text_field :other_vehicle_color, id: :report_other_vehicle_color
+    .field
+      = form.label :other_vehicle_passengers
+      = form.number_field :other_vehicle_passengers, id: :report_other_vehicle_passengers
+    .field
+      = form.label :direction
+      = form.select :direction,
+        options_for_select(IncidentReport::DIRECTION_OPTIONS, report.direction),
+        { include_blank: true }, id: :report_direction
+    .field
+      = form.label :other_vehicle_direction
+      = form.select :other_vehicle_direction,
+        options_for_select(IncidentReport::DIRECTION_OPTIONS, report.other_vehicle_direction),
+        { include_blank: true }, id: :report_other_vehicle_direction
+    .field
+      = form.label :other_driver_name
+      = form.text_field :other_driver_name, id: :report_other_driver_name
+    .field
+      = form.label :other_driver_license_number
+      = form.text_field :other_driver_license_number, id: :report_other_driver_license_number
+    .field
+      = form.label :other_driver_license_state
+      = form.text_field :other_driver_license_state, id: :report_other_driver_license_state
+    .field
+      = form.label :other_vehicle_driver_address
+      = form.text_field :other_vehicle_driver_address, id: :report_other_vehicle_driver_address
+    .field
+      = form.label :other_vehicle_driver_address_town
+      = form.text_field :other_vehicle_driver_address_town, id: :report_other_vehicle_driver_address_town
+    .field
+      = form.label :other_vehicle_driver_address_state
+      = form.text_field :other_vehicle_driver_address_state, id: :report_other_vehicle_driver_address_state
+    .field
+      = form.label :other_vehicle_driver_address_zip
+      = form.text_field :other_vehicle_driver_address_zip, id: :report_other_vehicle_driver_address_zip
+    .field
+      = form.label :other_vehicle_driver_home_phone
+      = form.text_field :other_vehicle_driver_home_phone, id: :report_other_vehicle_driver_home_phone
+    .field
+      = form.label :other_vehicle_driver_cell_phone
+      = form.text_field :other_vehicle_driver_cell_phone, id: :report_other_vehicle_driver_cell_phone
+    .field
+      = form.label :other_vehicle_driver_work_phone
+      = form.text_field :other_vehicle_driver_work_phone, id: :report_other_vehicle_driver_work_phone
+    .field
+      = form.label :other_vehicle_owned_by_other_driver
+      = form.check_box :other_vehicle_owned_by_other_driver, id: :report_other_vehicle_owned_by_other_driver
+    .other-vehicle-owner-info{style: ('display: none;' if report.other_vehicle_owned_by_other_driver?)}
+      .field
+        = form.label :other_vehicle_owner_name
+        = form.text_field :other_vehicle_owner_name, id: :report_other_vehicle_owner_name
+      .field
+        = form.label :other_vehicle_owner_address
+        = form.text_field :other_vehicle_owner_address, id: :report_other_vehicle_owner_address
+      .field
+        = form.label :other_vehicle_owner_address_town
+        = form.text_field :other_vehicle_owner_address_town, id: :report_other_vehicle_owner_address_town
+      .field
+        = form.label :other_vehicle_owner_address_state
+        = form.text_field :other_vehicle_owner_address_state, id: :report_other_vehicle_owner_address_state
+      .field
+        = form.label :other_vehicle_owner_address_zip
+        = form.text_field :other_vehicle_owner_address_zip, id: :report_other_vehicle_owner_address_zip
+      .field
+        = form.label :other_vehicle_owner_home_phone
+        = form.text_field :other_vehicle_owner_home_phone, id: :report_other_vehicle_owner_home_phone
+      .field
+        = form.label :other_vehicle_owner_cell_phone
+        = form.text_field :other_vehicle_owner_cell_phone, id: :report_other_vehicle_owner_cell_phone
+      .field
+        = form.label :other_vehicle_owner_work_phone
+        = form.text_field :other_vehicle_owner_work_phone, id: :report_other_vehicle_owner_work_phone
+    .field
+      = form.label :police_on_scene
+      = form.check_box :police_on_scene, id: :report_police_on_scene
+    .police-info{style: ('display: none;' unless report.police_on_scene?)}
+      .field
+        = form.label :police_badge_number
+        = form.text_field :police_badge_number, id: :report_police_badge_number
+      .field
+        = form.label :police_town_or_state
+        = form.text_field :police_town_or_state, id: :report_police_town_or_state
+      .field
+        = form.label :police_case_assigned
+        = form.text_field :police_case_assigned, id: :report_police_case_assigned
+    .field
+      = form.label :point_of_impact
+      = form.select :point_of_impact,
+        options_for_select(IncidentReport::IMPACT_LOCATION_OPTIONS, report.point_of_impact),
+        { include_blank: true }, id: :report_point_of_impact
+    .field
+      = form.label :damage_to_bus_point_of_impact
+      = form.text_field :damage_to_bus_point_of_impact, id: :report_damage_to_bus_point_of_impact
+    .field
+      = form.label :damage_to_other_vehicle_point_of_impact
+      = form.text_field :damage_to_other_vehicle_point_of_impact, id: :report_damage_to_other_vehicle_point_of_impact
+    .field
+      = form.label :insurance_carrier
+      = form.text_field :insurance_carrier, id: :report_insurance_carrier
+    .field
+      = form.label :insurance_policy_number
+      = form.text_field :insurance_policy_number, id: :report_insurance_policy_number
+    .field
+      = form.label :insurance_effective_date
+      - a11y_date_labels('report_insurance_effective_date').each do |label|
+        = label
+      = form.date_select :insurance_effective_date, id: :report_insurance_effective_date,
+        prompt: true
+  .passenger-incident-info{style: ('display: none;' unless report.passenger_incident?)}
+    %h3 Passenger Incident Information
+    %b Where / how did the report occur? Check all that apply.
+    .field
+      = form.label :occurred_front_door
+      = form.check_box :occurred_front_door, id: :report_occurred_front_door
+    .field
+      = form.label :occurred_rear_door
+      = form.check_box :occurred_rear_door, id: :report_occurred_rear_door
+    .field
+      = form.label :occurred_front_steps
+      = form.check_box :occurred_front_steps, id: :report_occurred_front_steps
+    .field
+      = form.label :occurred_rear_steps
+      = form.check_box :occurred_rear_steps, id: :report_occurred_rear_steps
+    .field
+      = form.label :occurred_sudden_stop
+      = form.check_box :occurred_sudden_stop, id: :report_occurred_sudden_stop
+    .field
+      = form.label :occurred_before_boarding
+      = form.check_box :occurred_before_boarding, id: :report_occurred_before_boarding
+    .field
+      = form.label :occurred_while_boarding
+      = form.check_box :occurred_while_boarding, id: :report_occurred_while_boarding
+    .field
+      = form.label :occurred_after_boarding
+      = form.check_box :occurred_after_boarding, id: :report_occurred_after_boarding
+    .field
+      = form.label :occurred_while_exiting
+      = form.check_box :occurred_while_exiting, id: :report_occurred_while_exiting
+    .field
+      = form.label :occurred_after_exiting
+      = form.check_box :occurred_after_exiting, id: :report_occurred_after_exiting
+    .field
+      = form.label :motion_of_bus
+      = form.select :motion_of_bus,
+        options_for_select(IncidentReport::BUS_MOTION_OPTIONS, report.motion_of_bus),
+        { include_blank: true }, id: :report_motion_of_bus
+    .field
+      = form.label :condition_of_steps
+      = form.select :condition_of_steps,
+        options_for_select(IncidentReport::STEP_CONDITION_OPTIONS, report.condition_of_steps),
+        { include_blank: true }, id: :report_condition_of_steps
+    .field
+      = form.label :bus_kneeled
+      = form.check_box :bus_kneeled, id: :report_bus_kneeled
+    .field
+      = form.label :bus_up_to_curb
+      = form.check_box :bus_up_to_curb, id: :report_bus_up_to_curb
+    .reason-not-up-to-curb-info{style: ('display: none;' unless report.needs_reason_not_up_to_curb?)}
+      .field
+        = form.label :reason_not_up_to_curb
+        = form.text_field :reason_not_up_to_curb, id: :report_reason_not_up_to_curb
+      .field
+        = form.label :vehicle_in_bus_stop_plate
+        = form.text_field :vehicle_in_bus_stop_plate, id: :report_vehicle_in_bus_stop_plate
+    .field
+      = form.label :passenger_injured
+      = form.check_box :passenger_injured, id: :report_passenger_injured
+    .injured-passenger-info{style: ('display: none;' unless report.injured_passenger.present?)}
+      %h3 Contact Information of Injured Passenger
+      = form.fields_for :injured_passenger do |pax_fields|
+        .field
+          = pax_fields.label :name
+          = pax_fields.text_field :name
+        .field
+          = pax_fields.label :address
+          = pax_fields.text_field :address
+        .field
+          = pax_fields.label :town
+          = pax_fields.text_field :town
+        .field
+          = pax_fields.label :state
+          = pax_fields.text_field :state
+        .field
+          = pax_fields.label :zip
+          = pax_fields.text_field :zip
+        .field
+          = pax_fields.label :phone
+          = pax_fields.text_field :phone
+  .field
+    = form.label :description
+    = form.text_area :description, id: :report_description, size: '80x8'
+  .actions
+    = form.submit 'Save report'

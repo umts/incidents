@@ -42,8 +42,7 @@ class IncidentReport < ApplicationRecord
   end
 
   def incident
-    Incident.where(driver_incident_report_id: id)
-            .or where(supervisor_incident_report_id: id)
+    Incident.where(driver_incident_report_id: id).or(Incident.where(supervisor_incident_report_id: id)).first
   end
 
   def injured_passenger_full_address

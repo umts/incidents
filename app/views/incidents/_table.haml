@@ -3,6 +3,7 @@
     %thead
       %tr
         %th Driver
+        %th Supervisor
         %th Occurred at
         %th Run
         %th Bus
@@ -17,6 +18,7 @@
       - @incidents.each do |incident|
         %tr
           %td= incident.driver.name
+          %td= incident.supervisor.name
           %td= incident.occurred_at_readable
           %td= incident.driver_incident_report.run
           %td= incident.driver_incident_report.bus

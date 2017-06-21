@@ -47,7 +47,11 @@ class IncidentsController < ApplicationController
       @incidents = Incident.between(@start_date, @end_date).order :occurred_at
       render :by_date and return
     end
-    @incidents = current_user.incidents.order :occurred_at
+    if current_user.supervisor?
+      @incidents = Incident.for_supervisor current_user
+    else @incidents = Incident.for_driver current_user
+    end
+    @incidents = @incidents.incomplete.order :occurred_at
   end
 
   def new
@@ -119,7 +123,8 @@ class IncidentsController < ApplicationController
   def set_incident
     @incident = Incident.find(params[:id])
     @staff_reviews = @incident.staff_reviews.order :created_at
-    if @incident.driver != current_user && !current_user.staff?
+    return if current_user.staff?
+    unless [@incident.driver, @incident.supervisor].include? current_user
       deny_access and return
     end
   end

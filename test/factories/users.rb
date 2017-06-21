@@ -11,11 +11,13 @@ FactoryGirl.define do
   end
 
   trait :driver do
+    supervisor false
     staff false
   end
 
   trait :supervisor do
-    staff true # TODO
+    supervisor true
+    badge_number nil
   end
 
   trait :staff do

@@ -3,7 +3,7 @@ class CreateSupervisorReports < ActiveRecord::Migration[5.1]
     create_table :supervisor_reports do |t|
       t.integer :incident_id
       t.integer :user_id
-      # t.text :witnesses
+      # t.text :witnesses TODO
       t.boolean :hard_drive_pulled
       t.datetime :hard_drive_pulled_at
       t.string :hard_drive_removed
