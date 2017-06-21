@@ -27,3 +27,6 @@
 /coverage/index.html
 /coverage/assets/*
 /coverage/.resultset.*
+
+# Don't add export files.
+*.xml
