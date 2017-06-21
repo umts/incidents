@@ -1,0 +1,12 @@
+file Users {
+  xmlelement object_interface {
+    foreach employee {
+      xmlelement User {
+        xmlelement hastus_id     { value 'demp_display_id' }
+        xmlelement last_name     { value 'emp_last_name' }
+        xmlelement first_name    { value 'emp_first_name' }
+        xmlelement ejc_job_class { value 'Object(emp_job_class, main_ejc_for_emp).ejc_job_class' }
+      }
+    }
+  }
+}
