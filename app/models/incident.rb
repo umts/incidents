@@ -6,6 +6,7 @@ class Incident < ApplicationRecord
   belongs_to :supervisor_incident_report, class_name: 'IncidentReport',
     foreign_key: :supervisor_incident_report_id
   belongs_to :supervisor_report
+  belongs_to :reason_code
 
   has_one :driver, through: :driver_incident_report, source: :user
   validates :driver, inclusion: { in: Proc.new { User.drivers } }

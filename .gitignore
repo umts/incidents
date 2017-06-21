@@ -30,3 +30,5 @@
 
 # Don't add export files.
 *.xml
+*.xsd
+*.DS_Store
