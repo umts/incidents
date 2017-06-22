@@ -6,7 +6,7 @@ namespace :reason_codes do
     file = File.open ARGV.last
     doc = Nokogiri::XML file
     imported = 0
-    doc.css('ReasonCode').each do |code_data|
+    doc.css('reason_code').each do |code_data|
       identifier = code_data.at_css('identifier').text
       code = ReasonCode.find_by identifier: identifier
       unless code.present?
