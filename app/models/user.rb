@@ -13,7 +13,7 @@ class User < ApplicationRecord
   scope :active, -> { where active: true }
   scope :inactive, -> { where.not active: true }
   scope :drivers, -> { where supervisor: false, staff: false }
-  scope :supervisors, -> { where supervisor: true } # TODO
+  scope :supervisors, -> { where supervisor: true }
   scope :staff, -> { where staff: true }
 
   scope :name_order, -> { order :last_name, :first_name }

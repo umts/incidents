@@ -13,13 +13,13 @@
     .field
       = driver_form.label :user_id, 'Driver'
       = driver_form.select :user_id,
-        options_from_collection_for_select(User.active.drivers.order(:name), :id, :name),
+        options_from_collection_for_select(User.active.drivers.name_order, :id, :proper_name),
         { include_blank: true }, id: :report_driver_id
   = form.fields_for :supervisor_incident_report, IncidentReport.new do |supervisor_form|
     .field
       = supervisor_form.label :user_id, 'Supervisor'
       = supervisor_form.select :user_id,
-        options_from_collection_for_select(User.active.supervisors.order(:name), :id, :name),
+        options_from_collection_for_select(User.active.supervisors.name_order, :id, :proper_name),
         { include_blank: true }, id: :report_supervisor_id
   .actions= form.submit 'Create Incident Report'
 = link_to 'Back', incidents_path

@@ -12,9 +12,8 @@ class Incident < ApplicationRecord
   validates :reason_code, presence: true, if: :completed?
 
   has_one :driver, through: :driver_incident_report, source: :user
-  validates :driver, inclusion: { in: Proc.new { User.drivers } }
   has_one :supervisor, through: :supervisor_incident_report, source: :user
-  validates :supervisor, inclusion: { in: Proc.new { User.supervisors } }
+  validate :driver_and_supervisor_in_correct_groups
 
   accepts_nested_attributes_for :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report
@@ -52,6 +51,19 @@ class Incident < ApplicationRecord
 
   def reviewed?
     staff_reviews.present?
+  end
+
+  private
+
+  def driver_and_supervisor_in_correct_groups
+    unless driver_incident_report.user.driver?
+      errors.add :driver_incident_report,
+                 'Selected driver is not a driver'
+    end
+    unless supervisor_incident_report.user.supervisor?
+      errors.add :superivsor_incident_report,
+                 'Selected superivsor is not a superivsor'
+    end
   end
 
 end
