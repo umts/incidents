@@ -2,8 +2,8 @@
   .container-fluid
     .navbar-header
       %a.navbar-brand{ href: root_path }= image_tag 'favicon.svg'
-    - if user_signed_in?
-      - if current_user.staff?
+    - if @current_user.present?
+      - if @current_user.staff?
         = link_to new_user_path do
           %button.btn.btn-default.navbar-btn.navbar-left New Driver
         = link_to users_path do
@@ -22,8 +22,6 @@
               .number-icon= @unreviewed_incidents.count
       = link_to destroy_user_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
-      = link_to edit_user_registration_path do
-        %button.btn.btn-default.navbar-btn.navbar-right.auth Change Password
     - else
-      = link_to new_user_session_path do
+      = link_to login_path do
         %button.btn.btn-default.navbar-btn.navbar-right Log in

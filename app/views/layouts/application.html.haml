@@ -11,11 +11,6 @@
     = render partial: 'layouts/navbar'
     #main-panel.panel.panel-default
       .panel-body
-        - unless user_signed_in?
-          %p.login-notice
-            To request a login, please
-            = succeed '.' do
-              = mail_to 'transit-it@admin.umass.edu', 'contact UMTS IT'
         .info
           - if flash[:notice].present?
             %p.notice= flash[:notice]

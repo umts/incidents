@@ -1,0 +1,20 @@
+- unless Rails.env.production?
+  %h2 Login as:
+  = form_with url: login_path do |form|
+    .field
+      = form.label 'Staff'
+      = form.select :staff,
+        options_from_collection_for_select(@staff, :id, :proper_name),
+        include_blank: true
+    .field
+      = form.label 'Supervisor'
+      = form.select :supervisor,
+        options_from_collection_for_select(@supervisors, :id, :proper_name),
+        include_blank: true
+    .field
+      = form.label 'Driver'
+      = form.select :driver,
+        options_from_collection_for_select(@drivers, :id, :proper_name),
+        include_blank: true
+    .actions
+      = form.submit 'Log in'
