@@ -7,7 +7,7 @@ class User < ApplicationRecord
   has_many :supervisor_reports, dependent: :restrict_with_error
 
   devise :database_authenticatable, :validatable
-  validates :name, :email, presence: true, uniqueness: true
+  validates :name, :hastus_id, presence: true, uniqueness: true
   # validates :badge_number, presence: true, if: :driver?
 
   scope :active, -> { where active: true }
