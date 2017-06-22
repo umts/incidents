@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object_interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <User>
+    <hastus_id>1</hastus_id>
+    <last_name>Faulkenberry</last_name>
+    <first_name>David</first_name>
+    <job_class>Driver</job_class>
+  </User>
+</object_interface>

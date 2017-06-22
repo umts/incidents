@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object_interface xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <accident_incident>
+    <employee_hastus_id>1</employee_hastus_id>
+    <date_occurred>2017-06-12</date_occurred>
+    <hastus_id>1</hastus_id>
+    <time_occurred>12:57:00.000</time_occurred>
+  </accident_incident>
+</object_interface>
