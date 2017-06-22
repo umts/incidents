@@ -21,3 +21,10 @@ rails users:import users.xml
 rails reason_codes:import reason_codes.xml
 # coming soon to a README near you
 ```
+
+Note that Hastus will import all supervisors as the same with no distinction between dispatchers and staff members.
+To elevate the appropriate administrative staff, record their full names in a .txt file and run e.g.:
+
+```
+rails users:elevate_staff staff.txt
+```
