@@ -20,7 +20,7 @@
             %button.btn.btn-default.navbar-btn.navbar-left
               Unreviewed Incidents
               .number-icon= @unreviewed_incidents.count
-      = link_to destroy_user_session_path, method: :delete do
+      = link_to destroy_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
     - else
       = link_to login_path do
