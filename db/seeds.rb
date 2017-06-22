@@ -16,6 +16,12 @@ supervisors = 10.times.map { |_| create :user, :supervisor, :fake_name }
 
 drivers = 50.times.map { |_| create :user, :driver, :fake_name }
 
+codes = {
+  collision: create(:reason_code, description: 'Collision'),
+  passenger_incident: create(:reason_code, description: 'Passenger Incident'),
+  nil => create(:reason_code, description: 'Other')
+}
+
 dates = (4.months.ago.to_date..Date.yesterday).to_a
 dates.shuffle.each.with_index do |day, i|
   driver = drivers.sample
@@ -36,7 +42,8 @@ dates.shuffle.each.with_index do |day, i|
     incident = create :incident, driver_incident_report: driver_report,
                                  supervisor_incident_report: supervisor_report,
                                  supervisor_report: create(:supervisor_report, user: supervisor),
-                                 completed: incident_type != :incomplete
+                                 completed: incident_type != :incomplete,
+                                 reason_code: codes[incident_type]
     # TODO: create supervisor incident reports and supervisor reports
     # Every 8th-ish incident shall be unreviewed.
     unless incident_type == :incomplete || (i % 8).zero?

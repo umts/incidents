@@ -6,7 +6,10 @@ class Incident < ApplicationRecord
   belongs_to :supervisor_incident_report, class_name: 'IncidentReport',
     foreign_key: :supervisor_incident_report_id
   belongs_to :supervisor_report
-  belongs_to :reason_code
+  # I wish there were a way to write this as a one-liner, e.g.
+  # belongs_to :reason_code, optional: { unless: :completed? }
+  belongs_to :reason_code, optional: true
+  validates :reason_code, presence: true, if: :completed?
 
   has_one :driver, through: :driver_incident_report, source: :user
   validates :driver, inclusion: { in: Proc.new { User.drivers } }
