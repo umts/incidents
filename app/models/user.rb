@@ -22,10 +22,6 @@ class User < ApplicationRecord
     !(supervisor? || staff?)
   end
 
-  def full_name
-    [first_name, last_name].join ' '
-  end
-
   def proper_name
     [last_name, first_name].join ', '
   end

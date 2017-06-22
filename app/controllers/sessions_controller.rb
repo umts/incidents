@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
     else
       if authenticate_user
         redirect_to session[:requested_path] || root_path
+        session.delete :requested_path
       else redirect_to login_path, alert: 'Invalid credentials.'
       end
     end

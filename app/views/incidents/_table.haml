@@ -9,7 +9,7 @@
         %th Bus
         %th Location
         %th Complete?
-        - if current_user.staff?
+        - if @current_user.staff?
           %th Reviewed?
           %th{ colspan: 4 }
         - else
@@ -17,19 +17,19 @@
     %tbody
       - @incidents.each do |incident|
         %tr
-          %td= incident.driver.name
-          %td= incident.supervisor.name
+          %td= incident.driver.proper_name
+          %td= incident.supervisor.proper_name
           %td= incident.occurred_at_readable
           %td= incident.driver_incident_report.run
           %td= incident.driver_incident_report.bus
           %td= incident.driver_incident_report.location
           %td= yes_no_image incident.completed?
-          - if current_user.staff?
+          - if @current_user.staff?
             %td= yes_no_image incident.reviewed?
           %td
             = link_to incident do
               %button.btn.btn-default
-                - if current_user.staff?
+                - if @current_user.staff?
                   View / Review
                 - else
                   View
@@ -37,14 +37,14 @@
             = link_to incident_path(incident, format: :pdf) do
               %button.btn.btn-default Print
           %td
-            - if current_user.staff? || !incident.reviewed?
+            - if @current_user.staff? || !incident.reviewed?
               = link_to edit_incident_path(incident) do
                 %button.btn.btn-default
                   - if incident.completed?
                     Edit
                   - else
                     Complete
-          - if current_user.staff?
+          - if @current_user.staff?
             %td
               = link_to incident, method: :delete do
                 %button.btn.btn-default.delete Delete

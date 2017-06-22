@@ -5,7 +5,6 @@ class ApplicationController < ActionController::Base
 
   protect_from_forgery with: :exception
   before_action :set_current_user
-  before_action :set_paper_trail_whodunnit
   before_action :check_for_incomplete_incidents
 
   private
@@ -32,7 +31,11 @@ class ApplicationController < ActionController::Base
   def set_current_user
     if session.key? :user_id
       @current_user = User.find_by id: session[:user_id]
+      PaperTrail.whodunnit = @current_user.id
     end
-    redirect_to login_path unless @current_user.present?
+    unless @current_user.present?
+      session[:requested_path] = request.referer
+      redirect_to login_path
+    end
   end
 end
