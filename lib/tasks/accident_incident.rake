@@ -8,21 +8,24 @@ namespace :incidents do
         Incident.all.each do |incident|
           report = incident.driver_incident_report
           sup_report = incident.supervisor_report
-          xml.accident-incident do
-            ai_block           report.block
-            xml.ai_code do
-              reac_identifier  incident.reason_code.identifier
+          xml.accident_incident do
+            xml.ai_block           report.block
+            if incident.reason_code.present?
+              xml.ai_code do
+                reac_identifier      incident.reason_code.identifier
+              end
             end
-            ai_commentary      report.description
-            ai_date_occured    incident.occurred_at.strftime('%Y-%m-%d')
-            ai_direction       report.direction
-            ai_dvr_pulled      sup_report.hard_drive_pulled?
+            xml.ai_commentary      report.description
+            # I didn't spell it wrong. Someone else did.
+            xml.ai_date_occured    incident.occurred_at.strftime('%Y-%m-%d')
+            xml.ai_direction       report.direction
+            xml.ai_dvr_pulled      sup_report.hard_drive_pulled?
             xml.ai_employee do
-              demp_display_id  incident.driver.hastus_id
+              demp_display_id      incident.driver.hastus_id
             end
-            ai_point_of_impact report.point_of_impact
-            ai_route           report.route
-            ai_vehicle         report.bus
+            xml.ai_point_of_impact report.point_of_impact
+            xml.ai_route           report.route
+            xml.ai_vehicle         report.bus
           end
         end
       end

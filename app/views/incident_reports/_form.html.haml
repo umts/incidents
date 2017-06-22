@@ -12,12 +12,12 @@
     - if @current_user.staff?
       .field
         - if report == report.incident.driver_incident_report
-          - label, users = 'Driver', User.active.drivers.order(:name)
+          - label, users = 'Driver', User.active.drivers.name_order
         - else
-          - label, users = 'Supervisor', User.active.supervisors.order(:name)
+          - label, users = 'Supervisor', User.active.supervisors.name_order
         = form.label :user_id, label
         = form.select :user_id,
-          options_from_collection_for_select(users, :id, :name, report.user_id),
+          options_from_collection_for_select(users, :id, :proper_name, report.user_id),
           { include_blank: true }, id: :report_user_id
     .field
       = form.label :run
