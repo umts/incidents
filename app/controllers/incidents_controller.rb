@@ -27,7 +27,7 @@ class IncidentsController < ApplicationController
   end
 
   def edit
-    deny_access and return if !current_user.staff? && @incident.reviewed?
+    deny_access and return if !@current_user.staff? && @incident.reviewed?
   end
 
   def history
@@ -42,14 +42,14 @@ class IncidentsController < ApplicationController
   end
 
   def index
-    if current_user.staff?
+    if @current_user.staff?
       parse_dates
       @incidents = Incident.between(@start_date, @end_date).order :occurred_at
       render :by_date and return
     end
-    if current_user.supervisor?
-      @incidents = Incident.for_supervisor current_user
-    else @incidents = Incident.for_driver current_user
+    if @current_user.supervisor?
+      @incidents = Incident.for_supervisor @current_user
+    else @incidents = Incident.for_driver @current_user
     end
     @incidents = @incidents.incomplete.order :occurred_at
   end
@@ -123,8 +123,8 @@ class IncidentsController < ApplicationController
   def set_incident
     @incident = Incident.find(params[:id])
     @staff_reviews = @incident.staff_reviews.order :created_at
-    return if current_user.staff?
-    unless [@incident.driver, @incident.supervisor].include? current_user
+    return if @current_user.staff?
+    unless [@incident.driver, @incident.supervisor].include? @current_user
       deny_access and return
     end
   end

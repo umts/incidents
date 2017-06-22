@@ -7,7 +7,7 @@ class StaffReviewsController < ApplicationController
   def create
     staff_review_params = params.require(:staff_review)
                                 .permit(:incident_id, :text)
-                                .merge(user: current_user)
+                                .merge(user: @current_user)
     @staff_review = StaffReview.create! staff_review_params
     redirect_to @staff_review.incident
   end
