@@ -96,7 +96,7 @@ ActiveRecord::Schema.define(version: 20170622152115) do
     t.integer "supervisor_report_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "completed"
+    t.boolean "completed", default: false
     t.datetime "occurred_at"
     t.integer "reason_code_id"
     t.integer "hastus_id"

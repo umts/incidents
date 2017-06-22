@@ -12,11 +12,9 @@ namespace :reason_codes do
       unless code.present?
         description = code_data.at_css('description').text
         ReasonCode.create! identifier: identifier, description: description
-        print '.'
         imported += 1
       end
     end
-    puts
     puts "#{imported.zero? ? 'No new' : imported} reason codes imported."
   end
 end
