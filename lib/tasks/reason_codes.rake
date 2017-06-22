@@ -5,13 +5,18 @@ namespace :reason_codes do
   task import: :environment do
     file = File.open ARGV[1]
     doc = Nokogiri::XML file
+    imported = 0
     doc.css('ReasonCode').each do |code_data|
       identifier = code_data.at_css('identifier').text
       code = ReasonCode.find_by identifier: identifier
       unless code.present?
         description = code_data.at_css('description').text
         ReasonCode.create! identifier: identifier, description: description
+        print '.'
+        imported += 1
       end
     end
+    puts
+    puts "#{imported.zero? ? 'No new' : imported} reason codes imported."
   end
 end
