@@ -32,3 +32,4 @@
 *.xml
 *.xsd
 *.DS_Store
+contrib/log.txt

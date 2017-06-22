@@ -1,7 +1,7 @@
 file ReasonCodes {
   xmlelement object_interface {
     foreach daily_reason_code {
-      xmlelement ReasonCode {
+      xmlelement reason_code {
         xmlelement identifier  { value 'reac_identifier' }
         xmlelement description { value 'reac_description' }
       }

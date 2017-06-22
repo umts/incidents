@@ -19,4 +19,22 @@ namespace :reason_codes do
     puts
     puts "#{imported.zero? ? 'No new' : imported} reason codes imported."
   end
+
+  # Example invocation: rails reason_codes:export contrib/Reason\ codes.xml
+  task export: :environment do
+    builder = Nokogiri::XML::Builder.new encoding: 'utf-8' do |xml|
+      xml.object_interface do
+        ReasonCode.all.each do |code|
+          xml.daily_reason_code do
+            xml.reac_identifier code.identifier
+            xml.reac_description code.description
+            xml.reac_for_acc_inc true
+          end
+        end
+      end
+    end
+    File.open ARGV[1], 'w' do |file|
+      file.write builder.to_xml
+    end
+  end
 end
