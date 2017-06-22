@@ -6,3 +6,18 @@
 
 This is a prototype of UMass Transit's incident tracking model, designed for use by the Valley Area Transit Company and Springfield Area Transit Company.
 
+## Development
+
+After bundling and database setup, you can obtain data either by seeding:
+
+```
+rails db:seed
+```
+
+Or by importing XML files from Hastus:
+
+```
+rails users:import users.xml
+rails reason_codes:import reason_codes.xml
+# coming soon to a README near you
+```
