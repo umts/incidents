@@ -40,6 +40,7 @@ namespace :users do
       unless user.present?
         attrs[:first_name] = user_data.at_css('first_name').text.capitalize
         attrs[:last_name] = user_data.at_css('last_name').text.capitalize
+        attrs[:division] = user_data.at_css('division').text.capitalize
         job_class = user_data.at_css('job_class').text
         attrs[:supervisor] = job_class == 'Supervisor'
         user = User.new attrs
@@ -53,7 +54,6 @@ namespace :users do
         end
       end
     end
-    puts
     puts "#{imported.zero? ? 'No new' : imported} users imported."
   end
 end

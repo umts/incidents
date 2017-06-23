@@ -24,7 +24,6 @@ namespace :incidents do
               xml.demp_display_id   incident.driver.hastus_id
             end
             xml.ai_point_of_impact  report.point_of_impact
-            xml.ai_route            report.route
             xml.ai_vehicle          report.bus
           end
         end
