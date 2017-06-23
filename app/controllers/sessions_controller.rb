@@ -8,7 +8,6 @@ class SessionsController < ApplicationController
 
   def login
     if request.get?
-      session[:requested_path] = request.referer
       define_users unless Rails.env.production?
     else
       if authenticate_user
