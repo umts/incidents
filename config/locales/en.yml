@@ -52,5 +52,9 @@ en:
         bus_up_to_curb: 'Was the bus pulled completely up to the curb?'
         passenger_injured: 'Was the passenger injured as a result of the incident?'
         description: 'Describe the incident in detail.'
-
-
+      supervisor_report:
+        hard_drive_pulled: 'Was a hard drive pulled from the bus as a result of the incident?'
+        hard_drive_pulled_at: 'When was the drive pulled?'
+        hard_drive_removed: 'Drive # removed'
+        hard_drive_replaced: 'Drive # replaced with'
+        # TODO

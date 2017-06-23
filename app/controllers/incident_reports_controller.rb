@@ -5,12 +5,10 @@ class IncidentReportsController < ApplicationController
   before_action :set_report
 
   def update
-    respond_to do |format|
-      if @report.update(report_params)
-        redirect_to @incident,
-                    notice: 'Incident report was successfully saved.'
-      else render 'incidents/edit'
-      end
+    if @report.update(report_params)
+      redirect_to @incident,
+                  notice: 'Incident report was successfully saved.'
+    else render 'incidents/edit'
     end
   end
 
@@ -21,7 +19,7 @@ class IncidentReportsController < ApplicationController
   end
 
   def set_report
-    @report = IncidentReport.find(params[:id])
+    @report = IncidentReport.find params.require(:id)
     @incident = @report.incident
   end
 end
