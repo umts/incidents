@@ -46,18 +46,12 @@ namespace :incidents do
       next if incident.present?
       user_hastus_id = inc_data.at_css('employee_hastus_id').text
       user = User.find_by hastus_id: user_hastus_id
-      unless user.present?
-        puts "Could not find user with hastus_id #{user_hastus_id}"
-        next
-      end
+      next unless user.present?
       date = Date.parse inc_data.at_css('date_occurred').text
       time = Time.parse inc_data.at_css('time_occurred').text
       occurred_at = DateTime.new(date.year, date.month, date.day, time.hour, time.minute)
       incident = user.incidents.find_by occurred_at: occurred_at
-      unless incident.present?
-        puts "Could not find incident for user #{user.name} at datetime #{occurred_at}"
-        next
-      end
+      next unless incident.present?
       incident.update hastus_id: hastus_id
       imported += 1
     end
