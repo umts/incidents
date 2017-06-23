@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   end
 
   resources :incident_reports, only: %i[edit update]
+  resources :supervisor_reports, only: %i[edit update]
 
   resources :staff_reviews, only: %i[create destroy update]
 

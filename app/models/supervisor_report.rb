@@ -25,4 +25,12 @@ class SupervisorReport < ApplicationRecord
   def last_updated_by
     User.find_by(id: last_update.whodunnit).try(:name) || 'Unknown'
   end
+
+  def reasonable_suspicion?
+    reason_test_completed == 'Reasonable Suspicion'
+  end
+
+  def post_accident?
+    reason_test_completed == 'Post-Accident'
+  end
 end

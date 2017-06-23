@@ -5,15 +5,14 @@
     Completing
   Incident Report
 - if @current_user == @incident.driver || @current_user.staff?
-  - if @current_user.staff?
-    %h2 Driver Report
+  %h2 Driver Report
   = render 'incident_reports/form',
     report: @incident.driver_incident_report
 - if @current_user == @incident.supervisor || @current_user.staff?
-  - if @current_user.staff?
-    %h2 Supervisor Report
+  %h2 Supervisor Account of Incident
   = render 'incident_reports/form',
     report: @incident.supervisor_incident_report
+  %h2 Supervisor Report
   = render 'supervisor_reports/form',
     report: @incident.supervisor_report
 - if @current_user.staff?

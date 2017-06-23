@@ -6,6 +6,11 @@
     = form.datetime_select :occurred_at, id: :incident_occurred_at,
       prompt: true, ampm: true
   .field
+    = form.label :reason_code
+    = form.select :reason_code_id,
+      options_from_collection_for_select(ReasonCode.order(:identifier), :id, :full_label),
+      { include_blank: true }
+  .field
     = form.label :completed
     = form.check_box :completed, id: :incident_completed
   .actions= form.submit 'Save incident details'

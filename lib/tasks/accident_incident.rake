@@ -9,23 +9,23 @@ namespace :incidents do
           report = incident.driver_incident_report
           sup_report = incident.supervisor_report
           xml.accident_incident do
-            xml.ai_block           report.block
+            xml.ai_block            report.block
             if incident.reason_code.present?
               xml.ai_code do
-                reac_identifier      incident.reason_code.identifier
+                xml.reac_identifier incident.reason_code.identifier
               end
             end
-            xml.ai_commentary      report.description
+            xml.ai_commentary       report.description
             # I didn't spell it wrong. Someone else did.
-            xml.ai_date_occured    incident.occurred_at.strftime('%Y-%m-%d')
-            xml.ai_direction       report.direction
-            xml.ai_dvr_pulled      sup_report.hard_drive_pulled?
+            xml.ai_date_occured     incident.occurred_at.strftime('%Y-%m-%d')
+            xml.ai_direction        report.direction
+            xml.ai_dvr_pulled       sup_report.hard_drive_pulled?
             xml.ai_employee do
-              demp_display_id      incident.driver.hastus_id
+              xml.demp_display_id   incident.driver.hastus_id
             end
-            xml.ai_point_of_impact report.point_of_impact
-            xml.ai_route           report.route
-            xml.ai_vehicle         report.bus
+            xml.ai_point_of_impact  report.point_of_impact
+            xml.ai_route            report.route
+            xml.ai_vehicle          report.bus
           end
         end
       end
@@ -46,18 +46,12 @@ namespace :incidents do
       next if incident.present?
       user_hastus_id = inc_data.at_css('employee_hastus_id').text
       user = User.find_by hastus_id: user_hastus_id
-      unless user.present?
-        puts "Could not find user with hastus_id #{user_hastus_id}"
-        next
-      end
+      next unless user.present?
       date = Date.parse inc_data.at_css('date_occurred').text
       time = Time.parse inc_data.at_css('time_occurred').text
       occurred_at = DateTime.new(date.year, date.month, date.day, time.hour, time.minute)
       incident = user.incidents.find_by occurred_at: occurred_at
-      unless incident.present?
-        puts "Could not find incident for user #{user.name} at datetime #{occurred_at}"
-        next
-      end
+      next unless incident.present?
       incident.update hastus_id: hastus_id
       imported += 1
     end
