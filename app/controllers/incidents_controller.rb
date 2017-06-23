@@ -2,7 +2,8 @@
 
 class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
-  before_action :access_control, only: %i[create destroy incomplete new]
+  before_action :access_control, only: %i[destroy incomplete]
+  before_action :restrict_to_supervisors, only: %i[create new]
   before_action :set_incident, only: %i[destroy edit history show update]
 
   def create

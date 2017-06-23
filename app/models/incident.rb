@@ -32,7 +32,7 @@ class Incident < ApplicationRecord
       .where(incident_reports: { user_id: user.id })
   } 
   scope :incomplete, -> { where completed: false }
-  scope :completed -> { where completed: true }
+  scope :completed, -> { where completed: true }
   scope :unreviewed, -> {
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
   }
