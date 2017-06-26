@@ -8,9 +8,6 @@ require 'timecop'
 include FactoryGirl::Syntax::Methods
 
 staff = create :user, :staff, :fake_name
-puts 'Login as staff with:'
-puts " Email:    #{staff.email}"
-puts ' Password: password'
 
 supervisors = 10.times.map { |_| create :user, :supervisor, :fake_name }
 
@@ -44,7 +41,6 @@ dates.shuffle.each.with_index do |day, i|
                                  supervisor_report: create(:supervisor_report, user: supervisor),
                                  completed: incident_type != :incomplete,
                                  reason_code: codes[incident_type]
-    # TODO: create supervisor incident reports and supervisor reports
     # Every 8th-ish incident shall be unreviewed.
     unless incident_type == :incomplete || (i % 8).zero?
       create :staff_review, incident: incident, user: staff

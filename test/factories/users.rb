@@ -2,12 +2,11 @@
 
 FactoryGirl.define do
   factory :user do
-    sequence(:name) { |n| "User#{n.to_s.rjust 4, '0'}" }
+    first_name 'User'
+    sequence :last_name
+    sequence :hastus_id
+    division { %w[SPFLD NOHO SMECH].sample }
     badge_number { rand(5000).to_s.rjust 4, '0' }
-    sequence(:email) { |n| "user#{n}@example.com" }
-    # Please change the seed file if you change this password.
-    password 'password'
-    password_confirmation 'password'
   end
 
   trait :driver do
@@ -26,6 +25,7 @@ FactoryGirl.define do
   end
 
   trait :fake_name do
-    name { FFaker::Name.name }
+    first_name { FFaker::Name.first_name }
+    last_name { FFaker::Name.last_name }
   end
 end
