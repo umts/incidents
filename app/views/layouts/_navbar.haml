@@ -8,8 +8,6 @@
           %button.btn.btn-default.navbar-btn.navbar-left New Driver
         = link_to users_path do
           %button.btn.btn-default.navbar-btn.navbar-left Manage Drivers
-        = link_to new_incident_path do
-          %button.btn.btn-default.navbar-btn.navbar-left New Incident
         - if @incomplete_incidents.any?
           = link_to incomplete_incidents_path do
             %button.btn.btn-default.navbar-btn.navbar-left
@@ -20,6 +18,9 @@
             %button.btn.btn-default.navbar-btn.navbar-left
               Unreviewed Incidents
               .number-icon= @unreviewed_incidents.count
+      -if @current_user.supervisor?
+        = link_to new_incident_path do
+          %button.btn.btn-default.navbar-btn.navbar-left New Incident
       = link_to destroy_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
     - else

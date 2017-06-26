@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def access_control
+  def access_control # TODO rename to restrict_to_staff
     deny_access and return unless @current_user.staff?
   end
 
@@ -26,6 +26,10 @@ class ApplicationController < ActionController::Base
              status: :unauthorized,
              layout: false
     end
+  end
+
+  def restrict_to_supervisors
+    deny_access and return unless @current_user.supervisor?
   end
 
   def set_current_user

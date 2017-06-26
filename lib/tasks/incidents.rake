@@ -5,26 +5,22 @@ namespace :incidents do
   task export: :environment do
     builder = Nokogiri::XML::Builder.new do |xml|
       xml.object_interface do
-        Incident.all.each do |incident|
+        Incident.completed.each do |incident|
           report = incident.driver_incident_report
           sup_report = incident.supervisor_report
           xml.accident_incident do
             xml.ai_block            report.block
             if incident.reason_code.present?
-              xml.ai_code do
-                xml.reac_identifier incident.reason_code.identifier
-              end
+              xml.ai_code           incident.reason_code.identifier
             end
             xml.ai_commentary       report.description
             # I didn't spell it wrong. Someone else did.
             xml.ai_date_occured     incident.occurred_at.strftime('%Y-%m-%d')
             xml.ai_direction        report.direction
+            xml.ai_division         incident.driver.division
             xml.ai_dvr_pulled       sup_report.hard_drive_pulled?
-            xml.ai_employee do
-              xml.demp_display_id   incident.driver.hastus_id
-            end
+            xml.ai_employee         incident.driver.hastus_id
             xml.ai_point_of_impact  report.point_of_impact
-            xml.ai_route            report.route
             xml.ai_vehicle          report.bus
           end
         end

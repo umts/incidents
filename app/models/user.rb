@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :incident_reports, dependent: :restrict_with_error
   has_many :supervisor_reports, dependent: :restrict_with_error
 
-  validates :first_name, :last_name, :hastus_id, presence: true
+  validates :first_name, :last_name, :hastus_id, :division, presence: true
   validates :hastus_id, uniqueness: true
   # validates :badge_number, presence: true, if: :driver?
 
