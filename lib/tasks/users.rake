@@ -54,6 +54,6 @@ namespace :users do
         end
       end
     end
-    puts "#{imported.zero? ? 'No new' : imported} users imported."
+    puts "#{imported.zero? ? 'No new' : imported} users were imported."
   end
 end

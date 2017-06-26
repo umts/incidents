@@ -15,6 +15,6 @@ namespace :reason_codes do
         imported += 1
       end
     end
-    puts "#{imported.zero? ? 'No new' : imported} reason codes imported."
+    puts "#{imported.zero? ? 'No new' : imported} reason codes were imported."
   end
 end
