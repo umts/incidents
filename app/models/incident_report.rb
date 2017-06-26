@@ -35,6 +35,8 @@ class IncidentReport < ApplicationRecord
   belongs_to :user
   has_one :incident
 
+  serialize :injured_passenger, Hash
+
   validate :injured_passenger_required_fields,
            if: -> { passenger_incident? && passenger_injured? }
   before_save do
