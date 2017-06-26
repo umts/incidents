@@ -35,9 +35,10 @@ class ApplicationController < ActionController::Base
   def set_current_user
     if session.key? :user_id
       @current_user = User.find_by id: session[:user_id]
-      PaperTrail.whodunnit = @current_user.id
     end
-    unless @current_user.present?
+    if @current_user.present?
+      PaperTrail.whodunnit = @current_user.id
+    else
       session[:requested_path] = request.path
       redirect_to login_path
     end
