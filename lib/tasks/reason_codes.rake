@@ -3,7 +3,7 @@ require 'nokogiri'
 namespace :reason_codes do
   # Example invocation: rails reason_codes:import contrib/Reason\ codes.xml
   task import: :environment do
-    file = File.open ARGV.last
+    file = File.open(ARGV[1] || 'contrib/Reason codes.xml')
     doc = Nokogiri::XML file
     imported = 0
     doc.css('reason_code').each do |code_data|

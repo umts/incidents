@@ -10,7 +10,7 @@ namespace :users do
   #
   # Example invocation: rails users:elevate_staff contrib/staff.txt
   task elevate_staff: :environment do
-    file = File.open ARGV.last
+    file = File.open(ARGV[1] || 'contrib/staff.txt')
     text = file.read
     elevated = 0
     text.each_line do |name|
@@ -30,7 +30,7 @@ namespace :users do
 
   # Example invocation rails users:import contrib/Users.xml
   task import: :environment do
-    file = File.open ARGV.last
+    file = File.open(ARGV[1] || 'contrib/Users.xml')
     doc = Nokogiri::XML file
     imported = 0
     doc.css('User').each do |user_data|
