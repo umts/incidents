@@ -385,4 +385,31 @@ prawn_document do |pdf|
       value: report.damage_to_other_vehicle_point_of_impact,
       options: { align: :left, valign: :top }
   end
+
+  pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+    pdf.move_down 15
+    pdf.text 'Complete the following if passenger incident'.upcase,
+      align: :center, size: 14, style: :bold
+  end
+
+  pdf.field_row height: 72, units: 22 do |row|
+    row.check_box_field width: 7, field: 'Nature of incident (check all that apply)',
+      options: IncidentReport::PASSENGER_INCIDENT_LOCATIONS,
+      checked: report.occurred_location_matrix, per_column: 5
+    row.check_box_field width: 3, field: 'Motion of bus',
+      options: IncidentReport::BUS_MOTION_OPTIONS,
+      checked: IncidentReport::BUS_MOTION_OPTIONS.map{|m| report.motion_of_bus == m },
+      per_column: 4
+    row.check_box_field width: 2, field: 'Condition of steps',
+      options: IncidentReport::STEP_CONDITION_OPTIONS,
+      checked: IncidentReport::STEP_CONDITION_OPTIONS.map{|c| report.condition_of_steps == c },
+      per_column: 4
+    row.text_field width: 2, height: 36, field: 'Bus kneeled?', value: yes_no(report.bus_kneeled?),
+      options: { if: report.passenger_incident? }
+    row.text_field width: 8, height: 36, field: 'If stopped, not up to curb, give reason', value: report.reason_not_up_to_curb
+    row.at_height 36, unit: 12 do
+      row.text_field width: 2, height: 36, field: 'Distance from curb', value: report.bus_distance_from_curb
+      row.text_field width: 8, height: 36, field: 'License # of vehicle in bus stop', value: report.vehicle_in_bus_stop_plate
+    end
+  end
 end

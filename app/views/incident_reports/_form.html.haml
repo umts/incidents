@@ -271,6 +271,10 @@
     .field
       = form.label :bus_up_to_curb
       = form.check_box :bus_up_to_curb, id: :report_bus_up_to_curb
+    - if report == @incident.supervisor_incident_report
+      .field
+        = form.label :bus_distance_from_curb
+        = form.number_field :bus_distance_from_curb, id: :report_bus_distance_from_curb
     .reason-not-up-to-curb-info{style: ('display: none;' unless report.needs_reason_not_up_to_curb?)}
       .field
         = form.label :reason_not_up_to_curb
