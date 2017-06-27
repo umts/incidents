@@ -289,4 +289,28 @@ prawn_document do |pdf|
     row.text_field field: 'Speed at time of incident', value: report.speed
     row.text_field field: 'Direction of bus', value: report.direction
   end
+
+  pdf.field_row height: 90, units: 7 do |row|
+    row.check_box_field field: 'Weather Conditions',
+      options: IncidentReport::WEATHER_OPTIONS,
+      checked: IncidentReport::WEATHER_OPTIONS.map{|c| report.weather_conditions == c},
+      per_column: 5
+    row.check_box_field field: 'Road Conditions',
+      options: IncidentReport::ROAD_OPTIONS,
+      checked: IncidentReport::ROAD_OPTIONS.map{|c| report.road_conditions == c},
+      per_column: 5
+    row.check_box_field field: 'Light Conditions',
+      options: IncidentReport::LIGHT_OPTIONS,
+      checked: IncidentReport::LIGHT_OPTIONS.map{|c| report.light_conditions == c}
+    row.text_field field: 'Bus headlights used?',
+      value: yes_no(report.headlights_used), options: { if: @incident.completed?, valign: :center }
+    row.check_box_field field: 'Surface Type',
+      options: IncidentReport::SURFACE_TYPE_OPTIONS,
+      checked: IncidentReport::SURFACE_TYPE_OPTIONS.map{|c| report.surface_type == c},
+      per_column: 6
+    row.check_box_field field: 'Surface Grade', width: 2,
+      options: IncidentReport::SURFACE_GRADE_OPTIONS,
+      checked: IncidentReport::SURFACE_GRADE_OPTIONS.map{|c| report.surface_grade == c},
+      per_column: 5
+  end
 end
