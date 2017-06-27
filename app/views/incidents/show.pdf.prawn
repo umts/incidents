@@ -447,21 +447,38 @@ prawn_document do |pdf|
       align: :center, size: 14, style: :bold
   end
 
-  pdf.field_row height: 40, units: 4 do |row|
-    row.check_box_field field: 'Testing scenario',
+  pdf.field_row height: 40, units: 8 do |row|
+    row.check_box_field field: 'Testing scenario', width: 2,
       options: SupervisorReport::REASONS_FOR_TEST,
       checked: SupervisorReport::REASONS_FOR_TEST.select{ |c| sup_report.reason_test_completed == c }
-    row.text_field field: 'Employee', value: @incident.driver.proper_name,
+    row.text_field field: 'Employee', width: 1,
+      value: @incident.driver.proper_name,
       options: { valign: :center }
-    row.text_field field: 'Date and time of incident', value: @incident.occurred_at.strftime('%B %e, %Y %l:%M %P'),
+    row.text_field field: 'Date and time of incident', width: 2,
+      value: @incident.occurred_at.strftime('%B %e, %Y %-l:%M %P'),
       options: { valign: :center }
-    row.text_field field: 'Location of incident', value: report.location,
+    row.text_field field: 'Location of incident', width: 1,
+      value: report.location,
       options: { valign: :center }
+    row.text_field field: 'Testing location', width: 2,
+      value: sup_report.testing_facility,
+      options: { valign: :center }
+  end
+
+  pdf.move_down 15
+  pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 50 do
+    pdf.text 'Sequence of events:', style: :bold
+    column_width  = pdf.bounds.width / 3
+    sup_report.timeline.each_slice(4).with_index do |events, i|
+      pdf.bounding_box [column_width * i, pdf.cursor], width: column_width do
+        pdf.text_box events.join("\n"), size: 10
+      end
+    end
   end
 
   pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
     pdf.move_down 15
-    pdf.text 'Reasonable Suspicion'.upcase,
+    pdf.text 'Complete the following if reasonable suspicion test'.upcase,
       align: :center, size: 14, style: :bold
   end
 
@@ -489,9 +506,47 @@ prawn_document do |pdf|
 
   pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
     pdf.move_down 15
-    pdf.text 'Post-Accident'.upcase,
+    pdf.text 'Complete the following if post-accident test'.upcase,
       align: :center, size: 14, style: :bold
   end
-  # reason for test with all the text
 
+  pdf.field_row height: 60, units: 1 do |row|
+    reasons = [
+      'BODILY INJURY - requiring immediate medical treatment away from the scene',
+      'DISABLING DAMAGE - see note below for definition',
+      'FATALITY - DOT testing is mandatory, no exceptions',
+      'NOT CONDUCTED - I can completely discount the operator as a contributing factor to the accident.'
+    ]
+    checked_reasons = [
+      sup_report.test_due_to_bodily_injury?,
+      sup_report.test_due_to_disabling_damage?,
+      sup_report.test_due_to_fatality?,
+      sup_report.test_not_conducted?
+    ]
+    row.check_box_field field: 'Reason for test',
+      options: reasons, checked: checked_reasons, per_column: 4
+  end
+
+  pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 40 do
+    pdf.move_down 3
+    pdf.text <<~DESCRIPTION.tr("\n", ' '), size: 8
+      Disabling damage: damage that precludes the departure of any vehicle from
+      the scene of an accident in its usual manner in daylight hours after
+      simple repairs. Disabling damage includes: damage to vehicles that could
+      have been operated, but would have caused further damage if so operated.
+      Disabling damage does not include: damage that could be remedied
+      temporarily at the scene of the occurrence without special tools or parts,
+      tire disablement without other damage even if no spare tire is available,
+      or damage to headlights, taillights, turn signals, horn, or windshield
+      wipers that makes them inoperable.
+    DESCRIPTION
+  end
+  
+  pdf.move_down 50
+
+  pdf.field_row height: 25, units: 3 do |row|
+    row.text_field width: 1, field: "Supervisor's signature", value: ''
+  end
+
+  # TODO optional page for amplifying comments
 end

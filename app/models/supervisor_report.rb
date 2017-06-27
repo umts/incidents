@@ -33,4 +33,26 @@ class SupervisorReport < ApplicationRecord
   def post_accident?
     reason_test_completed == 'Post-Accident'
   end
+
+  def timeline
+    sequence = {}
+    %w[
+      testing_facility_notified
+      employee_notified_of_test
+      employee_departed_to_test
+      employee_arrived_at_test
+      test_started
+      test_ended
+      employee_returned
+      superintendent_notified
+      program_manager_notified
+      director_notified
+    ].each do |method|
+      time = send "#{method}_at"
+      sequence[method] = time if time.present?
+    end
+    sequence.sort_by{ |method, time| time }.map do |method, time|
+      [time.strftime('%-l:%M %P'), method.humanize.capitalize].join ': '
+    end
+  end
 end
