@@ -238,7 +238,6 @@ prawn_document do |pdf|
 
   pdf.image Rails.root.join('app/assets/images/bus_diagram.png'),
     width: pdf.bounds.width, height: pdf.bounds.height
-=end
 
   report = @incident.supervisor_incident_report
   sup_report = @incident.supervisor_report
@@ -412,4 +411,87 @@ prawn_document do |pdf|
       row.text_field width: 8, height: 36, field: 'License # of vehicle in bus stop', value: report.vehicle_in_bus_stop_plate
     end
   end
+
+  # TODO witnesses and injured passengers
+  
+=end
+
+  report = @incident.supervisor_incident_report #TODO remove
+  sup_report = @incident.supervisor_report # TODO remove
+  pdf.start_new_page
+  pdf.move_down 40
+  pdf.field_row height: 25, units: 6 do |row|
+    row.text_field field: 'Hard drive pulled?', value: yes_no(sup_report.hard_drive_pulled?)
+    row.text_field field: 'Drive pulled', value: sup_report.hard_drive_removed
+    row.text_field field: 'Pulled at', width: 2,
+      value: sup_report.hard_drive_pulled_at.strftime('%A, %B %e, %l:%M %P')
+    row.text_field field: 'Drive replaced with', value: sup_report.hard_drive_replaced
+    pictures = sup_report.pictures_saved? ? sup_report.saved_pictures : 'None'
+    row.text_field field: 'Pictures taken', value: pictures
+  end
+
+  pdf.field_row height: 130, units: 1 do |row|
+    # TODO this should be a different statement
+    row.text_field field: 'Passenger statement and/or injury information in detail',
+      value: report.description, options: { valign: :top, align: :left }
+  end
+
+  pdf.field_row height: 130, units: 1 do |row|
+    row.text_field field: 'Statement of involved person(s)', value: report.description,
+      options: { valign: :top, align: :left }
+  end
+
+  pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+    pdf.move_down 15
+    pdf.text 'Drug & Alcohol Testing'.upcase,
+      align: :center, size: 14, style: :bold
+  end
+
+  pdf.field_row height: 40, units: 4 do |row|
+    row.check_box_field field: 'Testing scenario',
+      options: SupervisorReport::REASONS_FOR_TEST,
+      checked: SupervisorReport::REASONS_FOR_TEST.select{ |c| sup_report.reason_test_completed == c }
+    row.text_field field: 'Employee', value: @incident.driver.proper_name,
+      options: { valign: :center }
+    row.text_field field: 'Date and time of incident', value: @incident.occurred_at.strftime('%B %e, %Y %l:%M %P'),
+      options: { valign: :center }
+    row.text_field field: 'Location of incident', value: report.location,
+      options: { valign: :center }
+  end
+
+  pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+    pdf.move_down 15
+    pdf.text 'Reasonable Suspicion'.upcase,
+      align: :center, size: 14, style: :bold
+  end
+
+  pdf.field_row height: 25, units: 4 do |row|
+    row.text_field field: 'Test conducted?', value: yes_no(sup_report.completed_drug_or_alcohol_test)
+    test_types = []
+    test_types << 'Drug' if sup_report.completed_drug_test?
+    test_types << 'Alcohol' if sup_report.completed_alcohol_test?
+    row.text_field field: 'Type of test', value: test_types.join(' & ')
+    row.text_field field: 'Time of observation', value: sup_report.observation_made_at.strftime('%l:%M %P')
+    test_reasons = []
+    test_reasons << 'Appearance' if sup_report.test_due_to_employee_appearance?
+    test_reasons << 'Behavior' if sup_report.test_due_to_employee_behavior?
+    test_reasons << 'Odor' if sup_report.test_due_to_employee_odor?
+    test_reasons << 'Speech' if sup_report.test_due_to_employee_speech?
+    row.text_field field: 'Reason for conducting test', value: test_reasons.join('/')
+  end
+
+  pdf.field_row height: 25, units: 4 do |row|
+    row.text_field field: 'Details of appearance', value: sup_report.employee_appearance
+    row.text_field field: 'Details of behavior', value: sup_report.employee_behavior
+    row.text_field field: 'Details of odor', value: sup_report.employee_odor
+    row.text_field field: 'Details of speech', value: sup_report.employee_speech
+  end
+
+  pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+    pdf.move_down 15
+    pdf.text 'Post-Accident'.upcase,
+      align: :center, size: 14, style: :bold
+  end
+  # reason for test with all the text
+
 end
