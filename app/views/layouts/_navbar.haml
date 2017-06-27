@@ -18,9 +18,8 @@
             %button.btn.btn-default.navbar-btn.navbar-left
               Unreviewed Incidents
               .number-icon= @unreviewed_incidents.count
-      -if @current_user.supervisor?
-        = link_to new_incident_path do
-          %button.btn.btn-default.navbar-btn.navbar-left New Incident
+      = link_to new_incident_path do
+        %button.btn.btn-default.navbar-btn.navbar-left New Incident
       = link_to destroy_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
     - else
