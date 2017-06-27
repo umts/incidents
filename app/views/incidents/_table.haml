@@ -49,4 +49,8 @@
               = link_to incident, method: :delete do
                 %button.btn.btn-default.delete Delete
 - else
-  %h2 No incidents found.
+  %h2
+    - if @current_user.staff?
+      No incidents found.
+    - else
+      You have no incident reports that need attention.
