@@ -241,6 +241,7 @@ prawn_document do |pdf|
 =end
 
   report = @incident.supervisor_incident_report
+  sup_report = @incident.supervisor_report
 
   pdf.start_new_page
   pdf.bounding_box [0, pdf.bounds.height], width: 380, height: 80 do
@@ -270,4 +271,15 @@ prawn_document do |pdf|
     row.text_field field: 'Block #', value: report.block
     row.text_field field: 'Bus #', value: report.bus
   end
+
+  pdf.field_row height: 30, units: 7 do |row|
+    row.text_field field: 'Date of Incident', value: @incident.occurred_at.try(:strftime, '%m/%d/%Y')
+    row.text_field field: 'Time of Incident', value: @incident.occurred_time
+    row.text_field field: '# passengers on bus', value: report.passengers_onboard
+    row.text_field field: '# courtesy cards distributed', value: report.courtesy_cards_distributed
+    row.text_field field: '# courtesy cards attached', value: report.courtesy_cards_collected
+    row.text_field field: '# photos taken', value: sup_report.saved_pictures
+    row.text_field field: 'Credentials exchanged?', value: yes_no(report.credentials_exchanged?)
+  end
+
 end

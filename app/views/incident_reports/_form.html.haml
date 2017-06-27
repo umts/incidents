@@ -84,6 +84,9 @@
         = form.select :surface_grade,
           options_for_select(IncidentReport::SURFACE_GRADE_OPTIONS, report.surface_grade),
           { include_blank: true }, id: :report_surface_grade
+      .field
+        = form.label :credentials_exchanged
+        = form.check_box :credentials_exchanged, id: :report_credentials_exchanged
   .motor-vehicle-collision-info{style: ('display: none;' unless report.motor_vehicle_collision?)}
     %h3 Motor Vehicle Collision Information
     .field

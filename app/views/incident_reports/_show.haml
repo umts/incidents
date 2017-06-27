@@ -76,6 +76,9 @@
   %p
     %strong Surface grade:
     = report.surface_grade
+  %p
+    %strong Credentials exchanged?
+    = yes_no report.credentials_exchanged?
 - if report.motor_vehicle_collision?
   %h3 Motor Vehicle Collision Information
   %p
