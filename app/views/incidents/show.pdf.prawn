@@ -329,4 +329,60 @@ prawn_document do |pdf|
       value: report.summons_or_warning_info
 
   end
+
+  pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+    pdf.move_down 15
+    pdf.text 'Complete the following if collision'.upcase,
+      align: :center, size: 14, style: :bold
+  end
+
+  pdf.field_row height: 25, units: 7 do |row|
+    row.text_field field: 'Plate # other vehicle', value: report.other_vehicle_plate
+    row.text_field field: 'State', value: report.other_vehicle_state
+    row.text_field field: 'Make', value: report.other_vehicle_make
+    row.text_field field: 'Model', value: report.other_vehicle_model
+    row.text_field field: 'Year', value: report.other_vehicle_year
+    row.text_field field: '# of passengers', value: report.other_vehicle_passengers
+    row.text_field field: 'Direction', value: report.other_vehicle_direction
+  end
+
+  owner_name = if report.other_vehicle_owned_by_other_driver?
+                 'Owned by Driver'
+                else report.other_vehicle_owner_name
+               end
+  pdf.field_row height: 20, units: 28 do |row|
+    row.text_field width: 7, field: 'Name of other driver', value: report.other_driver_name
+    row.text_field width: 5, field: "Driver's license #", value: report.other_driver_license_number
+    row.text_field width: 2, field: 'State', value: report.other_driver_license_state
+    row.text_field width: 14, field: 'Owner of other vehicle', value: owner_name
+  end
+
+  pdf.field_row height: 75, units: 28 do |row|
+    row.text_field width: 9, field: 'Address of other driver', value: report.other_vehicle_driver_full_address,
+      options: { valign: :center }
+    row.text_field width: 5, height: 25, field: 'Home', value: report.other_vehicle_driver_home_phone
+    row.text_field width: 14, height: 50, field: 'Address of owner', value: report.other_vehicle_owner_full_address,
+      options: { unless: report.other_vehicle_owned_by_other_driver? }
+
+    row.at_height 25, unit: 9 do
+      row.text_field width: 5, height: 25, field: 'Cell', value: report.other_vehicle_driver_cell_phone
+    end
+
+    row.at_height 50, unit: 9 do
+      row.text_field width: 5, height: 25, field: 'Work', value: report.other_vehicle_driver_work_phone
+      row.text_field width: 7, height: 25, field: 'Insurance carrier', value: report.insurance_carrier
+      row.text_field width: 7, height: 25, field: 'Policy #', value: report.insurance_policy_number
+    end
+  end
+
+  pdf.field_row height: 50, units: 5 do |row|
+    row.text_field field: 'Point of impact on bus', value: report.point_of_impact,
+      options: { valign: :center }
+    row.text_field width: 2, field: 'Describe damage to bus at point of impact',
+      value: report.damage_to_bus_point_of_impact,
+      options: { align: :left, valign: :top }
+    row.text_field width: 2, field: 'Describe damage to other vehicle at point of impact',
+      value: report.damage_to_other_vehicle_point_of_impact,
+      options: { align: :left, valign: :top }
+  end
 end
