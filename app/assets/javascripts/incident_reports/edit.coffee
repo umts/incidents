@@ -32,6 +32,9 @@ $(document).ready ->
   $('form').showIfChecked '#report_motor_vehicle_collision',
                           '.motor-vehicle-collision-info'
 
+  $('form').showIfChecked '#report_summons_or_warning_issued',
+                          '.summons-info'
+
   $('form').showIfChecked '#report_police_on_scene',
                           '.police-info'
 

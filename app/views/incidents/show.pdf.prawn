@@ -321,4 +321,12 @@ prawn_document do |pdf|
     row.text_field field: 'Town (or State)', value: report.police_town_or_state
     row.text_field field: 'Case # assigned', value: report.police_case_assigned
   end
+
+  pdf.field_row height: 25, units: 5 do |row|
+    row.text_field field: 'Summons or warning issued?',
+      value: yes_no(report.summons_or_warning_issued?)
+    row.text_field field: 'If yes, issued to whom? What is the charge?', width: 4,
+      value: report.summons_or_warning_info
+
+  end
 end

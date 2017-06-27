@@ -87,6 +87,14 @@
       .field
         = form.label :credentials_exchanged
         = form.check_box :credentials_exchanged, id: :report_credentials_exchanged
+      .field
+        = form.label :summons_or_warning_issued
+        = form.check_box :summons_or_warning_issued, id: :report_summons_or_warning_issued
+      .summons-info{style: ('display: none;' unless report.summons_or_warning_issued?)}
+        .field
+          = form.label :summons_or_warning_info
+          = form.text_area :summons_or_warning_info, id: :report_summons_or_warning_info,
+            size: '80x4'
   .motor-vehicle-collision-info{style: ('display: none;' unless report.motor_vehicle_collision?)}
     %h3 Motor Vehicle Collision Information
     .field
