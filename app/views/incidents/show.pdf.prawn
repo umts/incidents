@@ -313,4 +313,12 @@ prawn_document do |pdf|
       checked: IncidentReport::SURFACE_GRADE_OPTIONS.map{|c| report.surface_grade == c},
       per_column: 5
   end
+
+  pdf.field_row height: 25, units: 4 do |row|
+    row.text_field field: 'Police on scene?', value: yes_no(report.police_on_scene?),
+      options: { if: report.motor_vehicle_collision? }
+    row.text_field field: 'Badge #', value: report.police_badge_number
+    row.text_field field: 'Town (or State)', value: report.police_town_or_state
+    row.text_field field: 'Case # assigned', value: report.police_case_assigned
+  end
 end
