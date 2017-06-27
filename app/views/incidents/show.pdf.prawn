@@ -282,4 +282,11 @@ prawn_document do |pdf|
     row.text_field field: 'Credentials exchanged?', value: yes_no(report.credentials_exchanged?)
   end
 
+  pdf.field_row height: 25, units: 5 do |row|
+    row.text_field field: 'Location of Accident / Incident', value: report.location
+    row.text_field field: 'Town', value: report.town
+    row.text_field field: 'Posted speed limit (mph)', value: report.posted_speed_limit
+    row.text_field field: 'Speed at time of incident', value: report.speed
+    row.text_field field: 'Direction of bus', value: report.direction
+  end
 end
