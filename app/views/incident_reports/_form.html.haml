@@ -72,6 +72,9 @@
       = form.check_box :headlights_used, id: :report_headlights_used
     - if report == @incident.supervisor_incident_report
       .field
+        = form.label :posted_speed_limit
+        = form.number_field :posted_speed_limit, id: :report_posted_speed_limit
+      .field
         = form.label :surface_type
         = form.select :surface_type,
           options_for_select(IncidentReport::SURFACE_TYPE_OPTIONS, report.surface_type),
