@@ -50,8 +50,8 @@ FactoryGirl.define do
     other_vehicle_driver_address_zip        { FFaker::AddressUS.zip_code }
     other_vehicle_driver_home_phone         { FFaker::PhoneNumber.short_phone_number }
     point_of_impact                         { IncidentReport::IMPACT_LOCATION_OPTIONS.sample }
-    damage_to_bus_point_of_impact           { 'Not sure what this should look like' }
-    damage_to_other_vehicle_point_of_impact { 'Not sure what this should look like' }
+    damage_to_bus_point_of_impact           { %w[Scratches Dents Major\ dents].sample }
+    damage_to_other_vehicle_point_of_impact { %w[Scratches Dents Major\ dents].sample }
     insurance_carrier                       { %w[Geico Progressive AAA].sample }
     insurance_policy_number                 { rand(999_999_999) }
     insurance_effective_date                { Date.today - rand(365).days }

@@ -1,6 +1,7 @@
 # PDF is 740 x 560
 
 prawn_document do |pdf|
+=begin
   report = @incident.driver_incident_report
 
   pdf.start_new_page
@@ -237,4 +238,48 @@ prawn_document do |pdf|
 
   pdf.image Rails.root.join('app/assets/images/bus_diagram.png'),
     width: pdf.bounds.width, height: pdf.bounds.height
+=end
+
+  report = @incident.supervisor_incident_report
+  sup_report = @incident.supervisor_report
+
+  pdf.start_new_page
+  pdf.bounding_box [0, pdf.bounds.height], width: 380, height: 80 do
+    pdf.move_down 5
+    pdf.font 'Times-Roman', size: 30 do
+      pdf.text 'SATCo / VATCo', align: :center
+    end
+    pdf.text 'Supervisor Incident / Accident Report', size: 18, align: :center
+    pdf.text 'Fill in all applicable blanks. Be specific. Use black ink only.',
+      align: :center, style: :bold
+  end
+  pdf.bounding_box [380, pdf.bounds.height], width: 180, height: 80 do
+    pdf.move_down 8
+    pdf.bounds.add_left_padding 5
+    ['File #', 'Code', 'Cause', 'Claim case #'].each do |field|
+      pdf.text field
+      pdf.move_down 4
+    end
+  end
+
+  pdf.field_row height: 25, units: 9 do |row|
+    row.text_field width: 2, field: 'Supervisor', value: report.user.proper_name
+    row.text_field field: 'Badge No.', value: report.user.badge_number
+    row.text_field width: 2, field: 'Operator', value: @incident.driver.proper_name
+    row.text_field field: 'Badge No.', value: @incident.driver.badge_number
+    row.text_field field: 'Run #', value: report.run
+    row.text_field field: 'Block #', value: report.block
+    row.text_field field: 'Bus #', value: report.bus
+  end
+
+  pdf.field_row height: 30, units: 7 do |row|
+    row.text_field field: 'Date of Incident', value: @incident.occurred_at.try(:strftime, '%m/%d/%Y')
+    row.text_field field: 'Time of Incident', value: @incident.occurred_time
+    row.text_field field: '# passengers on bus', value: report.passengers_onboard
+    row.text_field field: '# courtesy cards distributed', value: report.courtesy_cards_distributed
+    row.text_field field: '# courtesy cards attached', value: report.courtesy_cards_collected
+    row.text_field field: '# photos taken', value: sup_report.saved_pictures
+    row.text_field field: 'Credentials exchanged?', value: yes_no(report.credentials_exchanged?)
+  end
+
 end

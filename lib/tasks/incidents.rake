@@ -16,7 +16,8 @@ namespace :incidents do
             xml.ai_commentary       report.description
             # I didn't spell it wrong. Someone else did.
             xml.ai_date_occured     incident.occurred_at.strftime('%Y-%m-%d')
-            xml.ai_direction        report.direction
+            # I need to look into what the valid Dir_ch options are in Hastus.
+            # xml.ai_direction        report.direction
             xml.ai_division         incident.driver.division
             xml.ai_dvr_pulled       sup_report.hard_drive_pulled?
             xml.ai_employee         incident.driver.hastus_id

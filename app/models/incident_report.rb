@@ -29,6 +29,8 @@ class IncidentReport < ApplicationRecord
     'Rear bumpers', 'Driver side rear bumper', 'Curb side rear bumper',
     'Driver side tail lights', 'Curb side tail lights', 'Rear of bus'
   ].freeze
+  SURFACE_TYPE_OPTIONS = %w[Concrete Gravel Oiled Dirt Asphalt Other].freeze
+  SURFACE_GRADE_OPTIONS = %w[Smooth Rough Uphill Downhill Level High\ Crowned Banked].freeze
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 

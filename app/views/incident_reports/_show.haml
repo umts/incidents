@@ -66,6 +66,19 @@
 %p
   %strong Headlights on?
   = yes_no report.headlights_used?
+- if report == @incident.supervisor_incident_report
+  %p
+    %strong Posted speed limit:
+    = report.posted_speed_limit
+  %p
+    %strong Surface type:
+    = report.surface_type
+  %p
+    %strong Surface grade:
+    = report.surface_grade
+  %p
+    %strong Credentials exchanged?
+    = yes_no report.credentials_exchanged?
 - if report.motor_vehicle_collision?
   %h3 Motor Vehicle Collision Information
   %p
