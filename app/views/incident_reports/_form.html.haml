@@ -70,6 +70,17 @@
     .field
       = form.label :headlights_used
       = form.check_box :headlights_used, id: :report_headlights_used
+    - if report == @incident.supervisor_incident_report
+      .field
+        = form.label :surface_type
+        = form.select :surface_type,
+          options_for_select(IncidentReport::SURFACE_TYPE_OPTIONS, report.surface_type),
+          { include_blank: true }, id: :report_surface_type
+      .field
+        = form.label :surface_grade
+        = form.select :surface_grade,
+          options_for_select(IncidentReport::SURFACE_GRADE_OPTIONS, report.surface_grade),
+          { include_blank: true }, id: :report_surface_grade
   .motor-vehicle-collision-info{style: ('display: none;' unless report.motor_vehicle_collision?)}
     %h3 Motor Vehicle Collision Information
     .field
