@@ -79,6 +79,13 @@
   %p
     %strong Credentials exchanged?
     = yes_no report.credentials_exchanged?
+  %p
+    %strong Summons or warning issued?
+    = yes_no report.summons_or_warning_issued?
+  - if report.summons_or_warning_issued?
+    %p
+      %strong Summons or warning info:
+      = simple_format report.summons_or_warning_info
 - if report.motor_vehicle_collision?
   %h3 Motor Vehicle Collision Information
   %p
@@ -199,6 +206,10 @@
   %p
     %strong Bus up to curb?
     = yes_no report.bus_up_to_curb?
+  - if report == @incident.supervisor_incident_report
+    %p
+      %strong Bus distance from curb:
+      = report.bus_distance_from_curb
   - if report.needs_reason_not_up_to_curb?
     %p
       %strong Reason not up to curb:
