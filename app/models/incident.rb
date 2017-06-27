@@ -62,8 +62,8 @@ class Incident < ApplicationRecord
                  'Selected driver is not a driver'
     end
     unless supervisor_incident_report.user.supervisor?
-      errors.add :superivsor_incident_report,
-                 'Selected superivsor is not a superivsor'
+      errors.add :supervisor_incident_report,
+                 'Selected supervisor is not a supervisor'
     end
   end
 
