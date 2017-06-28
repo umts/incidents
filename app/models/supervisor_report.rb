@@ -10,8 +10,6 @@ class SupervisorReport < ApplicationRecord
     'On-Site (Employee Work Location)'
   ].freeze
 
-  belongs_to :user
-  validates :user, inclusion: { in: proc { User.supervisors } }
   validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
   has_one :incident

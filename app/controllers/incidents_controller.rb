@@ -4,15 +4,12 @@ class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
   before_action :access_control, only: %i[destroy incomplete]
   before_action :set_incident, only: %i[destroy edit history show update]
+  before_action :initialize_supervisor_report, only: :update
   before_action :set_driver_list, only: %i[create new]
 
   def create
     @incident = Incident.new incident_params
-    report_attrs = incident_params[:supervisor_incident_report_attributes]
-    if report_attrs.present?
-      supervisor_id = report_attrs[:user_id]
-      @incident.supervisor_report = SupervisorReport.new user_id: supervisor_id
-    end
+    initialize_supervisor_report
     if @incident.save
       redirect_to incidents_url, notice: 'Incident was successfully created.'
     else render :new, status: :unprocessable_entity
@@ -104,6 +101,14 @@ class IncidentsController < ApplicationController
       end
     end
     data
+  end
+
+  def initialize_supervisor_report
+    report_attrs = incident_params[:supervisor_incident_report_attributes]
+    if report_attrs.present?
+      supervisor_id = report_attrs[:user_id]
+      @incident.supervisor_report = SupervisorReport.new user_id: supervisor_id
+    end
   end
 
   # rubocop:disable Style/IfUnlessModifier

@@ -1,3 +1,8 @@
+- if @incident.errors.present?
+  #error_explanation
+    %ul
+      - @incident.errors.full_messages.each do |message|
+        %li= message
 %h1
   - if @incident.completed?
     Editing
@@ -17,7 +22,8 @@
     = render 'supervisor_reports/form',
       report: @incident.supervisor_report
 - else
-  Assign a supervisor...
+  %h3 Assign a supervisor...
+  = render 'incidents/add_supervisor', incident: @incident
 - if @current_user.staff?
   %h2 Incident Details
   = render 'form', incident: @incident
