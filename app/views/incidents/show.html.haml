@@ -6,16 +6,17 @@
 = render partial: 'incident_reports/show',
   locals: { report: @incident.driver_incident_report }
 
-- if @current_user.supervisor? || @current_user.staff?
-  %hr
-  %h2 Supervisor Incident Report
-  = render partial: 'incident_reports/show',
-    locals: { report: @incident.supervisor_incident_report }
+- if @incident.supervisor.present?
+  - if @current_user.supervisor? || @current_user.staff?
+    %hr
+    %h2 Supervisor Incident Report
+    = render partial: 'incident_reports/show',
+      locals: { report: @incident.supervisor_incident_report }
 
-  %hr
-  %h2 Supervisor Report
-  = render partial: 'supervisor_reports/show',
-    locals: { report: @incident.supervisor_report }
+    %hr
+    %h2 Supervisor Report
+    = render partial: 'supervisor_reports/show',
+      locals: { report: @incident.supervisor_report }
 
 - if @incident.completed?
   = render partial: 'staff_reviews'

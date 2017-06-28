@@ -22,7 +22,6 @@ codes = {
 dates = (4.months.ago.to_date..Date.yesterday).to_a
 dates.shuffle.each.with_index do |day, i|
   driver = drivers.sample
-  supervisor = supervisors.sample
   # Every 20th incident shall be incomplete.
   incident_type = [nil, :collision, :passenger_incident].sample
   incident_type = :incomplete if (i % 9).zero?
@@ -37,6 +36,7 @@ dates.shuffle.each.with_index do |day, i|
                        reason_code: codes[incident_type] }
     # Only every other incident should require supervisor response.
     if i.even?
+      supervisor = supervisors.sample
       supervisor_report_attrs = driver_report.attributes.symbolize_keys
                                              .except(:id, :user_id)
                                              .merge(user: supervisor)

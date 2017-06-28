@@ -4,11 +4,14 @@ class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
   before_action :access_control, only: %i[destroy incomplete]
   before_action :set_incident, only: %i[destroy edit history show update]
+  before_action :set_driver_list, only: %i[create new]
 
   def create
     @incident = Incident.new incident_params
-    supervisor_id = incident_params[:supervisor_incident_report_attributes][:user_id]
-    @incident.supervisor_report = SupervisorReport.new user_id: supervisor_id
+    if incident_params.key?(:supervisor_incident_report_attributes)
+      supervisor_id = incident_params[:supervisor_incident_report_attributes][:user_id]
+      @incident.supervisor_report = SupervisorReport.new user_id: supervisor_id
+    end
     if @incident.save
       redirect_to incidents_url, notice: 'Incident was successfully created.'
     else render :new, status: :unprocessable_entity
@@ -56,10 +59,6 @@ class IncidentsController < ApplicationController
 
   def new
     @incident = Incident.new
-    if @current_user.driver?
-      @drivers = [@current_user]
-    else @drivers = User.active.drivers.name_order
-    end
   end
 
   def show
@@ -97,7 +96,13 @@ class IncidentsController < ApplicationController
   private
 
   def incident_params
-    params.require(:incident).permit!
+    data = params.require(:incident).permit!
+    if data.key?(:supervisor_incident_report_attributes)
+      if data[:supervisor_incident_report_attributes][:user_id].blank?
+        data.delete :supervisor_incident_report_attributes
+      end
+    end
+    data
   end
 
   # rubocop:disable Style/IfUnlessModifier
@@ -123,6 +128,13 @@ class IncidentsController < ApplicationController
     @next_start = @end_date + 1.day
   end
   # rubocop:enable Style/IfUnlessModifier
+  
+  def set_driver_list
+    if @current_user.driver?
+      @drivers = [@current_user]
+    else @drivers = User.active.drivers.name_order
+    end
+  end
 
   def set_incident
     @incident = Incident.find(params[:id])

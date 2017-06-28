@@ -4,8 +4,10 @@ class Incident < ApplicationRecord
   belongs_to :driver_incident_report, class_name: 'IncidentReport',
     foreign_key: :driver_incident_report_id
   belongs_to :supervisor_incident_report, class_name: 'IncidentReport',
-    foreign_key: :supervisor_incident_report_id
-  belongs_to :supervisor_report
+    foreign_key: :supervisor_incident_report_id, optional: true
+  belongs_to :supervisor_report, optional: true
+  validates :supervisor_report,
+    presence: { if: ->(incident) { supervisor_incident_report.present? } }
   # I wish there were a way to write this as a one-liner, e.g.
   # belongs_to :reason_code, optional: { unless: :completed? }
   belongs_to :reason_code, optional: true
@@ -37,7 +39,6 @@ class Incident < ApplicationRecord
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
   }
 
-
   def occurred_at_readable
     [occurred_date, occurred_time].join ' - '
   end
@@ -59,11 +60,12 @@ class Incident < ApplicationRecord
   def driver_and_supervisor_in_correct_groups
     unless driver_incident_report.user.driver?
       errors.add :driver_incident_report,
-                 'Selected driver is not a driver'
+                 'selected driver is not a driver'
     end
-    unless supervisor_incident_report.user.supervisor?
+    unless supervisor_incident_report.blank? ||
+           supervisor_incident_report.try(:user).try(:supervisor?)
       errors.add :supervisor_incident_report,
-                 'Selected supervisor is not a supervisor'
+                 'selected supervisor is not a supervisor'
     end
   end
 

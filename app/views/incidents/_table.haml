@@ -18,7 +18,7 @@
       - @incidents.each do |incident|
         %tr
           %td= incident.driver.proper_name
-          %td= incident.supervisor.proper_name
+          %td= incident.supervisor.try :proper_name
           %td= incident.occurred_at_readable
           %td= incident.driver_incident_report.run
           %td= incident.driver_incident_report.bus
