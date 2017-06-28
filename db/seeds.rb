@@ -9,9 +9,9 @@ include FactoryGirl::Syntax::Methods
 
 staff = create :user, :staff, :fake_name
 
-supervisors = 10.times.map { |_| create :user, :supervisor, :fake_name }
+supervisors = Array.new(10) { create :user, :supervisor, :fake_name }
 
-drivers = 50.times.map { |_| create :user, :driver, :fake_name }
+drivers = Array.new(50) { create :user, :driver, :fake_name }
 
 codes = {
   collision: create(:reason_code, description: 'Collision'),
@@ -28,9 +28,9 @@ dates.shuffle.each.with_index do |day, i|
   Timecop.freeze day + rand(24 * 60).minutes do
     PaperTrail.whodunnit = driver.id
     driver_report = if incident_type.present?
-      create :incident_report, incident_type, user: driver
-    else create :incident_report, user: driver
-    end
+                      create :incident_report, incident_type, user: driver
+                    else create :incident_report, user: driver
+                    end
     incident_attrs = { driver_incident_report: driver_report,
                        completed: incident_type != :incomplete,
                        reason_code: codes[incident_type] }
@@ -41,9 +41,12 @@ dates.shuffle.each.with_index do |day, i|
                                              .except(:id, :user_id)
                                              .merge(user: supervisor)
       supervisor_report = create :incident_report, supervisor_report_attrs
-      incident_attrs.merge! supervisor_incident_report: supervisor_report,
-                            supervisor_report: create(:supervisor_report, user: supervisor)
-    else incident_attrs.merge! supervisor_incident_report: nil, supervisor_report: nil
+      incident_attrs[:supervisor_incident_report] = supervisor_report
+      incident_attrs[:supervisor_report] = create :supervisor_report,
+                                                  user: supervisor
+    else
+      incident_attrs[:supervisor_incident_report] = nil
+      incident_attrs[:supervisor_report] = nil
     end
     incident = create :incident, incident_attrs
     # Every 8th-ish incident shall be unreviewed.

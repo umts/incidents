@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 
 namespace :incidents do
@@ -32,7 +34,7 @@ namespace :incidents do
     end
   end
 
-  # Example invocation: rails incidents:import_hastus_ids contrib/Accidents-Incidents.xml
+  # Example invocation: rails incidents:import_hastus_ids contrib/Incidents.xml
   task import_hastus_ids: :environment do
     file = File.open ARGV.last
     doc = Nokogiri::XML file
@@ -46,12 +48,14 @@ namespace :incidents do
       next unless user.present?
       date = Date.parse inc_data.at_css('date_occurred').text
       time = Time.parse inc_data.at_css('time_occurred').text
-      occurred_at = DateTime.new(date.year, date.month, date.day, time.hour, time.minute)
+      occurred_at = DateTime.new(date.year, date.month, date.day,
+                                 time.hour, time.minute)
       incident = user.incidents.find_by occurred_at: occurred_at
       next unless incident.present?
       incident.update hastus_id: hastus_id
       imported += 1
     end
-    puts "#{imported.zero? ? 'No new' : imported} incidents associated with Hastus IDs."
+    count = imported.zero? ? 'No new' : imported
+    puts "#{count} incidents associated with Hastus IDs."
   end
 end

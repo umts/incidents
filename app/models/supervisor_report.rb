@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 class SupervisorReport < ApplicationRecord
   has_paper_trail
 
-  REASONS_FOR_TEST = ['Post-Accident', 'Reasonable Suspicion']
+  REASONS_FOR_TEST = ['Post-Accident', 'Reasonable Suspicion'].freeze
   TESTING_FACILITIES = [
     'Occuhealth East Longmeadow',
     'Occuhealth Northampton',
     'On-Site (Employee Work Location)'
-  ]
+  ].freeze
 
   belongs_to :user
-  validates :user, inclusion: { in: Proc.new { User.supervisors } }
+  validates :user, inclusion: { in: proc { User.supervisors } }
   validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
   has_one :incident
@@ -35,7 +37,7 @@ class SupervisorReport < ApplicationRecord
   end
 
   def timeline
-    sequence = {}
+    events = {}
     %w[
       testing_facility_notified
       employee_notified_of_test
@@ -49,9 +51,15 @@ class SupervisorReport < ApplicationRecord
       director_notified
     ].each do |method|
       time = send "#{method}_at"
-      sequence[method] = time if time.present?
+      events[method] = time if time.present?
     end
-    sequence.sort_by{ |method, time| time }.map do |method, time|
+    format_timeline(events)
+  end
+
+  private
+
+  def format_timeline(events)
+    events.sort_by { |_, time| time }.map do |method, time|
       [time.strftime('%-l:%M %P'), method.humanize.capitalize].join ': '
     end
   end

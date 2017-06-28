@@ -27,10 +27,8 @@ FactoryGirl.define do
         report.hard_drive_replaced = rand(100).to_s
       end
 
-      if report.pictures_saved?
-        report.saved_pictures = rand 50
-      end
-      
+      report.saved_pictures = rand 50 if report.pictures_saved?
+
       if rand(20).zero?
         report.amplifying_comments = FFaker::BaconIpsum.paragraph
       end

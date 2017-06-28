@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'nokogiri'
 
 namespace :reason_codes do
@@ -9,11 +11,10 @@ namespace :reason_codes do
     doc.css('reason_code').each do |code_data|
       identifier = code_data.at_css('identifier').text
       code = ReasonCode.find_by identifier: identifier
-      unless code.present?
-        description = code_data.at_css('description').text
-        ReasonCode.create! identifier: identifier, description: description
-        imported += 1
-      end
+      next if code.present?
+      description = code_data.at_css('description').text
+      ReasonCode.create! identifier: identifier, description: description
+      imported += 1
     end
     puts "#{imported.zero? ? 'No new' : imported} reason codes were imported."
   end

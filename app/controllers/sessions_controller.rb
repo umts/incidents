@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SessionsController < ApplicationController
   skip_before_action :set_current_user
 
@@ -9,12 +11,10 @@ class SessionsController < ApplicationController
   def login
     if request.get?
       define_users unless Rails.env.production?
-    else
-      if authenticate_user
-        redirect_to session[:requested_path] || root_path
-        session.delete :requested_path
-      else redirect_to login_path, alert: 'Invalid credentials.'
-      end
+    elsif authenticate_user
+      redirect_to session[:requested_path] || root_path
+      session.delete :requested_path
+    else redirect_to login_path, alert: 'Invalid credentials.'
     end
   end
 
@@ -25,9 +25,7 @@ class SessionsController < ApplicationController
       # TODO
     else
       user_id = params.values_at(:staff, :supervisor, :driver).find(&:present?)
-      if User.find_by id: user_id
-        session[:user_id] = user_id and return true
-      end
+      session[:user_id] = user_id and return true if User.find_by id: user_id
     end
   end
 

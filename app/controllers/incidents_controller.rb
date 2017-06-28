@@ -8,8 +8,9 @@ class IncidentsController < ApplicationController
 
   def create
     @incident = Incident.new incident_params
-    if incident_params.key?(:supervisor_incident_report_attributes)
-      supervisor_id = incident_params[:supervisor_incident_report_attributes][:user_id]
+    report_attrs = incident_params[:supervisor_incident_report_attributes]
+    if report_attrs.present?
+      supervisor_id = report_attrs[:user_id]
       @incident.supervisor_report = SupervisorReport.new user_id: supervisor_id
     end
     if @incident.save
@@ -50,10 +51,10 @@ class IncidentsController < ApplicationController
       @incidents = Incident.between(@start_date, @end_date).order :occurred_at
       render :by_date and return
     end
-    if @current_user.supervisor?
-      @incidents = Incident.for_supervisor @current_user
-    else @incidents = Incident.for_driver @current_user
-    end
+    @incidents = if @current_user.supervisor?
+                   Incident.for_supervisor @current_user
+                 else Incident.for_driver @current_user
+                 end
     @incidents = @incidents.incomplete.order :occurred_at
   end
 
@@ -128,12 +129,11 @@ class IncidentsController < ApplicationController
     @next_start = @end_date + 1.day
   end
   # rubocop:enable Style/IfUnlessModifier
-  
+
   def set_driver_list
-    if @current_user.driver?
-      @drivers = [@current_user]
-    else @drivers = User.active.drivers.name_order
-    end
+    @drivers = if @current_user.driver? then [@current_user]
+               else User.active.drivers.name_order
+               end
   end
 
   def set_incident

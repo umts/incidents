@@ -30,7 +30,8 @@ class IncidentReport < ApplicationRecord
     'Driver side tail lights', 'Curb side tail lights', 'Rear of bus'
   ].freeze
   SURFACE_TYPE_OPTIONS = %w[Concrete Gravel Oiled Dirt Asphalt Other].freeze
-  SURFACE_GRADE_OPTIONS = %w[Smooth Rough Uphill Downhill Level High\ Crowned Banked].freeze
+  SURFACE_GRADE_OPTIONS = %w[Smooth Rough Uphill Downhill
+                             Level High\ Crowned Banked].freeze
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
@@ -46,7 +47,8 @@ class IncidentReport < ApplicationRecord
   end
 
   def incident
-    Incident.where(driver_incident_report_id: id).or(Incident.where(supervisor_incident_report_id: id)).first
+    Incident.where(driver_incident_report_id: id)
+            .or(Incident.where(supervisor_incident_report_id: id)).first
   end
 
   def injured_passenger_full_address
@@ -102,7 +104,6 @@ class IncidentReport < ApplicationRecord
   def other?
     !(motor_vehicle_collision? || passenger_incident?)
   end
-
 
   private
 

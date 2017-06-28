@@ -1,13 +1,18 @@
+# frozen_string_literal: true
+
 class Incident < ApplicationRecord
   has_paper_trail
 
-  belongs_to :driver_incident_report, class_name: 'IncidentReport',
-    foreign_key: :driver_incident_report_id
-  belongs_to :supervisor_incident_report, class_name: 'IncidentReport',
-    foreign_key: :supervisor_incident_report_id, optional: true
+  belongs_to :driver_incident_report,
+             class_name: 'IncidentReport',
+             foreign_key: :driver_incident_report_id
+  belongs_to :supervisor_incident_report,
+             class_name: 'IncidentReport',
+             foreign_key: :supervisor_incident_report_id,
+             optional: true
   belongs_to :supervisor_report, optional: true
   validates :supervisor_report,
-    presence: { if: ->(incident) { supervisor_incident_report.present? } }
+            presence: { if: ->(_inc) { supervisor_incident_report.present? } }
   # I wish there were a way to write this as a one-liner, e.g.
   # belongs_to :reason_code, optional: { unless: :completed? }
   belongs_to :reason_code, optional: true
@@ -25,14 +30,14 @@ class Incident < ApplicationRecord
 
   scope :between,
         ->(start_date, end_date) { where occurred_at: start_date..end_date }
-  scope :for_driver, -> (user) {
+  scope :for_driver, ->(user) {
     joins(:driver_incident_report)
       .where(incident_reports: { user_id: user.id })
-  } 
-  scope :for_supervisor, -> (user) {
+  }
+  scope :for_supervisor, ->(user) {
     joins(:supervisor_incident_report)
       .where(incident_reports: { user_id: user.id })
-  } 
+  }
   scope :incomplete, -> { where completed: false }
   scope :completed, -> { where completed: true }
   scope :unreviewed, -> {
@@ -68,5 +73,4 @@ class Incident < ApplicationRecord
                  'selected supervisor is not a supervisor'
     end
   end
-
 end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class SupervisorReportsController < ApplicationController
-  # TODO access_control
+  # TODO: access_control
   before_action :set_report
 
   def update

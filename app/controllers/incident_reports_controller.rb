@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class IncidentReportsController < ApplicationController
-  # TODO access control
+  # TODO: access control
   before_action :set_report
 
   def update

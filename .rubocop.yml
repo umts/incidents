@@ -24,6 +24,16 @@ Layout/MultilineOperationIndentation:
   Exclude:
     - 'app/models/incident.rb'
 
+# It's nice to align the xml tags and their values.
+Layout/ExtraSpacing:
+  Exclude:
+    - 'lib/tasks/incidents.rake'
+
+# It's nice to align the xml tags and their values.
+Layout/SpaceBeforeFirstArg:
+  Exclude:
+    - 'lib/tasks/incidents.rake'
+
 # I've never seen this one go bad.
 Lint/AmbiguousBlockAssociation:
   Enabled: false
@@ -32,19 +42,20 @@ Metrics/AbcSize:
   Max: 36
 
 Metrics/BlockLength:
-  Max: 45
+  Max: 50
   Exclude:
-    - test/factories/incidents.rb
+    - test/factories/*.rb
 
 Metrics/ClassLength:
+  Max: 125
   Exclude:
     - app/models/incident.rb
     - test/system/completing_incidents_test.rb
 
-# This class just has long attributes, and longer ways to generate the data.
+# Factory DSL plus random data means you'll have long lines. I'm okay with that.
 Metrics/LineLength:
   Exclude: 
-    - test/factories/incidents.rb
+    - test/factories/*.rb
 
 Metrics/MethodLength:
   Max: 18

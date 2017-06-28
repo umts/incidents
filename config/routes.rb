@@ -28,8 +28,8 @@ Rails.application.routes.draw do
   end
 
   get 'sessions/login', to: 'sessions#login',
-                            as: :login
+                        as: :login
   post 'sessions/login', to: 'sessions#login'
   delete 'sessions/destroy', to: 'sessions#destroy',
-                          as: :destroy_session
+                             as: :destroy_session
 end

@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def access_control # TODO rename to restrict_to_staff
+  def access_control # TODO: rename to restrict_to_staff
     deny_access and return unless @current_user.staff?
   end
 
@@ -33,9 +33,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_current_user
-    if session.key? :user_id
-      @current_user = User.find_by id: session[:user_id]
-    end
+    @current_user = User.find_by id: session[:user_id] if session.key? :user_id
     if @current_user.present?
       PaperTrail.whodunnit = @current_user.id
     else
