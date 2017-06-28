@@ -233,10 +233,12 @@ prawn_document do |pdf|
     end
   end
 
-  pdf.start_new_page
+  if report.motor_vehicle_collision?
+    pdf.start_new_page
 
-  pdf.image Rails.root.join('app/assets/images/bus_diagram.png'),
-    width: pdf.bounds.width, height: pdf.bounds.height
+    pdf.image Rails.root.join('app/assets/images/bus_diagram.png'),
+      width: pdf.bounds.width, height: pdf.bounds.height
+  end
 
   if @incident.supervisor.present?
 
@@ -414,6 +416,13 @@ prawn_document do |pdf|
     end
 
     # TODO witnesses and injured passengers
+
+    if report.motor_vehicle_collision?
+      pdf.start_new_page
+
+      pdf.image Rails.root.join('app/assets/images/bus_diagram.png'),
+        width: pdf.bounds.width, height: pdf.bounds.height
+    end
 
     pdf.start_new_page
     pdf.move_down 40
