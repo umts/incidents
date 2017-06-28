@@ -1,5 +1,15 @@
+%h2 Log in
+= form_with url: login_path do |form|
+  .field
+    = form.label :badge_number
+    = form.password_field :badge_number, required: true
+  .field
+    = form.label :last_name
+    = form.text_field :last_name, required: true
+  .actions
+    = form.submit 'Log in'
 - unless Rails.env.production?
-  %h2 Login as:
+  %h2 Or login as:
   = form_with url: login_path do |form|
     .field
       = form.label 'Staff'

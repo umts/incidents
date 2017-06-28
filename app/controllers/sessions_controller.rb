@@ -21,12 +21,14 @@ class SessionsController < ApplicationController
   private
 
   def authenticate_user
-    if Rails.env.production?
-      # TODO
-    else
+    if !Rails.env.production?
       user_id = params.values_at(:staff, :supervisor, :driver).find(&:present?)
-      session[:user_id] = user_id and return true if User.find_by id: user_id
+      user = User.find_by id: user_id
     end
+    user ||= User.find_by badge_number: params.require(:badge_number),
+                          last_name: params.require(:last_name)
+    session[:user_id] = user.id if user.present?
+    return user.present?
   end
 
   def define_users
