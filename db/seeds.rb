@@ -32,15 +32,20 @@ dates.shuffle.each.with_index do |day, i|
       create :incident_report, incident_type, user: driver
     else create :incident_report, user: driver
     end
-    supervisor_report_attrs = driver_report.attributes.symbolize_keys
-                                           .except(:id, :user_id)
-                                           .merge(user: supervisor)
-    supervisor_report = create :incident_report, supervisor_report_attrs
-    incident = create :incident, driver_incident_report: driver_report,
-                                 supervisor_incident_report: supervisor_report,
-                                 supervisor_report: create(:supervisor_report, user: supervisor),
-                                 completed: incident_type != :incomplete,
-                                 reason_code: codes[incident_type]
+    incident_attrs = { driver_incident_report: driver_report,
+                       completed: incident_type != :incomplete,
+                       reason_code: codes[incident_type] }
+    # Only every other incident should require supervisor response.
+    if i.even?
+      supervisor_report_attrs = driver_report.attributes.symbolize_keys
+                                             .except(:id, :user_id)
+                                             .merge(user: supervisor)
+      supervisor_report = create :incident_report, supervisor_report_attrs
+      incident_attrs.merge! supervisor_incident_report: supervisor_report,
+                            supervisor_report: create(:supervisor_report, user: supervisor)
+    else incident_attrs.merge! supervisor_incident_report: nil, supervisor_report: nil
+    end
+    incident = create :incident, incident_attrs
     # Every 8th-ish incident shall be unreviewed.
     unless incident_type == :incomplete || (i % 8).zero?
       create :staff_review, incident: incident, user: staff
