@@ -35,7 +35,7 @@ class UsersController < ApplicationController
                User.inactive
              else User.active
              end
-    @users = @users.includes(:incident_reports).order :name
+    @users = @users.includes(:incident_reports).name_order
   end
 
   def reactivate
@@ -67,8 +67,8 @@ class UsersController < ApplicationController
   end
 
   def user_params
-    attrs = params.require(:user).permit :name, :email, :staff, :badge_number,
-                                         :password, :password_confirmation
+    attrs = params.require(:user).permit :first_name, :last_name,
+      :badge_number, :supervisor, :staff, :hastus_id, :division
     if attrs[:password].blank?
       attrs.delete :password
       attrs.delete :password_confirmation

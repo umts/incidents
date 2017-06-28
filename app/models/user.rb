@@ -3,6 +3,8 @@
 class User < ApplicationRecord
   has_paper_trail
 
+  DIVISIONS = %w[NOHO SPFLD SMECH].freeze
+
   has_many :incident_reports, dependent: :restrict_with_error
   has_many :supervisor_reports, dependent: :restrict_with_error
 
@@ -20,6 +22,10 @@ class User < ApplicationRecord
 
   def driver?
     !(supervisor? || staff?)
+  end
+
+  def full_name
+    [first_name, last_name].join ' '
   end
 
   def proper_name

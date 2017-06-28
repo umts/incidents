@@ -58,3 +58,5 @@ en:
         hard_drive_removed: 'Drive # removed'
         hard_drive_replaced: 'Drive # replaced with'
         # TODO
+      user:
+        hastus_id: 'Hastus ID'
