@@ -4,7 +4,6 @@ class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
   before_action :access_control, only: %i[destroy incomplete]
   before_action :set_incident, only: %i[destroy edit history show update]
-  before_action :initialize_supervisor_report, only: :update
   before_action :set_driver_list, only: %i[create new]
 
   def create
@@ -74,8 +73,10 @@ class IncidentsController < ApplicationController
   end
 
   def update
+    @incident.assign_attributes incident_params
+    initialize_supervisor_report
     respond_to do |format|
-      if @incident.update(incident_params)
+      if @incident.save
         format.html do
           redirect_to @incident,
                       notice: 'Incident report was successfully saved.'
@@ -94,20 +95,13 @@ class IncidentsController < ApplicationController
   private
 
   def incident_params
-    data = params.require(:incident).permit!
-    if data.key?(:supervisor_incident_report_attributes)
-      if data[:supervisor_incident_report_attributes][:user_id].blank?
-        data.delete :supervisor_incident_report_attributes
-      end
-    end
-    data
+    params.require(:incident).permit!
   end
 
   def initialize_supervisor_report
-    report_attrs = incident_params[:supervisor_incident_report_attributes]
-    if report_attrs.present?
-      supervisor_id = report_attrs[:user_id]
-      @incident.supervisor_report = SupervisorReport.new user_id: supervisor_id
+    sup_report_attrs = incident_params[:supervisor_incident_report_attributes]
+    if sup_report_attrs.present? && sup_report_attrs[:user_id].present?
+      @incident.supervisor_report = SupervisorReport.new
     end
   end
 
