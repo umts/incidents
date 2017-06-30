@@ -430,7 +430,7 @@ prawn_document do |pdf|
       row.text_field field: 'Hard drive pulled?', value: yes_no(sup_report.hard_drive_pulled?)
       row.text_field field: 'Drive pulled', value: sup_report.hard_drive_removed
       row.text_field field: 'Pulled at', width: 2,
-        value: sup_report.hard_drive_pulled_at.strftime('%A, %B %e, %l:%M %P')
+        value: sup_report.hard_drive_pulled_at.try(:strftime, '%A, %B %e, %l:%M %P')
       row.text_field field: 'Drive replaced with', value: sup_report.hard_drive_replaced
       pictures = sup_report.pictures_saved? ? sup_report.saved_pictures : 'None'
       row.text_field field: 'Pictures taken', value: pictures
@@ -461,7 +461,7 @@ prawn_document do |pdf|
         value: @incident.driver.proper_name,
         options: { valign: :center }
       row.text_field field: 'Date and time of incident', width: 2,
-        value: @incident.occurred_at.strftime('%B %e, %Y %-l:%M %P'),
+        value: @incident.occurred_at.try(:strftime, '%B %e, %Y %-l:%M %P'),
         options: { valign: :center }
       row.text_field field: 'Location of incident', width: 1,
         value: report.location,
@@ -494,7 +494,7 @@ prawn_document do |pdf|
       test_types << 'Drug' if sup_report.completed_drug_test?
       test_types << 'Alcohol' if sup_report.completed_alcohol_test?
       row.text_field field: 'Type of test', value: test_types.join(' & ')
-      row.text_field field: 'Time of observation', value: sup_report.observation_made_at.strftime('%l:%M %P')
+      row.text_field field: 'Time of observation', value: sup_report.observation_made_at.try(:strftime, '%l:%M %P')
       test_reasons = []
       test_reasons << 'Appearance' if sup_report.test_due_to_employee_appearance?
       test_reasons << 'Behavior' if sup_report.test_due_to_employee_behavior?
