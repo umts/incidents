@@ -4,10 +4,10 @@
       %a.navbar-brand{ href: root_path }= image_tag 'favicon.svg'
     - if @current_user.present?
       - if @current_user.staff?
-        = link_to new_user_path do
-          %button.btn.btn-default.navbar-btn.navbar-left New Driver
         = link_to users_path do
           %button.btn.btn-default.navbar-btn.navbar-left Manage Drivers
+        = link_to import_users_path do
+          %button.btn.btn-default.navbar-btn.navbar-left Import User Data
         - if @incomplete_incidents.any?
           = link_to incomplete_incidents_path do
             %button.btn.btn-default.navbar-btn.navbar-left

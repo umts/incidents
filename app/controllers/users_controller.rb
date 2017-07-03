@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :find_user, except: %i[create new index]
+  before_action :find_user, except: %i[create new import index]
 
   before_action :access_control
 
@@ -20,9 +20,23 @@ class UsersController < ApplicationController
     redirect_to users_path
   end
 
-  def create
-    @user = User.new user_params
-    attempt_save
+  def import
+    if request.post?
+      xml = Nokogiri::XML params.require(:file).open
+      statuses = User.import_from_xml(xml)
+      if statuses
+        message = "Imported #{statuses[:imported]} new users"
+        unless statuses[:updated].zero?
+          message += " and updated #{statuses[:updated]}"
+        end
+        message += '.'
+        unless statuses[:rejected].zero?
+          message << " #{statuses[:rejected]} were rejected."
+        end
+        redirect_to users_url, notice: message
+      else render :import, alert: 'Could not import from file.'
+      end
+    end
   end
 
   def incidents
@@ -32,10 +46,9 @@ class UsersController < ApplicationController
   def index
     @inactive = params[:inactive] == 'true'
     @users = if @inactive
-               User.inactive
-             else User.active
+               User.inactive.name_order
+             else User.active.name_order
              end
-    @users = @users.includes(:incident_reports).name_order
   end
 
   def reactivate

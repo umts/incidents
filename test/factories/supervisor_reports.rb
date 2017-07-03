@@ -2,7 +2,6 @@
 
 FactoryGirl.define do
   factory :supervisor_report do
-    association :user, factory: %i[user supervisor]
     hard_drive_pulled { [true, false].sample }
     pictures_saved { [true, false].sample }
     passenger_statement { FFaker::BaconIpsum.paragraphs(5).join "\n" }

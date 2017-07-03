@@ -1,0 +1,7 @@
+%h1 Import User Data
+
+= form_with url: '#', local: true, multipart: true, authenticity_token: true do |form|
+  .field
+    = form.label :file
+    = form.file_field :file
+  .actions= form.submit 'Upload and process XML file'

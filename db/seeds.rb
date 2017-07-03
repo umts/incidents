@@ -42,8 +42,7 @@ dates.shuffle.each.with_index do |day, i|
                                              .merge(user: supervisor)
       supervisor_report = create :incident_report, supervisor_report_attrs
       incident_attrs[:supervisor_incident_report] = supervisor_report
-      incident_attrs[:supervisor_report] = create :supervisor_report,
-                                                  user: supervisor
+      incident_attrs[:supervisor_report] = create :supervisor_report
     else
       incident_attrs[:supervisor_incident_report] = nil
       incident_attrs[:supervisor_report] = nil

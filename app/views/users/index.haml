@@ -27,7 +27,7 @@
         %td= yes_no_image user.supervisor?
         %td= yes_no_image user.staff?
         %td
-          - if user.driver? && user.incident_reports.present?
+          - if user.driver?
             = link_to incidents_user_path(user) do
               %button.btn.btn-default View incidents
         %td
