@@ -8,7 +8,7 @@ en:
         bus: 'Bus #'
         occurred_at: 'Date and time of incident'
         speed: 'Speed at time of incident'
-        motor_vehicle_collision: 'Did the incident involve a collision with a motor vehicle?'
+        motor_vehicle_collision: 'Did the incident involve a collision with non-PVTA property?'
         passenger_incident: 'Did the incident involve a passenger?'
         headlights_used: 'Were the bus headlights on at the time of the incident?'
         other_vehicle_plate: 'License plate of other vehicle'
