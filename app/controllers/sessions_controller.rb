@@ -5,16 +5,16 @@ class SessionsController < ApplicationController
 
   def destroy
     session.clear
-    redirect_to root_path
+    redirect_to root_url
   end
 
   def login
     if request.get?
       define_users unless Rails.env.production?
     elsif authenticate_user
-      redirect_to session[:requested_path] || root_path
+      redirect_to session[:requested_path] || root_url
       session.delete :requested_path
-    else redirect_to login_path, alert: 'Invalid credentials.'
+    else redirect_to login_url, alert: 'Invalid credentials.'
     end
   end
 

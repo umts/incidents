@@ -27,7 +27,7 @@
           - if @current_user.staff?
             %td= yes_no_image incident.reviewed?
             %td
-              = link_to incident_path(incident, format: :pdf) do
+              = link_to incident_url(incident, format: :pdf) do
                 %button.btn.btn-default Print
           %td
             = link_to incident do
@@ -38,7 +38,7 @@
                   View
           %td
             - if @current_user.staff? || !incident.reviewed?
-              = link_to edit_incident_path(incident) do
+              = link_to edit_incident_url(incident) do
                 %button.btn.btn-default
                   - if incident.completed?
                     Edit
