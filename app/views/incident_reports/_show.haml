@@ -6,7 +6,7 @@
       by
       = report.last_updated_by
     |
-    = link_to 'View full history', history_incident_path(report)
+    = link_to 'View full history', history_incident_url(report)
     TODO: should be incident report history
 %p
   %strong
@@ -232,4 +232,4 @@
   %strong Description of incident:
   = simple_format report.description
 - if @current_user.staff? || @current_user == report.user
-  = link_to 'Edit', edit_incident_path(report.incident)
+  = link_to 'Edit', edit_incident_url(report.incident)

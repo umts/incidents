@@ -38,7 +38,7 @@ class ApplicationController < ActionController::Base
       PaperTrail.whodunnit = @current_user.id
     else
       session[:requested_path] = request.path
-      redirect_to login_path
+      redirect_to login_url
     end
   end
 end

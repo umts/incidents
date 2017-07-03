@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def deactivate
     @user.update! active: false
     flash[:notice] = 'Driver was deactivated successfully.'
-    redirect_to users_path
+    redirect_to users_url
   end
 
   def destroy
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
     else
       flash[:alert] = 'Cannot delete drivers who have incidents in their name.'
     end
-    redirect_to users_path
+    redirect_to users_url
   end
 
   def import
@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   def reactivate
     @user.update! active: true
     flash[:notice] = 'Driver was reactivated successfully.'
-    redirect_to users_path
+    redirect_to users_url
   end
 
   def update
@@ -67,7 +67,7 @@ class UsersController < ApplicationController
   def attempt_save
     if @user.save
       flash[:notice] = "Driver was #{params[:action]}d successfully."
-      redirect_to users_path
+      redirect_to users_url
     else
       flash[:errors] = @user.errors.full_messages
       render 'edit'

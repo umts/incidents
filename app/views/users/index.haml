@@ -5,9 +5,9 @@
 
 .center
   - if params[:inactive]
-    = link_to 'Manage active drivers', users_path
+    = link_to 'Manage active drivers', users_url
   - elsif User.inactive.present?
-    = link_to 'Manage inactive drivers', users_path(inactive: true)
+    = link_to 'Manage inactive drivers', users_url(inactive: true)
 
 %table.index
   %thead
@@ -28,18 +28,18 @@
         %td= yes_no_image user.staff?
         %td
           - if user.driver?
-            = link_to incidents_user_path(user) do
+            = link_to incidents_user_url(user) do
               %button.btn.btn-default View incidents
         %td
-          = link_to edit_user_path(user) do
+          = link_to edit_user_url(user) do
             %button.btn.btn-default Edit
         %td
           - if user.active?
-            = link_to deactivate_user_path(user), method: :post do
+            = link_to deactivate_user_url(user), method: :post do
               %button.btn.btn-default.delete Deactivate
           - else
-            = link_to reactivate_user_path(user), method: :post do
+            = link_to reactivate_user_url(user), method: :post do
               %button.btn.btn-default.delete Reactivate
         %td
-          = link_to user_path(user), method: :delete do
+          = link_to user_url(user), method: :delete do
             %button.btn.btn-default.delete Delete

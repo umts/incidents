@@ -22,4 +22,4 @@
         options_from_collection_for_select(User.active.supervisors.name_order, :id, :proper_name, @current_user.id),
         { include_blank: true }, id: :report_supervisor_id
   .actions= form.submit 'Create Incident Report'
-= link_to 'Back', incidents_path
+= link_to 'Back', incidents_url

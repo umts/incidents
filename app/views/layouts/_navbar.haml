@@ -1,27 +1,27 @@
 %nav.navbar.navbar-default.with-icon
   .container-fluid
     .navbar-header
-      %a.navbar-brand{ href: root_path }= image_tag 'favicon.svg'
+      %a.navbar-brand{ href: root_url }= image_tag 'favicon.svg'
     - if @current_user.present?
       - if @current_user.staff?
-        = link_to users_path do
+        = link_to users_url do
           %button.btn.btn-default.navbar-btn.navbar-left Manage Drivers
         = link_to import_users_path do
           %button.btn.btn-default.navbar-btn.navbar-left Import User Data
         - if @incomplete_incidents.any?
-          = link_to incomplete_incidents_path do
+          = link_to incomplete_incidents_url do
             %button.btn.btn-default.navbar-btn.navbar-left
               Incomplete Incidents
               .number-icon= @incomplete_incidents.count
         - if @unreviewed_incidents.any?
-          = link_to unreviewed_incidents_path do
+          = link_to unreviewed_incidents_url do
             %button.btn.btn-default.navbar-btn.navbar-left
               Unreviewed Incidents
               .number-icon= @unreviewed_incidents.count
-      = link_to new_incident_path do
+      = link_to new_incident_url do
         %button.btn.btn-default.navbar-btn.navbar-left New Incident
-      = link_to destroy_session_path, method: :delete do
+      = link_to destroy_session_url, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
     - else
-      = link_to login_path do
+      = link_to login_url do
         %button.btn.btn-default.navbar-btn.navbar-right Log in
