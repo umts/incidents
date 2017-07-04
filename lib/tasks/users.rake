@@ -33,9 +33,18 @@ namespace :users do
   task import: :environment do
     file = File.open(ARGV[1] || 'contrib/Users.xml')
     doc = Nokogiri::XML file
-    imported, updated = User.import_from_xml(doc)
-    message = "Imported #{imported} new users"
-    message << "and updated #{updated}" unless updated.zero?
-    puts message + '.'
+    statuses = User.import_from_xml(doc)
+    if statuses
+      message = "Imported #{statuses[:imported]} new users"
+      unless statuses[:updated].zero?
+        message += " and updated #{statuses[:updated]}"
+      end
+      message += '.'
+      unless statuses[:rejected].zero?
+        message << " #{statuses[:rejected]} were rejected."
+      end
+      puts message
+    else puts 'Could not import from file.'
+    end
   end
 end
