@@ -19,6 +19,7 @@ class Incident < ApplicationRecord
   validates :reason_code, presence: true, if: :completed?
 
   has_one :driver, through: :driver_incident_report, source: :user
+  delegate :division, to: :driver
   has_one :supervisor, through: :supervisor_incident_report, source: :user
   validate :driver_and_supervisor_in_correct_groups
 
