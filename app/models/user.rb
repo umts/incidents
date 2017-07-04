@@ -16,6 +16,7 @@ class User < ApplicationRecord
   scope :drivers, -> { where supervisor: false, staff: false }
   scope :supervisors, -> { where supervisor: true }
   scope :staff, -> { where staff: true }
+  scope :with_email, -> { where.not email: nil }
 
   scope :name_order, -> { order :last_name, :first_name }
 

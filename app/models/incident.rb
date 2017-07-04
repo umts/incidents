@@ -45,6 +45,8 @@ class Incident < ApplicationRecord
     includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
   }
 
+  after_create :send_notifications
+
   def occurred_at_readable
     [occurred_date, occurred_time].join ' - '
   end
@@ -72,6 +74,13 @@ class Incident < ApplicationRecord
            supervisor_incident_report.try(:user).try(:supervisor?)
       errors.add :supervisor_incident_report,
                  'selected supervisor is not a supervisor'
+    end
+  end
+
+  def send_notifications
+    User.staff.with_email.each do |user|
+      ApplicationMailer.with(incident: self, destination: user.email)
+                       .new_incident.deliver_now
     end
   end
 end

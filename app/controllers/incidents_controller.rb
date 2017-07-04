@@ -7,8 +7,8 @@ class IncidentsController < ApplicationController
   before_action :set_driver_list, only: %i[create new]
 
   def create
-    @incident = Incident.new incident_params
-    initialize_supervisor_report
+    @incident = Incident.new
+    @incident.assign_attributes incident_params
     if @incident.save
       redirect_to incidents_url, notice: 'Incident was successfully created.'
     else render :new, status: :unprocessable_entity
@@ -76,7 +76,6 @@ class IncidentsController < ApplicationController
 
   def update
     @incident.assign_attributes incident_params
-    initialize_supervisor_report
     respond_to do |format|
       if @incident.save
         format.html do
@@ -97,14 +96,13 @@ class IncidentsController < ApplicationController
   private
 
   def incident_params
-    params.require(:incident).permit!
-  end
-
-  def initialize_supervisor_report
-    sup_report_attrs = incident_params[:supervisor_incident_report_attributes]
+    data = params.require(:incident).permit!
+    sup_report_attrs = data[:supervisor_incident_report_attributes]
     if sup_report_attrs.present? && sup_report_attrs[:user_id].present?
       @incident.supervisor_report = SupervisorReport.new
+    else data.delete :supervisor_incident_report_attributes
     end
+    data
   end
 
   # rubocop:disable Style/IfUnlessModifier
