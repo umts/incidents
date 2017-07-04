@@ -28,3 +28,8 @@ To elevate the appropriate administrative staff, record their full names in a .t
 ```
 rails users:elevate_staff staff.txt
 ```
+
+### Email
+
+We develop using mailcatcher. They don't recommend listing it in the Gemfile, so install with `gem install mailcatcher`.
+Then run `mailcatcher`, daemon by default, to catch mail and to `localhost:1080` to view the sent mail.
