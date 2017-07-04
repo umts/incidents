@@ -44,8 +44,9 @@ class IncidentsController < ApplicationController
   def index
     if @current_user.staff?
       parse_dates
-      @incidents = Incident.includes(:driver, :supervisor, :staff_reviews)
-                           .between(@start_date, @end_date).order :occurred_at
+      @incidents = Incident.between(@start_date, @end_date)
+                           .includes(:driver, :supervisor, :staff_reviews)
+                           .order :occurred_at
       render :by_date and return
     end
     @incidents = if @current_user.supervisor?
