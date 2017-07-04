@@ -1,12 +1,15 @@
-filterDivisions = () ->
+$.fn.filterTableFromButton = (tableClass, dataAttribute) ->
   $(this).siblings('button').removeClass 'btn-primary'
   $(this).addClass 'btn-primary'
-  division = $(this).text()
-  $('table.incidents tbody tr').show()
-  if division != 'All'
-    $('table.incidents tbody tr').filter () ->
-      $(this).data('division') != division
+  filterGroup = $(this).text()
+  tableRows = $("table.#{tableClass} tbody tr").show()
+  if filterGroup != 'All'
+    tableRows.filter () ->
+      $(this).data(dataAttribute) != filterGroup
     .hide()
 
 $(document).ready ->
-  $('.division-filter').on 'click', 'button', filterDivisions
+  $('.filters.divisions').on 'click', 'button', () ->
+    $(this).filterTableFromButton('incidents', 'division')
+  $('.filters.groups').on 'click', 'button', () ->
+    $(this).filterTableFromButton('index', 'group')

@@ -9,6 +9,12 @@
   - elsif User.inactive.present?
     = link_to 'Manage inactive drivers', users_url(inactive: true)
 
+.filters.groups
+  %button.btn.btn-primary All
+  %button.btn Drivers
+  %button.btn Supervisors
+  %button.btn Staff
+
 %table.index
   %thead
     %tr
@@ -20,7 +26,7 @@
       %th{ colspan: 4 }
   %tbody
     - @users.each do |user|
-      %tr
+      %tr{ data: { group: user.group } }
         %td= user.proper_name
         %td= user.hastus_id
         %td= user.division

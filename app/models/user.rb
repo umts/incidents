@@ -27,6 +27,13 @@ class User < ApplicationRecord
     [first_name, last_name].join ' '
   end
 
+  def group
+    if driver? then 'Drivers'
+    elsif supervisor? then 'Supervisors'
+    else 'Staff'
+    end
+  end
+
   def proper_name
     [last_name, first_name].join ', '
   end
