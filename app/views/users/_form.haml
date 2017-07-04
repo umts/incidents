@@ -22,4 +22,12 @@
       %td= f.label :staff
       %td= f.check_box :staff
     %tr
+      %td= f.label :email, 'Email (for incident notifications)'
+      %td= f.text_field :email
+    %tr
+      %td{colspan: 2}
+        %i
+          Staff members with an email provided will
+          be automatically sent email notifications.
+    %tr
       %td{ colspan: 2 }= f.submit 'Save driver', class: 'btn btn-primary submit'
