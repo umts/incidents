@@ -1,14 +1,12 @@
 .date-navigation,.division-filter{
   display: flex;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
   justify-content: center;
-  a{
-    &:hover{
-      background: inherit;
-    }
-    button{
-      margin: 0 2em;
-    }
+  a:hover{
+    background: inherit;
+  }
+  button{
+    margin: 0 1em;
   }
 }
 
