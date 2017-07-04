@@ -10,6 +10,6 @@ $.fn.filterTableFromButton = (tableClass, dataAttribute) ->
 
 $(document).ready ->
   $('.filters.divisions').on 'click', 'button', () ->
-    $(this).filterTableFromButton('incidents', 'division')
+    $(this).filterTableFromButton 'incidents', 'division'
   $('.filters.groups').on 'click', 'button', () ->
-    $(this).filterTableFromButton('index', 'group')
+    $(this).filterTableFromButton 'index', 'group'
