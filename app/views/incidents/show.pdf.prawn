@@ -554,6 +554,26 @@ prawn_document do |pdf|
       row.text_field width: 1, field: "Supervisor's signature", value: ''
     end
 
-    # TODO optional page for amplifying comments
+    if sup_report.amplifying_comments.present?
+      pdf.start_new_page
+      pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+        pdf.move_down 15
+        pdf.text 'Amplifying Comments'.upcase,
+          align: :center, size: 14, style: :bold
+      end
+      pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+        pdf.move_down 3
+        pdf.text <<~DESCRIPTION.tr("\n", ' '), size: 10
+          Complete this section to note any problem or unusual circumstance
+          associated with the testing process, any delay in testing beyond two
+          hours of notifying employee of a testing requirement, or to provide
+          additional information, if needed.
+        DESCRIPTION
+      end
+      pdf.field_row height: 300, units: 1 do |row|
+        row.text_field field: 'Amplifying comments', value: sup_report.amplifying_comments,
+          options: { valign: :top, align: :left }
+      end
+    end
   end
 end
