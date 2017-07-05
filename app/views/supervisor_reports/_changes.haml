@@ -6,10 +6,10 @@
       %th To
   %tbody
     - changes.each_pair do |attribute, values|
-      - unless Incident::HISTORY_EXCLUDE_FIELDS.include?(attribute) || values.all?(&:blank?)
+      - unless SupervisorReport::HISTORY_EXCLUDE_FIELDS.include?(attribute) || values.all?(&:blank?)
         %tr
           %td.attribute-name
-            %b= Incident.human_attribute_name attribute
+            %b= SupervisorReport.human_attribute_name attribute
           - values.each do |value|
             %td
               - case value
@@ -19,7 +19,7 @@
                 = yes_no_image value
               - when Integer
                 - case attribute
-                - when 'driver_id'
+                - when 'user_id'
                   = User.find_by(id: value).try(:name)
                 - else
                   = value

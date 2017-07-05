@@ -6,8 +6,7 @@
       by
       = report.last_updated_by
     |
-    = link_to 'View full history', history_incident_url(report)
-    TODO: should be incident report history
+    = link_to 'View full history', history_incident_report_url(report)
 %p
   %strong
     - if report.user.driver?

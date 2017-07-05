@@ -1,0 +1,38 @@
+%table.changes
+  %thead
+    %tr
+      %th Value changed
+      %th From
+      %th To
+  %tbody
+    - changes.each_pair do |attribute, values|
+      - unless IncidentReport::HISTORY_EXCLUDE_FIELDS.include?(attribute) || values.all?(&:blank?)
+        %tr
+          %td.attribute-name
+            %b= IncidentReport.human_attribute_name attribute
+          - values.each do |value|
+            %td
+              - case value
+              - when nil, ''
+                Blank
+              - when true, false
+                = yes_no_image value
+              - when Integer
+                - case attribute
+                - when 'user_id'
+                  = User.find_by(id: value).try(:name)
+                - else
+                  = value
+              - when ActiveSupport::TimeWithZone
+                = value.strftime('%A, %B %e, %Y %l:%m %P')
+              - when Date
+                = value.strftime('%A, %B %e, %Y')
+              - when Hash
+                - if value.blank?
+                  Blank
+                - else
+                  %ul
+                    - value.each_pair do |key, value|
+                      %li= [key.capitalize, value].join ': '
+              - else
+                = value

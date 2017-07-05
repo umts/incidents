@@ -10,6 +10,8 @@ class SupervisorReport < ApplicationRecord
     'On-Site (Employee Work Location)'
   ].freeze
 
+  HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
+
   validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
   has_one :incident

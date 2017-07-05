@@ -12,10 +12,19 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :incident_reports, only: %i[edit update]
-  resources :supervisor_reports, only: %i[edit update]
+  resources :incident_reports, only: %i[edit update] do
+    member do
+      get  :history
+    end
+  end
 
   resources :staff_reviews, only: %i[create destroy update]
+
+  resources :supervisor_reports, only: %i[edit update] do
+    member do
+      get  :history
+    end
+  end
 
   scope :staff do
     resources :users, except: :show do

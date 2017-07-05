@@ -4,6 +4,10 @@ class IncidentReportsController < ApplicationController
   # set_report handles access control for member routes.
   before_action :set_report
 
+  def history
+    @history = @incident.versions.order 'created_at desc'
+  end
+
   def update
     if @report.update(report_params)
       redirect_to @incident,

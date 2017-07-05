@@ -1,0 +1,26 @@
+%h1 Incident Report History
+
+- if @history.present?
+  %table.history
+    %thead
+      %tr
+        %th Occurred
+        %th User
+        %th Change Type
+        %th Change(s) Made
+    %tbody
+      - @history.each do |version|
+        %tr
+          %td= version.created_at.strftime '%A, %B %e, %Y %l:%M %P'
+          %td= User.find_by(id: version.whodunnit).try(:name) || 'Unknown'
+          %td
+            - case version.event
+            - when 'create'
+              initialized the incident report
+            - when 'update'
+              changed incident report data
+          %td
+            - if version.changeset.present?
+              = render 'changes', changes: version.changeset
+- else
+  No history available for this incident report.

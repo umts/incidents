@@ -6,8 +6,7 @@
       by
       = report.last_updated_by
     |
-    = link_to 'View full history', history_incident_url(report)
-    TODO: should be supervisor report history
+    = link_to 'View full history', history_supervisor_report_url(report)
 %p
   %strong Hard drive pulled?
   = yes_no report.hard_drive_pulled?

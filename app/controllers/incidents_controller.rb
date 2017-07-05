@@ -3,7 +3,7 @@
 class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
   before_action :restrict_to_staff, only: %i[destroy incomplete unreviewed]
-  before_action :set_incident, only: %i[destroy edit history show update]
+  before_action :set_incident, only: %i[destroy edit show update]
   before_action :set_driver_list, only: %i[create new]
 
   def create
