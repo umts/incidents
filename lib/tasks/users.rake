@@ -33,27 +33,18 @@ namespace :users do
   task import: :environment do
     file = File.open(ARGV[1] || 'contrib/Users.xml')
     doc = Nokogiri::XML file
-    imported = 0
-    doc.css('User').each do |user_data|
-      attrs = {}
-      attrs[:hastus_id] = user_data.at_css('hastus_id').text
-      user = User.find_by attrs
-      next if user.present?
-      attrs[:first_name] = user_data.at_css('first_name').text.capitalize
-      attrs[:last_name] = user_data.at_css('last_name').text.capitalize
-      attrs[:division] = user_data.at_css('division').text
-      job_class = user_data.at_css('job_class').text
-      attrs[:supervisor] = job_class == 'Supervisor'
-      user = User.new attrs
-      if user.save
-        imported += 1
-      else
-        print 'Could not create user with attributes '
-        puts attrs
-        puts user.errors.full_messages
-        puts
+    statuses = User.import_from_xml(doc)
+    if statuses
+      message = "Imported #{statuses[:imported]} new users"
+      unless statuses[:updated].zero?
+        message += " and updated #{statuses[:updated]}"
       end
+      message += '.'
+      unless statuses[:rejected].zero?
+        message << " #{statuses[:rejected]} were rejected."
+      end
+      puts message
+    else puts 'Could not import from file.'
     end
-    puts "#{imported.zero? ? 'No new' : imported} users were imported."
   end
 end
