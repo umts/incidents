@@ -1,0 +1,12 @@
+Hello,
+
+A new incident has been created.
+
+Driver: <%= @incident.driver.full_name %>
+Supervisor: <%= @incident.supervisor.try(:full_name) || 'None' %>
+
+More details will be available once the reports are completed:
+
+<%= incident_url @incident %>
+
+This message was automatically sent from an email which is not monitored.

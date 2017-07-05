@@ -21,7 +21,6 @@
               changed incident report data
           %td
             - if version.changeset.present?
-              = render partial: 'changes',
-                       locals: { changes: version.changeset }
+              = render 'changes', changes: version.changeset
 - else
   No history available for this incident.

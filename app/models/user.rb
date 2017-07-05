@@ -17,6 +17,7 @@ class User < ApplicationRecord
   scope :drivers, -> { where supervisor: false, staff: false }
   scope :supervisors, -> { where supervisor: true }
   scope :staff, -> { where staff: true }
+  scope :with_email, -> { where.not email: nil }
 
   scope :name_order, -> { order :last_name, :first_name }
 
@@ -26,6 +27,13 @@ class User < ApplicationRecord
 
   def full_name
     [first_name, last_name].join ' '
+  end
+
+  def group
+    if driver? then 'Drivers'
+    elsif supervisor? then 'Supervisors'
+    else 'Staff'
+    end
   end
 
   def proper_name
@@ -39,7 +47,7 @@ class User < ApplicationRecord
       attrs = {}
       attrs[:first_name] = user_data.at_css('first_name').text.capitalize
       attrs[:last_name] = user_data.at_css('last_name').text.capitalize
-      attrs[:division] = user_data.at_css('division').text.upcase
+      attrs[:division] = user_data.at_css('division').text
       job_class = user_data.at_css('job_class').text
       attrs[:supervisor] = job_class == 'Supervisor'
       user = User.find_by hastus_id: hastus_id
