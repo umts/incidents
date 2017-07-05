@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class IncidentReportsController < ApplicationController
-  # TODO: access control
+  # set_report handles access control for member routes.
   before_action :set_report
 
   def update
@@ -21,5 +21,7 @@ class IncidentReportsController < ApplicationController
   def set_report
     @report = IncidentReport.find params.require(:id)
     @incident = @report.incident
+    return if @current_user.staff?
+    deny_access and return unless @report.user == @current_user
   end
 end
