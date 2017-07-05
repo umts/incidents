@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
 class SupervisorReportsController < ApplicationController
-  # TODO: access_control
-  before_action :set_report
+  before_action :set_report, :restrict_to_supervisors
 
   def update
     if @report.update report_params

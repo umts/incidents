@@ -9,10 +9,6 @@ class ApplicationController < ActionController::Base
 
   private
 
-  def access_control # TODO: rename to restrict_to_staff
-    deny_access and return unless @current_user.staff?
-  end
-
   def check_for_incomplete_incidents
     @incomplete_incidents = Incident.incomplete
     @unreviewed_incidents = Incident.unreviewed
@@ -28,8 +24,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def restrict_to_staff
+    deny_access and return unless @current_user.staff?
+  end
+
   def restrict_to_supervisors
-    deny_access and return unless @current_user.supervisor?
+    unless @current_user.supervisor? || @current_user.staff?
+      deny_access and return
+    end
   end
 
   def set_current_user

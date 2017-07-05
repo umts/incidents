@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StaffReviewsController < ApplicationController
-  before_action :access_control
+  before_action :restrict_to_staff
   before_action :set_staff_review, except: :create
 
   def create

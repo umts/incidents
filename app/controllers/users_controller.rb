@@ -3,7 +3,7 @@
 class UsersController < ApplicationController
   before_action :find_user, except: %i[create new index]
 
-  before_action :access_control
+  before_action :restrict_to_staff
 
   def deactivate
     @user.update! active: false
