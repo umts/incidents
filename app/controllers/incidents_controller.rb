@@ -30,10 +30,6 @@ class IncidentsController < ApplicationController
     deny_access and return if !@current_user.staff? && @incident.reviewed?
   end
 
-  def history
-    @history = @incident.versions.order 'created_at desc'
-  end
-
   def incomplete
     @incidents = Incident.incomplete.order :occurred_at
     if @incidents.blank?
@@ -62,7 +58,7 @@ class IncidentsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.pdf { render pdf: 'show.pdf.prawn' }
+      format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }
       format.html { render 'show' }
       format.xml { render 'show.xml.haml', layout: false }
     end
@@ -134,6 +130,14 @@ class IncidentsController < ApplicationController
     @drivers = if @current_user.driver? then [@current_user]
                else User.active.drivers.name_order
                end
+  end
+
+  def record_print_event
+    [@incident.driver_incident_report,
+     @incident.supervisor_incident_report,
+     @incident.supervisor_report].compact.each do |report|
+       report.versions.create! event: 'print', whodunnit: @current_user.id
+    end
   end
 
   def set_incident

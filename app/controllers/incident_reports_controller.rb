@@ -5,7 +5,7 @@ class IncidentReportsController < ApplicationController
   before_action :set_report
 
   def history
-    @history = @incident.versions.order 'created_at desc'
+    @history = @report.versions.order 'created_at desc'
   end
 
   def update
