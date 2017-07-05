@@ -30,10 +30,12 @@ class UsersController < ApplicationController
           message += " and updated #{statuses[:updated]}"
         end
         message += '.'
-        unless statuses[:rejected].zero?
+        if statuses[:rejected].zero?
+          redirect_to users_url, notice: message
+        else
           message += " #{statuses[:rejected]} were rejected."
+          redirect_to users_url, alert: message
         end
-        redirect_to users_url, notice: message
       else render :import, alert: 'Could not import from file.'
       end
     end
