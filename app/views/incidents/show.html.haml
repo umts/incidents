@@ -1,6 +1,9 @@
 %h1.title Incident Report
 %p#notice= notice
 
+- if @current_user.staff?
+  = link_to 'Export File', incident_url(@incident, format: :xml)
+
 %hr
 %h2 Driver Incident Report
 = render 'incident_reports/show', report: @incident.driver_incident_report

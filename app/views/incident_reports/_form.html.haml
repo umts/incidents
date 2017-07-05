@@ -121,12 +121,12 @@
     .field
       = form.label :direction
       = form.select :direction,
-        options_for_select(IncidentReport::DIRECTION_OPTIONS, report.direction),
+        options_for_select(IncidentReport::DIRECTIONS.invert, report.direction),
         { include_blank: true }, id: :report_direction
     .field
       = form.label :other_vehicle_direction
       = form.select :other_vehicle_direction,
-        options_for_select(IncidentReport::DIRECTION_OPTIONS, report.other_vehicle_direction),
+        options_for_select(IncidentReport::DIRECTIONS.invert, report.other_vehicle_direction),
         { include_blank: true }, id: :report_other_vehicle_direction
     .field
       = form.label :other_driver_name

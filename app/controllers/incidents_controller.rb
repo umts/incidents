@@ -64,6 +64,7 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       format.pdf { render pdf: 'show.pdf.prawn' }
       format.html { render 'show' }
+      format.xml { render 'show.xml.haml', layout: false }
     end
   end
 

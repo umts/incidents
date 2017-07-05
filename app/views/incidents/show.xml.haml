@@ -1,0 +1,22 @@
+!!!xml
+- report = @incident.driver_incident_report
+- sup_report = @incident.supervisor_report
+%object_interface
+  %accident_incident
+    %ai_block= report.block
+    %ai_code= @incident.reason_code.try :identifier
+    %ai_commentary= report.description
+    %ai_date_occured= @incident.occurred_at.try :strftime, '%Y-%m-%d'
+    %ai_direction= report.direction
+    %ai_district= report.town
+    %ai_division= @incident.division
+    - if sup_report.present?
+      %ai_dvr_pulled= sup_report.hard_drive_pulled?
+    %ai_employee= report.user.hastus_id
+    %ai_point_of_impact= report.point_of_impact
+    %ai_time_occured
+      = @incident.occurred_at.try :strftime, '2000-01-01T%H:%M:00.000'
+    %ai_type_situation= report.type_situation
+    %ai_vehicle= report.bus
+    %ai_occured_year= @incident.occurred_at.try :year
+    %ai_street= report.location

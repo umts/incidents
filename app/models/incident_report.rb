@@ -6,7 +6,6 @@ class IncidentReport < ApplicationRecord
   WEATHER_OPTIONS = %w[Clear Raining Fog Snowing Sleet].freeze
   ROAD_OPTIONS = %w[Dry Wet Icy Snowy Slushy].freeze
   LIGHT_OPTIONS = %w[Daylight Dawn/Dusk Darkness].freeze
-  DIRECTION_OPTIONS = %w[North East South West].freeze
   BUS_MOTION_OPTIONS = %w[Stopped Braking Accelerating Other].freeze
   STEP_CONDITION_OPTIONS = %w[Dry Wet Icy Other].freeze
   PASSENGERS_REQUIRED_FIELDS = %i[name address town state zip phone].freeze
@@ -32,6 +31,12 @@ class IncidentReport < ApplicationRecord
   SURFACE_TYPE_OPTIONS = %w[Concrete Gravel Oiled Dirt Asphalt Other].freeze
   SURFACE_GRADE_OPTIONS = %w[Smooth Rough Uphill Downhill
                              Level High\ Crowned Banked].freeze
+  DIRECTIONS = {
+    NORTH: 'North', SOUTH: 'South', EAST: 'East', WEST: 'West',
+    INB: 'Inbound', OUTB: 'Outbound', INW: 'Inward', OUTW: 'Outward',
+    CW: 'Clockwise', CCW: 'Counterclockwise', DIR1: 'DIR1',  DIR2: 'DIR2',
+    UPWARD: 'Upward', DOWNWARD: 'Downward'
+  }.stringify_keys.freeze
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
@@ -42,6 +47,8 @@ class IncidentReport < ApplicationRecord
 
   validate :injured_passenger_required_fields,
            if: -> { passenger_incident? && passenger_injured? }
+  validates :direction, inclusion: { in: DIRECTIONS.keys, allow_blank: true }
+
   before_save do
     self.injured_passenger = {} unless passenger_injured?
   end
@@ -103,6 +110,13 @@ class IncidentReport < ApplicationRecord
 
   def other?
     !(motor_vehicle_collision? || passenger_incident?)
+  end
+
+  def type_situation
+    if motor_vehicle_collision?
+      'ACCIDENT'
+    else 'INCIDENT'
+    end
   end
 
   private

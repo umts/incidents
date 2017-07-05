@@ -26,7 +26,7 @@
   = render 'incidents/add_supervisor', incident: @incident
 - if @current_user.staff?
   %h2 Incident Details
-  = render 'form', incident: @incident
+  = render 'incidents/form', incident: @incident
 = link_to 'Show', @incident
 |
 = link_to 'Back', incidents_url

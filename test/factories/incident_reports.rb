@@ -39,8 +39,8 @@ FactoryGirl.define do
     other_vehicle_year                      { 1_997 + rand(20) }
     other_vehicle_color                     { %w[Red White Blue].sample }
     other_vehicle_passengers                { 1 + rand(3) }
-    direction                               { IncidentReport::DIRECTION_OPTIONS.sample }
-    other_vehicle_direction                 { IncidentReport::DIRECTION_OPTIONS.sample }
+    direction                               { IncidentReport::DIRECTIONS.keys.sample }
+    other_vehicle_direction                 { %w[North South East West].sample }
     other_driver_name                       { FFaker::Name.name }
     other_driver_license_number             { 'S' + rand(99_999_999).to_s.rjust(8, '0') }
     other_driver_license_state              { %w[MA RI CT NY].sample }

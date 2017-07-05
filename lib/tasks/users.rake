@@ -41,7 +41,7 @@ namespace :users do
       next if user.present?
       attrs[:first_name] = user_data.at_css('first_name').text.capitalize
       attrs[:last_name] = user_data.at_css('last_name').text.capitalize
-      attrs[:division] = user_data.at_css('division').text.capitalize
+      attrs[:division] = user_data.at_css('division').text
       job_class = user_data.at_css('job_class').text
       attrs[:supervisor] = job_class == 'Supervisor'
       user = User.new attrs
