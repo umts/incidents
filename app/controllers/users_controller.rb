@@ -31,7 +31,7 @@ class UsersController < ApplicationController
         end
         message += '.'
         unless statuses[:rejected].zero?
-          message << " #{statuses[:rejected]} were rejected."
+          message += " #{statuses[:rejected]} were rejected."
         end
         redirect_to users_url, notice: message
       else render :import, alert: 'Could not import from file.'
