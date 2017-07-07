@@ -437,9 +437,8 @@ prawn_document do |pdf|
     end
 
     pdf.field_row height: 130, units: 1 do |row|
-      # TODO this should be a different statement
       row.text_field field: 'Passenger statement and/or injury information in detail',
-        value: report.description, options: { valign: :top, align: :left }
+        value: sup_report.passenger_statement, options: { valign: :top, align: :left }
     end
 
     pdf.field_row height: 130, units: 1 do |row|
