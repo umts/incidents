@@ -41,9 +41,6 @@ class Incident < ApplicationRecord
   }
   scope :incomplete, -> { where completed: false }
   scope :completed, -> { where completed: true }
-  scope :unreviewed, -> {
-    includes(:staff_reviews).where completed: true, staff_reviews: { id: nil }
-  }
 
   after_create :send_notifications
 
