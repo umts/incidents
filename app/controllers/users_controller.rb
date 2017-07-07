@@ -1,19 +1,19 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :find_user, except: %i[create new import index]
+  before_action :find_user, except: %i[import index]
 
   before_action :restrict_to_staff
 
   def deactivate
     @user.update! active: false
-    flash[:notice] = 'Driver was deactivated successfully.'
+    flash[:notice] = 'User was deactivated successfully.'
     redirect_to users_url
   end
 
   def destroy
     if @user.destroy
-      flash[:notice] = 'Driver was deleted successfully.'
+      flash[:notice] = 'User was deleted successfully.'
     else
       flash[:alert] = 'Cannot delete drivers who have incidents in their name.'
     end
@@ -55,7 +55,7 @@ class UsersController < ApplicationController
 
   def reactivate
     @user.update! active: true
-    flash[:notice] = 'Driver was reactivated successfully.'
+    flash[:notice] = 'User was reactivated successfully.'
     redirect_to users_url
   end
 
@@ -68,7 +68,7 @@ class UsersController < ApplicationController
 
   def attempt_save
     if @user.save
-      flash[:notice] = "Driver was #{params[:action]}d successfully."
+      flash[:notice] = "User was #{params[:action]}d successfully."
       redirect_to users_url
     else
       flash[:errors] = @user.errors.full_messages

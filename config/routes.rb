@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   end
 
   scope :staff do
-    resources :users, except: :show do
+    resources :users, except: %i[create new show] do
       collection do
         get  :import
         post :import

@@ -5,7 +5,7 @@
     - if @current_user.present?
       - if @current_user.staff?
         = link_to users_url do
-          %button.btn.btn-default.navbar-btn.navbar-left Manage Drivers
+          %button.btn.btn-default.navbar-btn.navbar-left Manage Users
         = link_to import_users_url do
           %button.btn.btn-default.navbar-btn.navbar-left Import User Data
         - if @incomplete_incidents.any?
