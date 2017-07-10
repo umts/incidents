@@ -25,6 +25,7 @@ dates.shuffle.each.with_index do |day, i|
   # Every 20th incident shall be incomplete.
   incident_type = [nil, :collision, :passenger_incident].sample
   incident_type = :incomplete if (i % 9).zero?
+  claim_date = 2.weeks.ago
   Timecop.freeze day + rand(24 * 60).minutes do
     PaperTrail.whodunnit = driver.id
     driver_report = if incident_type.present?
@@ -48,6 +49,10 @@ dates.shuffle.each.with_index do |day, i|
       incident_attrs[:supervisor_report] = nil
     end
     incident = create :incident, incident_attrs
+    if Time.zone.now < claim_date
+      number = Time.zone.now.year.to_s + rand(10_000).to_s.rjust(4, '0')
+      incident.update claim_number: number
+    end
     # Every 8th-ish incident shall be reviewed.
     if (i % 8).zero? && incident_type != :incomplete
       create :staff_review, incident: incident, user: staff

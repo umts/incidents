@@ -5,6 +5,7 @@
         %th Driver
         %th Supervisor
         %th Occurred at
+        %th Claim #
         %th Run
         %th Bus
         %th Location
@@ -19,6 +20,7 @@
           %td= incident.driver.proper_name
           %td= incident.supervisor.try :proper_name
           %td= incident.occurred_at_readable
+          %td= incident.claim_number
           %td= incident.driver_incident_report.run
           %td= incident.driver_incident_report.bus
           %td= incident.driver_incident_report.location
