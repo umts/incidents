@@ -41,8 +41,10 @@ class Incident < ApplicationRecord
   }
   scope :incomplete, -> { where completed: false }
   scope :completed, -> { where completed: true }
+
+  # It turns out that with MySQL, this *is* case-insensitive.
   scope :by_claim, ->(number) {
-    where 'lower(claim_number) like ?', number.downcase
+    where claim_number: number
   }
 
   after_create :send_notifications
