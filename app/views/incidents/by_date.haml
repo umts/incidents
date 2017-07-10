@@ -1,23 +1,25 @@
 %h1 Incidents
-%h2
-  = @start_date.strftime '%A, %B %e'
-  &mdash;
-  = @end_date.strftime '%A, %B %e'
-.date-navigation
-  = link_to incidents_url(mode: @mode, start_date: @prev_start), class: 'prev' do
-    %button.btn.btn-primary
-      &larr;
-      Previous #{@mode}
-  - case @mode
-  - when 'week'
-    = link_to incidents_url(mode: 'month', start_date: @start_date.beginning_of_month), class: 'switch' do
-      %button.btn.btn-primary View for whole month
-  - when 'month'
-    = link_to incidents_url(mode: 'week', start_date: @week_start_date), class: 'switch' do
-      %button.btn.btn-primary View single week
-  = link_to incidents_url(mode: @mode, start_date: @next_start), class: 'next' do
-    %button.btn.btn-primary
-      Next #{@mode}
-      &rarr;
+- if @start_date.present?
+  %h2
+    = @start_date.strftime '%A, %B %e'
+    &mdash;
+    = @end_date.strftime '%A, %B %e'
+  .date-navigation
+    = link_to incidents_url(mode: @mode, start_date: @prev_start), class: 'prev' do
+      %button.btn.btn-primary
+        &larr;
+        Previous #{@mode}
+    - case @mode
+    - when 'week'
+      = link_to incidents_url(mode: 'month', start_date: @start_date.beginning_of_month), class: 'switch' do
+        %button.btn.btn-primary View for whole month
+    - when 'month'
+      = link_to incidents_url(mode: 'week', start_date: @week_start_date), class: 'switch' do
+        %button.btn.btn-primary View single week
+    = link_to incidents_url(mode: @mode, start_date: @next_start), class: 'next' do
+      %button.btn.btn-primary
+        Next #{@mode}
+        &rarr;
 = render 'division_filters'
+= render 'claim_search'
 = render 'table'

@@ -56,6 +56,13 @@ class IncidentsController < ApplicationController
     @incident = Incident.new
   end
 
+  def search
+    @incidents = Incident.by_claim(params.require :claim_number)
+                         .includes(:driver, :supervisor, :staff_reviews)
+                         .order :occurred_at
+    render :by_date
+  end
+
   def show
     respond_to do |format|
       format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }

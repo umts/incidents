@@ -50,7 +50,11 @@ dates.shuffle.each.with_index do |day, i|
     end
     incident = create :incident, incident_attrs
     if Time.zone.now < claim_date
-      number = Time.zone.now.year.to_s + rand(10_000).to_s.rjust(4, '0')
+      number = if rand(5).zero?
+                 Incident.pluck(:claim_number).compact.sample
+               else
+                 Time.zone.now.year.to_s + rand(10_000).to_s.rjust(4, '0')
+               end
       incident.update claim_number: number
     end
     # Every 8th-ish incident shall be reviewed.

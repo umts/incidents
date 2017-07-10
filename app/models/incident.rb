@@ -41,6 +41,9 @@ class Incident < ApplicationRecord
   }
   scope :incomplete, -> { where completed: false }
   scope :completed, -> { where completed: true }
+  scope :by_claim, ->(number) {
+    where 'lower(claim_number) like ?', number.downcase
+  }
 
   after_create :send_notifications
 
