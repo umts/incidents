@@ -7,6 +7,6 @@ class ApplicationMailer < ActionMailer::Base
   def new_incident
     @incident = params[:incident]
     mail to: params[:destination],
-      subject: "New incident for #{@incident.driver.full_name}"
+         subject: "New incident for #{@incident.driver.full_name}"
   end
 end

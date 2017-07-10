@@ -34,7 +34,7 @@ class IncidentReport < ApplicationRecord
   DIRECTIONS = {
     NORTH: 'North', SOUTH: 'South', EAST: 'East', WEST: 'West',
     INB: 'Inbound', OUTB: 'Outbound', INW: 'Inward', OUTW: 'Outward',
-    CW: 'Clockwise', CCW: 'Counterclockwise', DIR1: 'DIR1',  DIR2: 'DIR2',
+    CW: 'Clockwise', CCW: 'Counterclockwise', DIR1: 'DIR1', DIR2: 'DIR2',
     UPWARD: 'Upward', DOWNWARD: 'Downward'
   }.stringify_keys.freeze
 

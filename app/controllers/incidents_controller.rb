@@ -136,7 +136,7 @@ class IncidentsController < ApplicationController
     [@incident.driver_incident_report,
      @incident.supervisor_incident_report,
      @incident.supervisor_report].compact.each do |report|
-       report.versions.create! event: 'print', whodunnit: @current_user.id
+      report.versions.create! event: 'print', whodunnit: @current_user.id
     end
   end
 
