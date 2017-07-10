@@ -48,8 +48,8 @@ dates.shuffle.each.with_index do |day, i|
       incident_attrs[:supervisor_report] = nil
     end
     incident = create :incident, incident_attrs
-    # Every 8th-ish incident shall be unreviewed.
-    unless incident_type == :incomplete || (i % 8).zero?
+    # Every 8th-ish incident shall be reviewed.
+    if (i % 8).zero? && incident_type != :incomplete
       create :staff_review, incident: incident, user: staff
     end
   end
