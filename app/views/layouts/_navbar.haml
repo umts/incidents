@@ -1,7 +1,9 @@
 %nav.navbar.navbar-default.with-icon
   .container-fluid
     .navbar-header
-      %a.navbar-brand{ href: root_url }= image_tag 'favicon.svg'
+      %button.btn.btn-default.navbar-btn.navbar-left.img
+        = image_tag 'favicon.svg'
+        All Incidents
     - if @current_user.present?
       - if @current_user.staff?
         = link_to users_url do

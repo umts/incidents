@@ -27,15 +27,10 @@ body{
     background: #bbbcbf;
     border-bottom: 2px solid $border-color;
 
-    a.navbar-brand img{
-      @include default-borders(2px);
-      background: white;
-      height: 37px;
-      margin-top: -7px;
-      padding: 5px;
-    }
-    
     button{
+      &.img img{
+        height: 20px;
+      }
       @include default-borders(2px);
       margin-left: 3px;
 
