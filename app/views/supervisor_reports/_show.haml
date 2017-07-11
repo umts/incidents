@@ -34,6 +34,12 @@
   %p
     %strong Faxed at:
     = report.faxed.try :strftime, '%A, %B %e, %Y %l:%M %P'
+- if report.witnesses.present?
+  %p
+    %strong Witness Information:
+    %ol
+      - report.witnesses.each do |witness_info|
+        %li= report.format_witness_info(witness_info)
 %p
   %strong Completed drug or alcohol test?
   = yes_no report.completed_drug_or_alcohol_test?

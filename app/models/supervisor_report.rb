@@ -19,6 +19,19 @@ class SupervisorReport < ApplicationRecord
   serialize :witnesses, Array
   validate :witnesses_required_fields
 
+  def format_witness_info(info)
+    phones = info.slice(:home_phone, :cell_phone, :work_phone)
+                 .each_pair.map do |phone_type, phone_number|
+      "#{phone_type.humanize}: #{phone_number}" if phone_number.present?
+    end.compact.join '; '
+    [
+      info.fetch(:name),
+      info.fetch(:address),
+      info.fetch(:aboard_bus) ? 'Aboard bus' : 'Not aboard bus',
+      phones
+    ].join '; '
+  end
+
   def last_update
     versions.last
   end
