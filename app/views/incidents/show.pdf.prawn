@@ -377,7 +377,7 @@ prawn_document do |pdf|
       end
     end
 
-    pdf.field_row height: 50, units: 5 do |row|
+    pdf.field_row height: 40, units: 5 do |row|
       row.text_field field: 'Point of impact on bus', value: report.point_of_impact,
         options: { valign: :center }
       row.text_field width: 2, field: 'Describe damage to bus at point of impact',
@@ -415,7 +415,18 @@ prawn_document do |pdf|
       end
     end
 
-    # TODO witnesses and injured passengers
+    if sup_report.witnesses.present?
+      pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+        pdf.move_down 15
+        pdf.text 'Witness Information'.upcase,
+          align: :center, size: 14, style: :bold
+      end
+      sup_report.witnesses.each.with_index(1) do |witness_info, index|
+        pdf.text "#{index}. #{sup_report.format_witness_info(witness_info)}", size: 10
+      end
+    end
+
+    # TODO injured passengers
 
     if report.motor_vehicle_collision?
       pdf.start_new_page
