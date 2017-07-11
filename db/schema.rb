@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170711125728) do
+ActiveRecord::Schema.define(version: 20170711154242) do
 
   create_table "incident_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "run"
@@ -188,6 +188,18 @@ ActiveRecord::Schema.define(version: 20170711125728) do
     t.datetime "created_at"
     t.text "object_changes"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+  end
+
+  create_table "witnesses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer "supervisor_report_id"
+    t.string "name"
+    t.text "address"
+    t.boolean "onboard_bus"
+    t.string "home_phone"
+    t.string "cell_phone"
+    t.string "work_phone"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
 end

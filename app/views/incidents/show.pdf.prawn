@@ -421,8 +421,8 @@ prawn_document do |pdf|
         pdf.text 'Witness Information'.upcase,
           align: :center, size: 14, style: :bold
       end
-      sup_report.witnesses.each.with_index(1) do |witness_info, index|
-        pdf.text "#{index}. #{sup_report.format_witness_info(witness_info)}", size: 10
+      sup_report.witnesses.each.with_index(1) do |witness, index|
+        pdf.text "#{index}. #{witness.display_info}", size: 10
       end
     end
 

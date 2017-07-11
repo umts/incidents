@@ -38,8 +38,8 @@
   %p
     %strong Witness Information:
     %ol
-      - report.witnesses.each do |witness_info|
-        %li= report.format_witness_info(witness_info)
+      - report.witnesses.each do |witness|
+        %li= witness.display_info
 %p
   %strong Completed drug or alcohol test?
   = yes_no report.completed_drug_or_alcohol_test?

@@ -15,22 +15,7 @@ class SupervisorReport < ApplicationRecord
   validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
   has_one :incident
-
-  serialize :witnesses, Array
-  validate :witnesses_required_fields
-
-  def format_witness_info(info)
-    phones = info.slice(:home_phone, :cell_phone, :work_phone)
-                 .each_pair.map do |phone_type, phone_number|
-      "#{phone_type.humanize}: #{phone_number}" if phone_number.present?
-    end.compact.join '; '
-    [
-      info.fetch(:name),
-      info.fetch(:address),
-      info.fetch(:aboard_bus) ? 'Aboard bus' : 'Not aboard bus',
-      phones
-    ].join '; '
-  end
+  has_many :witnesses
 
   def last_update
     versions.last
@@ -77,17 +62,6 @@ class SupervisorReport < ApplicationRecord
   def format_timeline(events)
     events.sort_by { |_, time| time }.map do |method, time|
       [time.strftime('%-l:%M %P'), method.humanize.capitalize].join ': '
-    end
-  end
-
-  def witnesses_required_fields
-    witnesses.each do |witness_info|
-      %i[name address aboard_bus
-         home_phone cell_phone work_phone].each do |key|
-         unless witness_info.key? key
-           errors.add :witnesses, 'must have all required fields'
-         end
-      end
     end
   end
 end

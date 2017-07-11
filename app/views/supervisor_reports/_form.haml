@@ -42,6 +42,13 @@
         = label
       = form.datetime_select :faxed, id: :report_faxed, prompt: true, ampm: true
     .field
+      = form.label :witness_info, 'Were there witnesses?'
+      = form.check_box :witness_info, id: :report_witness_info
+    .witness-info{style: ('display: none;' unless report.witnesses.present?)}
+      = form.fields_for report.witnesses do |witness_form|
+        = witness_form.label :name
+        = witness_form.text_field :name
+    .field
       = form.label :completed_drug_or_alcohol_test
       = form.check_box :completed_drug_or_alcohol_test
     .test-info{style: ('display: none;' unless report.completed_drug_or_alcohol_test?)}

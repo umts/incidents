@@ -76,3 +76,6 @@ $(document).ready ->
 
   $('form').showIfChecked '#report_test_due_to_employee_odor',
                           '.employee-odor-info'
+
+  $('form').showIfChecked '#report_witness_info',
+                          '.witness-info'
