@@ -16,6 +16,9 @@ class SupervisorReport < ApplicationRecord
                                                  allow_blank: true }
   has_one :incident
 
+  serialize :witnesses, Array
+  validate :witnesses_required_fields
+
   def last_update
     versions.last
   end
@@ -61,6 +64,17 @@ class SupervisorReport < ApplicationRecord
   def format_timeline(events)
     events.sort_by { |_, time| time }.map do |method, time|
       [time.strftime('%-l:%M %P'), method.humanize.capitalize].join ': '
+    end
+  end
+
+  def witnesses_required_fields
+    witnesses.each do |witness_info|
+      %i[name address aboard_bus
+         home_phone cell_phone work_phone].each do |key|
+         unless witness_info.key? key
+           errors.add :witnesses, 'must have all required fields'
+         end
+      end
     end
   end
 end

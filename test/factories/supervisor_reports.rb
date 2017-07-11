@@ -30,6 +30,14 @@ FactoryGirl.define do
 
       if rand(20).zero?
         report.amplifying_comments = FFaker::BaconIpsum.paragraph
+        report.witnesses = [{
+          name: FFaker::Name.name,
+          address: [FFaker::AddressUS.street_address, %w(Amherst Northampton Springfield).sample].join(', '),
+          aboard_bus: [true, false].sample,
+          home_phone: nil,
+          cell_phone: FFaker::PhoneNumber.short_phone_number,
+          work_phone: nil
+        }]
       end
 
       case report.reason_test_completed
