@@ -18,7 +18,7 @@ class SupervisorReportsController < ApplicationController
   private
 
   def report_params
-    params.require(:supervisor_report).permit!
+    params.require(:supervisor_report).except(:witness_info).permit!
   end
 
   def set_report
