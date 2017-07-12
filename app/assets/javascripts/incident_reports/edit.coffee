@@ -15,6 +15,12 @@ determineShouldProvideReasonNotUpToCurb = () ->
     formSection.slideDown()
   else formSection.slideUp()
 
+addWitnessFields = (event) ->
+  event.preventDefault()
+  fields = $('.witness-fields').last()
+  fields.clone().insertAfter(fields)
+  $('.witness-fields').last().find('input').val('').prop('checked', false)
+
 toggleReasonsForTesting = () ->
   reason = $('#report_reason_test_completed').val()
   switch reason
@@ -79,3 +85,5 @@ $(document).ready ->
 
   $('form').showIfChecked '#report_witness_info',
                           '.witness-info'
+
+  $('form').on 'click', 'button.add-witness', addWitnessFields

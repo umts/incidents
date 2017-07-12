@@ -15,7 +15,9 @@ class SupervisorReport < ApplicationRecord
   validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
   has_one :incident
+
   has_many :witnesses
+  accepts_nested_attributes_for :witnesses
 
   def last_update
     versions.last
