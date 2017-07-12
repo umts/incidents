@@ -20,6 +20,6 @@ class Witness < ApplicationRecord
   def display_info
     [name, address, onboard_bus_display,
      phone_display(:home), phone_display(:cell), phone_display(:work)
-    ].compact.join '; '
+    ].reject(&:blank?).join '; '
   end
 end

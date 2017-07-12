@@ -1,5 +1,5 @@
 $.fn.showIfChecked = (checkbox, selector, options) ->
-  $(this).on 'change', checkbox, () ->
+  $(this).on 'change', checkbox, ->
     checked = $(this).is ':checked'
     if typeof(options) != 'undefined' && options.reverse
       checked = !checked
@@ -7,7 +7,7 @@ $.fn.showIfChecked = (checkbox, selector, options) ->
       $(selector).slideDown()
     else $(selector).slideUp()
 
-determineShouldProvideReasonNotUpToCurb = () ->
+determineShouldProvideReasonNotUpToCurb = ->
   motion = $('#report_motion_of_bus').val()
   upToCurb = $('#report_bus_up_to_curb').is ':checked'
   formSection = $('.reason-not-up-to-curb-info')
@@ -21,7 +21,7 @@ addWitnessFields = (event) ->
   fields.clone().insertAfter fields
   $('.witness-fields').last().find('input').val('').prop 'checked', false
 
-toggleReasonsForTesting = () ->
+toggleReasonsForTesting = ->
   reason = $('#report_reason_test_completed').val()
   switch reason
     when 'Post-Accident'
@@ -34,7 +34,7 @@ toggleReasonsForTesting = () ->
       $('.post-accident-info').slideUp()
       $('.reasonable-suspicion-info').slideUp()
 
-$(document).ready ->
+$(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#report_motor_vehicle_collision',
                           '.motor-vehicle-collision-info'
 

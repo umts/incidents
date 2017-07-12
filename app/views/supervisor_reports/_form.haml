@@ -43,8 +43,9 @@
       = form.datetime_select :faxed, id: :report_faxed, prompt: true, ampm: true
     .field
       = form.label :witness_info, 'Were there witnesses?'
-      = form.check_box :witness_info, checked: report.witnesses.present?, id: :report_witness_info
-    .witness-info{style: ('display: none;' unless report.witnesses.present?)}
+      = form.check_box :witness_info, checked: report.has_witnesses?,
+        id: :report_witness_info
+    .witness-info{style: ('display: none;' unless report.has_witnesses?)}
       %h3 Witness Information
       = form.fields_for :witnesses do |witness_form|
         .witness-fields

@@ -19,6 +19,10 @@ class SupervisorReport < ApplicationRecord
   has_many :witnesses
   accepts_nested_attributes_for :witnesses
 
+  def has_witnesses?
+    witnesses.present? && witnesses.first.persisted?
+  end
+
   def last_update
     versions.last
   end

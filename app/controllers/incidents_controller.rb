@@ -28,6 +28,10 @@ class IncidentsController < ApplicationController
 
   def edit
     deny_access and return if !@current_user.staff? && @incident.reviewed?
+    sup_report = @incident.supervisor_report
+    if sup_report.present? && sup_report.witnesses.blank?
+      sup_report.witnesses.build
+    end
   end
 
   def incomplete
