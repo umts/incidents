@@ -18,8 +18,8 @@ determineShouldProvideReasonNotUpToCurb = () ->
 addWitnessFields = (event) ->
   event.preventDefault()
   fields = $('.witness-fields').last()
-  fields.clone().insertAfter(fields)
-  $('.witness-fields').last().find('input').val('').prop('checked', false)
+  fields.clone().insertAfter fields
+  $('.witness-fields').last().find('input').val('').prop 'checked', false
 
 toggleReasonsForTesting = () ->
   reason = $('#report_reason_test_completed').val()
