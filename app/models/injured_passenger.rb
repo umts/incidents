@@ -1,17 +1,17 @@
-class Witness < ApplicationRecord
+class InjuredPassenger < ApplicationRecord
   belongs_to :supervisor_report
-  validates :name, presence: true
+  validates :name, :nature_of_injury, presence: true
 
   def display_info
-    [name, address, onboard_bus_display,
+    [name, address, nature_of_injury, transported_to_hospital_display,
      phone_display(:home), phone_display(:cell), phone_display(:work)
     ].reject(&:blank?).join '; '
   end
 
-  def onboard_bus_display
-    if onboard_bus?
-      'Onboard bus'
-    else 'Not onboard bus'
+  def transported_to_hospital_display
+    if transported_to_hospital?
+      'Transported to hospital'
+    else 'Not transported to hospital'
     end
   end
 

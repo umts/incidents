@@ -17,7 +17,9 @@ class SupervisorReport < ApplicationRecord
   has_one :incident
 
   has_many :witnesses
+  has_many :injured_passengers
   accepts_nested_attributes_for :witnesses
+  accepts_nested_attributes_for :injured_passengers
 
   def has_witnesses?
     witnesses.present? && witnesses.first.persisted?
