@@ -18,7 +18,10 @@ class SupervisorReportsController < ApplicationController
   private
 
   def report_params
-    params.require(:supervisor_report).except(:witness_info).permit!
+    data = params.require(:supervisor_report).permit!
+    data.delete :witnesses_attributes unless data[:witness_info]
+    data.delete :injured_passengers_attributes unless data[:inj_pax_info]
+    data.except :witness_info, :inj_pax_info
   end
 
   def set_report

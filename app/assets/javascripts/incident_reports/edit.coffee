@@ -15,11 +15,18 @@ determineShouldProvideReasonNotUpToCurb = ->
     formSection.slideDown()
   else formSection.slideUp()
 
+addFields = (fieldsSelector) ->
+  fields = $(fieldsSelector).last()
+  fields.clone().insertAfter fields
+  $(fieldsSelector).last().find('input').val('').prop 'checked', false
+
 addWitnessFields = (event) ->
   event.preventDefault()
-  fields = $('.witness-fields').last()
-  fields.clone().insertAfter fields
-  $('.witness-fields').last().find('input').val('').prop 'checked', false
+  addFields '.witness-fields'
+
+addInjuredPassengerFields = (event) ->
+  event.preventDefault()
+  addFields '.pax-fields'
 
 toggleReasonsForTesting = ->
   reason = $('#report_reason_test_completed').val()
@@ -49,9 +56,6 @@ $(document).on 'turbolinks:load', ->
 
   $('form').showIfChecked '#report_passenger_incident',
                           '.passenger-incident-info'
-
-  $('form').showIfChecked '#report_passenger_injured',
-                          '.injured-passenger-info'
 
   $('form').on 'change', '#report_motion_of_bus',
                determineShouldProvideReasonNotUpToCurb
@@ -86,4 +90,9 @@ $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#report_witness_info',
                           '.witness-info'
 
+  $('form').showIfChecked '#report_inj_pax',
+                          '.inj-pax-info'
+
   $('form').on 'click', 'button.add-witness', addWitnessFields
+
+  $('form').on 'click', 'button.add-pax', addInjuredPassengerFields

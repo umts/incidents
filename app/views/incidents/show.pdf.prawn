@@ -163,15 +163,6 @@ prawn_document do |pdf|
     end
   end
 
-  pdf.field_row height: 28, units: 28 do |row|
-    row.text_field width: 4, field: 'Was passenger injured?', value: yes_no(report.passenger_injured?),
-      options: { if: report.passenger_incident? }
-    row.text_field width: 5, field: 'Name of injured passenger', value: report.injured_passenger[:name]
-    row.text_field width: 14, field: 'Address', value: report.injured_passenger_full_address,
-      options: { unless: report.injured_passenger.empty? }
-    row.text_field width: 5, field: 'Phone', value: report.injured_passenger[:phone]
-  end
-
   pdf.move_cursor_to 160
 
   description = if report.long_description?
@@ -421,12 +412,21 @@ prawn_document do |pdf|
         pdf.text 'Witness Information'.upcase,
           align: :center, size: 14, style: :bold
       end
-      sup_report.witnesses.each.with_index(1) do |witness, index|
+      sup_report.witnesses.each.with_index 1 do |witness, index|
         pdf.text "#{index}. #{witness.display_info}", size: 10
       end
     end
 
-    # TODO injured passengers
+    if sup_report.injured_passengers.present?
+      pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
+        pdf.move_down 15
+        pdf.text 'Injured Passenger Information'.upcase,
+          align: :center, size: 14, style: :bold
+      end
+      sup_report.injured_passengers.each.with_index 1 do |pax, index|
+        pdf.text "#{index}. #{pax.display_info}", size: 10
+      end
+    end
 
     if report.motor_vehicle_collision?
       pdf.start_new_page

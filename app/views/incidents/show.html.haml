@@ -22,4 +22,7 @@
 - if @incident.completed?
   = render 'staff_reviews'
 
+- if @current_user.staff?
+  = link_to 'Edit', edit_incident_url(@incident)
+|
 = link_to 'Back', incidents_url

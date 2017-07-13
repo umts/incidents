@@ -65,6 +65,32 @@
             = witness_form.text_field :work_phone
       %button.btn-default.add-witness Add witness info
     .field
+      = form.label :inj_pax_info, 'Were passengers injured?'
+      = form.check_box :inj_pax_info, checked: report.has_injured_passengers?,
+        id: :report_inj_pax
+    .inj-pax-info{style: ('display: none;' unless report.has_injured_passengers?)}
+      %h3 Injured Passenger Info
+      = form.fields_for :injured_passengers do |pax_form|
+        .pax-fields
+          .field
+            = pax_form.label :name
+            = pax_form.text_field :name
+            = pax_form.label :address
+            = pax_form.text_field :address
+          .field
+            = pax_form.label :nature_of_injury
+            = pax_form.text_field :nature_of_injury
+            = pax_form.label :transported_to_hospital
+            = pax_form.check_box :transported_to_hospital
+          .field
+            = pax_form.label :home_phone
+            = pax_form.text_field :home_phone
+            = pax_form.label :cell_phone
+            = pax_form.text_field :cell_phone
+            = pax_form.label :work_phone
+            = pax_form.text_field :work_phone
+      %button.btn-default.add-pax Add injured passenger info
+    .field
       = form.label :completed_drug_or_alcohol_test
       = form.check_box :completed_drug_or_alcohol_test
     .test-info{style: ('display: none;' unless report.completed_drug_or_alcohol_test?)}

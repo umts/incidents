@@ -36,6 +36,10 @@ FactoryGirl.define do
         create :witness, supervisor_report: report
       end
 
+      rand(3).times do
+        create :injured_passenger, supervisor_report: report
+      end
+
       case report.reason_test_completed
       when 'Post-Accident'
         field = %w[

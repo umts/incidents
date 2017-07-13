@@ -43,23 +43,9 @@ class IncidentReport < ApplicationRecord
   belongs_to :user
   has_one :incident
 
-  serialize :injured_passenger, Hash
-
-  validate :injured_passenger_required_fields,
-           if: -> { passenger_incident? && passenger_injured? }
-  validates :direction, inclusion: { in: DIRECTIONS.keys, allow_blank: true }
-
-  before_save do
-    self.injured_passenger = {} unless passenger_injured?
-  end
-
   def incident
     Incident.where(driver_incident_report_id: id)
             .or(Incident.where(supervisor_incident_report_id: id)).first
-  end
-
-  def injured_passenger_full_address
-    injured_passenger.values_at(:address, :town, :state, :zip).join ', '
   end
 
   def last_update
@@ -117,14 +103,5 @@ class IncidentReport < ApplicationRecord
       'ACCIDENT'
     else 'INCIDENT'
     end
-  end
-
-  private
-
-  def injured_passenger_required_fields
-    pax = injured_passenger
-    return if PASSENGERS_REQUIRED_FIELDS.all? { |key| pax[key].present? }
-    errors.add :injured_passenger,
-               "must have #{PASSENGERS_REQUIRED_FIELDS.to_sentence}"
   end
 end
