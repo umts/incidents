@@ -30,7 +30,7 @@ class IncidentsController < ApplicationController
     deny_access and return if !@current_user.staff? && @incident.reviewed?
     s_report = @incident.supervisor_report
     if s_report.present?
-      [s_report.witnesses, s.report_injured_passengers].each do |collection|
+      [s_report.witnesses, s_report.injured_passengers].each do |collection|
         collection.build if collection.blank?
       end
     end
