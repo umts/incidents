@@ -29,9 +29,10 @@ class IncidentsController < ApplicationController
   def edit
     deny_access and return if !@current_user.staff? && @incident.reviewed?
     s_report = @incident.supervisor_report
-    if s_report.present? 
-      s_report.witnesses.build if s_report.witnesses.blank?
-      s_report.injured_passengers.build if s_report.injured_passengers.blank?
+    if s_report.present?
+      [s_report.witnesses, s.report_injured_passengers].each do |collection|
+        collection.build if collection.blank?
+      end
     end
   end
 
