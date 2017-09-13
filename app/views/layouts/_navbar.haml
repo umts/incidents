@@ -1,11 +1,11 @@
 %nav.navbar.navbar-default.with-icon
   .container-fluid
-    .navbar-header
-      = link_to incidents_url do
-        %button.btn.btn-default.navbar-btn.navbar-left.img
-          = image_tag 'favicon.svg'
-          All Incidents
     - if @current_user.present?
+      .navbar-header
+        = link_to incidents_url do
+          %button.btn.btn-default.navbar-btn.navbar-left.img
+            = image_tag 'favicon.svg'
+            All Incidents
       - if @current_user.staff?
         = link_to users_url do
           %button.btn.btn-default.navbar-btn.navbar-left Manage Users
