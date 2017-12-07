@@ -217,16 +217,6 @@
       %p
         %strong Plate # of vehicle in bus stop:
         = report.vehicle_in_bus_stop_plate
-  %p
-    %strong Passenger injured?
-    = yes_no report.passenger_injured?
-  - if report.passenger_injured?
-    %p
-      %strong Injured Passenger:
-      %p= report.injured_passenger[:name]
-      %p= report.injured_passenger[:address]
-      %p= report.injured_passenger.values_at(:town, :state, :zip).join ', '
-      %p= report.injured_passenger[:phone]
 %p
   %strong Description of incident:
   = simple_format report.description

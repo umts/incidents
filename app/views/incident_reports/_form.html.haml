@@ -224,7 +224,7 @@
         prompt: true
   .passenger-incident-info{style: ('display: none;' unless report.passenger_incident?)}
     %h3 Passenger Incident Information
-    %b Where / how did the report occur? Check all that apply.
+    %b Where / how did the incident occur? Check all that apply.
     .field
       = form.label :occurred_front_door
       = form.check_box :occurred_front_door, id: :report_occurred_front_door
