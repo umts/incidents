@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class UsersController < ApplicationController
-  before_action :find_user, except: %i[import index new]
+  before_action :find_user, except: %i[create import index new]
 
   before_action :restrict_to_staff
 
