@@ -6,11 +6,16 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :set_current_user
   before_action :check_for_incomplete_incidents
+  before_action :check_for_unclaimed_incidents
 
   private
 
   def check_for_incomplete_incidents
     @incomplete_incidents = Incident.incomplete
+  end
+
+  def check_for_unclaimed_incidents
+    @unclaimed_incidents = Incident.unclaimed
   end
 
   def deny_access

@@ -41,6 +41,7 @@ class Incident < ApplicationRecord
   }
   scope :incomplete, -> { where completed: false }
   scope :completed, -> { where completed: true }
+  scope :unclaimed, -> { incomplete.where supervisor_incident_report_id: nil }
 
   # It turns out that with MySQL, this *is* case-insensitive.
   scope :by_claim, ->(number) {
@@ -63,6 +64,10 @@ class Incident < ApplicationRecord
 
   def reviewed?
     staff_reviews.present?
+  end
+
+  def unclaimed?
+    !completed? && supervisor_incident_report.nil?
   end
 
   private

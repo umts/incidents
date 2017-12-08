@@ -81,6 +81,13 @@ class IncidentsController < ApplicationController
     end
   end
 
+  def unclaimed
+    @incidents = Incident.unclaimed.order :occurred_at
+    if @incidents.blank?
+      redirect_to incidents_url, notice: 'No unclaimed incidents.'
+    end
+  end
+
   def unreviewed
     @incidents = Incident.unreviewed.order :occurred_at
     if @incidents.blank?

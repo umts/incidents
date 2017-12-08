@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     collection do
       get  :incomplete
       get  :search
+      get  :unclaimed
       get  :unreviewed
     end
     member do
