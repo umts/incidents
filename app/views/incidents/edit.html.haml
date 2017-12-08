@@ -16,6 +16,7 @@
   %h2 Driver Report
   = render 'incident_reports/form',
     report: @incident.driver_incident_report
+%hr
 - if @incident.supervisor.present?
   - if @current_user == @incident.supervisor || @current_user.staff?
     %h2 Supervisor Account of Incident
