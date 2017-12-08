@@ -21,7 +21,7 @@ class SessionsController < ApplicationController
   private
 
   def authenticate_user
-    unless Rails.env.production?
+    if Rails.env.development?
       user_id = params.values_at(:staff, :supervisor, :driver).find(&:present?)
       user = User.find_by id: user_id
     end

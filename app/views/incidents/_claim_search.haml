@@ -1,5 +1,5 @@
 .claim-search
   = form_with url: search_incidents_url, method: :get, local: true do |form|
     = form.label :claim_number, 'Search by claim number'
-    = form.text_field :claim_number, value: params[:claim_number], required: true
+    = form.text_field :claim_number, value: params[:claim_number], id: :claim_number, required: true
     = form.submit 'Search'

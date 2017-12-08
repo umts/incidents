@@ -2,29 +2,29 @@
 = form_with url: login_url do |form|
   .field
     = form.label :badge_number
-    = form.password_field :badge_number, required: true
+    = form.password_field :badge_number, id: :badge_number, required: true
   .field
     = form.label :last_name
-    = form.text_field :last_name, required: true
+    = form.text_field :last_name, id: :last_name, required: true
   .actions
     = form.submit 'Log in'
-- unless Rails.env.production?
+- if Rails.env.development?
   %h2 Or login as:
   = form_with url: login_url do |form|
     .field
       = form.label 'Staff'
       = form.select :staff,
         options_from_collection_for_select(@staff, :id, :proper_name),
-        include_blank: true
+        { include_blank: true }, { id: :staff }
     .field
       = form.label 'Supervisor'
       = form.select :supervisor,
         options_from_collection_for_select(@supervisors, :id, :proper_name),
-        include_blank: true
+        { include_blank: true }, { id: :supervisor }
     .field
       = form.label 'Driver'
       = form.select :driver,
         options_from_collection_for_select(@drivers, :id, :proper_name),
-        include_blank: true
+        { include_blank: true }, { id: :driver }
     .actions
       = form.submit 'Log in'
