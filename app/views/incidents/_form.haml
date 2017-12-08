@@ -22,4 +22,7 @@
   .field
     = form.label :completed
     = form.check_box :completed, id: :incident_completed
+  .field
+    = form.label :claim_number
+    = form.text_field :claim_number, id: :incident_claim_number
   .actions= form.submit 'Save incident details'
