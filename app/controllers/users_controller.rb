@@ -5,6 +5,15 @@ class UsersController < ApplicationController
 
   before_action :restrict_to_staff
 
+  def create
+    @user = User.new
+    @user.assign_attributes user_params
+    if @user.save
+      redirect_to users_url, notice: 'User was successfully created.'
+    else render :new, status: :unprocessable_entity
+    end
+  end
+
   def deactivate
     @user.update! active: false
     flash[:notice] = 'User was deactivated successfully.'
@@ -51,6 +60,10 @@ class UsersController < ApplicationController
                User.inactive.name_order
              else User.active.name_order
              end
+  end
+
+  def new
+    @user = User.new
   end
 
   def reactivate
