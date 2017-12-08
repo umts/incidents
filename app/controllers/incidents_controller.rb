@@ -59,7 +59,11 @@ class IncidentsController < ApplicationController
   end
 
   def new
-    @incident = Incident.new
+    if @current_user.driver?
+      @incident = Incident.create driver_incident_report_attributes: { user_id: @current_user.id }
+      redirect_to edit_incident_url(@incident)
+    else @incident = Incident.new
+    end
   end
 
   def search
