@@ -50,6 +50,12 @@ class Incident < ApplicationRecord
 
   after_create :send_notifications
 
+  def claim_for(user)
+    supervisor_incident_report = create_supervisor_incident_report user: user
+    supervisor_report = create_supervisor_report
+    save!
+  end
+
   def occurred_at_readable
     [occurred_date, occurred_time].join ' - '
   end

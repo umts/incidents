@@ -3,8 +3,16 @@
 class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
   before_action :restrict_to_staff, only: %i[destroy incomplete]
+  before_action :restrict_to_supervisors, only: :claim
   before_action :set_incident, only: %i[destroy edit show update]
   before_action :set_driver_list, only: %i[create new]
+
+  def claim
+    @incident = Incident.find(params[:id])
+    @incident.claim_for @current_user
+    redirect_to incidents_url,
+                notice: 'You have claimed this incident. Please complete the supervisor report.'
+  end
 
   def create
     @incident = Incident.new

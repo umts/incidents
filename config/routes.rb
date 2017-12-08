@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get  :unreviewed
     end
     member do
+      post :claim
       get  :history
     end
   end
