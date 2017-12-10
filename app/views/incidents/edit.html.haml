@@ -24,7 +24,7 @@
     %h2 Supervisor Report
     = render 'supervisor_reports/form',
       report: @incident.supervisor_report
-- else
+- elsif @current_user.supervisor? || @current_user.staff?
   %h3 Assign a supervisor...
   = render 'incidents/add_supervisor', incident: @incident
 = link_to 'Show', @incident

@@ -3,8 +3,16 @@
 class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
   before_action :restrict_to_staff, only: %i[destroy incomplete]
+  before_action :restrict_to_supervisors, only: :claim
   before_action :set_incident, only: %i[destroy edit show update]
   before_action :set_driver_list, only: %i[create new]
+
+  def claim
+    @incident = Incident.find(params[:id])
+    @incident.claim_for @current_user
+    redirect_to incidents_url,
+                notice: 'You have claimed this incident. Please complete the supervisor report.'
+  end
 
   def create
     @incident = Incident.new
@@ -59,7 +67,11 @@ class IncidentsController < ApplicationController
   end
 
   def new
-    @incident = Incident.new
+    if @current_user.driver?
+      @incident = Incident.create driver_incident_report_attributes: { user_id: @current_user.id }
+      redirect_to edit_incident_url(@incident)
+    else @incident = Incident.new
+    end
   end
 
   def search
@@ -74,6 +86,13 @@ class IncidentsController < ApplicationController
       format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }
       format.html { render 'show' }
       format.xml { render 'show.xml.haml', layout: false }
+    end
+  end
+
+  def unclaimed
+    @incidents = Incident.unclaimed.order :occurred_at
+    if @incidents.blank?
+      redirect_to incidents_url, notice: 'No unclaimed incidents.'
     end
   end
 
