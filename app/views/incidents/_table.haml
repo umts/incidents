@@ -30,10 +30,10 @@
               - if incident.unclaimed?
                 = link_to claim_incident_url(incident), method: :post do
                   %button.btn.btn-default Claim
-          - if @current_user.staff?
-            %td
-              = link_to incident_url(incident, format: :pdf) do
-                %button.btn.btn-default Print
+
+          %td
+            = link_to incident_url(incident, format: :pdf) do
+              %button.btn.btn-default Print
           %td
             = link_to incident do
               %button.btn.btn-default
