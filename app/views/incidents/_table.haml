@@ -25,10 +25,9 @@
           %td= incident.driver_incident_report.bus
           %td= incident.driver_incident_report.location
           %td= yes_no_image incident.completed?
-          - if @current_user.staff?
-            %td
-              = link_to incident_url(incident, format: :pdf) do
-                %button.btn.btn-default Print
+          %td
+            = link_to incident_url(incident, format: :pdf) do
+              %button.btn.btn-default Print
           %td
             = link_to incident do
               %button.btn.btn-default
