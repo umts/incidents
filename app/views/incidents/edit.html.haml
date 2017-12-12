@@ -9,13 +9,16 @@
   - else
     Completing
   Incident Report
+%hr
 - if @current_user.staff?
   %h2 Incident Details
   = render 'incidents/form', incident: @incident
 - if @current_user == @incident.driver || @current_user.staff?
+  %hr
   %h2 Driver Report
   = render 'incident_reports/form',
     report: @incident.driver_incident_report
+%hr
 - if @incident.supervisor.present?
   - if @current_user == @incident.supervisor || @current_user.staff?
     %h2 Supervisor Account of Incident

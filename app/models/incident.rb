@@ -49,6 +49,7 @@ class Incident < ApplicationRecord
   }
 
   after_create :send_notifications
+  before_save :notify_supervisor_of_new_report
 
   def claim_for(user)
     supervisor_incident_report = create_supervisor_incident_report user: user
@@ -87,6 +88,14 @@ class Incident < ApplicationRecord
            supervisor_incident_report.try(:user).try(:supervisor?)
       errors.add :supervisor_incident_report,
                  'selected supervisor is not a supervisor'
+    end
+  end
+
+  def notify_supervisor_of_new_report
+    # if we're changing the supervisor report, and it was nil before, then it's new.
+    if changes.key?(:supervisor_report_id) && changes[:supervisor_report_id].first.nil?
+       ApplicationMailer.with(incident: self, destination: supervisor.email)
+                        .new_incident.deliver_now
     end
   end
 
