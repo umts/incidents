@@ -49,12 +49,16 @@ class Incident < ApplicationRecord
   }
 
   after_create :send_notifications
-  before_save :notify_supervisor_of_new_report
 
   def claim_for(user)
     supervisor_incident_report = create_supervisor_incident_report user: user
     supervisor_report = create_supervisor_report
     save!
+  end
+
+  def notify_supervisor_of_new_report
+    ApplicationMailer.with(incident: self, destination: supervisor.email)
+      .new_incident.deliver_now
   end
 
   def occurred_at_readable
@@ -91,22 +95,10 @@ class Incident < ApplicationRecord
     end
   end
 
-  def notify_supervisor_of_new_report
-    # if we're changing the supervisor report, and it was nil before, then it's new.
-    if changes.key?(:supervisor_report_id) && changes[:supervisor_report_id].first.nil?
-=begin
-       ApplicationMailer.with(incident: self, destination: supervisor.email)
-                        .new_incident.deliver_now
-=end
-    end
-  end
-
   def send_notifications
-=begin
     User.staff.with_email.each do |user|
       ApplicationMailer.with(incident: self, destination: user.email)
                        .new_incident.deliver_now
     end
-=end
   end
 end

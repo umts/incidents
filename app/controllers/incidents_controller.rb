@@ -18,6 +18,7 @@ class IncidentsController < ApplicationController
     @incident = Incident.new
     @incident.assign_attributes incident_params
     if @incident.save
+      @incident.notify_supervisor_of_new_report if @assigning_supervisor
       redirect_to incidents_url, notice: 'Incident was successfully created.'
     else render :new, status: :unprocessable_entity
     end
@@ -107,6 +108,7 @@ class IncidentsController < ApplicationController
     @incident.assign_attributes incident_params
     respond_to do |format|
       if @incident.save
+        @incident.notify_supervisor_of_new_report if @assigning_supervisor
         format.html do
           redirect_to @incident,
                       notice: 'Incident report was successfully saved.'
@@ -129,6 +131,7 @@ class IncidentsController < ApplicationController
     sup_report_attrs = data[:supervisor_incident_report_attributes]
     if sup_report_attrs.present? && sup_report_attrs[:user_id].present?
       @incident.supervisor_report = SupervisorReport.new
+      @assigning_supervisor = true
     else data.delete :supervisor_incident_report_attributes
     end
     data
