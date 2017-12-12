@@ -102,9 +102,11 @@ class Incident < ApplicationRecord
   end
 
   def send_notifications
+=begin
     User.staff.with_email.each do |user|
       ApplicationMailer.with(incident: self, destination: user.email)
                        .new_incident.deliver_now
     end
+=end
   end
 end
