@@ -92,7 +92,7 @@
       %button.btn-default.add-pax Add injured passenger info
     .field
       = form.label :completed_drug_or_alcohol_test
-      = form.check_box :completed_drug_or_alcohol_test
+      = form.check_box :completed_drug_or_alcohol_test, id: :report_completed_drug_or_alcohol_test
     .test-info{style: ('display: none;' unless report.completed_drug_or_alcohol_test?)}
       .field
         = form.label :reason_test_completed
