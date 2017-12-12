@@ -45,7 +45,9 @@
       = form.text_field :location, id: :report_location
     .field
       = form.label :town
-      = form.text_field :town, id: :report_town
+      = form.select :town,
+        options_for_select(IncidentReport::TOWN_OPTIONS, report.town),
+        { include_blank: true }, id: :report_town
     .field
       = form.label :motor_vehicle_collision
       = form.check_box :motor_vehicle_collision, id: :report_motor_vehicle_collision
