@@ -39,6 +39,9 @@ class UsersController < ApplicationController
           message += " and updated #{statuses[:updated]}"
         end
         message += '.'
+        unless statuses[:deactivated].zero?
+          message += " #{statuses[:deactivated]} users were deactivated."
+        end
         if statuses[:rejected].zero?
           redirect_to users_url, notice: message
         else
