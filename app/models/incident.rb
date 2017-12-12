@@ -94,8 +94,10 @@ class Incident < ApplicationRecord
   def notify_supervisor_of_new_report
     # if we're changing the supervisor report, and it was nil before, then it's new.
     if changes.key?(:supervisor_report_id) && changes[:supervisor_report_id].first.nil?
+=begin
        ApplicationMailer.with(incident: self, destination: supervisor.email)
                         .new_incident.deliver_now
+=end
     end
   end
 
