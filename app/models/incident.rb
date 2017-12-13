@@ -24,13 +24,17 @@ class Incident < ApplicationRecord
   validate :driver_and_supervisor_in_correct_groups
 
   accepts_nested_attributes_for :driver_incident_report
+  delegate :occurred_at_readable, to: :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report
   accepts_nested_attributes_for :supervisor_report
 
   has_many :staff_reviews, dependent: :destroy
 
-  scope :between,
-        ->(start_date, end_date) { where occurred_at: start_date..end_date }
+  scope :between, (lambda do |start_date, end_date| 
+    joins(:driver_incident_report)
+      .where incident_reports: { occurred_at: start_date..end_date }
+  end)
+
   scope :for_driver, ->(user) {
     joins(:driver_incident_report)
       .where(incident_reports: { user_id: user.id })
