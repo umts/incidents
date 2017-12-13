@@ -31,8 +31,8 @@ prawn_document do |pdf|
   end
 
   pdf.field_row height: 30, units: 6 do |row|
-    row.text_field field: 'Date of Incident', value: @incident.occurred_at.try(:strftime, '%m/%d/%Y')
-    row.text_field field: 'Time of Incident', value: @incident.occurred_time
+    row.text_field field: 'Date of Incident', value: report.occurred_at.try(:strftime, '%m/%d/%Y')
+    row.text_field field: 'Time of Incident', value: report.occurred_time
     row.text_field field: '# passengers on bus', value: report.passengers_onboard
     row.text_field field: '# courtesy cards distributed', value: report.courtesy_cards_distributed
     row.text_field field: '# courtesy cards attached', value: report.courtesy_cards_collected
@@ -206,7 +206,7 @@ prawn_document do |pdf|
       row.text_field width: 4, field: 'Operator', value: report.user.proper_name
       row.text_field field: 'Badge No.', value: report.user.badge_number
       row.text_field field: 'Bus #', value: report.bus
-      row.text_field width: 2, field: 'Date of Incident', value: @incident.occurred_at.try(:strftime, '%m/%d/%Y')
+      row.text_field width: 2, field: 'Date of Incident', value: report.occurred_at.try(:strftime, '%m/%d/%Y')
     end
 
     pdf.field_row height: pdf.cursor - 30, units: 1 do |row|
@@ -266,8 +266,8 @@ prawn_document do |pdf|
     end
 
     pdf.field_row height: 30, units: 7 do |row|
-      row.text_field field: 'Date of Incident', value: @incident.occurred_at.try(:strftime, '%m/%d/%Y')
-      row.text_field field: 'Time of Incident', value: @incident.occurred_time
+      row.text_field field: 'Date of Incident', value: report.occurred_at.try(:strftime, '%m/%d/%Y')
+      row.text_field field: 'Time of Incident', value: report.occurred_time
       row.text_field field: '# passengers on bus', value: report.passengers_onboard
       row.text_field field: '# courtesy cards distributed', value: report.courtesy_cards_distributed
       row.text_field field: '# courtesy cards attached', value: report.courtesy_cards_collected
@@ -471,7 +471,7 @@ prawn_document do |pdf|
         value: @incident.driver.proper_name,
         options: { valign: :center }
       row.text_field field: 'Date and time of incident', width: 2,
-        value: @incident.occurred_at.try(:strftime, '%B %e, %Y %-l:%M %P'),
+        value: report.occurred_at.try(:strftime, '%B %e, %Y %-l:%M %P'),
         options: { valign: :center }
       row.text_field field: 'Location of incident', width: 1,
         value: report.location,
