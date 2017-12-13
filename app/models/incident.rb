@@ -35,6 +35,10 @@ class Incident < ApplicationRecord
       .where incident_reports: { occurred_at: start_date..end_date }
   end)
 
+  scope :occurred_order, (lambda do
+    joins(:driver_incident_report).order 'incident_reports.occurred_at'
+  end)
+
   scope :for_driver, ->(user) {
     joins(:driver_incident_report)
       .where(incident_reports: { user_id: user.id })

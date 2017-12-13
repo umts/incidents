@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   end
 
   def incidents
-    @incidents = @user.incidents.order :occurred_at
+    @incidents = @user.incidents.occurred_order
   end
 
   def index
