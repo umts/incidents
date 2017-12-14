@@ -3,13 +3,12 @@
 class User < ApplicationRecord
   has_paper_trail
 
-  DIVISIONS = %w[NOHO SMECH SPFLD].freeze
 
   has_many :incident_reports, dependent: :restrict_with_error
+  belongs_to :division
 
   validates :first_name, :last_name, :hastus_id, :division, presence: true
   validates :hastus_id, uniqueness: true
-  validates :division, inclusion: { in: DIVISIONS }
   # validates :badge_number, presence: true, if: :driver?
 
   scope :active, -> { where active: true }

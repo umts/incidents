@@ -7,11 +7,14 @@ require 'timecop'
 
 include FactoryBot::Syntax::Methods
 
-staff = create :user, :staff, :fake_name
+divisions = %w[SPFLD NOHO SMECH].map { |n| create :division, name: n }
 
-supervisors = Array.new(10) { create :user, :supervisor, :fake_name }
+staff = create :user, :staff, :fake_name, division: divisions.sample
 
-drivers = Array.new(50) { create :user, :driver, :fake_name }
+supervisors = Array.new(10) { create :user, :supervisor, :fake_name, division: divisions.sample }
+
+drivers = Array.new(50) { create :user, :driver, :fake_name, division: divisions.sample }
+
 
 codes = {
   collision: create(:reason_code, description: 'Collision'),
