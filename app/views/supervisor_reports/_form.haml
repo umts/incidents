@@ -10,22 +10,6 @@
           %li= message
   .basic-info
     .field
-      = form.label :hard_drive_pulled
-      = form.check_box :hard_drive_pulled, id: :report_hard_drive_pulled
-    .hard-drive-info{style: ('display: none;' unless report.hard_drive_pulled?)}
-      .field
-        = form.label :hard_drive_pulled_at
-        - a11y_datetime_labels('report_hard_drive_pulled_at').each do |label|
-          = label
-        = form.datetime_select :hard_drive_pulled_at, id: :report_hard_drive_pulled_at,
-          prompt: true, ampm: true
-      .field
-        = form.label :hard_drive_removed
-        = form.text_field :hard_drive_removed, id: :report_hard_drive_removed
-      .field
-        = form.label :hard_drive_replaced
-        = form.text_field :hard_drive_replaced, id: :report_hard_drive_replaced
-    .field
       = form.label :pictures_saved
       = form.check_box :pictures_saved, id: :report_pictures_saved
     .saved-pictures-info{style: ('display: none;' unless report.pictures_saved?)}
@@ -92,7 +76,7 @@
       %button.btn-default.add-pax Add injured passenger info
     .field
       = form.label :completed_drug_or_alcohol_test
-      = form.check_box :completed_drug_or_alcohol_test
+      = form.check_box :completed_drug_or_alcohol_test, id: :report_completed_drug_or_alcohol_test
     .test-info{style: ('display: none;' unless report.completed_drug_or_alcohol_test?)}
       .field
         = form.label :reason_test_completed

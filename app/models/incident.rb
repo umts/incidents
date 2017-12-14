@@ -23,14 +23,25 @@ class Incident < ApplicationRecord
   has_one :supervisor, through: :supervisor_incident_report, source: :user
   validate :driver_and_supervisor_in_correct_groups
 
+  validates :occurred_at, presence: true
+  before_validation -> { self[:occurred_at] = Time.zone.now if occurred_at.blank? }
+
   accepts_nested_attributes_for :driver_incident_report
+  delegate :occurred_at_readable, to: :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report
   accepts_nested_attributes_for :supervisor_report
 
   has_many :staff_reviews, dependent: :destroy
 
-  scope :between,
-        ->(start_date, end_date) { where occurred_at: start_date..end_date }
+  scope :between, (lambda do |start_date, end_date| 
+    joins(:driver_incident_report)
+      .where incident_reports: { occurred_at: start_date..end_date }
+  end)
+
+  scope :occurred_order, (lambda do
+    joins(:driver_incident_report).order 'incident_reports.occurred_at'
+  end)
+
   scope :for_driver, ->(user) {
     joins(:driver_incident_report)
       .where(incident_reports: { user_id: user.id })
@@ -41,6 +52,7 @@ class Incident < ApplicationRecord
   }
   scope :incomplete, -> { where completed: false }
   scope :completed, -> { where completed: true }
+  scope :unclaimed, -> { incomplete.where supervisor_incident_report_id: nil }
 
   # It turns out that with MySQL, this *is* case-insensitive.
   scope :by_claim, ->(number) {
@@ -49,20 +61,23 @@ class Incident < ApplicationRecord
 
   after_create :send_notifications
 
-  def occurred_at_readable
-    [occurred_date, occurred_time].join ' - '
+  def claim_for(user)
+    self.supervisor_incident_report = create_supervisor_incident_report user: user
+    self.supervisor_report = create_supervisor_report
+    save!
   end
 
-  def occurred_date
-    occurred_at.try :strftime, '%A, %B %e'
-  end
-
-  def occurred_time
-    occurred_at.try :strftime, '%l:%M %P'
+  def notify_supervisor_of_new_report
+    ApplicationMailer.with(incident: self, destination: supervisor.email)
+      .new_incident.deliver_now
   end
 
   def reviewed?
     staff_reviews.present?
+  end
+
+  def unclaimed?
+    !completed? && supervisor_incident_report.nil?
   end
 
   private

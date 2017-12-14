@@ -9,12 +9,6 @@
         - incident.errors.full_messages.each do |message|
           %li= message
   .field
-    = form.label :occurred_at
-    - a11y_datetime_labels('incident_occurred_at').each do |label|
-      = label
-    = form.datetime_select :occurred_at, id: :incident_occurred_at,
-      prompt: true, ampm: true
-  .field
     = form.label :reason_code
     = form.select :reason_code_id,
       options_from_collection_for_select(ReasonCode.order(:identifier), :id, :full_label),
@@ -22,4 +16,7 @@
   .field
     = form.label :completed
     = form.check_box :completed, id: :incident_completed
+  .field
+    = form.label :claim_number
+    = form.text_field :claim_number, id: :incident_claim_number
   .actions= form.submit 'Save incident details'

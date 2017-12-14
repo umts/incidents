@@ -42,6 +42,7 @@ class User < ApplicationRecord
 
   def self.import_from_xml(xml)
     statuses = Hash.new(0)
+    users_present = []
     xml.css('User').each do |user_data|
       hastus_id = user_data.at_css('hastus_id').text
       attrs = {}
@@ -56,6 +57,7 @@ class User < ApplicationRecord
         if user.changed?
           if user.valid?
             user.save!
+            users_present << user
             statuses[:updated] += 1
           else statuses[:rejected] += 1
           end
@@ -64,11 +66,23 @@ class User < ApplicationRecord
         user = User.new attrs.merge(hastus_id: hastus_id)
         if user.valid?
           user.save!
+            users_present << user
           statuses[:imported] += 1
         else statuses[:rejected] += 1
         end
       end
     end
+    # Don't deactivate staff automatically, since they're not always
+    # in Hastus.
+    inactive_users = User.active - User.staff - users_present
+    inactive_users.each(&:deactivate)
+    statuses[:deactivated] = inactive_users.count
     statuses
+  end
+
+  private
+
+  def deactivate
+    update active: false
   end
 end

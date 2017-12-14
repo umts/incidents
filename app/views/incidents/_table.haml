@@ -10,7 +10,7 @@
         %th Bus
         %th Location
         %th Complete?
-        - if @current_user.staff?
+        - if @current_user.staff? || @current_user.supervisor?
           %th{ colspan: 4 }
         - else
           %th{ colspan: 3 }
@@ -25,10 +25,15 @@
           %td= incident.driver_incident_report.bus
           %td= incident.driver_incident_report.location
           %td= yes_no_image incident.completed?
-          - if @current_user.staff?
+          - unless @current_user.driver?
             %td
-              = link_to incident_url(incident, format: :pdf) do
-                %button.btn.btn-default Print
+              - if incident.unclaimed?
+                = link_to claim_incident_url(incident), method: :post do
+                  %button.btn.btn-default Claim
+
+          %td
+            = link_to incident_url(incident, format: :pdf) do
+              %button.btn.btn-default Print
           %td
             = link_to incident do
               %button.btn.btn-default

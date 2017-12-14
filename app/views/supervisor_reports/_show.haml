@@ -8,19 +8,6 @@
     |
     = link_to 'View full history', history_supervisor_report_url(report)
 %p
-  %strong Hard drive pulled?
-  = yes_no report.hard_drive_pulled?
-- if report.hard_drive_pulled?
-  %p
-    %strong Hard drive pulled at:
-    = report.hard_drive_pulled_at.strftime '%l:%M %P'
-  %p
-    %strong Hard drive removed:
-    = report.hard_drive_removed
-  %p
-    %strong Hard drive replaced:
-    = report.hard_drive_replaced
-%p
   %strong Pictures saved?
   = yes_no report.pictures_saved?
 - if report.pictures_saved?

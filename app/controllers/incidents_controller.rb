@@ -3,13 +3,22 @@
 class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
   before_action :restrict_to_staff, only: %i[destroy incomplete]
+  before_action :restrict_to_supervisors, only: :claim
   before_action :set_incident, only: %i[destroy edit show update]
   before_action :set_driver_list, only: %i[create new]
+
+  def claim
+    @incident = Incident.find(params[:id])
+    @incident.claim_for @current_user
+    redirect_to incidents_url,
+                notice: 'You have claimed this incident. Please complete the supervisor report.'
+  end
 
   def create
     @incident = Incident.new
     @incident.assign_attributes incident_params
     if @incident.save
+      @incident.notify_supervisor_of_new_report if @assigning_supervisor
       redirect_to incidents_url, notice: 'Incident was successfully created.'
     else render :new, status: :unprocessable_entity
     end
@@ -37,7 +46,7 @@ class IncidentsController < ApplicationController
   end
 
   def incomplete
-    @incidents = Incident.incomplete.order :occurred_at
+    @incidents = Incident.incomplete.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No incomplete incidents.'
     end
@@ -48,24 +57,28 @@ class IncidentsController < ApplicationController
       parse_dates
       @incidents = Incident.between(@start_date, @end_date)
                            .includes(:driver, :supervisor, :staff_reviews)
-                           .order :occurred_at
+                           .occurred_order
       render :by_date and return
     end
     @incidents = if @current_user.supervisor?
                    Incident.for_supervisor @current_user
                  else Incident.for_driver @current_user
                  end
-    @incidents = @incidents.incomplete.order :occurred_at
+    @incidents = @incidents.incomplete.occurred_order
   end
 
   def new
-    @incident = Incident.new
+    if @current_user.driver?
+      @incident = Incident.create driver_incident_report_attributes: { user_id: @current_user.id }
+      redirect_to edit_incident_url(@incident)
+    else @incident = Incident.new
+    end
   end
 
   def search
     @incidents = Incident.by_claim(params.require :claim_number)
                          .includes(:driver, :supervisor, :staff_reviews)
-                         .order :occurred_at
+                         .occurred_order
     render :by_date
   end
 
@@ -77,8 +90,15 @@ class IncidentsController < ApplicationController
     end
   end
 
+  def unclaimed
+    @incidents = Incident.unclaimed.occurred_order
+    if @incidents.blank?
+      redirect_to incidents_url, notice: 'No unclaimed incidents.'
+    end
+  end
+
   def unreviewed
-    @incidents = Incident.unreviewed.order :occurred_at
+    @incidents = Incident.unreviewed.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No unreviewed incidents.'
     end
@@ -88,6 +108,7 @@ class IncidentsController < ApplicationController
     @incident.assign_attributes incident_params
     respond_to do |format|
       if @incident.save
+        @incident.notify_supervisor_of_new_report if @assigning_supervisor
         format.html do
           redirect_to @incident,
                       notice: 'Incident report was successfully saved.'
@@ -110,6 +131,7 @@ class IncidentsController < ApplicationController
     sup_report_attrs = data[:supervisor_incident_report_attributes]
     if sup_report_attrs.present? && sup_report_attrs[:user_id].present?
       @incident.supervisor_report = SupervisorReport.new
+      @assigning_supervisor = true
     else data.delete :supervisor_incident_report_attributes
     end
     data

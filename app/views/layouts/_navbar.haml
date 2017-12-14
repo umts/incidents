@@ -9,6 +9,8 @@
       - if @current_user.staff?
         = link_to users_url do
           %button.btn.btn-default.navbar-btn.navbar-left Manage Users
+        = link_to new_user_url do
+          %button.btn.btn-default.navbar-btn.navbar-left Add New User
         = link_to import_users_url do
           %button.btn.btn-default.navbar-btn.navbar-left Import User Data
         - if @incomplete_incidents.any?
@@ -16,6 +18,12 @@
             %button.btn.btn-default.navbar-btn.navbar-left
               Incomplete Incidents
               .number-icon= @incomplete_incidents.count
+      - unless @current_user.driver?
+        - if @unclaimed_incidents.any?
+          = link_to unclaimed_incidents_url do
+            %button.btn.btn-default.navbar-btn.navbar-left
+              Unclaimed Incidents
+              .number-icon= @unclaimed_incidents.count
       = link_to new_incident_url do
         %button.btn.btn-default.navbar-btn.navbar-left New Incident
       = link_to destroy_session_url, method: :delete do
