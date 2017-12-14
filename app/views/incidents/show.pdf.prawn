@@ -1,5 +1,6 @@
 # PDF is 740 x 560
 
+
 prawn_document do |pdf|
   report = @incident.driver_incident_report
 
@@ -23,8 +24,7 @@ prawn_document do |pdf|
   end
 
   pdf.field_row height: 25, units: 8 do |row|
-    row.text_field width: 4, field: 'Operator', value: report.user.proper_name,
-      options: { style: :bold }
+    row.text_field width: 4, field: 'Operator', value: report.user.proper_name
     row.text_field field: 'Badge No.', value: report.user.badge_number
     row.text_field field: 'Run #', value: report.run
     row.text_field field: 'Block #', value: report.block

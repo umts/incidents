@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
+require 'factory_bot_rails'
 require 'ffaker'
-require 'factory_girl_rails'
 require 'paper_trail'
 require 'timecop'
 
-include FactoryGirl::Syntax::Methods
+include FactoryBot::Syntax::Methods
 
 staff = create :user, :staff, :fake_name
 
