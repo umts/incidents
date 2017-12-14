@@ -9,8 +9,8 @@
   - else
     Completing
   Incident Report
-%hr
 - if @current_user.staff?
+  %hr
   %h2 Incident Details
   = render 'incidents/form', incident: @incident
 %hr
