@@ -96,4 +96,6 @@ Rails.application.configure do
     sender_address: %{"Incidents Server" <incidents@pvta.com>},
     exception_recipients: %w[david.faulkenberry@gmail.com]
   }
+
+  config.action_mailer.default_url_options = { host: 'incidents.pvta.com' }
 end
