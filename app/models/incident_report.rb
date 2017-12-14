@@ -43,6 +43,8 @@ class IncidentReport < ApplicationRecord
   belongs_to :user
   has_one :incident
 
+  validates :occurred_at, :location, :town, :bus, presence: true
+
   def incident
     Incident.where(driver_incident_report_id: id)
             .or(Incident.where(supervisor_incident_report_id: id)).first
