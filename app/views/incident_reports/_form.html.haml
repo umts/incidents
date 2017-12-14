@@ -20,6 +20,12 @@
           options_from_collection_for_select(users, :id, :proper_name, report.user_id),
           { include_blank: true }, id: :report_user_id
     .field
+      = form.label :occurred_at
+      - a11y_datetime_labels('report_occurred_at').each do |label|
+        = label
+      = form.datetime_select :occurred_at, id: :report_occurred_at,
+        prompt: true, ampm: true
+    .field
       = form.label :run
       = form.text_field :run, id: :report_run
     .field

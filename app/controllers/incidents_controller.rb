@@ -46,7 +46,7 @@ class IncidentsController < ApplicationController
   end
 
   def incomplete
-    @incidents = Incident.incomplete.order :occurred_at
+    @incidents = Incident.incomplete.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No incomplete incidents.'
     end
@@ -57,14 +57,14 @@ class IncidentsController < ApplicationController
       parse_dates
       @incidents = Incident.between(@start_date, @end_date)
                            .includes(:driver, :supervisor, :staff_reviews)
-                           .order :occurred_at
+                           .occurred_order
       render :by_date and return
     end
     @incidents = if @current_user.supervisor?
                    Incident.for_supervisor @current_user
                  else Incident.for_driver @current_user
                  end
-    @incidents = @incidents.incomplete.order :occurred_at
+    @incidents = @incidents.incomplete.occurred_order
   end
 
   def new
@@ -78,7 +78,7 @@ class IncidentsController < ApplicationController
   def search
     @incidents = Incident.by_claim(params.require :claim_number)
                          .includes(:driver, :supervisor, :staff_reviews)
-                         .order :occurred_at
+                         .occurred_order
     render :by_date
   end
 
@@ -91,14 +91,14 @@ class IncidentsController < ApplicationController
   end
 
   def unclaimed
-    @incidents = Incident.unclaimed.order :occurred_at
+    @incidents = Incident.unclaimed.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No unclaimed incidents.'
     end
   end
 
   def unreviewed
-    @incidents = Incident.unreviewed.order :occurred_at
+    @incidents = Incident.unreviewed.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No unreviewed incidents.'
     end
