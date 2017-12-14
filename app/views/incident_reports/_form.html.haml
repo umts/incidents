@@ -28,12 +28,15 @@
     .field
       = form.label :run
       = form.text_field :run, id: :report_run
+      .example C57
     .field
       = form.label :block
       = form.text_field :block, id: :report_block
+      .example 1-03, 90-06
     .field
       = form.label :bus
       = form.text_field :bus, id: :report_bus
+      .example 1803
     .field
       = form.label :passengers_onboard
       = form.number_field :passengers_onboard, id: :report_passengers_onboard
@@ -49,6 +52,7 @@
     .field
       = form.label :location
       = form.text_field :location, id: :report_location
+      .example Mill and Locust
     .field
       = form.label :town
       = form.select :town,
@@ -207,6 +211,7 @@
       .field
         = form.label :police_case_assigned
         = form.text_field :police_case_assigned, id: :report_police_case_assigned
+        .example 17-123-AC
     .field
       = form.label :point_of_impact
       = form.select :point_of_impact,
@@ -221,6 +226,7 @@
     .field
       = form.label :insurance_carrier
       = form.text_field :insurance_carrier, id: :report_insurance_carrier
+      .example Progressive
     .field
       = form.label :insurance_policy_number
       = form.text_field :insurance_policy_number, id: :report_insurance_policy_number
