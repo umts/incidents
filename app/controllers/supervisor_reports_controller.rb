@@ -3,9 +3,6 @@
 class SupervisorReportsController < ApplicationController
   before_action :set_report, :restrict_to_supervisors
 
-  def edit
-  end
-
   def history
     @history = @report.versions.order 'created_at desc'
   end
