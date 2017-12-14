@@ -63,9 +63,6 @@ $(document).on 'turbolinks:load', ->
   $('form').on 'click', '#report_bus_up_to_curb',
                determineShouldProvideReasonNotUpToCurb
 
-  $('form').showIfChecked '#report_hard_drive_pulled',
-                          '.hard-drive-info'
-
   $('form').showIfChecked '#report_pictures_saved',
                           '.saved-pictures-info'
 
