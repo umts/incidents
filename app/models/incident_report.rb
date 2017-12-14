@@ -50,6 +50,8 @@ class IncidentReport < ApplicationRecord
   has_one :incident
   before_validation -> { self[:occurred_at] = Time.zone.now if occurred_at.blank? }
 
+  validates :occurred_at, :location, :town, :bus, presence: true
+
   def incident
     Incident.where(driver_incident_report_id: id)
             .or(Incident.where(supervisor_incident_report_id: id)).first
@@ -115,6 +117,13 @@ class IncidentReport < ApplicationRecord
 
   def other?
     !(motor_vehicle_collision? || passenger_incident?)
+  end
+
+  def report_type
+    if self == incident.driver_incident_report
+      'Driver'
+    else 'Supervisor'
+    end
   end
 
   def type_situation

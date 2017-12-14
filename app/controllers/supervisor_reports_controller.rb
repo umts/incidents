@@ -11,7 +11,7 @@ class SupervisorReportsController < ApplicationController
     if @report.update report_params
       redirect_to @incident,
                   notice: 'Incident report was successfully saved.'
-    else render 'incidents/edit'
+    else render 'edit'
     end
   end
 
