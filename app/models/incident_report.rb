@@ -112,6 +112,13 @@ class IncidentReport < ApplicationRecord
     !(motor_vehicle_collision? || passenger_incident?)
   end
 
+  def report_type
+    if self == incident.driver_incident_report
+      'Driver'
+    else 'Supervisor'
+    end
+  end
+
   def type_situation
     if motor_vehicle_collision?
       'ACCIDENT'

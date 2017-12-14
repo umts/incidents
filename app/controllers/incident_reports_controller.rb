@@ -18,7 +18,7 @@ class IncidentReportsController < ApplicationController
       else redirect_to @incident,
                   notice: 'Incident report was successfully saved.'
       end
-    else render 'incidents/edit'
+    else render 'edit'
     end
   end
 

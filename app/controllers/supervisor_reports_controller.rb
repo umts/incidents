@@ -3,6 +3,9 @@
 class SupervisorReportsController < ApplicationController
   before_action :set_report, :restrict_to_supervisors
 
+  def edit
+  end
+
   def history
     @history = @report.versions.order 'created_at desc'
   end
@@ -11,7 +14,7 @@ class SupervisorReportsController < ApplicationController
     if @report.update report_params
       redirect_to @incident,
                   notice: 'Incident report was successfully saved.'
-    else render 'incidents/edit'
+    else render 'edit'
     end
   end
 
