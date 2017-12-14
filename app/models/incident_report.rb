@@ -42,6 +42,7 @@ class IncidentReport < ApplicationRecord
 
   belongs_to :user
   has_one :incident
+  before_validation -> { self[:occurred_at] = Time.zone.now if occurred_at.blank? }
 
   def incident
     Incident.where(driver_incident_report_id: id)

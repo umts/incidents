@@ -1,5 +1,6 @@
 # PDF is 740 x 560
 
+
 prawn_document do |pdf|
   report = @incident.driver_incident_report
 
