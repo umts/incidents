@@ -50,7 +50,7 @@ class IncidentReport < ApplicationRecord
   has_one :incident
   before_validation -> { self[:occurred_at] = Time.zone.now if occurred_at.blank? }
 
-  validates :occurred_at, :location, :town, :bus, presence: true
+  validates :occurred_at, :location, :town, :bus, presence: true, unless: :new_record?
 
   def incident
     Incident.where(driver_incident_report_id: id)

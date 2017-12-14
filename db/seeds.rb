@@ -7,7 +7,7 @@ require 'timecop'
 
 include FactoryBot::Syntax::Methods
 
-staff = create :user, :staff, :fake_name
+staff = Array.new(5) { create :user, :staff, :fake_name }
 
 supervisors = Array.new(10) { create :user, :supervisor, :fake_name }
 
@@ -59,7 +59,7 @@ dates.shuffle.each.with_index do |day, i|
     end
     # Every 8th-ish incident shall be reviewed.
     if (i % 8).zero? && incident_type != :incomplete
-      create :staff_review, incident: incident, user: staff
+      create :staff_review, incident: incident, user: staff.sample
     end
   end
 end
