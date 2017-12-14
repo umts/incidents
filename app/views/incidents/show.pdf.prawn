@@ -437,15 +437,6 @@ prawn_document do |pdf|
 
     pdf.start_new_page
     pdf.move_down 40
-    pdf.field_row height: 25, units: 6 do |row|
-      row.text_field field: 'Hard drive pulled?', value: yes_no(sup_report.hard_drive_pulled?)
-      row.text_field field: 'Drive pulled', value: sup_report.hard_drive_removed
-      row.text_field field: 'Pulled at', width: 2,
-        value: sup_report.hard_drive_pulled_at.try(:strftime, '%A, %B %e, %l:%M %P')
-      row.text_field field: 'Drive replaced with', value: sup_report.hard_drive_replaced
-      pictures = sup_report.pictures_saved? ? sup_report.saved_pictures : 'None'
-      row.text_field field: 'Pictures taken', value: pictures
-    end
 
     pdf.field_row height: 130, units: 1 do |row|
       row.text_field field: 'Passenger statement and/or injury information in detail',

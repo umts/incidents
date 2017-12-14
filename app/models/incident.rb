@@ -23,6 +23,9 @@ class Incident < ApplicationRecord
   has_one :supervisor, through: :supervisor_incident_report, source: :user
   validate :driver_and_supervisor_in_correct_groups
 
+  validates :occurred_at, presence: true
+  before_validation -> { self[:occurred_at] = Time.zone.now if occurred_at.blank? }
+
   accepts_nested_attributes_for :driver_incident_report
   delegate :occurred_at_readable, to: :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report

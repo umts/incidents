@@ -132,10 +132,6 @@ ActiveRecord::Schema.define(version: 20171213165648) do
   end
 
   create_table "supervisor_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.boolean "hard_drive_pulled"
-    t.datetime "hard_drive_pulled_at"
-    t.string "hard_drive_removed"
-    t.string "hard_drive_replaced"
     t.boolean "pictures_saved"
     t.integer "saved_pictures"
     t.text "passenger_statement"
