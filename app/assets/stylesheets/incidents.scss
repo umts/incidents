@@ -80,3 +80,15 @@ option{
 .panel-body hr{
   border-top: 1px solid #aaa;
 }
+
+form .field .example{
+  color: grey;
+  display: inline;
+  font-style: italic;
+  &::before{
+    content: '( ';
+  }
+  &::after{
+    content: ' )';
+  }
+}

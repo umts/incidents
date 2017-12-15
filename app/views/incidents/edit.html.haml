@@ -9,24 +9,20 @@
   - else
     Completing
   Incident Report
-%hr
 - if @current_user.staff?
+  %hr
   %h2 Incident Details
   = render 'incidents/form', incident: @incident
-- if @current_user == @incident.driver || @current_user.staff?
-  %hr
-  %h2 Driver Report
-  = render 'incident_reports/form',
-    report: @incident.driver_incident_report
 %hr
+- if @current_user == @incident.driver || @current_user.staff?
+  .edit-link= link_to 'Edit Driver Account of Incident',
+    edit_incident_report_url(@incident.driver_incident_report)
 - if @incident.supervisor.present?
   - if @current_user == @incident.supervisor || @current_user.staff?
-    %h2 Supervisor Account of Incident
-    = render 'incident_reports/form',
-      report: @incident.supervisor_incident_report
-    %h2 Supervisor Report
-    = render 'supervisor_reports/form',
-      report: @incident.supervisor_report
+    .edit-link= link_to 'Edit Supervisor Account of Incident',
+      edit_incident_report_url(@incident.supervisor_incident_report)
+    .edit-link= link_to 'Edit Supervisor Report',
+      edit_supervisor_report_url(@incident.supervisor_report)
 - elsif @current_user.supervisor? || @current_user.staff?
   %h3 Assign a supervisor...
   = render 'incidents/add_supervisor', incident: @incident

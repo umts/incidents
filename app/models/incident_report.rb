@@ -38,11 +38,19 @@ class IncidentReport < ApplicationRecord
     UPWARD: 'Upward', DOWNWARD: 'Downward'
   }.stringify_keys.freeze
 
+  TOWN_OPTIONS = %w[
+    Agawam Amherst Chicopee East\ Longmeadow Easthampton Enfield Feeding\ Hills
+    Hadley Holyoke Indian\ Orchard Longmeadow Ludlow Northampton South\ Hadley
+    Springfield West\ Springfield Westfield Williamsburg
+  ]
+
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
   belongs_to :user
   has_one :incident
   before_validation -> { self[:occurred_at] = Time.zone.now if occurred_at.blank? }
+
+  validates :occurred_at, :location, :town, :bus, presence: true, unless: :new_record?
 
   def incident
     Incident.where(driver_incident_report_id: id)
@@ -109,6 +117,13 @@ class IncidentReport < ApplicationRecord
 
   def other?
     !(motor_vehicle_collision? || passenger_incident?)
+  end
+
+  def report_type
+    if self == incident.driver_incident_report
+      'Driver'
+    else 'Supervisor'
+    end
   end
 
   def type_situation

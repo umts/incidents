@@ -33,3 +33,7 @@ group :development do
   gem 'timecop', '~> 0.9.1'
   gem 'web-console', '>= 3.3.0'
 end
+
+group :production do
+  gem 'exception_notification', '~> 4.2.2'
+end
