@@ -10,7 +10,9 @@
         %th Bus
         %th Location
         %th Complete?
-        - if @current_user.staff? || @current_user.supervisor?
+        - if @current_user.staff?
+          %th{ colspan: 5 }
+        - if @current_user.supervisor?
           %th{ colspan: 4 }
         - else
           %th{ colspan: 3 }
