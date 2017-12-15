@@ -22,7 +22,7 @@ FactoryBot.define do
 
   trait :staff do
     staff true
-    supervisor { rand(2).zero? }
+    supervisor { [true, false].sample }
     badge_number nil
   end
 
