@@ -61,5 +61,7 @@ en:
         superintendent_notified_at: 'Superintendent / Assistant Superintendent notified at'
         program_manager_notified_at: 'Program Manager for Drug & Alcohol Testing notified at'
         director_notified_at: 'Director / Assistant Director notified at'
+        witness_info: 'Were there witnesses?'
+        inj_pax_info: 'Were passengers injured?'
       user:
         hastus_id: 'Hastus ID'

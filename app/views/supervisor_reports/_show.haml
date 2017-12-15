@@ -135,3 +135,5 @@
     %p
       %strong= human_name :amplifying_comments
       = simple_format report.amplifying_comments
+- if @current_user.staff? || @current_user == report.user
+  = link_to 'Edit', edit_supervisor_report_url(report)
