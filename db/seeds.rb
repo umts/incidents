@@ -48,7 +48,10 @@ dates.shuffle.each.with_index do |day, i|
       incident_attrs[:supervisor_incident_report] = nil
       incident_attrs[:supervisor_report] = nil
     end
-    incident = create :incident, incident_attrs
+    incident = build :incident, incident_attrs
+    # Validations don't pass for incomplete incidents. They do in real life,
+    # but they don't because we create objects in reverse order here.
+    incident.save validate: false
     if Time.zone.now < claim_date
       number = if rand(5).zero?
                  Incident.pluck(:claim_number).compact.sample
