@@ -53,6 +53,13 @@ en:
         passenger_injured: 'Was the passenger injured as a result of the incident?'
         description: 'Describe the incident in detail.'
       supervisor_report:
-        # TODO
+        pictures_saved?: 'Were pictures taken?'
+        saved_pictures: 'Number of pictures saved'
+        faxed: 'Faxed at'
+        completed_drug_or_alcohol_test?: 'Completed drug or alcohol test?'
+        test_not_conducted?: 'Test deemed unnecessary?'
+        superintendent_notified_at: 'Superintendent / Assistant Superintendent notified at'
+        program_manager_notified_at: 'Program Manager for Drug & Alcohol Testing notified at'
+        director_notified_at: 'Director / Assistant Director notified at'
       user:
         hastus_id: 'Hastus ID'
