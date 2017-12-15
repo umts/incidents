@@ -5,7 +5,8 @@ class User < ApplicationRecord
 
 
   has_many :incident_reports, dependent: :restrict_with_error
-  has_and_belongs_to_many :divisions
+  has_many :divisions_users
+  has_many :divisions, through: :divisions_users
 
   validates :first_name, :last_name, :hastus_id, :divisions, presence: true
   validates :hastus_id, uniqueness: true

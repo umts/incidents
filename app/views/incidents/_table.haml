@@ -18,7 +18,7 @@
           %th{ colspan: 3 }
     %tbody
       - @incidents.each do |incident|
-        %tr{data: { division: incident.division }}
+        %tr{data: { division: incident.division.name }}
           %td= incident.driver.proper_name
           %td= incident.supervisor.try :proper_name
           %td= incident.occurred_at_readable

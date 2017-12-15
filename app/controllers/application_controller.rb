@@ -11,11 +11,11 @@ class ApplicationController < ActionController::Base
   private
 
   def check_for_incomplete_incidents
-    @incomplete_incidents = Incident.incomplete
+    @incomplete_incidents = Incident.in_divisions(@current_user.divisions).incomplete
   end
 
   def check_for_unclaimed_incidents
-    @unclaimed_incidents = Incident.unclaimed
+    @unclaimed_incidents = Incident.in_divisions(@current_user.divisions).unclaimed
   end
 
   def deny_access
