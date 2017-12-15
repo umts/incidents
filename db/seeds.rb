@@ -9,11 +9,11 @@ include FactoryBot::Syntax::Methods
 
 divisions = %w[SPFLD NOHO SMECH].map { |n| create :division, name: n }
 
-staff = Array.new(5) { create :user, :staff, :fake_name, division: divisions.sample }
+staff = Array.new(5) { create :user, :staff, :fake_name, divisions: [divisions.sample] }
 
-supervisors = Array.new(10) { create :user, :supervisor, :fake_name, division: divisions.sample }
+supervisors = Array.new(10) { create :user, :supervisor, :fake_name, divisions: [divisions.sample] }
 
-drivers = Array.new(50) { create :user, :driver, :fake_name, division: divisions.sample }
+drivers = Array.new(50) { create :user, :driver, :fake_name, divisions: [divisions.sample] }
 
 
 codes = {

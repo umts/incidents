@@ -5,7 +5,7 @@ FactoryBot.define do
     first_name 'User'
     sequence :last_name
     sequence :hastus_id
-    division
+    division { %w[SPFLD NOHO SMECH].sample }
     badge_number { rand(5000).to_s.rjust 4, '0' }
   end
 

@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 namespace :divisions do
-  desc 'Migrate users from string divisions to the table association.'
-  task :migrate do
+  desc 'Migrate from string division to join table divisions'
+  task migrate: :environment do
     User.all.each do |u|
-      division_name = u.attributes[:division]
-      division = Division.where(name: division_name).first_or_create
-      u.update! division_id: division.id
+      division = Division.where(name: u.division).first_or_create
+      u.divisions << division
+      u.save!
     end
   end
 end

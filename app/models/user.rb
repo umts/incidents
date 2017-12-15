@@ -5,9 +5,9 @@ class User < ApplicationRecord
 
 
   has_many :incident_reports, dependent: :restrict_with_error
-  belongs_to :division
+  has_and_belongs_to_many :divisions
 
-  validates :first_name, :last_name, :hastus_id, :division, presence: true
+  validates :first_name, :last_name, :hastus_id, :divisions, presence: true
   validates :hastus_id, uniqueness: true
   # validates :badge_number, presence: true, if: :driver?
 
@@ -19,6 +19,10 @@ class User < ApplicationRecord
   scope :with_email, -> { where.not email: nil }
 
   scope :name_order, -> { order :last_name, :first_name }
+
+  def division
+    divisions.first
+  end
 
   def driver?
     !(supervisor? || staff?)
