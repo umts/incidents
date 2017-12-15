@@ -20,6 +20,9 @@ class User < ApplicationRecord
   scope :with_email, -> { where.not email: nil }
 
   scope :name_order, -> { order :last_name, :first_name }
+  scope :in_divisions, (lambda do |divisions|
+    joins(:divisions_users).where(divisions_users: { division_id: divisions.pluck(:id) })
+  end)
 
   def division
     divisions.first

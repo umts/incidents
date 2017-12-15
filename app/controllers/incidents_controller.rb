@@ -5,7 +5,7 @@ class IncidentsController < ApplicationController
   before_action :restrict_to_staff, only: %i[destroy incomplete]
   before_action :restrict_to_supervisors, only: :claim
   before_action :set_incident, only: %i[destroy edit show update]
-  before_action :set_driver_list, only: %i[create new]
+  before_action :set_user_lists, only: %i[create new]
 
   def claim
     @incident = Incident.find(params[:id])
@@ -166,10 +166,9 @@ class IncidentsController < ApplicationController
   end
   # rubocop:enable Style/IfUnlessModifier
 
-  def set_driver_list
-    @drivers = if @current_user.driver? then [@current_user]
-               else User.active.drivers.name_order
-               end
+  def set_user_lists
+    @drivers = User.active.drivers.in_divisions(@current_user.divisions).name_order
+    @supervisors = User.active.supervisors.in_divisions(@current_user.divisions).name_order
   end
 
   def record_print_event
