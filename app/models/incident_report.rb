@@ -49,11 +49,8 @@ class IncidentReport < ApplicationRecord
   belongs_to :user
   has_one :incident
   before_validation -> { self[:occurred_at] = Time.zone.now if occurred_at.blank? }
-<<<<<<< HEAD
-=======
 
   validates :occurred_at, :location, :town, :bus, presence: true, unless: :new_record?
->>>>>>> f1818e373ca70ef0266e76e8f7d6b33ef6b080da
 
   def incident
     Incident.where(driver_incident_report_id: id)
