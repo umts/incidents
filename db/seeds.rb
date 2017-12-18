@@ -7,7 +7,7 @@ require 'timecop'
 
 include FactoryBot::Syntax::Methods
 
-staff = create :user, :staff, :fake_name
+staff = Array.new(5) { create :user, :staff, :fake_name }
 
 supervisors = Array.new(10) { create :user, :supervisor, :fake_name }
 
@@ -48,7 +48,10 @@ dates.shuffle.each.with_index do |day, i|
       incident_attrs[:supervisor_incident_report] = nil
       incident_attrs[:supervisor_report] = nil
     end
-    incident = create :incident, incident_attrs
+    incident = build :incident, incident_attrs
+    # Validations don't pass for incomplete incidents. They do in real life,
+    # but they don't because we create objects in reverse order here.
+    incident.save validate: false
     if Time.zone.now < claim_date
       number = if rand(5).zero?
                  Incident.pluck(:claim_number).compact.sample
@@ -59,7 +62,7 @@ dates.shuffle.each.with_index do |day, i|
     end
     # Every 8th-ish incident shall be reviewed.
     if (i % 8).zero? && incident_type != :incomplete
-      create :staff_review, incident: incident, user: staff
+      create :staff_review, incident: incident, user: staff.sample
     end
   end
 end

@@ -8,7 +8,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'mysql2'
 gem 'nokogiri'
 gem 'paper_trail'
-gem 'prawn-rails-forms', '~> 0.1.1'
+gem 'prawn-rails-forms', '~> 0.1.2'
 gem 'puma', '~> 3.7'
 gem 'rails', '~> 5.1.0'
 gem 'sass-rails', '~> 5.0'
@@ -32,4 +32,8 @@ group :development do
   gem 'rubocop'
   gem 'timecop', '~> 0.9.1'
   gem 'web-console', '>= 3.3.0'
+end
+
+group :production do
+  gem 'exception_notification', '~> 4.2.2'
 end
