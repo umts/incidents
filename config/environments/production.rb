@@ -102,6 +102,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'skylark.websitewelcome.com',
     port: 465,
+    username: 'incidents@pvtaapps.com',
     password: ENV['SMTP_PASSWORD']
   }
 end
