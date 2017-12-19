@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ApplicationMailer < ActionMailer::Base
-  default from: 'incidents-noreply@pvta.com'
+  default from: 'incidents@pvtaapps.com'
   layout 'mailer'
 
   def new_incident
