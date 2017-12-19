@@ -101,8 +101,9 @@ Rails.application.configure do
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
     address: 'skylark.websitewelcome.com',
+    authentication: :plain,
+    password: ENV['SMTP_PASSWORD'],
     port: 465,
-    username: 'incidents@pvtaapps.com',
-    password: ENV['SMTP_PASSWORD']
+    user_name: 'incidents@pvtaapps.com'
   }
 end
