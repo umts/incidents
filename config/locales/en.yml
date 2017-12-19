@@ -55,7 +55,7 @@ en:
       supervisor_report:
         pictures_saved?: 'Were pictures taken?'
         saved_pictures: 'Number of pictures saved'
-        faxed: 'Faxed at'
+        faxed: 'Faxed on'
         completed_drug_or_alcohol_test?: 'Completed drug or alcohol test?'
         test_not_conducted?: 'Test deemed unnecessary?'
         superintendent_notified_at: 'Superintendent / Assistant Superintendent notified at'
