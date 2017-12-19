@@ -35,7 +35,7 @@
         %li= pax.display_info
 %p
   %strong= human_name :completed_drug_or_alcohol_test?
-  = yes_no report.completed_drug_or_alcohol_test?
+  = yes_no_image report.completed_drug_or_alcohol_test?
 - if report.completed_drug_or_alcohol_test?
   %p
     %strong= human_name :reason_test_completed
