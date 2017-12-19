@@ -3,13 +3,13 @@
 class User < ApplicationRecord
   has_paper_trail
 
-  DIVISIONS = %w[NOHO SMECH SPFLD].freeze
 
   has_many :incident_reports, dependent: :restrict_with_error
+  has_many :divisions_users
+  has_many :divisions, through: :divisions_users
 
-  validates :first_name, :last_name, :hastus_id, :division, presence: true
+  validates :first_name, :last_name, :hastus_id, :divisions, presence: true
   validates :hastus_id, uniqueness: true
-  validates :division, inclusion: { in: DIVISIONS }
   # validates :badge_number, presence: true, if: :driver?
 
   scope :active, -> { where active: true }
@@ -20,6 +20,13 @@ class User < ApplicationRecord
   scope :with_email, -> { where.not email: nil }
 
   scope :name_order, -> { order :last_name, :first_name }
+  scope :in_divisions, (lambda do |divisions|
+    joins(:divisions_users).where(divisions_users: { division_id: divisions.pluck(:id) })
+  end)
+
+  def division
+    divisions.first
+  end
 
   def driver?
     !(supervisor? || staff?)

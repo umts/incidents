@@ -11,7 +11,7 @@
 
 .filters.groups
   %button.btn.btn-primary All
-  %button.btn Users
+  %button.btn Drivers
   %button.btn Supervisors
   %button.btn Staff
 
@@ -20,7 +20,7 @@
     %tr
       %th Name
       %th Hastus ID
-      %th Division
+      %th Division(s)
       %th Supervisor?
       %th Staff?
       %th{ colspan: 4 }
@@ -29,7 +29,7 @@
       %tr{ data: { group: user.group } }
         %td= user.proper_name
         %td= user.hastus_id
-        %td= user.division
+        %td= user.divisions.pluck(:name).join ', '
         %td= yes_no_image user.supervisor?
         %td= yes_no_image user.staff?
         %td

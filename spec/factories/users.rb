@@ -16,11 +16,13 @@ FactoryBot.define do
 
   trait :supervisor do
     supervisor true
+    staff false
     badge_number nil
   end
 
   trait :staff do
     staff true
+    supervisor { [true, false].sample }
     badge_number nil
   end
 

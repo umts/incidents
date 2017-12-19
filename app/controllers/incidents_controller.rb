@@ -5,7 +5,7 @@ class IncidentsController < ApplicationController
   before_action :restrict_to_staff, only: %i[destroy incomplete]
   before_action :restrict_to_supervisors, only: :claim
   before_action :set_incident, only: %i[destroy edit show update]
-  before_action :set_driver_list, only: %i[create new]
+  before_action :set_user_lists, only: %i[create new]
 
   def claim
     @incident = Incident.find(params[:id])
@@ -50,7 +50,7 @@ class IncidentsController < ApplicationController
   end
 
   def incomplete
-    @incidents = Incident.incomplete.occurred_order
+    @incidents = Incident.in_divisions(@current_user.divisions).incomplete.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No incomplete incidents.'
     end
@@ -60,6 +60,7 @@ class IncidentsController < ApplicationController
     if @current_user.staff?
       parse_dates
       @incidents = Incident.between(@start_date, @end_date)
+                           .in_divisions(@current_user.divisions)
                            .includes(:driver, :supervisor, :staff_reviews)
                            .occurred_order
       render :by_date and return
@@ -80,7 +81,7 @@ class IncidentsController < ApplicationController
   end
 
   def search
-    @incidents = Incident.by_claim(params.require :claim_number)
+    @incidents = Incident.in_divisions(@current_user.divisions).by_claim(params.require :claim_number)
                          .includes(:driver, :supervisor, :staff_reviews)
                          .occurred_order
     render :by_date
@@ -95,14 +96,14 @@ class IncidentsController < ApplicationController
   end
 
   def unclaimed
-    @incidents = Incident.unclaimed.occurred_order
+    @incidents = Incident.in_divisions(@current_user.divisions).unclaimed.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No unclaimed incidents.'
     end
   end
 
   def unreviewed
-    @incidents = Incident.unreviewed.occurred_order
+    @incidents = Incident.in_divisions(@current_user.divisions).unreviewed.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No unreviewed incidents.'
     end
@@ -165,10 +166,9 @@ class IncidentsController < ApplicationController
   end
   # rubocop:enable Style/IfUnlessModifier
 
-  def set_driver_list
-    @drivers = if @current_user.driver? then [@current_user]
-               else User.active.drivers.name_order
-               end
+  def set_user_lists
+    @drivers = User.active.drivers.in_divisions(@current_user.divisions).name_order
+    @supervisors = User.active.supervisors.in_divisions(@current_user.divisions).name_order
   end
 
   def record_print_event

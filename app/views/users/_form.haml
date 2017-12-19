@@ -18,8 +18,10 @@
       %td= f.label :hastus_id
       %td= f.text_field :hastus_id
     %tr
-      %td= f.label :division
-      %td= f.select :division, options_for_select(User::DIVISIONS)
+      %td= f.label :division_ids
+      %td= f.select :division_ids,
+        options_from_collection_for_select(Division.order(:name), :id, :name, user.divisions.pluck(:id)),
+        { }, multiple: true
     %tr
       %td= f.label :supervisor
       %td= f.check_box :supervisor

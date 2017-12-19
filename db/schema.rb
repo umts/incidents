@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171213165648) do
+ActiveRecord::Schema.define(version: 20171215151312) do
+
+  create_table "divisions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "name", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "divisions_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "division_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["division_id", "user_id"], name: "index_divisions_users_on_division_id_and_user_id", unique: true
+  end
 
   create_table "incident_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "run"

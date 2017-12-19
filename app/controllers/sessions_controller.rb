@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 class SessionsController < ApplicationController
-  skip_before_action :set_current_user
+  skip_before_action :set_current_user,
+                     :check_for_incomplete_incidents,
+                     :check_for_unclaimed_incidents
 
   def destroy
     session.clear
