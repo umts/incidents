@@ -2,16 +2,15 @@
 
 class User < ApplicationRecord
   has_paper_trail
-  devise :database_authenticatable, :registerable,
-         :recoverable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable
 
   has_many :incident_reports, dependent: :restrict_with_error
   has_many :divisions_users
   has_many :divisions, through: :divisions_users
 
-  validates :first_name, :last_name, :hastus_id, :divisions, presence: true
-  validates :hastus_id, uniqueness: true
-  # validates :badge_number, presence: true, if: :driver?
+  validates :first_name, :last_name, :badge_number, :divisions, presence: true
+  validates :badge_number, uniqueness: true
+  validates :password, :password_confirmation, presence: true, on: :create
 
   scope :active, -> { where active: true }
   scope :inactive, -> { where.not active: true }
@@ -42,6 +41,10 @@ class User < ApplicationRecord
     elsif supervisor? then 'Supervisors'
     else 'Staff'
     end
+  end
+
+  def hastus_id
+    badge_number
   end
 
   def proper_name

@@ -7,23 +7,30 @@ FactoryBot.define do
     sequence :hastus_id
     division { %w[SPFLD NOHO SMECH].sample }
     badge_number { rand(5000).to_s.rjust 4, '0' }
+
+    before :create do |user|
+      user.password = FFaker::Lorem.characters(12)
+      user.password_confirmation = FFaker::Lorem.characters(12)
+    end
   end
 
   trait :driver do
     supervisor false
     staff false
+    before :create do |user|
+      user.password = user.last_name
+      user.password_confirmation = user.last_name
+    end
   end
 
   trait :supervisor do
     supervisor true
     staff false
-    badge_number nil
   end
 
   trait :staff do
     staff true
     supervisor { [true, false].sample }
-    badge_number nil
   end
 
   trait :fake_name do
