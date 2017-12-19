@@ -21,7 +21,7 @@ class Incident < ApplicationRecord
   has_one :driver, through: :driver_incident_report, source: :user
   delegate :division, to: :driver
   has_one :supervisor, through: :supervisor_incident_report, source: :user
-  validate :driver_and_supervisor_in_correct_groups
+  validate :supervisor_in_correct_group
 
   accepts_nested_attributes_for :driver_incident_report
   delegate :occurred_at_readable, to: :driver_incident_report
@@ -79,11 +79,7 @@ class Incident < ApplicationRecord
 
   private
 
-  def driver_and_supervisor_in_correct_groups
-    unless driver_incident_report.user.driver?
-      errors.add :driver_incident_report,
-                 'selected driver is not a driver'
-    end
+  def supervisor_in_correct_group
     unless supervisor_incident_report.blank? ||
            supervisor_incident_report.try(:user).try(:supervisor?)
       errors.add :supervisor_incident_report,
