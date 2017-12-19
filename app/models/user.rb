@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord
   has_paper_trail
-  devise :database_authenticatable, :registerable, :recoverable
+  devise :database_authenticatable, :recoverable
 
   has_many :incident_reports, dependent: :restrict_with_error
   has_many :divisions_users

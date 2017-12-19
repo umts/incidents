@@ -4,9 +4,9 @@ class ApplicationController < ActionController::Base
   attr_reader :current_user
 
   protect_from_forgery with: :exception
-  before_action :set_current_user
-  before_action :check_for_incomplete_incidents
-  before_action :check_for_unclaimed_incidents
+  before_action :authenticate_user!
+  before_action :check_for_incomplete_incidents, if: -> { current_user.present? }
+  before_action :check_for_unclaimed_incidents, if: -> { current_user.present? }
 
   private
 
@@ -35,16 +35,6 @@ class ApplicationController < ActionController::Base
   def restrict_to_supervisors
     unless @current_user.supervisor? || @current_user.staff?
       deny_access and return
-    end
-  end
-
-  def set_current_user
-    @current_user = User.find_by id: session[:user_id] if session.key? :user_id
-    if @current_user.present?
-      PaperTrail.whodunnit = @current_user.id
-    else
-      session[:requested_path] = request.path
-      redirect_to login_url
     end
   end
 end
