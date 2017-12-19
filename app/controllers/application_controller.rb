@@ -11,11 +11,11 @@ class ApplicationController < ActionController::Base
   private
 
   def check_for_incomplete_incidents
-    @incomplete_incidents = Incident.in_divisions(@current_user.divisions).incomplete
+    @incomplete_incidents = Incident.in_divisions(current_user.divisions).incomplete
   end
 
   def check_for_unclaimed_incidents
-    @unclaimed_incidents = Incident.in_divisions(@current_user.divisions).unclaimed
+    @unclaimed_incidents = Incident.in_divisions(current_user.divisions).unclaimed
   end
 
   def deny_access
@@ -29,11 +29,11 @@ class ApplicationController < ActionController::Base
   end
 
   def restrict_to_staff
-    deny_access and return unless @current_user.staff?
+    deny_access and return unless current_user.staff?
   end
 
   def restrict_to_supervisors
-    unless @current_user.supervisor? || @current_user.staff?
+    unless current_user.supervisor? || current_user.staff?
       deny_access and return
     end
   end

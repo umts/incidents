@@ -10,7 +10,7 @@ class IncidentReportsController < ApplicationController
 
   def update
     if @report.update(report_params)
-      if @current_user.driver?
+      if current_user.driver?
         redirect_to incident_path(@incident, format: :pdf)
       else redirect_to @incident,
                   notice: 'Incident report was successfully saved.'
@@ -28,7 +28,7 @@ class IncidentReportsController < ApplicationController
   def set_report
     @report = IncidentReport.find params.require(:id)
     @incident = @report.incident
-    return if @current_user.staff?
-    deny_access and return unless @report.user == @current_user
+    return if current_user.staff?
+    deny_access and return unless @report.user == current_user
   end
 end
