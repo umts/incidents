@@ -3,7 +3,11 @@
 Rails.application.routes.draw do
   root 'incidents#index'
 
-  devise_for :users
+  devise_for :users, skip: :registrations
+  devise_scope :user do
+    get 'users/change_password' => 'devise/registrations#edit', as: :change_password
+    patch 'users/:id' => 'devise/registrations#update', as: :user_registration
+  end
 
   resources :incidents do
     collection do

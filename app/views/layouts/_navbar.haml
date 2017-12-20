@@ -24,5 +24,5 @@
         %button.btn.btn-default.navbar-btn.navbar-left New Incident
       = link_to destroy_user_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
-      = link_to edit_user_registration_path do
+      = link_to change_password_url do
         %button.btn.btn-default.navbar-btn.navbar-right.auth Change Password

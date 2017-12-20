@@ -1,6 +1,6 @@
-%h2 Edit #{resource_name.to_s.humanize}
+%h1 Change Password
 
-= form_for resource, as: resource_name, url: registration_path(resource_name), html: { method: :put } do |f|
+= form_for resource, as: resource_name, url: user_registration_url(resource), html: { method: :patch } do |f|
   = devise_error_messages!
   .field
     = f.label :password
