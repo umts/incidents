@@ -7,11 +7,6 @@ FactoryBot.define do
     sequence :hastus_id
     division { %w[SPFLD NOHO SMECH].sample }
     badge_number { rand(5000).to_s.rjust 4, '0' }
-
-    before :create do |user|
-      user.password = user.last_name
-      user.password_confirmation = user.last_name
-    end
   end
 
   trait :driver do
