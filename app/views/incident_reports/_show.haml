@@ -15,31 +15,31 @@
       Supervisor:
   = report.user.proper_name
 %p
-  %strong Badge No:
+  %strong= human_name :incident_report, :badge_number
   = report.user.badge_number || 'None'
 %p
-  %strong Run:
+  %strong= human_name :incident_repot, :run
   = report.run
 %p
-  %strong Block:
+  %strong= human_name :incident, :block
   = report.block
 %p
-  %strong Bus:
+  %strong= human_name :incident, :bus
   = report.bus
 %p
-  %strong Occurred at:
+  %strong= human_name :incident_report, :occurred_at
   = report.occurred_at_readable
 %p
-  %strong Passengers onboard:
+  %strong= human_name :incident_report, :passengers_onboard
   = report.passengers_onboard
 %p
-  %strong Courtesy cards distributed:
+  %strong= human_name :incident_report, :courtesy_cards_distributed
   = report.courtesy_cards_distributed
 %p
-  %strong Courtesy cards collected:
+  %strong= human_name :incident_report, :courtesy_cards_collected
   = report.courtesy_cards_collected
 %p
-  %strong Speed:
+  %strong= human_name :incident_report, :speed
   = report.speed
 %p
   %strong Location:
