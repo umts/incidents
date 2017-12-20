@@ -1,7 +1,7 @@
 module HumanizationHelper
   def human_name(model, name)
     text = t name, scope: [:activerecord, :attributes, model]
-    if text.end_with? '?'
+    if text.include? '?'
       text
     else text + ':'
     end
