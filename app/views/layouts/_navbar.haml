@@ -26,8 +26,5 @@
               .number-icon= @unclaimed_incidents.count
       = link_to new_incident_url do
         %button.btn.btn-default.navbar-btn.navbar-left New Incident
-      = link_to destroy_session_url, method: :delete do
+      = link_to destroy_user_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
-    - else
-      = link_to login_url do
-        %button.btn.btn-default.navbar-btn.navbar-right Log in

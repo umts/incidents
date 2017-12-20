@@ -1,12 +1,10 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  attr_reader :current_user
-
   protect_from_forgery with: :exception
   before_action :authenticate_user!
-  before_action :check_for_incomplete_incidents, if: -> { current_user.present? }
-  before_action :check_for_unclaimed_incidents, if: -> { current_user.present? }
+  before_action :check_for_incomplete_incidents, if: -> { user_signed_in? }
+  before_action :check_for_unclaimed_incidents, if: -> { user_signed_in? }
 
   private
 

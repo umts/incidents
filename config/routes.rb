@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :users
   root 'incidents#index'
+
+  devise_for :users
+
   resources :incidents do
     collection do
       get  :incomplete
@@ -43,10 +45,4 @@ Rails.application.routes.draw do
       end
     end
   end
-
-  get 'sessions/login', to: 'sessions#login',
-                        as: :login
-  post 'sessions/login', to: 'sessions#login'
-  delete 'sessions/destroy', to: 'sessions#destroy',
-                             as: :destroy_session
 end
