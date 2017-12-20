@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord
   has_paper_trail
-  devise :database_authenticatable, :recoverable
+  devise :database_authenticatable, :recoverable, :registerable
 
   has_many :incident_reports, dependent: :restrict_with_error
   has_many :divisions_users
@@ -23,6 +23,11 @@ class User < ApplicationRecord
   scope :in_divisions, (lambda do |divisions|
     joins(:divisions_users).where(divisions_users: { division_id: divisions.pluck(:id) })
   end)
+
+  # Only active users should be able to log in.
+  def active_for_authentication?
+    super && active?
+  end
 
   def division
     divisions.first
@@ -45,6 +50,12 @@ class User < ApplicationRecord
 
   def hastus_id
     badge_number
+  end
+
+  def inactive_message
+    if !active? then :inactive
+    else super
+    end
   end
 
   def proper_name
