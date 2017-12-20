@@ -1,6 +1,6 @@
 # PDF is 740 x 560
 
-
+PrawnRailsForms.default_text_field_options[:style] = :bold
 prawn_document do |pdf|
   report = @incident.driver_incident_report
 

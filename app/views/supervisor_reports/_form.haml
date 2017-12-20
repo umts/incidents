@@ -10,7 +10,7 @@
           %li= message
   .basic-info
     .field
-      = form.label :pictures_saved
+      = form.label :pictures_saved?
       = form.check_box :pictures_saved, id: :report_pictures_saved
     .saved-pictures-info{style: ('display: none;' unless report.pictures_saved?)}
       .field
@@ -26,7 +26,7 @@
         = label
       = form.datetime_select :faxed, id: :report_faxed, prompt: true, ampm: true
     .field
-      = form.label :witness_info, 'Were there witnesses?'
+      = form.label :witness_info?
       = form.check_box :witness_info, checked: report.has_witnesses?,
         id: :report_witness_info
     .witness-info{style: ('display: none;' unless report.has_witnesses?)}
@@ -49,7 +49,7 @@
             = witness_form.text_field :work_phone
       %button.btn-default.add-witness Add witness info
     .field
-      = form.label :inj_pax_info, 'Were passengers injured?'
+      = form.label :inj_pax_info
       = form.check_box :inj_pax_info, checked: report.has_injured_passengers?,
         id: :report_inj_pax
     .inj-pax-info{style: ('display: none;' unless report.has_injured_passengers?)}
@@ -75,7 +75,7 @@
             = pax_form.text_field :work_phone
       %button.btn-default.add-pax Add injured passenger info
     .field
-      = form.label :completed_drug_or_alcohol_test
+      = form.label :completed_drug_or_alcohol_test?
       = form.check_box :completed_drug_or_alcohol_test, id: :report_completed_drug_or_alcohol_test
     .test-info{style: ('display: none;' unless report.completed_drug_or_alcohol_test?)}
       .field
@@ -85,23 +85,23 @@
           id: :report_reason_test_completed
       .post-accident-info{style: ('display: none;' unless report.post_accident?)}
         .field
-          = form.label :test_due_to_bodily_injury
+          = form.label :test_due_to_bodily_injury?
           = form.check_box :test_due_to_bodily_injury, id: :report_test_due_to_bodily_injury
         .field
-          = form.label :test_due_to_disabling_damage
+          = form.label :test_due_to_disabling_damage?
           = form.check_box :test_due_to_disabling_damage, id: :report_test_due_to_disabling_damage
         .field
-          = form.label :test_due_to_fatality
+          = form.label :test_due_to_fatality?
           = form.check_box :test_due_to_fatality, id: :report_test_due_to_fatality
         .field
-          = form.label :test_not_conducted
+          = form.label :test_not_conducted?
           = form.check_box :test_not_conducted, id: :report_test_not_conducted
       .reasonable-suspicion-info{style: ('display: none;' unless report.reasonable_suspicion?)}
         .field
-          = form.label :completed_drug_test
+          = form.label :completed_drug_test?
           = form.check_box :completed_drug_test, id: :report_completed_drug_test
         .field
-          = form.label :completed_alcohol_test
+          = form.label :completed_alcohol_test?
           = form.check_box :completed_alcohol_test, id: :report_completed_alcohol_test
         .field
           = form.label :observation_made_at
@@ -110,7 +110,7 @@
           = form.datetime_select :observation_made_at, id: :report_observation_made_at,
             prompt: true, ampm: true
         .field
-          = form.label :test_due_to_employee_appearance
+          = form.label :test_due_to_employee_appearance?
           = form.check_box :test_due_to_employee_appearance,
             id: :report_test_due_to_employee_appearance
         .employee-appearance-info{style: ('display: none;' unless report.test_due_to_employee_appearance?)}
@@ -118,7 +118,7 @@
             = form.label :employee_appearance
             = form.text_field :employee_appearance, id: :report_employee_appearance
         .field
-          = form.label :test_due_to_employee_behavior
+          = form.label :test_due_to_employee_behavior?
           = form.check_box :test_due_to_employee_behavior,
             id: :report_test_due_to_employee_behavior
         .employee-behavior-info{style: ('display: none;' unless report.test_due_to_employee_behavior?)}
@@ -126,7 +126,7 @@
             = form.label :employee_behavior
             = form.text_field :employee_behavior, id: :report_employee_behavior
         .field
-          = form.label :test_due_to_employee_speech
+          = form.label :test_due_to_employee_speech?
           = form.check_box :test_due_to_employee_speech,
             id: :report_test_due_to_employee_speech
         .employee-speech-info{style: ('display: none;' unless report.test_due_to_employee_speech?)}
@@ -134,7 +134,7 @@
             = form.label :employee_speech
             = form.text_field :employee_speech, id: :report_employee_speech
         .field
-          = form.label :test_due_to_employee_odor
+          = form.label :test_due_to_employee_odor?
           = form.check_box :test_due_to_employee_odor,
             id: :report_test_due_to_employee_odor
         .employee-odor-info{style: ('display: none;' unless report.test_due_to_employee_odor?)}
