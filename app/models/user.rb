@@ -10,7 +10,7 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :badge_number, :divisions, presence: true
   validates :badge_number, uniqueness: true
-  validates :password, :password_confirmation, presence: true, on: :create
+  validates :password, :password_confirmation, presence: true
 
   scope :active, -> { where active: true }
   scope :inactive, -> { where.not active: true }
@@ -23,6 +23,8 @@ class User < ApplicationRecord
   scope :in_divisions, (lambda do |divisions|
     joins(:divisions_users).where(divisions_users: { division_id: divisions.pluck(:id) })
   end)
+
+  before_validation :set_default_password, if: :new_record?
 
   # Only active users should be able to log in.
   def active_for_authentication?
@@ -106,5 +108,10 @@ class User < ApplicationRecord
 
   def deactivate
     update active: false
+  end
+
+  def set_default_password
+    assign_attributes password: last_name,
+      password_confirmation: last_name
   end
 end
