@@ -1,4 +1,4 @@
 .filters.divisions
   %button.btn.btn-primary All
-  - @current_user.divisions.each do |division|
+  - current_user.divisions.each do |division|
     %button.btn= division.name

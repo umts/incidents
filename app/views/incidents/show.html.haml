@@ -1,7 +1,7 @@
 %h1.title Incident Report
 %p#notice= notice
 
-- if @current_user.staff?
+- if current_user.staff?
   = link_to 'Export File', incident_url(@incident, format: :xml)
 
 %hr
@@ -9,7 +9,7 @@
 = render 'incident_reports/show', report: @incident.driver_incident_report
 
 - if @incident.supervisor.present?
-  - if @current_user.supervisor? || @current_user.staff?
+  - if current_user.supervisor? || current_user.staff?
     %hr
     %h2 Supervisor Incident Report
     = render 'incident_reports/show',
@@ -22,7 +22,7 @@
 - if @incident.completed?
   = render 'staff_reviews'
 
-- if @current_user.staff?
+- if current_user.staff?
   = link_to 'Edit', edit_incident_url(@incident)
 |
 = link_to 'Back', incidents_url

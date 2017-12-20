@@ -7,7 +7,7 @@
       .staff-name= review.user.proper_name
       .time= review.timestamp
     .text= simple_format review.text
-    - if @current_user == review.user
+    - if current_user == review.user
       = form_with model: review, local: true, class: 'edit-review' do |form|
         .field
           = form.label :text_edit, 'Edit your review', class: 'a11y-read'
@@ -17,7 +17,7 @@
       = link_to review, method: :delete, class: 'delete' do
         %button.btn.btn-default.delete Delete
 
-- if @current_user.staff?
+- if current_user.staff?
   = form_with model: StaffReview.new, local: true, class: 'new-review' do |form|
     .field
       = form.label :text, 'Add your review', class: 'a11y-read'

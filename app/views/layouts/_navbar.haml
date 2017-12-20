@@ -1,12 +1,12 @@
 %nav.navbar.navbar-default.with-icon
   .container-fluid
-    - if @current_user.present?
+    - if user_signed_in?
       .navbar-header
         = link_to incidents_url do
           %button.btn.btn-default.navbar-btn.navbar-left.img
             = image_tag 'favicon.svg'
             All Incidents
-      - if @current_user.staff?
+      - if current_user.staff?
         = link_to users_url do
           %button.btn.btn-default.navbar-btn.navbar-left Manage Users
         - if @incomplete_incidents.any?
@@ -14,7 +14,7 @@
             %button.btn.btn-default.navbar-btn.navbar-left
               Incomplete Incidents
               .number-icon= @incomplete_incidents.count
-      - unless @current_user.driver?
+      - unless current_user.driver?
         - if @unclaimed_incidents.any?
           = link_to unclaimed_incidents_url do
             %button.btn.btn-default.navbar-btn.navbar-left
@@ -24,3 +24,5 @@
         %button.btn.btn-default.navbar-btn.navbar-left New Incident
       = link_to destroy_user_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
+      = link_to edit_user_password_path do
+        %button.btn.btn-default.navbar-btn.navbar-right.auth Change Password
