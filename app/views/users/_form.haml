@@ -15,9 +15,6 @@
       %td= f.label :badge_number
       %td= f.text_field :badge_number
     %tr
-      %td= f.label :hastus_id
-      %td= f.text_field :hastus_id
-    %tr
       %td= f.label :division_ids
       %td= f.select :division_ids,
         options_from_collection_for_select(Division.order(:name), :id, :name, user.divisions.pluck(:id)),

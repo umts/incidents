@@ -3,6 +3,9 @@
 - else 
   %h1 Active Users
 
+.center= link_to 'Add New User', new_user_url
+.center= link_to 'Import User Data', import_users_url
+
 .center
   - if params[:inactive]
     = link_to 'Manage active drivers', users_url

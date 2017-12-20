@@ -119,10 +119,19 @@ GEM
     loofah (2.1.1)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
+<<<<<<< HEAD
     mail (2.7.0)
       mini_mime (>= 0.1.1)
     method_source (0.9.0)
     mini_mime (1.0.0)
+=======
+    mail (2.6.6)
+      mime-types (>= 1.16, < 4)
+    method_source (0.8.2)
+    mime-types (3.1)
+      mime-types-data (~> 3.2015)
+    mime-types-data (3.2016.0521)
+>>>>>>> 2d9ce946e9f01d250150230a71f9a14aa3d21d50
     mini_portile2 (2.3.0)
     minitest (5.10.3)
     multi_json (1.12.2)
@@ -133,9 +142,14 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
+<<<<<<< HEAD
     orm_adapter (0.5.0)
     paper_trail (8.1.1)
       activerecord (>= 4.2, < 5.2)
+=======
+    paper_trail (7.1.0)
+      activerecord (>= 4.0, < 5.2)
+>>>>>>> 2d9ce946e9f01d250150230a71f9a14aa3d21d50
       request_store (~> 1.1)
     parallel (1.12.1)
     parser (2.4.0.2)
@@ -274,7 +288,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   mysql2
-  nokogiri (<= 1.8.1)
+  nokogiri (>= 1.8.1)
   paper_trail
   prawn-rails-forms (~> 0.1.2)
   pry-byebug
