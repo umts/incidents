@@ -65,3 +65,4 @@ en:
         inj_pax_info: 'Were passengers injured?'
       user:
         hastus_id: 'Hastus ID'
+        division_ids: 'Divisions'
