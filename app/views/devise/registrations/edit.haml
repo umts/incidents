@@ -11,7 +11,8 @@
   .field
     = f.label :current_password
     = f.password_field :current_password, autocomplete: :off
+  %i The default password is your last name.
   .actions
-    = f.submit 'Update'
+    = f.submit 'Change password'
 
 = link_to 'Back', :back

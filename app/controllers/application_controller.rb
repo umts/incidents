@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authenticate_user!
+  before_action :check_for_required_password_change, if: -> { user_signed_in? }
   before_action :check_for_incomplete_incidents, if: -> { user_signed_in? }
   before_action :check_for_unclaimed_incidents, if: -> { user_signed_in? }
 
@@ -10,6 +11,14 @@ class ApplicationController < ActionController::Base
 
   def check_for_incomplete_incidents
     @incomplete_incidents = Incident.in_divisions(current_user.divisions).incomplete
+  end
+
+  def check_for_required_password_change
+    return if params[:controller] == 'devise/registrations'
+    if current_user.requires_password_change?
+      redirect_to change_password_url,
+        notice: 'You must change your password from the default before continuing.'
+    end
   end
 
   def check_for_unclaimed_incidents

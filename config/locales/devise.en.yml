@@ -2,3 +2,5 @@ en:
   devise:
     failure:
       inactive: 'Your account has been deactivated.'
+    registrations:
+      updated: 'Your password has been successfully changed.'

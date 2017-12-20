@@ -25,6 +25,7 @@ class User < ApplicationRecord
   end)
 
   before_validation :set_default_password, if: :new_record?
+  before_save :track_password_changed
 
   # Only active users should be able to log in.
   def active_for_authentication?
@@ -62,6 +63,15 @@ class User < ApplicationRecord
 
   def proper_name
     [last_name, first_name].join ', '
+  end
+
+  def requires_password_change?
+    !(driver? || password_changed_from_default?)
+  end
+
+  def set_default_password
+    assign_attributes password: last_name,
+      password_confirmation: last_name
   end
 
   def self.import_from_xml(xml)
@@ -110,8 +120,9 @@ class User < ApplicationRecord
     update active: false
   end
 
-  def set_default_password
-    assign_attributes password: last_name,
-      password_confirmation: last_name
+  def track_password_changed
+    if encrypted_password_changed?
+      assign_attributes password_changed_from_default: true
+    end
   end
 end
