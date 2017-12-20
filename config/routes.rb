@@ -46,6 +46,7 @@ Rails.application.routes.draw do
         post :deactivate
         get  :incidents
         post :reactivate
+        post :reset_password
       end
     end
   end
