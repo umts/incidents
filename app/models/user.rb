@@ -71,7 +71,8 @@ class User < ApplicationRecord
 
   def set_default_password
     assign_attributes password: last_name,
-      password_confirmation: last_name
+      password_confirmation: last_name,
+      password_changed_from_default: false
   end
 
   def self.import_from_xml(xml)
