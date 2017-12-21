@@ -84,7 +84,20 @@ describe User do
         end
       end
       context 'user division has changed' do
-        it 'does nothing'
+        # Could've modeled it more simply, but this is the real use case.
+        # On the site, people can belong to multiple divisions.
+        # This is not the case in Hastus.
+        # So we don't want importing user data to suddenly restrict
+        # staff members' access.
+        before :each do
+          satco = create :division, name: 'SATCO'
+          User.last.divisions << satco
+        end
+        it 'does nothing' do
+          expect(User.last.divisions.count).to be 2
+          import!
+          expect(User.last.divisions.count).to be 2
+        end
       end
     end
     context 'job class of supervisor' do
