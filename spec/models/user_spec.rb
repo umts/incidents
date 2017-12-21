@@ -53,6 +53,29 @@ describe User do
         expect(statuses[:rejected]).to be 1
       end
     end
+    context 'user already exists' do
+      before :each do
+        umass = create :division, name: 'UMASS'
+        create :user, :driver, first_name: 'John',
+          last_name: 'Smith', hastus_id: 1234,
+          divisions: [umass]
+      end
+      it 'does not re-import them' do
+        expect { import! }.not_to change User, :count
+      end
+      context 'user has not changed since last import' do
+        it 'does not mark them as updated'
+      end
+      context 'user name has changed' do
+        it 'changes their name'
+      end
+      context 'user job class has changed' do
+        it 'changes their job class'
+      end
+      context 'user division has changed' do
+        it 'does nothing'
+      end
+    end
     context 'job class of supervisor' do
       let(:job_class) { 'Supervisor' }
       it 'imports the user as a supervisor' do

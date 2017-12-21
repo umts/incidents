@@ -67,6 +67,7 @@ class User < ApplicationRecord
             statuses[:updated] += 1
           else statuses[:rejected] += 1
           end
+        else users_present << user
         end
       else
         # Only assign divisions to new users.
