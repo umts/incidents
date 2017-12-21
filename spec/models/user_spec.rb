@@ -99,7 +99,7 @@ describe User do
           expect(User.last.divisions.count).to be 2
         end
       end
-      context 'user hastus ID has changed' do
+      context 'user Hastus ID has changed' do
         let(:hastus_id) { 5678 }
         it 'imports a new user' do # because this is how we identify users
           statuses =import!
@@ -119,6 +119,25 @@ describe User do
       it 'imports the user as a supervisor' do
         import!
         expect(User.last).to be_supervisor
+      end
+    end
+    context 'someone is not present in the XML' do
+      let!(:old_user) { create :user }
+      it 'deactivates them' do
+        import!
+        expect(old_user.reload).not_to be_active
+      end
+      it 'reports a deactivation' do
+        statuses = import!
+        expect(statuses[:deactivated]).to be 1
+      end
+      context 'that person is staff' do
+        let!(:old_user) { create :user, :staff }
+        it 'does not deactivate them' do
+          statuses = import!
+          expect(old_user.reload).to be_active
+          expect(statuses[:deactivated]).not_to be 1
+        end
       end
     end
   end
