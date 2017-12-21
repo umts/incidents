@@ -49,10 +49,10 @@
   = report.town
 %p
   %strong= human_name :incident_report, :motor_vehicle_collision?
-  = yes_no report.motor_vehicle_collision?
+  = yes_no_image report.motor_vehicle_collision?
 %p
   %strong= human_name :incident_report, :passenger_incident?
-  = yes_no report.passenger_incident?
+  = yes_no_image report.passenger_incident?
 %p
   %strong= human_name :incident_report, :weather_conditions
   = report.weather_conditions
@@ -64,7 +64,7 @@
   = report.light_conditions
 %p
   %strong= human_name :incident_report, :headlights_used?
-  = yes_no report.headlights_used?
+  = yes_no_image report.headlights_used?
 - if report == @incident.supervisor_incident_report
   %p
     %strong= human_name :incident_report, :posted_speed_limit
@@ -77,10 +77,10 @@
     = report.surface_grade
   %p
     %strong= human_name :incident_report, :credentials_exchanged?
-    = yes_no report.credentials_exchanged?
+    = yes_no_image report.credentials_exchanged?
   %p
     %strong= human_name :incident_report, :summons_or_warning_issued?
-    = yes_no report.summons_or_warning_issued?
+    = yes_no_image report.summons_or_warning_issued?
   - if report.summons_or_warning_issued?
     %p
       %strong= human_name :incident_report, :summons_or_warning_info
@@ -140,7 +140,7 @@
       = report.other_vehicle_driver_work_phone
   %p
     %strong= human_name :incident_report, :other_vehicle_owned_by_other_driover?
-    = yes_no report.other_vehicle_owned_by_other_driver?
+    = yes_no_image report.other_vehicle_owned_by_other_driver?
   - unless report.other_vehicle_owned_by_other_driver?
     %p
       %strong= human_name :incident_report, :other_vehicle_owner_name
@@ -162,7 +162,7 @@
         = report.other_vehicle_owner_work_phone
   %p
     %strong= human_name :incident_report, :police_on_scene
-    = yes_no report.police_on_scene?
+    = yes_no_image report.police_on_scene?
   - if report.police_on_scene?
     %p
       %strong= human_name :incident_report, :police_badge_number
@@ -204,7 +204,7 @@
     = report.bus_kneeled?
   %p
     %strong= human_name :incident_report, :bus_up_to_curb
-    = yes_no report.bus_up_to_curb?
+    = yes_no_image report.bus_up_to_curb?
   - if report == @incident.supervisor_incident_report
     %p
       %strong= human_name :incident_report, :bus_distance_from_curb
