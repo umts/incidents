@@ -21,8 +21,8 @@ describe User do
       XML
     end
     let(:hastus_id) { 1234 }
-    let(:last_name) { 'Smith' }
-    let(:first_name) { 'John' }
+    let(:last_name) { 'SMITH' }
+    let(:first_name) { 'JOHN' }
     let(:job_class) { 'Driver' }
     let(:division) { 'UMASS' }
 
@@ -33,6 +33,10 @@ describe User do
       statuses = import!
       expect(statuses).to have_key :imported
       expect(statuses[:imported]).to be 1
+    end
+    it 'capitalizes names' do
+      import!
+      expect(User.last).to have_attributes first_name: 'John', last_name: 'Smith'
     end
   end
 end
