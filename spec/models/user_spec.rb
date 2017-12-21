@@ -38,5 +38,16 @@ describe User do
       import!
       expect(User.last).to have_attributes first_name: 'John', last_name: 'Smith'
     end
+    it 'imports users as drivers' do
+      import!
+      expect(User.last).to be_driver
+    end
+    context 'job class of supervisor' do
+      let(:job_class) { 'Supervisor' }
+      it 'imports the user as a supervisor' do
+        import!
+        expect(User.last).to be_supervisor
+      end
+    end
   end
 end
