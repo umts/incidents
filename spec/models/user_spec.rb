@@ -27,7 +27,7 @@ describe User do
     let(:division) { 'UMASS' }
 
     it 'imports users from the provided XML (base case)' do
-      expect { import! }.to change(User, :count).by 1
+      expect { import! }.to change(User.active, :count).by 1
     end
     it 'returns some statuses' do
       statuses = import!
@@ -45,7 +45,7 @@ describe User do
     context 'invalid user data' do
       let(:division) { '' }
       it 'does not import the user' do
-        expect { import! }.not_to change User, :count
+        expect { import! }.not_to change User.active, :count
       end
       it 'marks a rejected record' do
         statuses = import!
@@ -61,7 +61,7 @@ describe User do
           divisions: [umass]
       end
       it 'does not re-import them' do
-        expect { import! }.not_to change User, :count
+        expect { import! }.not_to change User.active, :count
       end
       context 'user has not changed since last import' do
         it 'does not mark them as updated' do
@@ -97,6 +97,20 @@ describe User do
           expect(User.last.divisions.count).to be 2
           import!
           expect(User.last.divisions.count).to be 2
+        end
+      end
+      context 'user hastus ID has changed' do
+        let(:hastus_id) { 5678 }
+        it 'imports a new user' do # because this is how we identify users
+          statuses =import!
+          expect(statuses[:imported]).to be 1
+        end
+      end
+      context 'changing to invalid data' do
+        let(:first_name) { '' }
+        it 'rejects the change' do
+          statuses = import!
+          expect(statuses[:rejected]).to be 1
         end
       end
     end

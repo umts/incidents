@@ -24,6 +24,10 @@ class User < ApplicationRecord
     joins(:divisions_users).where(divisions_users: { division_id: divisions.pluck(:id) })
   end)
 
+  def deactivate
+    update active: false
+  end
+
   def division
     divisions.first
   end
@@ -87,11 +91,5 @@ class User < ApplicationRecord
     inactive_users.each(&:deactivate)
     statuses[:deactivated] = inactive_users.count
     statuses
-  end
-
-  private
-
-  def deactivate
-    update active: false
   end
 end
