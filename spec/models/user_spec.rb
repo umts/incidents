@@ -64,13 +64,24 @@ describe User do
         expect { import! }.not_to change User, :count
       end
       context 'user has not changed since last import' do
-        it 'does not mark them as updated'
+        it 'does not mark them as updated' do
+          statuses = import!
+          expect(statuses[:imported]).not_to be 1
+        end
       end
       context 'user name has changed' do
-        it 'changes their name'
+        let(:last_name) { 'Woodall' }
+        it 'changes their name' do
+          import!
+          expect(User.last.last_name).to eql 'Woodall'
+        end
       end
       context 'user job class has changed' do
-        it 'changes their job class'
+        let(:job_class) { 'Supervisor' }
+        it 'changes their job class' do
+          import!
+          expect(User.last).to be_supervisor
+        end
       end
       context 'user division has changed' do
         it 'does nothing'
