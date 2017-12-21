@@ -29,6 +29,10 @@ describe User do
     it 'imports users from the provided XML (base case)' do
       expect { import! }.to change(User, :count).by 1
     end
-    it 'returns some statuses'
+    it 'returns some statuses' do
+      statuses = import!
+      expect(statuses).to have_key :imported
+      expect(statuses[:imported]).to be 1
+    end
   end
 end
