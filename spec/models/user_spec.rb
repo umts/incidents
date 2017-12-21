@@ -42,6 +42,17 @@ describe User do
       import!
       expect(User.last).to be_driver
     end
+    context 'invalid user data' do
+      let(:division) { '' }
+      it 'does not import the user' do
+        expect { import! }.not_to change User, :count
+      end
+      it 'marks a rejected record' do
+        statuses = import!
+        expect(statuses).to have_key :rejected
+        expect(statuses[:rejected]).to be 1
+      end
+    end
     context 'job class of supervisor' do
       let(:job_class) { 'Supervisor' }
       it 'imports the user as a supervisor' do
