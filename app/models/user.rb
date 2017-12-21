@@ -55,7 +55,6 @@ class User < ApplicationRecord
       attrs = {}
       attrs[:first_name] = user_data.at_css('first_name').text.capitalize
       attrs[:last_name] = user_data.at_css('last_name').text.capitalize
-      attrs[:division] = user_data.at_css('division').text
       job_class = user_data.at_css('job_class').text
       attrs[:supervisor] = job_class == 'Supervisor'
       user = User.find_by hastus_id: hastus_id
@@ -70,10 +69,12 @@ class User < ApplicationRecord
           end
         end
       else
+        # Only assign divisions to new users.
+        division_name = user_data.at_css('division').text.upcase
+        attrs[:divisions] = [Division.where(name: division_name).first_or_create]
         user = User.new attrs.merge(hastus_id: hastus_id)
-        if user.valid?
-          user.save!
-            users_present << user
+        if user.save
+          users_present << user
           statuses[:imported] += 1
         else statuses[:rejected] += 1
         end
