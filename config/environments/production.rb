@@ -103,7 +103,6 @@ Rails.application.configure do
     address: 'skylark.websitewelcome.com',
     authentication: :plain,
     password: Rails.application.secrets.smtp_password,
-    port: Rails.application.secrets.smtp_port,
     user_name: 'incidents@pvtaapps.com'
   }
 end

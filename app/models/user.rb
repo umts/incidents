@@ -32,6 +32,10 @@ class User < ApplicationRecord
     super && active?
   end
 
+  def deactivate
+    update active: false
+  end
+
   def division
     divisions.first
   end
@@ -83,7 +87,6 @@ class User < ApplicationRecord
       attrs = {}
       attrs[:first_name] = user_data.at_css('first_name').text.capitalize
       attrs[:last_name] = user_data.at_css('last_name').text.capitalize
-      attrs[:division] = user_data.at_css('division').text
       job_class = user_data.at_css('job_class').text
       attrs[:supervisor] = job_class == 'Supervisor'
       user = User.find_by hastus_id: hastus_id
@@ -96,12 +99,15 @@ class User < ApplicationRecord
             statuses[:updated] += 1
           else statuses[:rejected] += 1
           end
+        else users_present << user
         end
       else
+        # Only assign divisions to new users.
+        division_name = user_data.at_css('division').text.upcase
+        attrs[:divisions] = [Division.where(name: division_name).first_or_create]
         user = User.new attrs.merge(hastus_id: hastus_id)
-        if user.valid?
-          user.save!
-            users_present << user
+        if user.save
+          users_present << user
           statuses[:imported] += 1
         else statuses[:rejected] += 1
         end
@@ -116,10 +122,6 @@ class User < ApplicationRecord
   end
 
   private
-
-  def deactivate
-    update active: false
-  end
 
   def track_password_changed
     if encrypted_password_changed?

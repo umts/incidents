@@ -20,21 +20,29 @@ source 'https://rails-assets.org' do
   gem 'rails-assets-bootstrap'
 end
 
+group :production do
+  gem 'exception_notification', '~> 4.2.2'
+end
+
 group :development do
   gem 'capistrano', '3.9.0', require: false
   gem 'capistrano-bundler', require: false
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
   gem 'capistrano-rails', require: false
-  gem 'factory_bot_rails', '~> 4.8.2'
-  gem 'ffaker', '~> 2.7.0'
   gem 'listen', '>= 3.0.5', '< 3.2'
-  gem 'pry-byebug'
   gem 'rubocop'
-  gem 'timecop', '~> 0.9.1'
   gem 'web-console', '>= 3.3.0'
 end
 
-group :production do
-  gem 'exception_notification', '~> 4.2.2'
+group :development, :test do
+  gem 'factory_bot_rails', '~> 4.8.2'
+  gem 'ffaker', '~> 2.7.0'
+  gem 'pry-byebug'
+  gem 'timecop', '~> 0.9.1'
+end
+
+group :test do
+  gem 'rspec-rails', '~> 3.7'
+  gem 'simplecov', '~> 0.15'
 end

@@ -66,7 +66,7 @@ class Incident < ApplicationRecord
   def claim_for(user)
     self.supervisor_incident_report = create_supervisor_incident_report user: user
     self.supervisor_report = create_supervisor_report
-    save!
+    save! validate: false
   end
 
   def notify_supervisor_of_new_report
