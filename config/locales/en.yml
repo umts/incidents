@@ -1,8 +1,11 @@
 en:
   activerecord:
     attributes:
+      driver_incident_report:
+        user: 'Driver'
+      supervisor_incident_report:
+        user: 'Supervisor'
       incident_report:
-        driver_id: 'Driver'
         run: 'Run #'
         block: 'Block #'
         bus: 'Bus #'
