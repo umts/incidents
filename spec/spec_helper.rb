@@ -1,8 +1,10 @@
 # frozen_string_literal: true
 
-require 'factory_bot_rails'
-require 'simplecov'
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__)
+abort("The Rails environment is running in production mode!") if Rails.env.production?
 
+require 'simplecov'
 SimpleCov.start 'rails'
 SimpleCov.start do
   add_filter '/config/'
@@ -10,9 +12,15 @@ SimpleCov.start do
   refuse_coverage_drop
 end
 
+require 'rspec/rails'
+require 'devise'
+require 'factory_bot_rails'
+
+ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   config.order = :random
   config.include FactoryBot::Syntax::Methods
+  config.include Devise::Test::IntegrationHelpers
   config.before :all do
     FactoryBot.reload
   end
@@ -22,4 +30,15 @@ RSpec.configure do |config|
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
+  config.use_transactional_fixtures = true
+  config.infer_spec_type_from_file_location!
+  config.filter_rails_from_backtrace!
+end
+
+def when_current_user_is(user)
+  current_user = case user
+                 when User, nil then user
+                 when Symbol then create(:user, user)
+                 end
+  sign_in current_user
 end
