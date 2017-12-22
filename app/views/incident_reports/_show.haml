@@ -15,210 +15,210 @@
       Supervisor:
   = report.user.proper_name
 %p
-  %strong Badge No:
+  %strong= human_name :incident_report, :badge_number
   = report.user.badge_number || 'None'
 %p
-  %strong Run:
+  %strong= human_name :incident_repot, :run
   = report.run
 %p
-  %strong Block:
+  %strong= human_name :incident, :block
   = report.block
 %p
-  %strong Bus:
+  %strong= human_name :incident, :bus
   = report.bus
 %p
-  %strong Occurred at:
+  %strong= human_name :incident_report, :occurred_at
   = report.occurred_at_readable
 %p
-  %strong Passengers onboard:
+  %strong= human_name :incident_report, :passengers_onboard
   = report.passengers_onboard
 %p
-  %strong Courtesy cards distributed:
+  %strong= human_name :incident_report, :courtesy_cards_distributed
   = report.courtesy_cards_distributed
 %p
-  %strong Courtesy cards collected:
+  %strong= human_name :incident_report, :courtesy_cards_collected
   = report.courtesy_cards_collected
 %p
-  %strong Speed:
+  %strong= human_name :incident_report, :speed
   = report.speed
 %p
-  %strong Location:
+  %strong= human_name :incident_report, :location
   = report.location
 %p
-  %strong Town:
+  %strong= human_name :incident_report, :town
   = report.town
 %p
-  %strong Motor vehicle collision?
-  = yes_no report.motor_vehicle_collision?
+  %strong= human_name :incident_report, :motor_vehicle_collision?
+  = yes_no_image report.motor_vehicle_collision?
 %p
-  %strong Passenger incident?
-  = yes_no report.passenger_incident?
+  %strong= human_name :incident_report, :passenger_incident?
+  = yes_no_image report.passenger_incident?
 %p
-  %strong Weather conditions:
+  %strong= human_name :incident_report, :weather_conditions
   = report.weather_conditions
 %p
-  %strong Road conditions:
+  %strong= human_name :incident_report, :road_conditions
   = report.road_conditions
 %p
-  %strong Light conditions:
+  %strong= human_name :incident_report, :light_conditions
   = report.light_conditions
 %p
-  %strong Headlights on?
-  = yes_no report.headlights_used?
+  %strong= human_name :incident_report, :headlights_used?
+  = yes_no_image report.headlights_used?
 - if report == @incident.supervisor_incident_report
   %p
-    %strong Posted speed limit:
+    %strong= human_name :incident_report, :posted_speed_limit
     = report.posted_speed_limit
   %p
-    %strong Surface type:
+    %strong= human_name :incident_report, :surface_type
     = report.surface_type
   %p
-    %strong Surface grade:
+    %strong= human_name :incident_report, :surface_grade
     = report.surface_grade
   %p
-    %strong Credentials exchanged?
-    = yes_no report.credentials_exchanged?
+    %strong= human_name :incident_report, :credentials_exchanged?
+    = yes_no_image report.credentials_exchanged?
   %p
-    %strong Summons or warning issued?
-    = yes_no report.summons_or_warning_issued?
+    %strong= human_name :incident_report, :summons_or_warning_issued?
+    = yes_no_image report.summons_or_warning_issued?
   - if report.summons_or_warning_issued?
     %p
-      %strong Summons or warning info:
+      %strong= human_name :incident_report, :summons_or_warning_info
       = simple_format report.summons_or_warning_info
 - if report.motor_vehicle_collision?
   %h3 Motor Vehicle Collision Information
   %p
-    %strong Other vehicle plate #:
+    %strong= human_name :incident_report, :other_vehicle_plate
     = report.other_vehicle_plate
   %p
-    %strong State:
+    %strong= human_name :incident_report, :other_vehicle_state
     = report.other_vehicle_state
   %p
-    %strong Make:
+    %strong= human_name :incident_report, :other_vehicle_make
     = report.other_vehicle_make
   %p
-    %strong Model:
+    %strong= human_name :incident_report, :other_vehicle_model
     = report.other_vehicle_model
   %p
-    %strong Year:
+    %strong= human_name :incident_report, :other_vehicle_year
     = report.other_vehicle_year
   %p
-    %strong Color:
+    %strong= human_name :incident_report, :other_vehicle_color
     = report.other_vehicle_color
   %p
-    %strong # passengers:
+    %strong= human_name :incident_report, :other_vehicle_passengers
     = report.other_vehicle_passengers
   %p
-    %strong Direction of bus:
+    %strong= human_name :incident_report, :direction
     = report.direction
   %p
-    %strong Direction of other vehicle:
+    %strong= human_name :incident_report, :other_vehicle_direction
     = report.other_vehicle_direction
   %p
-    %strong Name of other driver:
+    %strong= human_name :incident_report, :other_driver_name
     = report.other_driver_name
   %p
-    %strong License number:
+    %strong= human_name :incident_report, :other_driver_license_number
     = report.other_driver_license_number
   %p
-    %strong State:
+    %strong= human_name :incident_report, :other_driver_license_state
     = report.other_driver_license_state
   %p
-    %strong Address:
+    %strong= human_name :incident_report, :other_vehicle_driver_address
     = report.other_vehicle_driver_full_address.join ','
   - if report.other_vehicle_driver_home_phone.present?
     %p
-      %strong Home phone:
+      %strong= human_name :incident_report, :other_vehicle_driver_home_phone
       = report.other_vehicle_driver_home_phone
   - if report.other_vehicle_driver_cell_phone.present?
     %p
-      %strong cell phone:
+      %strong= human_name :incident_report, :other_vehicle_driver_cell_phone
       = report.other_vehicle_driver_cell_phone
   - if report.other_vehicle_driver_work_phone.present?
     %p
-      %strong work phone:
+      %strong= human_name :incident_report, :other_vehicle_driver_work_phone
       = report.other_vehicle_driver_work_phone
   %p
-    %strong Vehicle owned by driver?
-    = yes_no report.other_vehicle_owned_by_other_driver?
+    %strong= human_name :incident_report, :other_vehicle_owned_by_other_driover?
+    = yes_no_image report.other_vehicle_owned_by_other_driver?
   - unless report.other_vehicle_owned_by_other_driver?
     %p
-      %strong Name of owner:
+      %strong= human_name :incident_report, :other_vehicle_owner_name
       = report.other_vehicle_owner_name
     %p
-      %strong Address:
+      %strong= human_name :incident_report, :other_vehicle_owner_address
       = report.other_vehicle_owner_full_address.join ', '
     - if report.other_vehicle_owner_home_phone.present?
       %p
-        %strong Home phone:
+        %strong= human_name :incident_report, :other_vehicle_owner_home_phone
         = report.other_vehicle_owner_home_phone
     - if report.other_vehicle_owner_cell_phone.present?
       %p
-        %strong cell phone:
+        %strong= human_name :incident_report, :other_vehicle_owner_cell_phone
         = report.other_vehicle_owner_cell_phone
     - if report.other_vehicle_owner_work_phone.present?
       %p
-        %strong work phone:
+        %strong= human_name :incident_report, :other_vehicle_owner_work_phone
         = report.other_vehicle_owner_work_phone
   %p
-    %strong Police on scene?
-    = yes_no report.police_on_scene?
+    %strong= human_name :incident_report, :police_on_scene
+    = yes_no_image report.police_on_scene?
   - if report.police_on_scene?
     %p
-      %strong Badge number:
+      %strong= human_name :incident_report, :police_badge_number
       = report.police_badge_number
     %p
-      %strong Town (or State):
+      %strong= human_name :incident_report, :police_town_or_state
       = report.police_town_or_state
     %p
-      %strong Case number assigned:
+      %strong= human_name :incident_report, :police_case_assigned
       = report.police_case_assigned
   %p
-    %strong Damage to bus at point of impact:
+    %strong= human_name :incident_report, :damage_to_bus_point_of_impact
     = report.damage_to_bus_point_of_impact
   %p
-    %strong Damage to other vehicle at point of impact:
+    %strong= human_name :incident_report, :damage_to_other_vehicle_point_of_impact
     = report.damage_to_other_vehicle_point_of_impact
   %p
-    %strong Other driver's insurance carrier:
+    %strong= human_name :incident_report, :insurance_carrier
     = report.insurance_carrier
   %p
-    %strong Policy number:
+    %strong= human_name :incident_report, :insurance_policy_number
     = report.insurance_policy_number
   %p
-    %strong Effective date:
+    %strong= human_name :incident_report, :insurance_effective_date
     = report.insurance_effective_date
 - if report.passenger_incident?
   %h3 Passenger Incident Information
   %p
-    %strong Incident occurred:
+    %strong= human_name :incident_report, :point_of_impact
     = report.occurred_full_location
   %p
-    %strong Motion of bus:
+    %strong= human_name :incident_report, :motion_of_bus
     = report.motion_of_bus
   %p
-    %strong Condition of steps:
+    %strong= human_name :incident_report, :condition_of_steps
     = report.condition_of_steps
   %p
-    %strong Bus kneeled?
+    %strong= human_name :incident_report, :bus_kneeled
     = report.bus_kneeled?
   %p
-    %strong Bus up to curb?
-    = yes_no report.bus_up_to_curb?
+    %strong= human_name :incident_report, :bus_up_to_curb
+    = yes_no_image report.bus_up_to_curb?
   - if report == @incident.supervisor_incident_report
     %p
-      %strong Bus distance from curb:
+      %strong= human_name :incident_report, :bus_distance_from_curb
       = report.bus_distance_from_curb
   - if report.needs_reason_not_up_to_curb?
     %p
-      %strong Reason not up to curb:
+      %strong= human_name :incident_report, :reason_not_up_to_curb
       = report.reason_not_up_to_curb
     - if report.vehicle_in_bus_stop_plate.present?
       %p
-        %strong Plate # of vehicle in bus stop:
+        %strong= human_name :incident_report, :vehicle_in_bus_stop_plate
         = report.vehicle_in_bus_stop_plate
 %p
-  %strong Description of incident:
+  %strong= human_name :incident_report, :description
   = simple_format report.description
 - if current_user.staff? || current_user == report.user
   = link_to 'Edit', edit_incident_report_url(report)

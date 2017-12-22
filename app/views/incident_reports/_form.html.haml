@@ -59,10 +59,10 @@
         options_for_select(IncidentReport::TOWN_OPTIONS, report.town),
         { include_blank: true }, id: :report_town
     .field
-      = form.label :motor_vehicle_collision
+      = form.label :motor_vehicle_collision?
       = form.check_box :motor_vehicle_collision, id: :report_motor_vehicle_collision
     .field
-      = form.label :passenger_incident
+      = form.label :passenger_incident?
       = form.check_box :passenger_incident, id: :report_passenger_incident
     .field
       = form.label :weather_conditions
@@ -80,7 +80,7 @@
         options_for_select(IncidentReport::LIGHT_OPTIONS, report.light_conditions),
         { include_blank: true }, id: :report_light_conditions
     .field
-      = form.label :headlights_used
+      = form.label :headlights_used?
       = form.check_box :headlights_used, id: :report_headlights_used
     - if report == @incident.supervisor_incident_report
       .field
@@ -97,10 +97,10 @@
           options_for_select(IncidentReport::SURFACE_GRADE_OPTIONS, report.surface_grade),
           { include_blank: true }, id: :report_surface_grade
       .field
-        = form.label :credentials_exchanged
+        = form.label :credentials_exchanged?
         = form.check_box :credentials_exchanged, id: :report_credentials_exchanged
       .field
-        = form.label :summons_or_warning_issued
+        = form.label :summons_or_warning_issued?
         = form.check_box :summons_or_warning_issued, id: :report_summons_or_warning_issued
       .summons-info{style: ('display: none;' unless report.summons_or_warning_issued?)}
         .field
@@ -171,7 +171,7 @@
       = form.label :other_vehicle_driver_work_phone
       = form.text_field :other_vehicle_driver_work_phone, id: :report_other_vehicle_driver_work_phone
     .field
-      = form.label :other_vehicle_owned_by_other_driver
+      = form.label :other_vehicle_owned_by_other_driver?
       = form.check_box :other_vehicle_owned_by_other_driver, id: :report_other_vehicle_owned_by_other_driver
     .other-vehicle-owner-info{style: ('display: none;' if report.other_vehicle_owned_by_other_driver?)}
       .field
@@ -199,7 +199,7 @@
         = form.label :other_vehicle_owner_work_phone
         = form.text_field :other_vehicle_owner_work_phone, id: :report_other_vehicle_owner_work_phone
     .field
-      = form.label :police_on_scene
+      = form.label :police_on_scene?
       = form.check_box :police_on_scene, id: :report_police_on_scene
     .police-info{style: ('display: none;' unless report.police_on_scene?)}
       .field
@@ -240,34 +240,34 @@
     %h3 Passenger Incident Information
     %b Where / how did the incident occur? Check all that apply.
     .field
-      = form.label :occurred_front_door
+      = form.label :occurred_front_door?
       = form.check_box :occurred_front_door, id: :report_occurred_front_door
     .field
-      = form.label :occurred_rear_door
+      = form.label :occurred_rear_door?
       = form.check_box :occurred_rear_door, id: :report_occurred_rear_door
     .field
-      = form.label :occurred_front_steps
+      = form.label :occurred_front_steps?
       = form.check_box :occurred_front_steps, id: :report_occurred_front_steps
     .field
-      = form.label :occurred_rear_steps
+      = form.label :occurred_rear_steps?
       = form.check_box :occurred_rear_steps, id: :report_occurred_rear_steps
     .field
-      = form.label :occurred_sudden_stop
+      = form.label :occurred_sudden_stop?
       = form.check_box :occurred_sudden_stop, id: :report_occurred_sudden_stop
     .field
-      = form.label :occurred_before_boarding
+      = form.label :occurred_before_boarding?
       = form.check_box :occurred_before_boarding, id: :report_occurred_before_boarding
     .field
-      = form.label :occurred_while_boarding
+      = form.label :occurred_while_boarding?
       = form.check_box :occurred_while_boarding, id: :report_occurred_while_boarding
     .field
-      = form.label :occurred_after_boarding
+      = form.label :occurred_after_boarding?
       = form.check_box :occurred_after_boarding, id: :report_occurred_after_boarding
     .field
-      = form.label :occurred_while_exiting
+      = form.label :occurred_while_exiting?
       = form.check_box :occurred_while_exiting, id: :report_occurred_while_exiting
     .field
-      = form.label :occurred_after_exiting
+      = form.label :occurred_after_exiting?
       = form.check_box :occurred_after_exiting, id: :report_occurred_after_exiting
     .field
       = form.label :motion_of_bus
@@ -280,10 +280,10 @@
         options_for_select(IncidentReport::STEP_CONDITION_OPTIONS, report.condition_of_steps),
         { include_blank: true }, id: :report_condition_of_steps
     .field
-      = form.label :bus_kneeled
+      = form.label :bus_kneeled?
       = form.check_box :bus_kneeled, id: :report_bus_kneeled
     .field
-      = form.label :bus_up_to_curb
+      = form.label :bus_up_to_curb?
       = form.check_box :bus_up_to_curb, id: :report_bus_up_to_curb
     - if report == @incident.supervisor_incident_report
       .field
