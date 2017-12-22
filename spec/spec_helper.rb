@@ -35,6 +35,12 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 end
 
+def fill_in_base_incident_fields
+  fill_in 'Bus #', with: '1803'
+  fill_in 'Location', with: 'Mill and Locust'
+  select 'Springfield', from: 'Town'
+end
+
 def when_current_user_is(user)
   current_user = case user
                  when User, nil then user
