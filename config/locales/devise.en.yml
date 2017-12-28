@@ -2,5 +2,6 @@ en:
   devise:
     failure:
       inactive: 'Your account has been deactivated.'
+      unauthenticated: 'You need to sign in before continuing.'
     registrations:
       updated: 'Your password has been successfully changed.'
