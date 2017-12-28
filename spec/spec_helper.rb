@@ -9,7 +9,7 @@ SimpleCov.start 'rails'
 SimpleCov.start do
   add_filter '/config/'
   add_filter '/spec/'
-  refuse_coverage_drop
+  refuse_coverage_drop if ENV['CI']
 end
 
 require 'rspec/rails'
