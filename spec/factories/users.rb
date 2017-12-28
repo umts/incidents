@@ -21,7 +21,7 @@ FactoryBot.define do
 
   trait :staff do
     staff true
-    supervisor { [true, false].sample }
+    supervisor false
   end
 
   trait :fake_name do

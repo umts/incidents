@@ -70,8 +70,10 @@ class Incident < ApplicationRecord
   end
 
   def notify_supervisor_of_new_report
-    ApplicationMailer.with(incident: self, destination: supervisor.email)
-      .new_incident.deliver_now
+    if supervisor.email.present?
+      ApplicationMailer.with(incident: self, destination: supervisor.email)
+        .new_incident.deliver_now
+    end
   end
 
   def reviewed?
