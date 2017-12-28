@@ -1,0 +1,17 @@
+%h1 Change Password
+
+= form_for resource, as: resource_name, url: user_registration_url(resource), html: { method: :patch } do |f|
+  = devise_error_messages!
+  .field
+    = f.label :password
+    = f.password_field :password, autocomplete: :off
+  .field
+    = f.label :password_confirmation
+    = f.password_field :password_confirmation, autocomplete: :off
+  .field
+    = f.label :current_password
+    = f.password_field :current_password, autocomplete: :off
+  %i The default password is your last name.
+  .actions= f.submit 'Change password'
+
+= link_to 'Back', :back

@@ -75,6 +75,12 @@ class UsersController < ApplicationController
     redirect_to users_url
   end
 
+  def reset_password
+    @user.set_default_password and @user.save!
+    redirect_to users_url,
+      notice: "#{@user.full_name}'s password was reset to the default password."
+  end
+
   def update
     @user.assign_attributes user_params
     attempt_save

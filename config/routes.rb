@@ -2,6 +2,13 @@
 
 Rails.application.routes.draw do
   root 'incidents#index'
+
+  devise_for :users, skip: :registrations
+  devise_scope :user do
+    get 'users/change_password' => 'devise/registrations#edit', as: :change_password
+    patch 'users/:id' => 'devise/registrations#update', as: :user_registration
+  end
+
   resources :incidents do
     collection do
       get  :incomplete
@@ -39,13 +46,8 @@ Rails.application.routes.draw do
         post :deactivate
         get  :incidents
         post :reactivate
+        post :reset_password
       end
     end
   end
-
-  get 'sessions/login', to: 'sessions#login',
-                        as: :login
-  post 'sessions/login', to: 'sessions#login'
-  delete 'sessions/destroy', to: 'sessions#destroy',
-                             as: :destroy_session
 end

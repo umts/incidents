@@ -3,6 +3,9 @@
 - else 
   %h1 Active Users
 
+.center= link_to 'Add New User', new_user_url
+.center= link_to 'Import User Data', import_users_url
+
 .center
   - if params[:inactive]
     = link_to 'Manage active drivers', users_url
@@ -23,7 +26,7 @@
       %th Division(s)
       %th Supervisor?
       %th Staff?
-      %th{ colspan: 4 }
+      %th{ colspan: 5 }
   %tbody
     - @users.each do |user|
       %tr{ data: { group: user.group } }
@@ -46,6 +49,9 @@
           - else
             = link_to reactivate_user_url(user), method: :post do
               %button.btn.btn-default.delete Reactivate
+        %td
+          = link_to reset_password_user_url(user), method: :post do
+            %button.btn.btn-default Reset Password
         %td
           = link_to user_url(user), method: :delete do
             %button.btn.btn-default.delete Delete

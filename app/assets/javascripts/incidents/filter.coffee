@@ -8,7 +8,7 @@ $.fn.filterTableFromButton = (tableClass, dataAttribute) ->
       $(this).data(dataAttribute) != filterGroup
     .hide()
 
-$(document).ready ->
+$(document).on 'turbolinks:load', ->
   $('.filters.divisions').on 'click', 'button', () ->
     $(this).filterTableFromButton 'incidents', 'division'
   $('.filters.groups').on 'click', 'button', () ->

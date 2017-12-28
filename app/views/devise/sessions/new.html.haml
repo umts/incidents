@@ -1,0 +1,12 @@
+%h2 Log in
+= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f|
+  .field
+    = f.label :badge_number
+    %br
+    = f.text_field :badge_number, autofocus: true
+  .field
+    = f.label :password
+    %br
+    = f.password_field :password, autocomplete: :off
+  %i The default password is your last name.
+  .actions= f.submit 'Log in'

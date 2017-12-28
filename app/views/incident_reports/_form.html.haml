@@ -9,7 +9,7 @@
         - report.errors.full_messages.each do |message|
           %li= message
   .basic-info
-    - if @current_user.staff?
+    - if current_user.staff?
       .field
         - if report == report.incident.driver_incident_report
           - label, users = 'Driver', User.active.drivers.name_order

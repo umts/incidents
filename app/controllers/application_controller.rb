@@ -1,21 +1,28 @@
 # frozen_string_literal: true
 
 class ApplicationController < ActionController::Base
-  attr_reader :current_user
-
   protect_from_forgery with: :exception
-  before_action :set_current_user
-  before_action :check_for_incomplete_incidents
-  before_action :check_for_unclaimed_incidents
+  before_action :authenticate_user!
+  before_action :check_for_required_password_change, if: -> { user_signed_in? }
+  before_action :check_for_incomplete_incidents, if: -> { user_signed_in? }
+  before_action :check_for_unclaimed_incidents, if: -> { user_signed_in? }
 
   private
 
   def check_for_incomplete_incidents
-    @incomplete_incidents = Incident.in_divisions(@current_user.divisions).incomplete
+    @incomplete_incidents = Incident.in_divisions(current_user.divisions).incomplete
+  end
+
+  def check_for_required_password_change
+    return if params[:controller] == 'devise/registrations'
+    if current_user.requires_password_change?
+      redirect_to change_password_url,
+        notice: 'You must change your password from the default before continuing.'
+    end
   end
 
   def check_for_unclaimed_incidents
-    @unclaimed_incidents = Incident.in_divisions(@current_user.divisions).unclaimed
+    @unclaimed_incidents = Incident.in_divisions(current_user.divisions).unclaimed
   end
 
   def deny_access
@@ -29,22 +36,12 @@ class ApplicationController < ActionController::Base
   end
 
   def restrict_to_staff
-    deny_access and return unless @current_user.staff?
+    deny_access and return unless current_user.staff?
   end
 
   def restrict_to_supervisors
-    unless @current_user.supervisor? || @current_user.staff?
+    unless current_user.supervisor? || current_user.staff?
       deny_access and return
-    end
-  end
-
-  def set_current_user
-    @current_user = User.find_by id: session[:user_id] if session.key? :user_id
-    if @current_user.present?
-      PaperTrail.whodunnit = @current_user.id
-    else
-      session[:requested_path] = request.path
-      redirect_to login_url
     end
   end
 end

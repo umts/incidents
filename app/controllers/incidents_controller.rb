@@ -9,7 +9,7 @@ class IncidentsController < ApplicationController
 
   def claim
     @incident = Incident.find(params[:id])
-    @incident.claim_for @current_user
+    @incident.claim_for current_user
     redirect_to incidents_url,
                 notice: 'You have claimed this incident. Please complete the supervisor report.'
   end
@@ -36,8 +36,8 @@ class IncidentsController < ApplicationController
   end
 
   def edit
-    deny_access and return if !@current_user.staff? && @incident.reviewed?
-    if @current_user.driver?
+    deny_access and return if !current_user.staff? && @incident.reviewed?
+    if current_user.driver?
       # It's the only thing they can edit anyway.
       redirect_to edit_incident_report_url(@incident.driver_incident_report)
     end
@@ -50,38 +50,38 @@ class IncidentsController < ApplicationController
   end
 
   def incomplete
-    @incidents = Incident.in_divisions(@current_user.divisions).incomplete.occurred_order
+    @incidents = Incident.in_divisions(current_user.divisions).incomplete.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No incomplete incidents.'
     end
   end
 
   def index
-    if @current_user.staff?
+    if current_user.staff?
       parse_dates
       @incidents = Incident.between(@start_date, @end_date)
-                           .in_divisions(@current_user.divisions)
+                           .in_divisions(current_user.divisions)
                            .includes(:driver, :supervisor, :staff_reviews)
                            .occurred_order
       render :by_date and return
     end
-    @incidents = if @current_user.supervisor?
-                   Incident.for_supervisor @current_user
-                 else Incident.for_driver @current_user
+    @incidents = if current_user.supervisor?
+                   Incident.for_supervisor current_user
+                 else Incident.for_driver current_user
                  end
     @incidents = @incidents.incomplete.occurred_order
   end
 
   def new
-    if @current_user.driver?
-      @incident = Incident.create driver_incident_report_attributes: { user_id: @current_user.id }
+    if current_user.driver?
+      @incident = Incident.create driver_incident_report_attributes: { user_id: current_user.id }
       redirect_to edit_incident_url(@incident)
     else @incident = Incident.new
     end
   end
 
   def search
-    @incidents = Incident.in_divisions(@current_user.divisions).by_claim(params.require :claim_number)
+    @incidents = Incident.in_divisions(current_user.divisions).by_claim(params.require :claim_number)
                          .includes(:driver, :supervisor, :staff_reviews)
                          .occurred_order
     render :by_date
@@ -96,14 +96,14 @@ class IncidentsController < ApplicationController
   end
 
   def unclaimed
-    @incidents = Incident.in_divisions(@current_user.divisions).unclaimed.occurred_order
+    @incidents = Incident.in_divisions(current_user.divisions).unclaimed.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No unclaimed incidents.'
     end
   end
 
   def unreviewed
-    @incidents = Incident.in_divisions(@current_user.divisions).unreviewed.occurred_order
+    @incidents = Incident.in_divisions(current_user.divisions).unreviewed.occurred_order
     if @incidents.blank?
       redirect_to incidents_url, notice: 'No unreviewed incidents.'
     end
@@ -167,23 +167,23 @@ class IncidentsController < ApplicationController
   # rubocop:enable Style/IfUnlessModifier
 
   def set_user_lists
-    @drivers = User.active.drivers.in_divisions(@current_user.divisions).name_order
-    @supervisors = User.active.supervisors.in_divisions(@current_user.divisions).name_order
+    @drivers = User.active.drivers.in_divisions(current_user.divisions).name_order
+    @supervisors = User.active.supervisors.in_divisions(current_user.divisions).name_order
   end
 
   def record_print_event
     [@incident.driver_incident_report,
      @incident.supervisor_incident_report,
      @incident.supervisor_report].compact.each do |report|
-      report.versions.create! event: 'print', whodunnit: @current_user.id
+      report.versions.create! event: 'print', whodunnit: current_user.id
     end
   end
 
   def set_incident
     @incident = Incident.find(params[:id])
     @staff_reviews = @incident.staff_reviews.order :created_at
-    return if @current_user.staff?
-    unless [@incident.driver, @incident.supervisor].include? @current_user
+    return if current_user.staff?
+    unless [@incident.driver, @incident.supervisor].include? current_user
       deny_access and return
     end
   end
