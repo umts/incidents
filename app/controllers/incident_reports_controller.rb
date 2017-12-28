@@ -10,11 +10,7 @@ class IncidentReportsController < ApplicationController
 
   def update
     if @report.update(report_params)
-      if current_user.driver?
-        redirect_to incident_path(@incident, format: :pdf)
-      else redirect_to @incident,
-                  notice: 'Incident report was successfully saved.'
-      end
+      redirect_to @incident, notice: 'Incident report was successfully saved.'
     else render 'edit'
     end
   end
