@@ -32,4 +32,9 @@ describe 'listing incidents as a driver' do
     expect(page).not_to have_link 'View'
     expect(page).to have_text 'You have no incident reports that need attention.'
   end
+  it 'does not allow listing unclaimed incidents' do
+    create :incident, :unclaimed
+    visit incidents_url
+    expect(page).not_to have_link 'Unclaimed Incidents 1'
+  end
 end

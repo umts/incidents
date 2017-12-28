@@ -13,4 +13,9 @@ FactoryBot.define do
     completed true
     association :reason_code
   end
+
+  trait :unclaimed do
+    supervisor_incident_report nil
+    supervisor_report nil
+  end
 end
