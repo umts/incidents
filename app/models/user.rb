@@ -10,7 +10,6 @@ class User < ApplicationRecord
 
   validates :first_name, :last_name, :badge_number, :divisions, presence: true
   validates :badge_number, uniqueness: true
-  validates :password, :password_confirmation, presence: true
 
   scope :active, -> { where active: true }
   scope :inactive, -> { where.not active: true }
@@ -89,7 +88,7 @@ class User < ApplicationRecord
       attrs[:last_name] = user_data.at_css('last_name').text.capitalize
       job_class = user_data.at_css('job_class').text
       attrs[:supervisor] = job_class == 'Supervisor'
-      user = User.find_by hastus_id: hastus_id
+      user = User.find_by badge_number: hastus_id
       if user.present?
         user.assign_attributes attrs
         if user.changed?
@@ -105,7 +104,7 @@ class User < ApplicationRecord
         # Only assign divisions to new users.
         division_name = user_data.at_css('division').text.upcase
         attrs[:divisions] = [Division.where(name: division_name).first_or_create]
-        user = User.new attrs.merge(hastus_id: hastus_id)
+        user = User.new attrs.merge(badge_number: hastus_id)
         if user.save
           users_present << user
           statuses[:imported] += 1

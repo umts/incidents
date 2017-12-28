@@ -57,7 +57,7 @@ describe User do
       before :each do
         umass = create :division, name: 'UMASS'
         create :user, :driver, first_name: 'John',
-          last_name: 'Smith', hastus_id: 1234,
+          last_name: 'Smith', badge_number: 1234,
           divisions: [umass]
       end
       it 'does not re-import them' do
@@ -99,7 +99,7 @@ describe User do
           expect(User.last.divisions.count).to be 2
         end
       end
-      context 'user Hastus ID has changed' do
+      context 'user Hastus ID / badge number has changed' do
         let(:hastus_id) { 5678 }
         it 'imports a new user' do # because this is how we identify users
           statuses =import!
