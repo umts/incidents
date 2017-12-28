@@ -8,4 +8,9 @@ FactoryBot.define do
                 factory: %i[incident_report supervisor_report]
     association :supervisor_report
   end
+
+  trait :completed do
+    completed true
+    association :reason_code
+  end
 end
