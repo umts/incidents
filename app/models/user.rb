@@ -123,7 +123,7 @@ class User < ApplicationRecord
   private
 
   def track_password_changed
-    if encrypted_password_changed?
+    if encrypted_password_changed? && !password_changed_from_default_changed?
       assign_attributes password_changed_from_default: true
     end
   end

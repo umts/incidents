@@ -28,4 +28,11 @@ FactoryBot.define do
     first_name { FFaker::Name.first_name }
     last_name { FFaker::Name.last_name }
   end
+
+  trait :default_password do
+    after :create do |user|
+      user.set_default_password
+      user.save
+    end
+  end
 end
