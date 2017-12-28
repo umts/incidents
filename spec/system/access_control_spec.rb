@@ -16,4 +16,10 @@ describe 'access control' do
     expect(page).not_to have_text 'Incomplete Incidents'
     expect(page).to have_text 'You do not have permission to access this page.'
   end
+  it 'prevents supervisors from accessing staff resources' do
+    when_current_user_is :supervisor
+    visit incomplete_incidents_url
+    expect(page).not_to have_text 'Incomplete Incidents'
+    expect(page).to have_text 'You do not have permission to access this page.'
+  end
 end
