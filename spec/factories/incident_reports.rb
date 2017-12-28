@@ -135,4 +135,10 @@ FactoryBot.define do
       create :staff_review, incident: incident
     end
   end
+
+  trait :with_incident do
+    after :create do |report|
+      create :incident, driver_incident_report: report
+    end
+  end
 end

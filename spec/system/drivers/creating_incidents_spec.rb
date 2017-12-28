@@ -27,9 +27,3 @@ describe 'creating incidents as a driver' do
     expect(page.current_url).to end_with incident_path(Incident.last)
   end
 end
-
-def fill_in_base_incident_fields
-  fill_in 'Bus #', with: '1803'
-  fill_in 'Location', with: 'Mill and Locust'
-  select 'Springfield', from: 'Town'
-end

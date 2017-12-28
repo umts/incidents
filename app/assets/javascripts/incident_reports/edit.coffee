@@ -8,8 +8,8 @@ $.fn.showIfChecked = (checkbox, selector, options) ->
     else $(selector).slideUp()
 
 determineShouldProvideReasonNotUpToCurb = ->
-  motion = $('#report_motion_of_bus').val()
-  upToCurb = $('#report_bus_up_to_curb').is ':checked'
+  motion = $('#incident_report_motion_of_bus').val()
+  upToCurb = $('#incident_report_bus_up_to_curb').is ':checked'
   formSection = $('.reason-not-up-to-curb-info')
   if motion == 'Stopped' && !upToCurb
     formSection.slideDown()
@@ -29,7 +29,7 @@ addInjuredPassengerFields = (event) ->
   addFields '.pax-fields'
 
 toggleReasonsForTesting = ->
-  reason = $('#report_reason_test_completed').val()
+  reason = $('#incident_report_reason_test_completed').val()
   switch reason
     when 'Post-Accident'
       $('.post-accident-info').slideDown()
@@ -42,52 +42,52 @@ toggleReasonsForTesting = ->
       $('.reasonable-suspicion-info').slideUp()
 
 $(document).on 'turbolinks:load', ->
-  $('form').showIfChecked '#report_motor_vehicle_collision',
+  $('form').showIfChecked '#incident_report_motor_vehicle_collision',
                           '.motor-vehicle-collision-info'
 
-  $('form').showIfChecked '#report_summons_or_warning_issued',
+  $('form').showIfChecked '#incident_report_summons_or_warning_issued',
                           '.summons-info'
 
-  $('form').showIfChecked '#report_police_on_scene',
+  $('form').showIfChecked '#incident_report_police_on_scene',
                           '.police-info'
 
-  $('form').showIfChecked '#report_other_vehicle_owned_by_other_driver',
+  $('form').showIfChecked '#incident_report_other_vehicle_owned_by_other_driver',
                           '.other-vehicle-owner-info', reverse: true
 
-  $('form').showIfChecked '#report_passenger_incident',
+  $('form').showIfChecked '#incident_report_passenger_incident',
                           '.passenger-incident-info'
 
-  $('form').on 'change', '#report_motion_of_bus',
+  $('form').on 'change', '#incident_report_motion_of_bus',
                determineShouldProvideReasonNotUpToCurb
 
-  $('form').on 'click', '#report_bus_up_to_curb',
+  $('form').on 'click', '#incident_report_bus_up_to_curb',
                determineShouldProvideReasonNotUpToCurb
 
-  $('form').showIfChecked '#report_pictures_saved',
+  $('form').showIfChecked '#incident_report_pictures_saved',
                           '.saved-pictures-info'
 
-  $('form').showIfChecked '#report_completed_drug_or_alcohol_test',
+  $('form').showIfChecked '#incident_report_completed_drug_or_alcohol_test',
                           '.test-info'
 
-  $('form').on 'change', '#report_reason_test_completed',
+  $('form').on 'change', '#incident_report_reason_test_completed',
                toggleReasonsForTesting
 
-  $('form').showIfChecked '#report_test_due_to_employee_appearance',
+  $('form').showIfChecked '#incident_report_test_due_to_employee_appearance',
                           '.employee-appearance-info'
 
-  $('form').showIfChecked '#report_test_due_to_employee_behavior',
+  $('form').showIfChecked '#incident_report_test_due_to_employee_behavior',
                           '.employee-behavior-info'
 
-  $('form').showIfChecked '#report_test_due_to_employee_speech',
+  $('form').showIfChecked '#incident_report_test_due_to_employee_speech',
                           '.employee-speech-info'
 
-  $('form').showIfChecked '#report_test_due_to_employee_odor',
+  $('form').showIfChecked '#incident_report_test_due_to_employee_odor',
                           '.employee-odor-info'
 
-  $('form').showIfChecked '#report_witness_info',
+  $('form').showIfChecked '#incident_report_witness_info',
                           '.witness-info'
 
-  $('form').showIfChecked '#report_inj_pax',
+  $('form').showIfChecked '#incident_report_inj_pax',
                           '.inj-pax-info'
 
   $('form').on 'click', 'button.add-witness', addWitnessFields
