@@ -66,7 +66,7 @@ prawn_document do |pdf|
       options: IncidentReport::LIGHT_OPTIONS,
       checked: IncidentReport::LIGHT_OPTIONS.map{|c| report.light_conditions == c}
     row.text_field width: 2, field: 'Headlights on at time of incident?',
-      value: yes_no(report.headlights_used?), options: { if: @incident.completed? }
+      value: yes_no(report.headlights_used)
   end
 
   pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
@@ -297,7 +297,7 @@ prawn_document do |pdf|
         options: IncidentReport::LIGHT_OPTIONS,
         checked: IncidentReport::LIGHT_OPTIONS.map{|c| report.light_conditions == c}
       row.text_field field: 'Bus headlights used?',
-        value: yes_no(report.headlights_used), options: { if: @incident.completed?, valign: :center }
+        value: yes_no(report.headlights_used), options: { valign: :center }
       row.check_box_field field: 'Surface Type',
         options: IncidentReport::SURFACE_TYPE_OPTIONS,
         checked: IncidentReport::SURFACE_TYPE_OPTIONS.map{|c| report.surface_type == c},

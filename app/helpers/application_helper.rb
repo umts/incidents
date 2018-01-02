@@ -10,13 +10,18 @@ module ApplicationHelper
   end
 
   def yes_no(value)
-    value ? 'Yes' : 'No'
+    if value == true
+      'Yes'
+    elsif value == false
+      'No'
+    end
   end
 
   def yes_no_image(value)
-    if value
+    if value == true
       content_tag :span, nil, class: 'glyphicon glyphicon-ok'
-    else content_tag :span, nil, class: 'glyphicon glyphicon-remove'
+    elsif value == false
+      content_tag :span, nil, class: 'glyphicon glyphicon-remove'
     end
   end
 
