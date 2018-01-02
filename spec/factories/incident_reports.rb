@@ -101,7 +101,6 @@ FactoryBot.define do
   end
 
   trait :injured_passenger do
-    passenger_injured true
     injured_passenger do
       {
         name:    FFaker::Name.name,
