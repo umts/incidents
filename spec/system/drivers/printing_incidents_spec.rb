@@ -45,4 +45,9 @@ describe 'printing incidents' do
     build(:incident, driver_incident_report: report).save validate: false
     visit incident_url(report.incident, format: :pdf)
   end
+  it 'prints different kinds of incidents' do
+    incident = create :incident # so that we also get supervisor reports
+    incident.driver_incident_report.update user: driver
+    visit incident_url(report.incident, format: :pdf)
+  end
 end

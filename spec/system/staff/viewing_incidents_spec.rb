@@ -17,4 +17,21 @@ describe 'viewing incidents as staff' do
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
     end
   end
+
+  context 'with an injured passenger transported to hospital' do
+    it 'displays this' do
+      pax = create :injured_passenger, transported_to_hospital: true
+      incident = create :incident, supervisor_report: pax.supervisor_report
+      visit incident_url(incident)
+      expect(page).to have_text 'Transported to hospital'
+    end
+  end
+  context 'with an injured passenger not transported to hospital' do
+    it 'displays this' do
+      pax = create :injured_passenger, transported_to_hospital: false
+      incident = create :incident, supervisor_report: pax.supervisor_report
+      visit incident_url(incident)
+      expect(page).to have_text 'Not transported to hospital'
+    end
+  end
 end
