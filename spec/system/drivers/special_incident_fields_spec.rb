@@ -50,6 +50,7 @@ describe 'special incident fields' do
     check 'Did the incident involve a collision with non-PVTA property?'
     expect(page).not_to have_field 'Police badge number'
     check 'Did police respond to the incident?'
+    sleep 0.5 # animation time
     expect(page).to have_field 'Police badge number'
   end
   it 'does not require police info' do
@@ -59,6 +60,7 @@ describe 'special incident fields' do
     expect(page).to have_text 'Motor Vehicle Collision Information'
     check 'Did police respond to the incident?'
     click_on 'Save report'
+    expect(page.current_url).to end_with incident_path(Incident.last)
     expect(page).to have_selector 'p.notice',
       text: 'Incident report was successfully saved.'
   end
@@ -83,6 +85,7 @@ describe 'special incident fields' do
     check 'Did the incident involve a passenger?'
     expect(page).to have_text 'Passenger Incident Information'
     click_on 'Save report'
+    expect(page.current_url).to end_with incident_path(Incident.last)
     expect(page).to have_selector 'p.notice',
       text: 'Incident report was successfully saved.'
   end
