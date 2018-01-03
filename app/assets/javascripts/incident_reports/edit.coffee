@@ -63,31 +63,31 @@ $(document).on 'turbolinks:load', ->
   $('form').on 'click', '#incident_report_bus_up_to_curb',
                determineShouldProvideReasonNotUpToCurb
 
-  $('form').showIfChecked '#incident_report_pictures_saved',
+  $('form').showIfChecked '#supervisor_report_pictures_saved',
                           '.saved-pictures-info'
 
-  $('form').showIfChecked '#incident_report_completed_drug_or_alcohol_test',
+  $('form').showIfChecked '#supervisor_report_completed_drug_or_alcohol_test',
                           '.test-info'
 
-  $('form').on 'change', '#incident_report_reason_test_completed',
+  $('form').on 'change', '#supervisor_report_reason_test_completed',
                toggleReasonsForTesting
 
-  $('form').showIfChecked '#incident_report_test_due_to_employee_appearance',
+  $('form').showIfChecked '#supervisor_report_test_due_to_employee_appearance',
                           '.employee-appearance-info'
 
-  $('form').showIfChecked '#incident_report_test_due_to_employee_behavior',
+  $('form').showIfChecked '#supervisor_report_test_due_to_employee_behavior',
                           '.employee-behavior-info'
 
-  $('form').showIfChecked '#incident_report_test_due_to_employee_speech',
+  $('form').showIfChecked '#supervisor_report_test_due_to_employee_speech',
                           '.employee-speech-info'
 
-  $('form').showIfChecked '#incident_report_test_due_to_employee_odor',
+  $('form').showIfChecked '#supervisor_report_test_due_to_employee_odor',
                           '.employee-odor-info'
 
-  $('form').showIfChecked '#incident_report_witness_info',
+  $('form').showIfChecked '#supervisor_report_witness_info',
                           '.witness-info'
 
-  $('form').showIfChecked '#incident_report_inj_pax',
+  $('form').showIfChecked '#supervisor_report_inj_pax',
                           '.inj-pax-info'
 
   $('form').on 'click', 'button.add-witness', addWitnessFields
