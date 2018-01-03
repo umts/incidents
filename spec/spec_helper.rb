@@ -47,6 +47,13 @@ def incident_in_divisions(divisions, **attrs)
   create :incident, attrs.merge(driver_incident_report: report)
 end
 
+# source: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
+def wait_for_ajax!
+  Timeout.timeout Capybara.default_max_wait_time do
+    loop until page.evaluate_script('jQuery.active').zero?
+  end
+end
+
 def when_current_user_is(user)
   current_user = case user
                  when User, nil then user
