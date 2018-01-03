@@ -48,6 +48,6 @@ describe 'printing incidents' do
   it 'prints different kinds of incidents' do
     incident = create :incident # so that we also get supervisor reports
     incident.driver_incident_report.update user: driver
-    visit incident_url(report.incident, format: :pdf)
+    visit incident_url(incident, format: :pdf)
   end
 end

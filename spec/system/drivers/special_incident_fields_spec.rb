@@ -17,6 +17,7 @@ describe 'special incident fields' do
     check 'Did the incident involve a collision with non-PVTA property?'
     expect(page).to have_text 'Motor Vehicle Collision Information'
     click_on 'Save report'
+    wait_for_ajax!
     expect(page).to have_selector 'p.notice',
       text: 'Incident report was successfully saved.'
   end
