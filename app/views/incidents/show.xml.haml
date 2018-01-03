@@ -1,6 +1,5 @@
 !!!xml
 - report = @incident.driver_incident_report
-- sup_report = @incident.supervisor_report
 %object_interface
   %accident_incident
     %ai_block= report.block
@@ -10,8 +9,6 @@
     %ai_direction= report.direction
     %ai_district= report.town
     %ai_division= @incident.division
-    - if sup_report.present?
-      %ai_dvr_pulled= sup_report.hard_drive_pulled?
     %ai_employee= report.user.hastus_id
     %ai_point_of_impact= report.point_of_impact
     %ai_time_occured
