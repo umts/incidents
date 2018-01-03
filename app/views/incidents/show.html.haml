@@ -5,19 +5,22 @@
   = link_to 'Export File', incident_url(@incident, format: :xml)
 
 %hr
-%h2 Driver Incident Report
-= render 'incident_reports/show', report: @incident.driver_incident_report
+.driver-incident-report
+  %h2 Driver Incident Report
+  = render 'incident_reports/show', report: @incident.driver_incident_report
 
 - if @incident.supervisor.present?
   - if current_user.supervisor? || current_user.staff?
     %hr
-    %h2 Supervisor Incident Report
-    = render 'incident_reports/show',
-      report: @incident.supervisor_incident_report
+    .supervisor-incident-report
+      %h2 Supervisor Incident Report
+      = render 'incident_reports/show',
+        report: @incident.supervisor_incident_report
 
     %hr
-    %h2 Supervisor Report
-    = render 'supervisor_reports/show', report: @incident.supervisor_report
+    .supervisor-report
+      %h2 Supervisor Report
+      = render 'supervisor_reports/show', report: @incident.supervisor_report
 
 - if @incident.completed?
   = render 'staff_reviews'
