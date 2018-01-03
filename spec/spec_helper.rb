@@ -41,6 +41,12 @@ def fill_in_base_incident_fields
   select 'Springfield', from: 'Town'
 end
 
+def incident_in_divisions(divisions, **attrs)
+  driver = create :user, :driver, divisions: divisions
+  report = create :incident_report, user: driver
+  create :incident, attrs.merge(driver_incident_report: report)
+end
+
 def when_current_user_is(user)
   current_user = case user
                  when User, nil then user
