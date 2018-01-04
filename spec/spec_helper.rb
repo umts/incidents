@@ -1,9 +1,5 @@
 # frozen_string_literal: true
-
-ENV['RAILS_ENV'] ||= 'test'
-require File.expand_path('../../config/environment', __FILE__)
-abort("The Rails environment is running in production mode!") if Rails.env.production?
-
+#
 require 'simplecov'
 SimpleCov.start 'rails'
 SimpleCov.start do
@@ -11,6 +7,10 @@ SimpleCov.start do
   add_filter '/spec/'
   refuse_coverage_drop if ENV['CI']
 end
+
+ENV['RAILS_ENV'] ||= 'test'
+require File.expand_path('../../config/environment', __FILE__)
+abort("The Rails environment is running in production mode!") if Rails.env.production?
 
 require 'rspec/rails'
 require 'devise'
