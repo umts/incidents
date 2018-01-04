@@ -3,7 +3,7 @@
     #error_explanation
       %h2
         This incident report has
-        = pluralize(report.errors.count, "missing values")
+        = pluralize(report.errors.count, 'missing value')
         and so cannot be marked as completed.
       %ul
         - report.errors.full_messages.each do |message|

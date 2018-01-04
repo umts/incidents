@@ -2,8 +2,8 @@
   - if incident.errors.any?
     #error_explanation
       %h2
-        This incident incident has
-        = pluralize(incident.errors.count, "missing values")
+        This incident has
+        = pluralize(incident.errors.count, 'missing value')
         and so cannot be marked as completed.
       %ul
         - incident.errors.full_messages.each do |message|

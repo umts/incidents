@@ -15,4 +15,19 @@ describe 'editing incident details as staff' do
     expect(page).to have_selector 'p.notice',
       text: 'Incident report was successfully saved.'
   end
+  it 'requires reason codes for completed incidents' do
+    create :reason_code, identifier: 'A-1', description: 'Falling bananas'
+    visit edit_incident_url(incident)
+    check 'Completed'
+    select '', from: 'Reason code'
+    click_button 'Save incident details'
+    wait_for_ajax!
+    expect(page).to have_text 'This incident has 1 missing value and so cannot be marked as completed.'
+    expect(page).to have_text "Reason code can't be blank"
+    select 'A-1: Falling bananas', from: 'Reason code'
+    click_button 'Save incident details'
+    wait_for_ajax!
+    expect(page).to have_selector 'p.notice',
+      text: 'Incident report was successfully saved.'
+  end
 end
