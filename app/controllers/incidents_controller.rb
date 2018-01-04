@@ -142,18 +142,15 @@ class IncidentsController < ApplicationController
     if params[:start_date].present?
       @start_date = Time.zone.parse params[:start_date]
     end
-    if params[:end_date].present?
-      @end_date = Time.zone.parse params[:end_date]
-    end
     if @mode == 'week'
       @start_date ||= Time.zone.now.beginning_of_week(:sunday)
-      @end_date ||= @start_date.end_of_week(:sunday)
+      @end_date = @start_date.end_of_week(:sunday)
       @prev_start = @start_date - 1.week
     else
       @start_date ||= Time.zone.now.beginning_of_month
       @week_start_date = @start_date.beginning_of_week(:sunday)
       @prev_start = @start_date - 1.month
-      @end_date ||= @start_date.end_of_month
+      @end_date = @start_date.end_of_month
     end
     @next_start = @end_date + 1.day
   end
