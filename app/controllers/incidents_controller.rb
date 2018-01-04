@@ -102,13 +102,6 @@ class IncidentsController < ApplicationController
     end
   end
 
-  def unreviewed
-    @incidents = Incident.in_divisions(current_user.divisions).unreviewed.occurred_order
-    if @incidents.blank?
-      redirect_to incidents_url, notice: 'No unreviewed incidents.'
-    end
-  end
-
   def update
     @incident.assign_attributes incident_params
     respond_to do |format|

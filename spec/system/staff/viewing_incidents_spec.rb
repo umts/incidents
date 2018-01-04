@@ -51,4 +51,21 @@ describe 'viewing incidents as staff' do
       expect(page.current_url).to end_with incidents_path
     end
   end
+
+  context 'with unclaimed incidents' do
+    let!(:incident) { incident_in_divisions staff.divisions, :unclaimed }
+    it 'allows viewing unclaimed incidents' do
+      visit incidents_url
+      click_button 'Unclaimed Incidents 1'
+      expect(page.current_url).to end_with unclaimed_incidents_path
+    end
+  end
+  context 'with no unclaimed incidents' do
+    it "tells you there aren't any" do
+      visit unclaimed_incidents_url
+      expect(page).to have_selector 'p.notice',
+        text: 'No unclaimed incidents.'
+      expect(page.current_url).to end_with incidents_path
+    end
+  end
 end
