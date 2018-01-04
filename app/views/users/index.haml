@@ -8,9 +8,9 @@
 
 .center
   - if params[:inactive]
-    = link_to 'Manage active drivers', users_url
+    = link_to 'Manage active users', users_url
   - elsif User.inactive.present?
-    = link_to 'Manage inactive drivers', users_url(inactive: true)
+    = link_to 'Manage inactive users', users_url(inactive: true)
 
 .filters.groups
   %button.btn.btn-primary All

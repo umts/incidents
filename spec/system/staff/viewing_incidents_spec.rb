@@ -130,4 +130,15 @@ describe 'viewing incidents as staff' do
         text: 'Sunday, December 24 — Saturday, December 30'
     end
   end
+
+  context 'with a passenger incident' do
+    it 'displays where the incident occurred' do
+      driver = create :user, :driver, divisions: staff.divisions
+      report = create :incident_report,  user: driver, passenger_incident: true,
+        occurred_front_door: true, occurred_while_exiting: true
+      incident = create :incident, driver_incident_report: report
+      visit incident_url(incident)
+      expect(page).to have_text 'Front door, While exiting'
+    end
+  end
 end

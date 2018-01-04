@@ -12,7 +12,7 @@ describe 'listing incidents as a driver' do
     # Validations don't pass for incomplete incidents. They do in real life,
     # but they don't because we create objects in reverse order here.
     incident.save validate: false
-    visit incidents_url
+    visit root_url
     expect(page).to have_link 'View', href: incident_path(incident)
   end
   it 'does not show any complete incidents for the driver' do

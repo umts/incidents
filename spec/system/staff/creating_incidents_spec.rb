@@ -8,7 +8,7 @@ describe 'creating incidents as staff' do
   let!(:driver_in_division) { create :user, :driver, divisions: user.divisions }
   before(:each) { when_current_user_is user }
   it 'asks you to pick a driver' do
-    visit incidents_url
+    visit root_url
     find('button', text: 'New Incident').click
     expect(page).to have_css 'h1', text: 'New Incident'
     expect(page).to have_select 'Driver'
