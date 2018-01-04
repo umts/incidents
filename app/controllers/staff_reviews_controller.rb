@@ -9,17 +9,17 @@ class StaffReviewsController < ApplicationController
                                 .permit(:incident_id, :text)
                                 .merge(user: current_user)
     @staff_review = StaffReview.create! staff_review_params
-    redirect_to @staff_review.incident
+    redirect_to @staff_review.incident, notice: 'Review successfully submitted.'
   end
 
   def destroy
     @staff_review.destroy
-    redirect_to @staff_review.incident
+    redirect_to @staff_review.incident, notice: 'Review successfully removed.'
   end
 
   def update
     @staff_review.update! params.require(:staff_review).permit :text
-    redirect_to @staff_review.incident
+    redirect_to @staff_review.incident, notice: 'Review successfully updated.'
   end
 
   private

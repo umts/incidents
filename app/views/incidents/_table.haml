@@ -39,7 +39,7 @@
           %td
             = link_to incident do
               %button.btn.btn-default
-                - if current_user.staff?
+                - if current_user.staff? && incident.completed?
                   View / Review
                 - else
                   View
