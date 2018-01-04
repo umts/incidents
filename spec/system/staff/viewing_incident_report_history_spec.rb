@@ -11,4 +11,10 @@ describe 'viewing incident report history as staff' do
     within('.driver-incident-report') { click_on 'View full history' }
     expect(page.current_url).to end_with history_incident_report_path(incident.driver_incident_report)
   end
+  it 'allows viewing supervisor report history' do
+    visit incident_url(incident)
+    within('.supervisor-report') { click_on 'View full history' }
+    expect(page.current_url).to end_with history_supervisor_report_path(incident.supervisor_report)
+  end
 end
+
