@@ -41,10 +41,14 @@ def fill_in_base_incident_fields
   select 'Springfield', from: 'Town'
 end
 
-def incident_in_divisions(divisions, **attrs)
+def incident_in_divisions(divisions, *traits)
+  attributes = if traits.last.is_a? Hash
+                 traits.pop
+               else Hash.new
+               end
   driver = create :user, :driver, divisions: divisions
   report = create :incident_report, user: driver
-  create :incident, attrs.merge(driver_incident_report: report)
+  create :incident, *traits, attributes.merge(driver_incident_report: report)
 end
 
 # source: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara

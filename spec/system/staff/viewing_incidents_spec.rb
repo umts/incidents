@@ -34,4 +34,21 @@ describe 'viewing incidents as staff' do
       expect(page).to have_text 'Not transported to hospital'
     end
   end
+
+  context 'with incomplete incidents' do
+    let!(:incident) { incident_in_divisions staff.divisions, completed: false }
+    it 'allows viewing incomplete incidents' do
+      visit incidents_url
+      click_button 'Incomplete Incidents 1'
+      expect(page.current_url).to end_with incomplete_incidents_path
+    end
+  end
+  context 'with no incomplete incidents' do
+    it "tells you there aren't any" do
+      visit incomplete_incidents_url
+      expect(page).to have_selector 'p.notice',
+        text: 'No incomplete incidents.'
+      expect(page.current_url).to end_with incidents_path
+    end
+  end
 end
