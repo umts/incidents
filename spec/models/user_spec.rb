@@ -141,4 +141,13 @@ describe User do
       end
     end
   end
+
+  describe 'inactive_message' do
+    context 'for active drivers' do
+      let(:user) { create :user, active: true }
+      it 'returns the devise default' do
+        expect(user.inactive_message).to be :inactive
+      end
+    end
+  end
 end
