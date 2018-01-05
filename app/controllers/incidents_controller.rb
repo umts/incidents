@@ -107,17 +107,9 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       if @incident.save
         @incident.notify_supervisor_of_new_report if @assigning_supervisor
-        format.html do
-          redirect_to @incident,
-                      notice: 'Incident report was successfully saved.'
-        end
-        format.json { render :show, status: :ok, location: @incident }
-      else
-        format.html { render :edit }
-        format.json do
-          render json: @incident.errors,
-                 status: :unprocessable_entity
-        end
+        redirect_to @incident,
+                    notice: 'Incident report was successfully saved.'
+      else render :edit
       end
     end
   end
