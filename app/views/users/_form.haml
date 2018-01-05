@@ -1,5 +1,9 @@
 - if user.errors.present?
   #error_explanation
+    %p
+      This user has
+      = pluralize user.errors.count, 'missing value'
+      and so cannot be saved:
     %ul
       - user.errors.full_messages.each do |message|
         %li= message
@@ -7,10 +11,10 @@
   %table.edit-form
     %tr
       %td= f.label :first_name
-      %td= f.text_field :first_name, required: true
+      %td= f.text_field :first_name
     %tr
       %td= f.label :last_name
-      %td= f.text_field :last_name, required: true
+      %td= f.text_field :last_name
     %tr
       %td= f.label :badge_number
       %td= f.text_field :badge_number
@@ -34,4 +38,4 @@
           Staff members with an email provided will
           be automatically sent email notifications.
     %tr
-      %td{ colspan: 2 }= f.submit 'Save driver', class: 'btn btn-primary submit'
+      %td{ colspan: 2 }= f.submit 'Save user', class: 'btn btn-primary submit'
