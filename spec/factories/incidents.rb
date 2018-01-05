@@ -7,15 +7,15 @@ FactoryBot.define do
     association :supervisor_incident_report,
                 factory: %i[incident_report supervisor_report]
     association :supervisor_report
-  end
 
-  trait :completed do
-    completed true
-    association :reason_code
-  end
+    trait :completed do
+      completed true
+      association :reason_code
+    end
 
-  trait :unclaimed do
-    supervisor_incident_report nil
-    supervisor_report nil
+    trait :unclaimed do
+      supervisor_incident_report nil
+      supervisor_report nil
+    end
   end
 end

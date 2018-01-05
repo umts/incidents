@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   end
 
   def incidents
-    @incidents = @user.incidents.occurred_order
+    @incidents = Incident.for_driver(@user).occurred_order
   end
 
   def index

@@ -2,6 +2,6 @@
 
 FactoryBot.define do
   factory :division do
-    sequence(:name)
+    sequence(:name) { |n| "Division #{n}" }
   end
 end

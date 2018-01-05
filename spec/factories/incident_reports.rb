@@ -19,112 +19,112 @@ FactoryBot.define do
     light_conditions           { IncidentReport::LIGHT_OPTIONS.sample }
     description                { FFaker::BaconIpsum.paragraphs(5).join "\n" }
     occurred_at { DateTime.now.beginning_of_minute }
-  end
 
-  trait :driver_report do
-    association :user, factory: %i[user driver]
-  end
-
-  trait :supervisor_report do
-    association :user, factory: %i[user supervisor]
-  end
-
-  trait :collision do
-    motor_vehicle_collision true
-    other_vehicle_owned_by_other_driver true # so that we don't need all those fields
-    police_on_scene false # so that we don't need those fields
-    other_vehicle_plate                     { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
-    other_vehicle_state                     { %w[MA RI CT NY].sample }
-    other_vehicle_make                      { FFaker::Vehicle.make }
-    other_vehicle_model                     { FFaker::Vehicle.model }
-    other_vehicle_year                      { 1_997 + rand(20) }
-    other_vehicle_color                     { %w[Red White Blue].sample }
-    other_vehicle_passengers                { 1 + rand(3) }
-    direction                               { IncidentReport::DIRECTIONS.keys.sample }
-    other_vehicle_direction                 { %w[North South East West].sample }
-    other_driver_name                       { FFaker::Name.name }
-    other_driver_license_number             { 'S' + rand(99_999_999).to_s.rjust(8, '0') }
-    other_driver_license_state              { %w[MA RI CT NY].sample }
-    other_vehicle_driver_address            { FFaker::Address.street_address }
-    other_vehicle_driver_address_town       { FFaker::Address.city }
-    other_vehicle_driver_address_state      { %w[MA RI CT NY].sample }
-    other_vehicle_driver_address_zip        { FFaker::AddressUS.zip_code }
-    other_vehicle_driver_home_phone         { FFaker::PhoneNumber.short_phone_number }
-    point_of_impact                         { IncidentReport::IMPACT_LOCATION_OPTIONS.sample }
-    damage_to_bus_point_of_impact           { %w[Scratches Dents Major\ dents].sample }
-    damage_to_other_vehicle_point_of_impact { %w[Scratches Dents Major\ dents].sample }
-    insurance_carrier                       { %w[Geico Progressive AAA].sample }
-    insurance_policy_number                 { rand(999_999_999) }
-    insurance_effective_date                { Date.today - rand(365).days }
-  end
-
-  trait :other_vehicle_not_driven_by_owner do
-    other_vehicle_owned_by_other_driver false
-    other_vehicle_owner_name               { FFaker::Name.name }
-    other_vehicle_owner_address            { FFaker::Address.street_address }
-    other_vehicle_owner_address_town       { FFaker::Address.city }
-    other_vehicle_owner_address_state      { %w[MA RI CT NY].sample }
-    other_vehicle_owner_address_zip        { FFaker::AddressUS.zip_code }
-    other_vehicle_owner_home_phone         { FFaker::PhoneNumber.short_phone_number }
-  end
-
-  trait :police_on_scene do
-    police_on_scene true
-    police_badge_number { rand(9_999) }
-    police_town_or_state { %w[Amherst Northampton Springfield State].sample }
-    police_case_assigned { rand(99_999_999) }
-  end
-
-  trait :passenger_incident do
-    passenger_incident true
-    bus_up_to_curb true # so that we don't need reason_not_up_to_curb
-    occurred_front_door      { FFaker::Boolean.random }
-    occurred_rear_door       { FFaker::Boolean.random }
-    occurred_front_steps     { FFaker::Boolean.random }
-    occurred_rear_steps      { FFaker::Boolean.random }
-    occurred_sudden_stop     { FFaker::Boolean.random }
-    occurred_before_boarding { FFaker::Boolean.random }
-    occurred_while_boarding  { FFaker::Boolean.random }
-    occurred_after_boarding  { FFaker::Boolean.random }
-    occurred_while_exiting   { FFaker::Boolean.random }
-    occurred_after_exiting   { FFaker::Boolean.random }
-    motion_of_bus            { IncidentReport::BUS_MOTION_OPTIONS.sample }
-    condition_of_steps       { IncidentReport::STEP_CONDITION_OPTIONS.sample }
-    bus_kneeled              { FFaker::Boolean.random }
-  end
-
-  trait :not_up_to_curb do
-    motion_of_bus 'Stopped'
-    bus_up_to_curb false
-    reason_not_up_to_curb     { FFaker::BaconIpsum.sentence }
-    vehicle_in_bus_stop_plate { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
-  end
-
-  trait :incomplete do
-    run                        nil
-    block                      nil
-    bus                        nil
-    passengers_onboard         nil
-    courtesy_cards_distributed nil
-    courtesy_cards_collected   nil
-    speed                      nil
-    location                   nil
-    town                       nil
-    weather_conditions         nil
-    road_conditions            nil
-    light_conditions           nil
-    description                nil
-  end
-
-  trait :reviewed do
-    after :create do |incident|
-      create :staff_review, incident: incident
+    trait :driver_report do
+      association :user, factory: %i[user driver]
     end
-  end
 
-  trait :with_incident do
-    after :create do |report|
-      create :incident, driver_incident_report: report
+    trait :supervisor_report do
+      association :user, factory: %i[user supervisor]
+    end
+
+    trait :collision do
+      motor_vehicle_collision true
+      other_vehicle_owned_by_other_driver true # so that we don't need all those fields
+      police_on_scene false # so that we don't need those fields
+      other_vehicle_plate                     { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
+      other_vehicle_state                     { %w[MA RI CT NY].sample }
+      other_vehicle_make                      { FFaker::Vehicle.make }
+      other_vehicle_model                     { FFaker::Vehicle.model }
+      other_vehicle_year                      { 1_997 + rand(20) }
+      other_vehicle_color                     { %w[Red White Blue].sample }
+      other_vehicle_passengers                { 1 + rand(3) }
+      direction                               { IncidentReport::DIRECTIONS.keys.sample }
+      other_vehicle_direction                 { %w[North South East West].sample }
+      other_driver_name                       { FFaker::Name.name }
+      other_driver_license_number             { 'S' + rand(99_999_999).to_s.rjust(8, '0') }
+      other_driver_license_state              { %w[MA RI CT NY].sample }
+      other_vehicle_driver_address            { FFaker::Address.street_address }
+      other_vehicle_driver_address_town       { FFaker::Address.city }
+      other_vehicle_driver_address_state      { %w[MA RI CT NY].sample }
+      other_vehicle_driver_address_zip        { FFaker::AddressUS.zip_code }
+      other_vehicle_driver_home_phone         { FFaker::PhoneNumber.short_phone_number }
+      point_of_impact                         { IncidentReport::IMPACT_LOCATION_OPTIONS.sample }
+      damage_to_bus_point_of_impact           { %w[Scratches Dents Major\ dents].sample }
+      damage_to_other_vehicle_point_of_impact { %w[Scratches Dents Major\ dents].sample }
+      insurance_carrier                       { %w[Geico Progressive AAA].sample }
+      insurance_policy_number                 { rand(999_999_999) }
+      insurance_effective_date                { Date.today - rand(365).days }
+    end
+
+    trait :other_vehicle_not_driven_by_owner do
+      other_vehicle_owned_by_other_driver false
+      other_vehicle_owner_name               { FFaker::Name.name }
+      other_vehicle_owner_address            { FFaker::Address.street_address }
+      other_vehicle_owner_address_town       { FFaker::Address.city }
+      other_vehicle_owner_address_state      { %w[MA RI CT NY].sample }
+      other_vehicle_owner_address_zip        { FFaker::AddressUS.zip_code }
+      other_vehicle_owner_home_phone         { FFaker::PhoneNumber.short_phone_number }
+    end
+
+    trait :police_on_scene do
+      police_on_scene true
+      police_badge_number { rand(9_999) }
+      police_town_or_state { %w[Amherst Northampton Springfield State].sample }
+      police_case_assigned { rand(99_999_999) }
+    end
+
+    trait :passenger_incident do
+      passenger_incident true
+      bus_up_to_curb true # so that we don't need reason_not_up_to_curb
+      occurred_front_door      { FFaker::Boolean.random }
+      occurred_rear_door       { FFaker::Boolean.random }
+      occurred_front_steps     { FFaker::Boolean.random }
+      occurred_rear_steps      { FFaker::Boolean.random }
+      occurred_sudden_stop     { FFaker::Boolean.random }
+      occurred_before_boarding { FFaker::Boolean.random }
+      occurred_while_boarding  { FFaker::Boolean.random }
+      occurred_after_boarding  { FFaker::Boolean.random }
+      occurred_while_exiting   { FFaker::Boolean.random }
+      occurred_after_exiting   { FFaker::Boolean.random }
+      motion_of_bus            { IncidentReport::BUS_MOTION_OPTIONS.sample }
+      condition_of_steps       { IncidentReport::STEP_CONDITION_OPTIONS.sample }
+      bus_kneeled              { FFaker::Boolean.random }
+    end
+
+    trait :not_up_to_curb do
+      motion_of_bus 'Stopped'
+      bus_up_to_curb false
+      reason_not_up_to_curb     { FFaker::BaconIpsum.sentence }
+      vehicle_in_bus_stop_plate { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
+    end
+
+    trait :incomplete do
+      run                        nil
+      block                      nil
+      bus                        nil
+      passengers_onboard         nil
+      courtesy_cards_distributed nil
+      courtesy_cards_collected   nil
+      speed                      nil
+      location                   nil
+      town                       nil
+      weather_conditions         nil
+      road_conditions            nil
+      light_conditions           nil
+      description                nil
+    end
+
+    trait :reviewed do
+      after :create do |incident|
+        create :staff_review, incident: incident
+      end
+    end
+
+    trait :with_incident do
+      after :create do |report|
+        create :incident, driver_incident_report: report
+      end
     end
   end
 end
