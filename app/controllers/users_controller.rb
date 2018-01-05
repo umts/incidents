@@ -24,7 +24,7 @@ class UsersController < ApplicationController
     if @user.destroy
       flash[:notice] = 'User was deleted successfully.'
     else
-      flash[:alert] = 'Cannot delete drivers who have incidents in their name.'
+      flash[:alert] = 'Cannot delete users who have incidents in their name.'
     end
     redirect_to users_url
   end
