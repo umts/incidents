@@ -54,4 +54,14 @@ describe 'viewing users as staff' do
       expect(page).not_to have_text 'Manage inactive users'
     end
   end
+  it "allows viewing a driver's incidents" do
+    user = create :user, :driver
+    visit users_url
+    expect(page).to have_selector 'button',
+      text: 'View incidents', count: 1
+    click_button 'View incidents'
+    expect(page).current_url to end_with incidents_user_path(user)
+    expect(page).to have_selector 'h1',
+      text: "#{user.full_name}'s Incidents'"
+  end
 end
