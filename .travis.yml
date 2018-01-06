@@ -1,5 +1,6 @@
 language: ruby
 rvm: 2.4.1
+env: DISPLAY=:99.0
 before_script:
   - mysql -e 'create database incidents_test;'
   - cp config/database.travis.yml config/database.yml
