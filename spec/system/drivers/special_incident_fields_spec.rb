@@ -33,6 +33,7 @@ describe 'special incident fields' do
   it 'allows filling in other vehicle info as necessary' do
     visit new_incident_url
     check 'Did the incident involve a collision with non-PVTA property?'
+    wait_for_animation!
     expect(page).to have_field 'Other vehicle owner name'
     check 'Is the other driver involved the owner of the vehicle?'
     expect(page).not_to have_field 'Other vehicle owner name'
@@ -49,6 +50,7 @@ describe 'special incident fields' do
   it 'allows filling in police info' do
     visit new_incident_url
     check 'Did the incident involve a collision with non-PVTA property?'
+    wait_for_animation!
     expect(page).not_to have_field 'Police badge number'
     check 'Did police respond to the incident?'
     wait_for_animation!
@@ -84,6 +86,7 @@ describe 'special incident fields' do
     visit new_incident_url
     fill_in_base_incident_fields
     check 'Did the incident involve a passenger?'
+    wait_for_animation!
     expect(page).to have_text 'Passenger Incident Information'
     click_on 'Save report'
     wait_for_ajax!
