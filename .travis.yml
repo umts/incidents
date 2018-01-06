@@ -5,7 +5,7 @@ before_script:
   - cp config/database.travis.yml config/database.yml
   - cp config/secrets.yml.example config/secrets.yml
 script:
-  - bundle exec rake db:reset
+  - RAILS_ENV=test bundle exec rake db:create db:schema:load
   - bundle exec rspec --fail-fast
 branches:
   only:
