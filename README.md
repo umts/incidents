@@ -4,8 +4,6 @@
 [![Code Climate](https://codeclimate.com/github/umts/incidents/badges/gpa.svg)](https://codeclimate.com/github/umts/incidents)
 [![Test Coverage](https://codeclimate.com/github/umts/incidents/badges/coverage.svg)](https://codeclimate.com/github/umts/incidents/coverage)
 
-**It's known that we currently have a failing build and 0% test coverage. The app is undergoing a major refactor, and has not yet been deployed.**
-
 This is a prototype of UMass Transit's incident tracking model, designed for use by the Valley Area Transit Company and Springfield Area Transit Company.
 
 ## Development
