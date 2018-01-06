@@ -2,7 +2,7 @@ language: ruby
 rvm: 2.4.1
 before_script:
   - mysql -e 'create database incidents_test;'
-  - cp config/database.yml.travis config/database.yml
+  - cp config/database.travis.yml config/database.yml
   - cp config/secrets.yml.example config/secrets.yml
 script:
   - bundle exec rake db:reset
