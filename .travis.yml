@@ -5,6 +5,8 @@ before_script:
   - mysql -e 'create database incidents_test;'
   - cp config/database.travis.yml config/database.yml
   - cp config/secrets.yml.example config/secrets.yml
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3 # give xvfb some time to start
 script:
   - RAILS_ENV=test bundle exec rake db:create db:schema:load
   - bundle exec rspec --fail-fast
