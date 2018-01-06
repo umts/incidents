@@ -15,7 +15,7 @@ describe 'special incident fields' do
     visit new_incident_url
     fill_in_base_incident_fields
     check 'Did the incident involve a collision with non-PVTA property?'
-    expect(page).to have_text 'Motor Vehicle Collision Information'
+    wait_for_animation!
     click_on 'Save report'
     wait_for_ajax!
     expect(page).to have_selector 'p.notice',
@@ -51,14 +51,14 @@ describe 'special incident fields' do
     check 'Did the incident involve a collision with non-PVTA property?'
     expect(page).not_to have_field 'Police badge number'
     check 'Did police respond to the incident?'
-    sleep 0.5 # animation time
+    wait_for_animation!
     expect(page).to have_field 'Police badge number'
   end
   it 'does not require police info' do
     visit new_incident_url
     fill_in_base_incident_fields
     check 'Did the incident involve a collision with non-PVTA property?'
-    expect(page).to have_text 'Motor Vehicle Collision Information'
+    wait_for_animation!
     check 'Did police respond to the incident?'
     click_on 'Save report'
     wait_for_ajax!
