@@ -50,4 +50,20 @@ describe 'printing incidents' do
     incident.driver_incident_report.update user: driver
     visit incident_url(incident, format: :pdf)
   end
+  it 'prints different kinds of incidents' do
+    sup_report = create :supervisor_report, completed_drug_or_alcohol_test: false,
+      fta_threshold_not_met: true,
+      reason_threshold_not_met: 'Because I said so.'
+    incident = create :incident, supervisor_report: sup_report
+    incident.driver_incident_report.update user: driver
+    visit incident_url(incident, format: :pdf)
+  end
+  it 'prints different kinds of incidents' do
+    sup_report = create :supervisor_report, completed_drug_or_alcohol_test: false,
+      driver_discounted: true,
+      reason_driver_discounted: 'Because I said so.'
+    incident = create :incident, supervisor_report: sup_report
+    incident.driver_incident_report.update user: driver
+    visit incident_url(incident, format: :pdf)
+  end
 end

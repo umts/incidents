@@ -14,6 +14,8 @@ class SupervisorReport < ApplicationRecord
 
   validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
+  validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
+  validates :reason_driver_discounted, presence: { if: :driver_discounted? }
   has_one :incident
 
   has_many :witnesses
