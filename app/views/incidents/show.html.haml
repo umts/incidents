@@ -2,7 +2,8 @@
 %p#notice= notice
 
 - if current_user.staff?
-  = link_to 'Export File', incident_url(@incident, format: :xml)
+  .link= link_to 'Export File', incident_url(@incident, format: :xml)
+  .link= link_to 'Print PDF', incident_url(@incident, format: :pdf)
 
 %hr
 .driver-incident-report
