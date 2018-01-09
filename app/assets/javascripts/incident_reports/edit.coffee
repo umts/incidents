@@ -69,6 +69,15 @@ $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#supervisor_report_completed_drug_or_alcohol_test',
                           '.test-info'
 
+  $('form').showIfChecked '#supervisor_report_completed_drug_or_alcohol_test',
+                          '.no-test-info', reverse: true
+
+  $('form').showIfChecked '#supervisor_report_fta_threshold_not_met',
+                          '.fta-threshold-info'
+
+  $('form').showIfChecked '#supervisor_report_driver_discounted',
+                          '.driver-discounted-info'
+
   $('form').on 'change', '#supervisor_report_reason_test_completed',
                toggleReasonsForTesting
 
