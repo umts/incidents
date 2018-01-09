@@ -36,7 +36,6 @@ FactoryBot.define do
       case report.reason_test_completed
       when 'Post-Accident'
         field = %w[
-          test_not_conducted
           test_due_to_bodily_injury
           test_due_to_disabling_damage
           test_due_to_fatality

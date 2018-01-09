@@ -518,21 +518,23 @@ prawn_document do |pdf|
         align: :center, size: 14, style: :bold
     end
 
-    pdf.field_row height: 60, units: 1 do |row|
+    pdf.field_row height: 75, units: 1 do |row|
       reasons = [
         'BODILY INJURY - requiring immediate medical treatment away from the scene',
         'DISABLING DAMAGE - see note below for definition',
         'FATALITY - DOT testing is mandatory, no exceptions',
-        'NOT CONDUCTED - I can completely discount the operator as a contributing factor to the accident.'
+        'THRESHOLD NOT MET - Accident does not meet FTA post-accident testing criteria.',
+        'DISCOUNTED - I can completely discount the operator, as a contributing factor to the incident.'
       ]
       checked_reasons = [
         sup_report.test_due_to_bodily_injury?,
         sup_report.test_due_to_disabling_damage?,
         sup_report.test_due_to_fatality?,
-        sup_report.test_not_conducted?
+        sup_report.fta_threshold_not_met?,
+        sup_report.driver_discounted?
       ]
       row.check_box_field field: 'Reason for test',
-        options: reasons, checked: checked_reasons, per_column: 4
+        options: reasons, checked: checked_reasons, per_column: 5
     end
 
     pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 40 do
@@ -556,7 +558,7 @@ prawn_document do |pdf|
       row.text_field width: 1, field: "Supervisor's signature", value: ''
     end
 
-    if sup_report.amplifying_comments.present?
+    if sup_report.additional_comments.present?
       pdf.start_new_page
       pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
         pdf.move_down 15
@@ -573,7 +575,7 @@ prawn_document do |pdf|
         DESCRIPTION
       end
       pdf.field_row height: 300, units: 1 do |row|
-        row.text_field field: 'Amplifying comments', value: sup_report.amplifying_comments,
+        row.text_field field: 'Amplifying comments', value: sup_report.additional_comments,
           options: { valign: :top, align: :left }
       end
     end

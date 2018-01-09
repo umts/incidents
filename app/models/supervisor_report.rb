@@ -14,12 +14,32 @@ class SupervisorReport < ApplicationRecord
 
   validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
+  validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
+  validates :reason_driver_discounted, presence: { if: :driver_discounted? }
   has_one :incident
 
   has_many :witnesses
   has_many :injured_passengers
   accepts_nested_attributes_for :witnesses
   accepts_nested_attributes_for :injured_passengers
+
+  def additional_comments
+    if completed_drug_or_alcohol_test?
+      amplifying_comments
+    else fta_justifications
+    end
+  end
+
+  def fta_justifications
+    sections = []
+    if reason_threshold_not_met.present?
+      sections << "Reason FTA threshold not met: #{reason_threshold_not_met}"
+    end
+    if reason_driver_discounted.present?
+      sections << "Reason driver was discounted: #{reason_driver_discounted}"
+    end
+    sections.join("\n")
+  end
 
   def has_injured_passengers?
     injured_passengers.present? && injured_passengers.first.persisted?

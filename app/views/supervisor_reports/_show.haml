@@ -43,9 +43,6 @@
   - case report.reason_test_completed
   - when 'Post-Accident'
     %p
-      %strong= human_name :supervisor_report, :test_not_conducted?
-      = yes_no_image report.test_not_conducted?
-    %p
       %strong= human_name :supervisor_report, :test_due_to_bodily_injury?
       = yes_no_image report.test_due_to_bodily_injury?
     %p
@@ -135,5 +132,20 @@
     %p
       %strong= human_name :supervisor_report, :amplifying_comments
       = simple_format report.amplifying_comments
+- else
+  %p
+    %strong= human_name :supervisor_report, :fta_threshold_not_met
+    = yes_no_image report.fta_threshold_not_met
+  - if report.fta_threshold_not_met?
+    %p
+      %strong= human_name :supervisor_report, :reason_threshold_not_met
+      = simple_format report.reason_threshold_not_met
+  %p
+    %strong= human_name :supervisor_report, :driver_discounted
+    = yes_no_image report.driver_discounted
+  - if report.driver_discounted?
+    %p
+      %strong= human_name :supervisor_report, :reason_driver_discounted
+      = simple_format report.reason_driver_discounted
 - if @current_user.staff? || @current_user == report.incident.supervisor
   = link_to 'Edit', edit_supervisor_report_url(report)
