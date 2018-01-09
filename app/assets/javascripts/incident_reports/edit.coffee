@@ -96,7 +96,7 @@ $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#supervisor_report_witness_info',
                           '.witness-info'
 
-  $('form').showIfChecked '#supervisor_report_inj_pax',
+  $('form').showIfChecked '#supervisor_report_inj_pax_info',
                           '.inj-pax-info'
 
   $('form').on 'click', 'button.add-witness', addWitnessFields

@@ -33,19 +33,27 @@ FactoryBot.define do
         create :injured_passenger, supervisor_report: report
       end
 
-      case report.reason_test_completed
-      when 'Post-Accident'
-        field = %w[
-          test_due_to_bodily_injury
-          test_due_to_disabling_damage
-          test_due_to_fatality
-        ].sample
-        report.send field + '=', true
-      when 'Reasonable Suspicion'
-        report.observation_made_at = Time.zone.now - 5.minutes
-        reason = %w[appearance behavior speech odor].sample
-        report.send "test_due_to_employee_#{reason}=", true
-        report.send "employee_#{reason}=", FFaker::BaconIpsum.sentence
+      if report.completed_drug_or_alcohol_test?
+        case report.reason_test_completed
+        when 'Post-Accident'
+          field = %w[
+            test_due_to_bodily_injury
+            test_due_to_disabling_damage
+            test_due_to_fatality
+          ].sample
+          report.send field + '=', true
+        when 'Reasonable Suspicion'
+          report.observation_made_at = Time.zone.now - 5.minutes
+          reason = %w[appearance behavior speech odor].sample
+          report.send "test_due_to_employee_#{reason}=", true
+          report.send "employee_#{reason}=", FFaker::BaconIpsum.sentence
+        end
+      elsif [true, false].sample
+        report.fta_threshold_not_met = true
+        report.reason_threshold_not_met = FFaker::BaconIpsum.sentence
+      else
+        report.driver_discounted = true
+        report.reason_driver_discounted = FFaker::BaconIpsum.sentence
       end
     end
   end

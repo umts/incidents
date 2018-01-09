@@ -2,8 +2,8 @@
   - if report.errors.any?
     #error_explanation
       %h2
-        This incident report has
-        = pluralize(report.errors.count, "missing values")
+        This supervisor report has
+        = pluralize(report.errors.count, 'missing value')
         and so cannot be marked as completed.
       %ul
         - report.errors.full_messages.each do |message|
@@ -26,7 +26,7 @@
         = label
       = form.datetime_select :faxed, id: :supervisor_report_faxed, prompt: true, ampm: true
     .field
-      = form.label :witness_info?
+      = form.label :witness_info
       = form.check_box :witness_info, checked: report.has_witnesses?,
         id: :supervisor_report_witness_info
     .witness-info{style: ('display: none;' unless report.has_witnesses?)}
@@ -51,7 +51,7 @@
     .field
       = form.label :inj_pax_info
       = form.check_box :inj_pax_info, checked: report.has_injured_passengers?,
-        id: :supervisor_report_inj_pax
+        id: :supervisor_report_inj_pax_info
     .inj-pax-info{style: ('display: none;' unless report.has_injured_passengers?)}
       %h3 Injured Passenger Info
       = form.fields_for :injured_passengers do |pax_form|
