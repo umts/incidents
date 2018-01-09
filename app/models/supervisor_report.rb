@@ -21,6 +21,21 @@ class SupervisorReport < ApplicationRecord
   accepts_nested_attributes_for :witnesses
   accepts_nested_attributes_for :injured_passengers
 
+  def additional_comments
+    if amplifying_comments.present?
+      amplifying_comments
+    else
+      sections = []
+      if reason_threshold_not_met.present?
+        sections << "Reason FTA threshold not met: #{reason_threshold_not_met}"
+      end
+      if reason_driver_discounted.present?
+        sections << "Reason driver was discounted: #{reason_driver_discounted}"
+      end
+      sections.join("\n")
+    end
+  end
+
   def has_injured_passengers?
     injured_passengers.present? && injured_passengers.first.persisted?
   end
