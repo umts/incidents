@@ -18,6 +18,7 @@ require 'devise'
 require 'factory_bot_rails'
 
 ActiveRecord::Migration.maintain_test_schema!
+Capybara.default_driver = :selenium
 RSpec.configure do |config|
   config.order = :random
   config.include FactoryBot::Syntax::Methods
