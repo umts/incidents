@@ -21,6 +21,7 @@ ActiveRecord::Migration.maintain_test_schema!
 Capybara.default_driver = :selenium
 RSpec.configure do |config|
   config.order = :random
+  config.verbose_retry = true
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :system
@@ -62,6 +63,7 @@ def wait_for_ajax!
   Timeout.timeout Capybara.default_max_wait_time do
     loop until page.evaluate_script('jQuery.active').zero?
   end
+  sleep 1.0 if RSpec.current_example.attempts > 0
 end
 
 def wait_for_animation!
