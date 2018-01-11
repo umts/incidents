@@ -3,5 +3,5 @@
 = form_with url: '#', local: true, multipart: true, authenticity_token: true do |form|
   .field
     = form.label :file
-    = form.file_field :file
+    = form.file_field :file, required: true
   .actions= form.submit 'Upload and process XML file'
