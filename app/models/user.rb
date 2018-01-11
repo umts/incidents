@@ -48,9 +48,9 @@ class User < ApplicationRecord
   end
 
   def group
-    if driver? then 'Drivers'
+    if staff? then 'Staff'
     elsif supervisor? then 'Supervisors'
-    else 'Staff'
+    else 'Drivers'
     end
   end
 
