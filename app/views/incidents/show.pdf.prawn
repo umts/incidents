@@ -232,7 +232,7 @@ prawn_document do |pdf|
       width: pdf.bounds.width, height: pdf.bounds.height
   end
 
-  if @incident.supervisor.present?
+  if @incident.supervisor.present? && @current_user != @incident.driver
 
     report = @incident.supervisor_incident_report
     sup_report = @incident.supervisor_report
