@@ -95,7 +95,7 @@ class Incident < ApplicationRecord
   end
 
   def send_notifications
-    User.staff.in_divisions(driver.divisons).with_email.each do |user|
+    User.staff.in_divisions(driver.divisions).with_email.each do |user|
       ApplicationMailer.with(incident: self, destination: user.email)
                        .new_incident.deliver_now
     end

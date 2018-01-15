@@ -91,7 +91,7 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }
       format.html { render 'show' }
-      format.xml { render 'show.xml.haml', layout: false }
+      format.xml { render 'show.xml.haml', layout: false, disposition: { attachment: true } }
     end
   end
 
@@ -153,7 +153,7 @@ class IncidentsController < ApplicationController
   # rubocop:enable Style/IfUnlessModifier
 
   def set_user_lists
-    @drivers = User.active.drivers.in_divisions(current_user.divisions).name_order
+    @drivers = User.active.in_divisions(current_user.divisions).name_order
     @supervisors = User.active.supervisors.in_divisions(current_user.divisions).name_order
   end
 
