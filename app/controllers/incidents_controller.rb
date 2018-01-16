@@ -91,7 +91,10 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }
       format.html { render 'show' }
-      format.xml { render 'show.xml.haml', layout: false, disposition: { attachment: true } }
+      format.xml do
+        response.set_header 'Content-Disposition', 'attachment'
+        render 'show.xml.haml', layout: false
+      end
     end
   end
 
