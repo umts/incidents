@@ -93,6 +93,7 @@ class IncidentsController < ApplicationController
       format.html { render 'show' }
       format.xml do
         response.set_header 'Content-Disposition', 'attachment'
+        @incident.update! exported: true
         render 'show.xml.haml', layout: false
       end
     end
@@ -161,9 +162,11 @@ class IncidentsController < ApplicationController
   end
 
   def record_print_event
-    [@incident.driver_incident_report,
-     @incident.supervisor_incident_report,
-     @incident.supervisor_report].compact.each do |report|
+    reports = [@incident.driver_incident_report]
+    unless current_user == @incident.driver
+     reports += [@incident.supervisor_incident_report, @incident.supervisor_report]
+    end
+    reports.compact.each do |report|
       report.versions.create! event: 'print', whodunnit: current_user.id
     end
   end

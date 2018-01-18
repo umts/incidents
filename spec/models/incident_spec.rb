@@ -34,7 +34,7 @@ describe Incident do
     context 'when staff have emails' do
       let!(:staff) { create :user, :staff, email: 'staff@example.com' }
       it 'sends those staff email about new incidents' do
-        expect { create :incident }
+        expect { incident_in_divisions(staff.divisions) }
           .to change { ActionMailer::Base.deliveries.count }
       end
     end
