@@ -34,3 +34,5 @@
 *.xsd
 *.DS_Store
 contrib/*.txt
+contrib/*.log
+contrib/*.girolog
