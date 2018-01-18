@@ -13,12 +13,6 @@ describe 'creating incidents as staff' do
     expect(page).to have_css 'h1', text: 'New Incident'
     expect(page).to have_select 'Driver'
   end
-  it 'allows you to select other drivers from your division' do
-    create :user, :driver # will be in different division
-    visit new_incident_url
-    # options only passes if the complete set matches
-    expect(page).to have_select 'Driver', options: ['', driver_in_division.proper_name]
-  end
   it 'allows you to select other supervisors from your division' do
     create :user, :supervisor # will be in different division
     visit new_incident_url

@@ -11,6 +11,7 @@
         %th Location
         %th Complete?
         - if current_user.staff?
+          %th Exported?
           %th{ colspan: 5 }
         - if current_user.supervisor?
           %th{ colspan: 4 }
@@ -27,6 +28,8 @@
           %td= incident.driver_incident_report.bus
           %td= incident.driver_incident_report.location
           %td= yes_no_image incident.completed?
+          - if current_user.staff?
+            %td= yes_no_image incident.exported?
           - unless current_user.driver?
             %td
               - if incident.unclaimed?

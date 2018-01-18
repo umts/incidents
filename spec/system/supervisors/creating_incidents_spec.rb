@@ -16,12 +16,6 @@ describe 'creating incidents as a supervisor' do
     visit new_incident_url
     expect(page).to have_select 'Supervisor', selected: user.proper_name
   end
-  it 'allows you to select other drivers from your division' do
-    create :user, :driver # will be in different division
-    visit new_incident_url
-    # options only passes if the complete set matches
-    expect(page).to have_select 'Driver', options: ['', driver_in_division.proper_name]
-  end
   it 'allows you to select other supervisors from your division' do
     create :user, :supervisor # will be in different division
     visit new_incident_url
