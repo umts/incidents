@@ -6,9 +6,10 @@
     %ai_code= @incident.reason_code.try :identifier
     %ai_commentary= report.description
     %ai_date_occured= report.occurred_at.try :strftime, '%Y-%m-%d'
-    %ai_direction= report.direction
+    - if report.direction.present?
+      %ai_direction= report.direction
     %ai_district= report.town
-    %ai_division= @incident.division
+    %ai_division= @incident.division.name
     %ai_employee= report.user.hastus_id
     %ai_point_of_impact= report.point_of_impact
     %ai_time_occured
