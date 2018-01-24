@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'bootstrap-sass', '~> 3.3'
 gem 'coffee-rails', '~> 4.2'
 gem 'devise'
 gem 'haml-rails'
@@ -15,10 +16,6 @@ gem 'rails', '~> 5.1.0'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
-
-source 'https://rails-assets.org' do
-  gem 'rails-assets-bootstrap'
-end
 
 group :production do
   gem 'exception_notification', '~> 4.2.2'
