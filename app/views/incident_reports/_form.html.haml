@@ -54,6 +54,11 @@
       = form.text_field :location, id: :incident_report_location
       .example Mill and Locust
     .field
+      = form.label :direction
+      = form.select :direction,
+        options_for_select(IncidentReport::DIRECTIONS.invert, report.direction),
+        { include_blank: true }, id: :incident_report_direction
+    .field
       = form.label :town
       = form.select :town,
         options_for_select(IncidentReport::TOWN_OPTIONS, report.town),
@@ -130,11 +135,6 @@
     .field
       = form.label :other_vehicle_passengers
       = form.number_field :other_vehicle_passengers, id: :incident_report_other_vehicle_passengers
-    .field
-      = form.label :direction
-      = form.select :direction,
-        options_for_select(IncidentReport::DIRECTIONS.invert, report.direction),
-        { include_blank: true }, id: :incident_report_direction
     .field
       = form.label :other_vehicle_direction
       = form.select :other_vehicle_direction,
