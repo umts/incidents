@@ -1,5 +1,5 @@
 language: ruby
-rvm: 2.4.1
+rvm: 2.5.0
 env:
   global:
     - DISPLAY=:99.0
@@ -7,7 +7,6 @@ env:
 addons:
   chrome: stable
 before_script:
-  - mysql -e 'create database incidents_test;'
   - cp config/database.travis.yml config/database.yml
   - cp config/secrets.yml.example config/secrets.yml
   - sh -e /etc/init.d/xvfb start
