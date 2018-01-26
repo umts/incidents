@@ -27,6 +27,6 @@
   = render 'staff_reviews'
 
 - if current_user.staff?
-  = link_to 'Edit', edit_incident_url(@incident)
-|
+  = link_to 'Edit Incident', edit_incident_url(@incident)
+%br
 = link_to 'Back', incidents_url
