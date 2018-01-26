@@ -8,6 +8,7 @@ FactoryBot.define do
     run                        { "Run #{rand 20}" }
     block                      { "Block #{rand 20}" }
     bus                        { 3_000 + 100 * rand(3) + rand(30) }
+    direction                               { IncidentReport::DIRECTIONS.keys.sample }
     passengers_onboard         { rand 40 }
     courtesy_cards_distributed { rand 5 }
     courtesy_cards_collected   { rand 5 }
@@ -39,7 +40,6 @@ FactoryBot.define do
       other_vehicle_year                      { 1_997 + rand(20) }
       other_vehicle_color                     { %w[Red White Blue].sample }
       other_vehicle_passengers                { 1 + rand(3) }
-      direction                               { IncidentReport::DIRECTIONS.keys.sample }
       other_vehicle_direction                 { %w[North South East West].sample }
       other_driver_name                       { FFaker::Name.name }
       other_driver_license_number             { 'S' + rand(99_999_999).to_s.rjust(8, '0') }

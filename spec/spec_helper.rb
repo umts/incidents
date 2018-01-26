@@ -46,6 +46,7 @@ def fill_in_base_incident_fields
   fill_in 'Bus #', with: '1803'
   fill_in 'Location', with: 'Mill and Locust'
   select 'Springfield', from: 'Town'
+  select 'North', from: 'Direction'
 end
 
 def incident_in_divisions(divisions, *traits)
