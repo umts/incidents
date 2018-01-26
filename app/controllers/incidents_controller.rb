@@ -92,8 +92,11 @@ class IncidentsController < ApplicationController
       format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }
       format.html { render 'show' }
       format.xml do
-        response.set_header 'Content-Disposition', 'attachment'
-        @incident.update! exported: true
+        unless Rails.env.development?
+          response.set_header 'Content-Disposition', 'attachment'
+        end
+        @incident.assign_attributes exported: true
+        @incident.save validate: false
         render 'show.xml.haml', layout: false
       end
     end
