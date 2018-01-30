@@ -22,4 +22,6 @@
         &rarr;
 = render 'division_filters' if current_user.divisions.many?
 = render 'claim_search'
+.batch-export
+  %button.btn.btn-primary Batch export XML (for Hastus)
 = render 'table'

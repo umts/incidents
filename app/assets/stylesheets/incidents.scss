@@ -1,4 +1,4 @@
-.date-navigation,.filters,.claim-search{
+.date-navigation,.filters,.claim-search,.batch-export{
   display: flex;
   margin-bottom: 15px;
   justify-content: center;
@@ -10,11 +10,22 @@
   }
 }
 
-table.incidents td em.incomplete{
-  background: firebrick;
-  border-radius: 6px;
-  color: white;
-  padding: 8px 25px;
+table.incidents{
+  .batch-export{
+    display: none;
+    &:not(th){
+      background: yellow;
+      input{
+        padding: 5px;
+      }
+    }
+  }
+  td em.incomplete{
+    background: firebrick;
+    border-radius: 6px;
+    color: white;
+    padding: 8px 25px;
+  }
 }
 
 .staff-review{
