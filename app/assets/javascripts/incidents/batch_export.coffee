@@ -4,7 +4,7 @@ alreadyExportedWarning = (count) ->
   else ['incidents have', 'these incidents']
   """
   #{count} selected #{words[0]} already been exported.
-  Please doublecheck that you would like to re-export #{words[1]}.
+  Please confirm that you would like to re-export #{words[1]}.
   """
 
 handleExporting = ->
