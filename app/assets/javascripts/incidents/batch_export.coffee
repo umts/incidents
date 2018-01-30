@@ -1,8 +1,7 @@
-alreadyExportedWarning = -> (count)
-  words = []
-  if count == 1
-    words.push 'incident has', 'this incident' 
-  else words.push 'incidents have', 'these incidents'
+alreadyExportedWarning = (count) ->
+  words = if count == 1
+    ['incident has', 'this incident']
+  else ['incidents have', 'these incidents']
   """
   #{count} selected #{words[0]} already been exported.
   Please doublecheck that you would like to re-export #{words[1]}.
