@@ -41,6 +41,16 @@ describe 'viewing incident XML as a staff member' do
   end
 end
 
+describe 'viewing incident CSV as a staff member' do
+  let(:staff) { create :user, :staff }
+  before(:each) { when_current_user_is staff }
+  let(:driver_report) { create :incident_report, :driver_report, :collision }
+  let(:incident) { create :incident, driver_incident_report: driver_report }
+  it 'works' do
+    expect { visit incident_url(incident, format: :csv) }.not_to raise_error
+  end
+end
+
 describe 'viewing incident XML as a driver' do
   let(:incident) { create :incident }
   it "you can't" do
