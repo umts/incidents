@@ -1,3 +1,13 @@
+alreadyExportedWarning = -> (count)
+  words = []
+  if count == 1
+    words.push 'incident has', 'this incident' 
+  else words.push 'incidents have', 'these incidents'
+  """
+  #{count} selected #{words[0]} already been exported.
+  Please doublecheck that you would like to re-export #{words[1]}.
+  """
+
 handleExporting = ->
   inSelectMode = $('table.incidents th.batch-export').is ':visible'
   if inSelectMode
@@ -6,12 +16,9 @@ handleExporting = ->
     .toArray()
     alreadyExported= $('.batch-export input:checked').filter ->
       $(this).data 'exported'
-    if alreadyExported.length > 0
-      if alreadyExported.length == 1
-        warning = '1 selected incident has already been exported.'
-      else warning = "#{alreadyExported.length} selected incidents have already been exported."
-      warning += "\nPlease doublecheck that you would like to re-export this incident."
-      unless confirm warning
+    .length
+    if alreadyExported > 0
+      unless confirm alreadyExportedWarning(alreadyExported)
         return false
      window.location.href = 'incidents/batch_export?' + $.param(ids: ids)
   else
