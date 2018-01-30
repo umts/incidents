@@ -11,6 +11,7 @@ Rails.application.routes.draw do
 
   resources :incidents do
     collection do
+      get  :batch_export
       get  :incomplete
       get  :search
       get  :unclaimed

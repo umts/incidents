@@ -49,6 +49,14 @@ class IncidentsController < ApplicationController
     end
   end
 
+  def batch_export
+    @incidents = Incident.where(id: params[:ids])
+    @incidents.each(&:mark_as_exported)
+    send_data render_to_string('batch_export.xml.haml'),
+      filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
+      disposition: 'attachment'
+  end
+
   def incomplete
     @incidents = Incident.in_divisions(current_user.divisions).incomplete.occurred_order
     if @incidents.blank?
@@ -96,9 +104,8 @@ class IncidentsController < ApplicationController
         unless Rails.env.development?
           response.set_header 'Content-Disposition', 'attachment'
         end
-        @incident.assign_attributes exported: true
-        @incident.save validate: false
-        render 'show.xml.haml', layout: false
+        @incident.mark_as_exported
+        render 'show.xml.haml'
       end
     end
   end

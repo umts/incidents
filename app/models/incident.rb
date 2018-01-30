@@ -71,6 +71,11 @@ class Incident < ApplicationRecord
     save! validate: false
   end
 
+  def mark_as_exported
+    self.exported = true
+    save! validate: false
+  end
+
   def notify_supervisor_of_new_report
     if supervisor.email.present?
       ApplicationMailer.with(incident: self, destination: supervisor.email)

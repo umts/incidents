@@ -3,6 +3,7 @@ handleExporting = ->
   if inSelectMode
     ids = $('.batch-export input:checked').map ->
       $(this).data 'id'
+    .toArray()
     alreadyExported= $('.batch-export input:checked').filter ->
       $(this).data 'exported'
     if alreadyExported.length > 0
@@ -12,6 +13,7 @@ handleExporting = ->
       warning += "\nPlease doublecheck that you would like to re-export this incident."
       unless confirm warning
         return false
+     window.location.href = 'incidents/batch_export?' + $.param(ids: ids)
   else
     $('table.incidents .batch-export').show()
     $(this).text 'Select incidents to export...'
