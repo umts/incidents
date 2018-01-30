@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'csv'
+
 class Incident < ApplicationRecord
   has_paper_trail
 
@@ -78,6 +80,36 @@ class Incident < ApplicationRecord
 
   def reviewed?
     staff_reviews.present?
+  end
+
+  def to_csv
+    CSV.generate do |csv|
+      row = []
+      report = driver_incident_report
+      row << report.occurred_at.strftime('%m/%d/%Y %H:%M:%S') # Timestamp
+      row << report.occurred_at.strftime('%m/%d/%Y') # Date
+      row << report.bus # Bus
+      row << "#{driver.badge_number} | #{driver.proper_name.upcase}" # Badge # and Operator
+      row << report.occurred_at.strftime('%m/%d/%Y') # Time
+      row << [report.location, report.town].join(', ') # Location
+      row << report.run # Route
+      row << reason_code.try(:identifier) || "" # Classification 1
+      row << "" # Classification 2
+      # AVOIDABLE, UNAVOIDABLE, OTHER VEHICLE, PEDESTRIAN, BICYCLE,
+      # STATIONARY OBJ, STATIONARY VEH, COMPANY VEH, BOARDING, ALIGHTING,
+      # ONBOARD, THROWN IN BUS, INJURED ON BUS, CAUGHT IN DOOR, MISC,
+      # AMB REQUESTED, # OF INJURED
+      row += [""] * 17
+      row << report.block # Block
+      # Root Cause Analysis, Video File Name
+      row += [""] * 2
+      classification = if report.passenger_incident? then 'Passenger Incident'
+                       elsif report.motor_vehicle_collision? then 'Collision'
+                       else 'Other'
+                       end
+      row << classification # Collision or Passenger Incident
+      csv << row
+    end
   end
 
   def unclaimed?

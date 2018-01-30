@@ -89,8 +89,9 @@ class IncidentsController < ApplicationController
 
   def show
     respond_to do |format|
-      format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }
+      format.csv { send_data @incident.to_csv, filename: "#{@incident.id}.csv" }
       format.html { render 'show' }
+      format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }
       format.xml do
         unless Rails.env.development?
           response.set_header 'Content-Disposition', 'attachment'
