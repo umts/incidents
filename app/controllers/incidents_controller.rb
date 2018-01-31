@@ -7,6 +7,14 @@ class IncidentsController < ApplicationController
   before_action :set_incident, only: %i[destroy edit show update]
   before_action :set_user_lists, only: %i[create new]
 
+  def batch_export
+    @incidents = Incident.where(id: params[:ids])
+    send_data render_to_string('batch_export.xml.haml'),
+      filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
+      disposition: 'attachment'
+    @incidents.each(&:mark_as_exported)
+  end
+  
   def claim
     @incident = Incident.find(params[:id])
     @incident.claim_for current_user
@@ -47,14 +55,6 @@ class IncidentsController < ApplicationController
         collection.build if collection.blank?
       end
     end
-  end
-
-  def batch_export
-    @incidents = Incident.where(id: params[:ids])
-    @incidents.each(&:mark_as_exported)
-    send_data render_to_string('batch_export.xml.haml'),
-      filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
-      disposition: 'attachment'
   end
 
   def incomplete
