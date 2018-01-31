@@ -2,6 +2,7 @@
   %table.incidents
     %thead
       %tr
+        %th.batch-export
         %th Driver
         %th Supervisor
         %th Occurred at
@@ -20,6 +21,9 @@
     %tbody
       - @incidents.each do |incident|
         %tr{data: { division: incident.division.name }}
+          %td.batch-export= check_box_tag :batch_export, false, false,
+            class: 'batch-export-incident',
+            data: { id: incident.id, exported: incident.exported? }
           %td= incident.driver.proper_name
           %td= incident.supervisor.try :proper_name
           %td= incident.occurred_at_readable

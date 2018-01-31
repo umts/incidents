@@ -7,6 +7,14 @@ class IncidentsController < ApplicationController
   before_action :set_incident, only: %i[destroy edit show update]
   before_action :set_user_lists, only: %i[create new]
 
+  def batch_export
+    @incidents = Incident.where(id: params[:ids])
+    send_data render_to_string('batch_export.xml.haml'),
+      filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
+      disposition: 'attachment'
+    @incidents.each(&:mark_as_exported)
+  end
+  
   def claim
     @incident = Incident.find(params[:id])
     @incident.claim_for current_user
@@ -96,9 +104,8 @@ class IncidentsController < ApplicationController
         unless Rails.env.development?
           response.set_header 'Content-Disposition', 'attachment'
         end
-        @incident.assign_attributes exported: true
-        @incident.save validate: false
-        render 'show.xml.haml', layout: false
+        @incident.mark_as_exported
+        render 'show.xml.haml'
       end
     end
   end
