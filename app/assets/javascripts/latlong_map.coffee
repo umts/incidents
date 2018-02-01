@@ -7,7 +7,6 @@ createMap = (latLng, placeInitialMarker) ->
   map = new google.maps.Map $('.map')[0], { zoom: 15, center: latLng }
   if placeInitialMarker
     placeMarker map, latLng
-
   google.maps.event.addListener map, 'click', (event) ->
     placeMarker map, event.latLng
     fillLatLngFields event.latLng
