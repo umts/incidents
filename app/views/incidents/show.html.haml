@@ -10,11 +10,13 @@
     %strong= human_name :incident, :completed
     = yes_no_image @incident.completed?
 
-  - if @incident.reason_code.present?
+  - if @incident.completed?
+    %p
+      %strong= human_name :incident, :root_cause_analysis
+      = simple_format @incident.root_cause_analysis
     %p
       %strong= human_name :incident, :reason_code
       = @incident.reason_code.full_label
-  - if @incident.second_reason_code.present?
     %p
       %strong= human_name :incident, :second_reason_code
       = @incident.second_reason_code

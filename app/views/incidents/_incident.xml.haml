@@ -2,7 +2,7 @@
 %accident_incident
   %ai_block= report.block
   %ai_code= incident.reason_code.try :identifier
-  %ai_commentary= report.description
+  %ai_commentary= incident.root_cause_analysis
   %ai_date_occured= report.occurred_at.try :strftime, '%Y-%m-%d'
   - if report.direction.present? && report.direction != 'NA'
     %ai_direction= report.direction
