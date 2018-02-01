@@ -14,6 +14,10 @@
     %p
       %strong= human_name :incident, :reason_code
       = @incident.reason_code.full_label
+  - if @incident.second_reason_code.present?
+    %p
+      %strong= human_name :incident, :second_reason_code
+      = @incident.second_reason_code
 
 %hr
 .driver-incident-report

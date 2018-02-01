@@ -5,6 +5,25 @@ require 'csv'
 class Incident < ApplicationRecord
   has_paper_trail
 
+  SECOND_REASON_CODES = [
+    'a-1: Line Service - Stopped',
+    'a-2: Line Service - In Traffic, Moving',
+    'a-3: Stop - Exit',
+    'a-4: Stop - Enter',
+    'a-5: At Stop',
+    'a-6: Right Turn',
+    'a-7: Left Turn',
+    'a-8: Miscellaneous',
+    'b-1: Line Service - Stopped',
+    'b-2: Line Service - In Traffic, Moving',
+    'b-3: Stop - Exit',
+    'b-4: Stop - Enter',
+    'b-5: At Stop',
+    'b-6: Right Turn',
+    'b-7: Left Turn',
+    'b-8: Miscellaneous'
+  ]
+
   belongs_to :driver_incident_report,
              class_name: 'IncidentReport',
              foreign_key: :driver_incident_report_id
@@ -18,7 +37,8 @@ class Incident < ApplicationRecord
   # I wish there were a way to write this as a one-liner, e.g.
   # belongs_to :reason_code, optional: { unless: :completed? }
   belongs_to :reason_code, optional: true
-  validates :reason_code, presence: true, if: :completed?
+  validates :reason_code, :second_reason_code, presence: true, if: :completed?
+  validates :second_reason_code, inclusion: { in: SECOND_REASON_CODES }
 
   has_one :driver, through: :driver_incident_report, source: :user
   delegate :division, to: :driver

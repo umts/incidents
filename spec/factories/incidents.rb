@@ -11,6 +11,7 @@ FactoryBot.define do
     trait :completed do
       completed true
       association :reason_code
+      second_reason_code { Incident::SECOND_REASON_CODES.sample }
     end
 
     trait :unclaimed do

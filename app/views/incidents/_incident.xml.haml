@@ -19,4 +19,5 @@
   %ai_route= report.run
   %ai_report_final_date= Time.zone.now.strftime '%Y-%m-%d'
   %ai_report_final_time= Time.zone.now.strftime '2000-01-01T%H:%M:00.000'
+  %ai_second_code= incident.second_reason_code.try :first, 3
   %ai_street= report.location
