@@ -16,13 +16,13 @@ fillLatLngFields = (latLng) ->
   $('#incident_longitude').val latLng.lng()
 
 initLatLngMap = ->
-  if $('.map').data('lat')
+  if $('.map').data 'lat'
     createMap $('.map').data(), true
   else
     location = $('.map').data 'location'
     geocoder = new google.maps.Geocoder()
     geocoder.geocode address: location, (results) ->
-      if results
+      if results.length > 0
         result = results[0]
         createMap result.geometry.location
       else
