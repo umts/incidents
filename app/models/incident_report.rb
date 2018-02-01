@@ -52,6 +52,14 @@ class IncidentReport < ApplicationRecord
 
   validates :occurred_at, :location, :direction, :town, :bus, presence: true, unless: :new_record?
 
+  def full_location(include_state: false)
+    parts = [location, town]
+    if include_state
+      parts << 'MA'
+    end
+    parts.join ', '
+  end
+
   def incident
     Incident.where(driver_incident_report_id: id)
             .or(Incident.where(supervisor_incident_report_id: id)).first

@@ -119,7 +119,7 @@ class Incident < ApplicationRecord
       row << report.bus # Bus
       row << "#{driver.badge_number} | #{driver.proper_name.upcase}" # Badge # and Operator
       row << report.occurred_at.strftime('%m/%d/%Y') # Time
-      row << [report.location, report.town].join(', ') # Location
+      row << report.full_location # Location
       row << report.run # Route
       row << reason_code.try(:identifier) || "" # Classification 1
       row << "" # Classification 2

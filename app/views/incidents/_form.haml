@@ -9,6 +9,13 @@
         - incident.errors.full_messages.each do |message|
           %li= message
   .field
+    = form.label :latitude
+    = form.text_field :latitude, id: :incident_latitude
+  .field
+    = form.label :longitude
+    = form.text_field :longitude, id: :incident_longitude
+  #latlong-selector.map{ data: { location: incident.driver_incident_report.full_location } }
+  .field
     = form.label :root_cause_analysis
     = form.text_area :root_cause_analysis, size: '80x8',
       id: :incident_root_cause_analysis
