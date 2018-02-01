@@ -37,7 +37,9 @@ dates.shuffle.each.with_index do |day, i|
                     end
     incident_attrs = { driver_incident_report: driver_report,
                        completed: incident_type != :incomplete,
-                       reason_code: codes[incident_type] }
+                       reason_code: codes[incident_type],
+                       second_reason_code: Incident::SECOND_REASON_CODES.sample,
+                       root_cause_analysis: FFaker::BaconIpsum.paragraph }
     # Only every other incident should require supervisor response.
     if i.even?
       supervisor = supervisors.sample
