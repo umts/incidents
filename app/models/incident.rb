@@ -37,7 +37,7 @@ class Incident < ApplicationRecord
   # I wish there were a way to write this as a one-liner, e.g.
   # belongs_to :reason_code, optional: { unless: :completed? }
   belongs_to :reason_code, optional: true
-  validates :reason_code, :second_reason_code, :root_cause_analysis,
+  validates :reason_code, :second_reason_code, :root_cause_analysis, :latitude, :longitude,
     presence: true, if: :completed?
   validates :second_reason_code,
     inclusion: { in: SECOND_REASON_CODES, allow_blank: true },
