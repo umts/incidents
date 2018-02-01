@@ -4,7 +4,7 @@
   %ai_code= incident.reason_code.try :identifier
   %ai_commentary= report.description
   %ai_date_occured= report.occurred_at.try :strftime, '%Y-%m-%d'
-  - if report.direction.present?
+  - if report.direction.present? && report.direction != 'NA'
     %ai_direction= report.direction
   %ai_district= report.town
   %ai_division= incident.division.name
