@@ -1,6 +1,8 @@
 en:
   activerecord:
     attributes:
+      incident:
+        preventable: 'Preventable?'
       driver_incident_report:
         user: 'Driver'
       supervisor_incident_report:

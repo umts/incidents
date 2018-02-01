@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180201174534) do
+ActiveRecord::Schema.define(version: 20180201175941) do
 
   create_table "divisions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", null: false
@@ -120,6 +120,7 @@ ActiveRecord::Schema.define(version: 20180201174534) do
     t.boolean "exported", default: false
     t.string "second_reason_code"
     t.text "root_cause_analysis"
+    t.boolean "preventable"
   end
 
   create_table "injured_passengers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

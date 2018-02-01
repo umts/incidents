@@ -10,6 +10,7 @@
   %ai_division= incident.division.name
   %ai_employee= report.user.hastus_id
   %ai_is_accident= report.motor_vehicle_collision?
+  %ai_is_preventable= incident.preventable?
   %ai_point_of_impact= report.point_of_impact
   %ai_time_occured
     = report.occurred_at.try :strftime, '2000-01-01T%H:%M:00.000'

@@ -23,6 +23,9 @@
       options_for_select(Incident::SECOND_REASON_CODES, incident.second_reason_code),
       { include_blank: true },id: :incident_second_reason_code
   .field
+    = form.label :preventable
+    = form.check_box :preventable, id: :incident_preventable
+  .field
     = form.label :completed
     = form.check_box :completed, id: :incident_completed
   .field

@@ -20,6 +20,9 @@
     %p
       %strong= human_name :incident, :second_reason_code
       = @incident.second_reason_code
+    %p
+      %strong= human_name :incident, :preventable
+      = yes_no_image @incident.preventable
 
 %hr
 .driver-incident-report
