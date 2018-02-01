@@ -14,7 +14,12 @@
   .field
     = form.label :longitude
     = form.text_field :longitude, id: :incident_longitude
-  #latlong-selector.map{ data: { location: incident.driver_incident_report.full_location } }
+  %i Place a pin on the map below to fill the latitude and longitude.
+  .no-geocode-alert
+    Google could not place the location of this incident on the map:
+    %li= incident.driver_incident_report.full_location include_state: true
+    The map will instead center on PVTA.
+  #latlong-selector.map{ data: { location: incident.driver_incident_report.full_location(include_state: true) } }
   .field
     = form.label :root_cause_analysis
     = form.text_area :root_cause_analysis, size: '80x8',

@@ -1,16 +1,29 @@
 marker = null
 
+# fallback to PVTA if we can't geocode the incident's location
+PVTA = { lat: 42.105552, lng: -72.596511 }
+
+createMap = (latLng) ->
+  map = new google.maps.Map $('.map')[0], { zoom: 15, center: latLng }
+
+  google.maps.event.addListener map, 'click', (event) ->
+    placeMarker map, event.latLng
+    fillLatLngFields event.latLng
+
 fillLatLngFields = (latLng) ->
   $('#incident_latitude').val latLng.lat()
   $('#incident_longitude').val latLng.lng()
 
 initLatLngMap = ->
-  pvta = { lat: 42.105552, lng: -72.596511 }
-  map = new google.maps.Map $('.map')[0], { zoom: 15, center: pvta }
-
-  google.maps.event.addListener map, 'click', (event) ->
-    placeMarker map, event.latLng
-    fillLatLngFields event.latLng
+  location = $('.map').data 'location'
+  geocoder = new google.maps.Geocoder()
+  geocoder.geocode address: location, (results) ->
+    if results.length == 0
+      $('.no-geocode-alert').slideDown()
+      createMap PVTA
+      return
+    result = results[0]
+    createMap result.geometry.location
 
 placeMarker = (map, latLng) ->
   unless marker == null

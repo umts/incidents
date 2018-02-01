@@ -106,6 +106,15 @@ form .field .example{
 
 .map{
   background-color: white;
-  width: 600px;
   height: 600px;
+  margin: 10px;
+  width: 600px;
+}
+
+.no-geocode-alert{
+  background: #e8b5b5;
+  border: 2px solid red;
+  border-radius: 6px;
+  display: none;
+  padding: 3px;
 }
