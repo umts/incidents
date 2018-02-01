@@ -22,9 +22,11 @@ describe 'editing incident details as staff' do
     select '', from: 'Reason code'
     click_button 'Save incident details'
     wait_for_ajax!
-    expect(page).to have_text 'This incident has 1 missing value and so cannot be marked as completed.'
+    expect(page).to have_text 'This incident has 2 missing values and so cannot be marked as completed.'
     expect(page).to have_text "Reason code can't be blank"
+    expect(page).to have_text "Second reason code can't be blank"
     select 'A-1: Falling bananas', from: 'Reason code'
+    select 'a-8: Miscellaneous', from: 'Second reason code'
     click_button 'Save incident details'
     wait_for_ajax!
     expect(page).to have_selector 'p.notice',
