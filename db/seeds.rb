@@ -56,7 +56,7 @@ dates.shuffle.each.with_index do |day, i|
     incident = build :incident, incident_attrs
     # Validations don't pass for incomplete incidents. They do in real life,
     # but they don't because we create objects in reverse order here.
-    incident.save validate: false
+    incident.save validate: incident_type != :incomplete
     if Time.zone.now < claim_date
       number = if rand(5).zero?
                  Incident.pluck(:claim_number).compact.sample
