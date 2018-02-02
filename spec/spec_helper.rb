@@ -13,7 +13,6 @@ require File.expand_path('../../config/environment', __FILE__)
 abort("The Rails environment is running in production mode!") if Rails.env.production?
 
 require 'rspec/rails'
-require 'rspec/retry'
 require 'devise'
 require 'factory_bot_rails'
 
@@ -21,15 +20,11 @@ ActiveRecord::Migration.maintain_test_schema!
 Capybara.default_driver = :selenium
 RSpec.configure do |config|
   config.order = :random
-  config.verbose_retry = true
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.before :all do
     FactoryBot.reload
-  end
-  config.around :each do |example|
-    example.run_with_retry retry: 3
   end
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -64,14 +59,10 @@ def wait_for_ajax!
   Timeout.timeout Capybara.default_max_wait_time do
     loop until page.evaluate_script('jQuery.active').zero?
   end
-  sleep 1.0 if RSpec.current_example.attempts > 0
 end
 
 def wait_for_animation!
-  if RSpec.current_example.attempts.zero?
-    sleep 0.5
-  else sleep 1.0
-  end
+  sleep 0.5
 end
 
 def when_current_user_is(user)
