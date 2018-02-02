@@ -40,8 +40,8 @@ class IncidentReport < ApplicationRecord
 
   TOWN_OPTIONS = %w[
     Agawam Amherst Chicopee East\ Longmeadow Easthampton Enfield Feeding\ Hills
-    Hadley Holyoke Indian\ Orchard Longmeadow Ludlow Northampton South\ Hadley
-    Springfield West\ Springfield Westfield Williamsburg
+    Florence Hadley Holyoke Indian\ Orchard Leeds Longmeadow Ludlow Northampton
+    South\ Hadley Springfield West\ Springfield Westfield Williamsburg
   ]
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
