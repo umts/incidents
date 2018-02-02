@@ -20,7 +20,7 @@
     %li= incident.driver_incident_report.full_location include_state: true
     The map will instead center on PVTA.
   #latlong-selector.map{ data: { location: incident.driver_incident_report.full_location(include_state: true),
-    lat: incident.latitude, lng: incident.longitude } }
+    lat: incident.latitude.to_f, lng: incident.longitude.to_f } }
   .field
     = form.label :root_cause_analysis
     = form.text_area :root_cause_analysis, size: '80x8',

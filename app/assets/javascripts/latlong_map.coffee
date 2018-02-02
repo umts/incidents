@@ -4,6 +4,7 @@ marker = null
 PVTA = { lat: 42.105552, lng: -72.596511 }
 
 createMap = (mapSelector, latLng, placeInitialMarker) ->
+  debugger
   map = new google.maps.Map mapSelector[0], { zoom: 15, center: latLng }
   if placeInitialMarker
     placeMarker map, latLng

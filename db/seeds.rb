@@ -37,9 +37,7 @@ dates.shuffle.each.with_index do |day, i|
                     end
     incident_attrs = { driver_incident_report: driver_report,
                        completed: incident_type != :incomplete,
-                       reason_code: codes[incident_type],
-                       second_reason_code: Incident::SECOND_REASON_CODES.sample,
-                       root_cause_analysis: FFaker::BaconIpsum.paragraph }
+                       reason_code: codes[incident_type] }
     # Only every other incident should require supervisor response.
     if i.even?
       supervisor = supervisors.sample
@@ -53,10 +51,13 @@ dates.shuffle.each.with_index do |day, i|
       incident_attrs[:supervisor_incident_report] = nil
       incident_attrs[:supervisor_report] = nil
     end
-    incident = build :incident, incident_attrs
-    # Validations don't pass for incomplete incidents. They do in real life,
-    # but they don't because we create objects in reverse order here.
-    incident.save validate: incident_type != :incomplete
+    if incident_type == :incomplete
+      incident = build :incident, incident_attrs
+      # Validations don't pass for incomplete incidents. They do in real life,
+      # but they don't because we create objects in reverse order here.
+      incident.save! validate: false
+    else incident = create :incident, :completed, incident_attrs
+    end
     if Time.zone.now < claim_date
       number = if rand(5).zero?
                  Incident.pluck(:claim_number).compact.sample
