@@ -37,7 +37,7 @@ class Incident < ApplicationRecord
   # I wish there were a way to write this as a one-liner, e.g.
   # belongs_to :reason_code, optional: { unless: :completed? }
   belongs_to :reason_code, optional: true
-  validates :reason_code, :second_reason_code, :root_cause_analysis,
+  validates :reason_code, :second_reason_code, :root_cause_analysis, :latitude, :longitude,
     presence: true, if: :completed?
   validates :second_reason_code,
     inclusion: { in: SECOND_REASON_CODES, allow_blank: true },
@@ -94,6 +94,10 @@ class Incident < ApplicationRecord
     save! validate: false
   end
 
+  def geocode_location
+    driver_incident_report.full_location include_state: true
+  end
+
   def mark_as_exported
     self.exported = true
     save! validate: false
@@ -119,7 +123,7 @@ class Incident < ApplicationRecord
       row << report.bus # Bus
       row << "#{driver.badge_number} | #{driver.proper_name.upcase}" # Badge # and Operator
       row << report.occurred_at.strftime('%m/%d/%Y') # Time
-      row << [report.location, report.town].join(', ') # Location
+      row << report.full_location # Location
       row << report.run # Route
       row << reason_code.try(:identifier) || "" # Classification 1
       row << "" # Classification 2

@@ -9,6 +9,23 @@
         - incident.errors.full_messages.each do |message|
           %li= message
   .field
+    = form.label :latitude
+    = form.text_field :latitude, id: :incident_latitude
+  .field
+    = form.label :longitude
+    = form.text_field :longitude, id: :incident_longitude
+  - if @incident.geocode_location.present?
+    %i Place a pin on the map below to fill the latitude and longitude.
+    .no-geocode-alert
+      Google could not place 
+      = @incident.geocode_location
+      on the map.
+    #latlong-selector.map{ data: { location: @incident.geocode_location, lat: incident.latitude, lng: incident.longitude } }
+  - else
+    %i
+      This incident must have a location and town in the driver incident report
+      before you can use the map to determine the latitude and longitude.
+  .field
     = form.label :root_cause_analysis
     = form.text_area :root_cause_analysis, size: '80x8',
       id: :incident_root_cause_analysis

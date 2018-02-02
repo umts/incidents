@@ -12,6 +12,12 @@
 
   - if @incident.completed?
     %p
+      %strong= human_name :incident, :latitude
+      = @incident.latitude
+    %p
+      %strong= human_name :incident, :longitude
+      = @incident.longitude
+    %p
       %strong= human_name :incident, :root_cause_analysis
       = simple_format @incident.root_cause_analysis
     %p
