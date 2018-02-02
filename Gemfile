@@ -44,6 +44,7 @@ group :test do
   gem 'chromedriver-helper', '~> 1.1'
   gem 'rails-controller-testing', '~> 1.0'
   gem 'rspec-rails', '~> 3.7'
+  gem 'rspec-retry', '~> 0.5'
   gem 'selenium-webdriver', '~> 3.8'
   gem 'simplecov', '~> 0.15'
 end
