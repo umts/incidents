@@ -4,8 +4,7 @@ marker = null
 PVTA = { lat: 42.105552, lng: -72.596511 }
 
 createMap = (mapSelector, latLng, placeInitialMarker) ->
-  debugger
-  map = new google.maps.Map mapSelector[0], { zoom: 15, center: latLng }
+  map = new google.maps.Map mapSelector[0], { zoom: 15, tilt:0, center: latLng }
   if placeInitialMarker
     placeMarker map, latLng
   google.maps.event.addListener map, 'click', (event) ->
@@ -13,14 +12,14 @@ createMap = (mapSelector, latLng, placeInitialMarker) ->
     fillLatLngFields event.latLng
 
 fillLatLngFields = (latLng) ->
-  $('#incident_latitude').val latLng.lat()
-  $('#incident_longitude').val latLng.lng()
+  $('#incident_latitude').val Number(latLng.lat().toFixed(5))
+  $('#incident_longitude').val Number(latLng.lng().toFixed(5))
 
 initLatLngMap = (mapSelector) ->
   if mapSelector.data 'lat'
-    latLng = lat: parseFloat mapSelector.data('lat'),
-             long: parseFloat mapSelector.data('lng')
-    createMap mapSelector, latLng, true
+    lat = parseFloat mapSelector.data('lat')
+    lng = parseFloat mapSelector.data('lng')
+    createMap mapSelector, { lat: lat, lng: lng }, true
   else
     location = mapSelector.data 'location'
     geocoder = new google.maps.Geocoder()
