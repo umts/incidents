@@ -18,7 +18,9 @@ fillLatLngFields = (latLng) ->
 
 initLatLngMap = (mapSelector) ->
   if mapSelector.data 'lat'
-    createMap mapSelector, mapSelector.data(), true
+    latLng = lat: parseFloat mapSelector.data('lat'),
+             long: parseFloat mapSelector.data('lng')
+    createMap mapSelector, latLng, true
   else
     location = mapSelector.data 'location'
     geocoder = new google.maps.Geocoder()

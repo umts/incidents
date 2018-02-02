@@ -14,13 +14,18 @@
   .field
     = form.label :longitude
     = form.text_field :longitude, id: :incident_longitude
-  %i Place a pin on the map below to fill the latitude and longitude.
-  .no-geocode-alert
-    Google could not place the location of this incident on the map:
-    %li= incident.driver_incident_report.full_location include_state: true
-    The map will instead center on PVTA.
-  #latlong-selector.map{ data: { location: incident.driver_incident_report.full_location(include_state: true),
-    lat: incident.latitude.to_f, lng: incident.longitude.to_f } }
+  - if @incident.geocode_location.present?
+    %i Place a pin on the map below to fill the latitude and longitude.
+    .no-geocode-alert
+      Google could not place the location of this incident on the map:
+      %li= incident.driver_incident_report.full_location include_state: true
+      The map will instead center on PVTA.
+    #latlong-selector.map{ data: { location: incident.driver_incident_report.full_location(include_state: true),
+      lat: incident.latitude, lng: incident.longitude } }
+  - else
+    %i
+      This incident must have a location and town in the driver incident report
+      before you can use the map to determine the latitude and longitude.
   .field
     = form.label :root_cause_analysis
     = form.text_area :root_cause_analysis, size: '80x8',

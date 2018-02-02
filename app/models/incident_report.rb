@@ -53,6 +53,7 @@ class IncidentReport < ApplicationRecord
   validates :occurred_at, :location, :direction, :town, :bus, presence: true, unless: :new_record?
 
   def full_location(include_state: false)
+    return unless location.present? && town.present?
     parts = [location, town]
     if include_state
       parts << 'MA'

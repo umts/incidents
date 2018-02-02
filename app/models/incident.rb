@@ -94,6 +94,10 @@ class Incident < ApplicationRecord
     save! validate: false
   end
 
+  def geocode_location
+    driver_incident_report.full_location include_state: true
+  end
+
   def mark_as_exported
     self.exported = true
     save! validate: false
