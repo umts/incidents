@@ -8,7 +8,7 @@
     %ai_commentary= incident.root_cause_analysis
   - if report.occurred_at.present?
     %ai_date_occured= report.occurred_at.strftime '%Y-%m-%d'
-    %ai_time_occured= report.occurred_at.strftime '%H:%M:00.000'
+    %ai_time_occured= report.occurred_at.strftime '2000-01-01T%H:%M:00.000'
     %ai_occured_year= report.occurred_at.year
   - if report.direction.present? && report.direction != 'NA'
     %ai_direction= report.direction
