@@ -4,10 +4,25 @@ file Accidents-Incidents {
   xmlelement object_interface {
     foreach accident_incident {
       xmlelement accident_incident {
-        xmlelement employee_hastus_id  { value 'Object(employee, ai_employee).demp_display_id' }
-        xmlelement date_occurred       { value 'ai_date_occured' }
-        xmlelement hastus_id           { value 'ai_identifier' }
-        xmlelement time_occurred       { value 'ai_time_occured' }
+        xmlelement ai_block { value 'ai_block' }
+        xmlelement ai_code { value 'ai_code' }
+        xmlelement ai_commentary { value 'ai_commentary' }
+        xmlelement ai_date_occured { value 'ai_date_occured' }
+        xmlelement ai_direction { value 'ai_direction' }
+        xmlelement ai_district { value 'ai_district' }
+        xmlelement ai_division { value 'ai_division' }
+        xmlelement ai_employee { value 'ai_employee' }
+        xmlelement ai_is_preventable { value 'ai_is_preventable' }
+        xmlelement ai_point_of_impact { value 'ai_point_of_impact' }
+        xmlelement ai_time_occured { value 'ai_time_occured' }
+        xmlelement ai_type_situation { value 'ai_type_situation' }
+        xmlelement ai_vehicle { value 'ai_vehicle' }
+        xmlelement occured_year { value 'ai_occured_year' }
+        xmlelement route { value 'ai_route' }
+        xmlelement report_final_date { value 'ai_report_final_date' }
+        xmlelement report_final_time { value 'ai_report_final_time' }
+        xmlelement second_code { value 'ai_second_code' }
+        xmlelement street { value 'ai_street' }
       }
     }
   }
