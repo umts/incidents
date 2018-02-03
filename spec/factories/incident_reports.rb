@@ -5,7 +5,7 @@ FactoryBot.define do
     association :user
     motor_vehicle_collision false
     passenger_incident false
-    run                        { "Run #{rand 20}" }
+    run                        { rand 1_000 }
     block                      { "Block #{rand 20}" }
     bus                        { 3_000 + 100 * rand(3) + rand(30) }
     direction                               { IncidentReport::DIRECTIONS.keys.sample }
