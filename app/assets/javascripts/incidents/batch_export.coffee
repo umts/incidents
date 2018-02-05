@@ -23,13 +23,29 @@ handleExporting = ->
   else
     $('table.incidents .batch-export').show()
     $(this).text 'Select incidents to export...'
+    $('.batch-export #select-all').show()
+    setSelectAllText()
 
 handleIncidentSelected = ->
   selectedIncidentCount = $('.batch-export input:checked').length
   if selectedIncidentCount > 0
-    $('.batch-export button').text "Generate XML export (#{selectedIncidentCount} selected)"
-  else $('.batch-export button').text 'Select incidents to export...'
+    $('.batch-export #main-button').text "Generate XML export (#{selectedIncidentCount} selected)"
+  else $('.batch-export #main-button').text 'Select incidents to export...'
+
+selectAllIncidents = ->
+  if $(this).text() == 'Deselect all'
+    $('.batch-export input:visible').prop 'checked', false
+  else $('.batch-export input:visible').prop 'checked', true
+  setSelectAllText()
+
+setSelectAllText = ->
+  incidentCount = $('.batch-export input:visible').length
+  # if any are unchecked
+  if $('.batch-export input:checked').length < incidentCount
+    $('.batch-export #select-all').text "Select all (#{incidentCount})"
+  else $('.batch-export #select-all').text 'Deselect all'
 
 $(document).on 'turbolinks:load', ->
-  $('.batch-export button').click handleExporting
+  $('.batch-export #main-button').click handleExporting
   $('.batch-export input').change handleIncidentSelected
+  $('.batch-export #select-all').click selectAllIncidents

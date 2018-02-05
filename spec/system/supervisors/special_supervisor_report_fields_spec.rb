@@ -146,7 +146,8 @@ describe 'special supervisor report fields' do
   end
   it 'requires explaining why the driver can be discounted' do
     incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-      driver_discounted: false, fta_threshold_not_met: true, reason_threshold_not_met: 'Placeholder'
+      driver_discounted: false, fta_threshold_not_met: true, reason_threshold_not_met: 'Placeholder',
+      reason_driver_discounted: nil
     visit edit_supervisor_report_url(incident.supervisor_report)
     check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
     click_button 'Save supervisor report'

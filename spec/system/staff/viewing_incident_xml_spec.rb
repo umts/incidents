@@ -91,6 +91,42 @@ describe 'batch exporting XML' do
     within exported_row_cell do
       expect(page).to have_selector 'span.glyphicon-ok'
     end
+  end
 
+  it 'allows selecting all shown incidents' do
+    # 3 plus the one we created above should be 4.
+    3.times { incident_in_divisions staff.divisions }
+    visit incidents_url
+    click_button 'Batch export Hastus XML'
+
+    expect(page).to have_unchecked_field 'batch_export', count: 4
+    click_button 'Select all (4)'
+    expect(page).to have_checked_field 'batch_export', count: 4
+  end
+end
+
+describe 'batch exporting incident XML as a staff member' do
+  context 'with staff in multiple divisions, filtering by a single division' do
+    let(:division1) { create :division }
+    let(:division2) { create :division }
+    let(:staff) { create :user, :staff, divisions: [division1, division2] }
+    before(:each) { when_current_user_is staff }
+    it 'allows selecting all incidents in the filtered division' do
+      3.times { incident_in_divisions [division1] }
+      3.times { incident_in_divisions [division2] }
+
+      visit incidents_url
+      expect(page).to have_selector 'table.incidents tbody tr', count: 6
+      click_button division1.name
+      expect(page).to have_selector 'table.incidents tbody tr', count: 3
+
+      click_button 'Batch export Hastus XML'
+      click_button 'Select all (3)'
+
+      expect(page).to have_checked_field 'batch_export', count: 3
+      # even if we un-filter
+      click_button 'All'
+      expect(page).to have_checked_field 'batch_export', count: 3
+    end
   end
 end
