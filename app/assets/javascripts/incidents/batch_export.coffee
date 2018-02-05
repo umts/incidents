@@ -34,8 +34,8 @@ handleIncidentSelected = ->
 
 selectAllIncidents = ->
   if $(this).text() == 'Deselect all'
-    $('.batch-export input:visible').prop 'checked', false
-  else $('.batch-export input:visible').prop 'checked', true
+    $('.batch-export input:visible').prop('checked', false).change()
+  else $('.batch-export input:visible').prop('checked', true).change()
   setSelectAllText()
 
 setSelectAllText = ->
