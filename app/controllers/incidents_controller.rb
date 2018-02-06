@@ -138,10 +138,15 @@ class IncidentsController < ApplicationController
   def incident_params
     data = params.require(:incident).permit!
     sup_report_attrs = data[:supervisor_incident_report_attributes]
-    if sup_report_attrs.present? && sup_report_attrs[:user_id].present?
-      @incident.supervisor_report = SupervisorReport.new
-      @assigning_supervisor = true
-    else data.delete :supervisor_incident_report_attributes
+    if sup_report_attrs.present?
+      if sup_report_attrs[:user_id].present?
+        @incident.supervisor_report = SupervisorReport.new
+        @assigning_supervisor = true
+      elsif sup_report_attrs.key? :user_id # but it's blank anyway
+        @incident.supervisor_incident_report.delete
+        @incident.supervisor_report.delete
+        data.delete :supervisor_incident_report_attributes
+      end
     end
     data
   end

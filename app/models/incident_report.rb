@@ -50,7 +50,8 @@ class IncidentReport < ApplicationRecord
   has_one :incident
   before_validation -> { self[:occurred_at] = Time.zone.now if occurred_at.blank? }
 
-  validates :occurred_at, :location, :direction, :town, :bus, presence: true, unless: :new_record?
+  validates :occurred_at, :location, :direction, :town, :bus,
+    presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
 
   def full_location(include_state: false)

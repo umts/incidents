@@ -45,19 +45,11 @@
               %button.btn.btn-default Print
           %td
             = link_to incident do
-              %button.btn.btn-default
-                - if current_user.staff? && incident.completed?
-                  View / Review
-                - else
-                  View
+              %button.btn.btn-default View
           %td
             - if current_user.staff? || !incident.reviewed?
               = link_to edit_incident_url(incident) do
-                %button.btn.btn-default
-                  - if incident.completed?
-                    Edit
-                  - else
-                    Complete
+                %button.btn.btn-default Edit
           - if current_user.staff?
             %td
               = link_to incident, method: :delete do

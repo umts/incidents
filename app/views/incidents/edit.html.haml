@@ -13,6 +13,13 @@
   %hr
   %h2 Incident Details
   = render 'incidents/form', incident: @incident
+  %h3
+    - if @incident.supervisor.present?
+      Reassign
+    - else
+      Assign
+    a supervisor...
+  = render 'incidents/add_supervisor', incident: @incident
 %hr
 - if current_user == @incident.driver || current_user.staff?
   .edit-link= link_to 'Edit Driver Account of Incident',
@@ -23,9 +30,6 @@
       edit_incident_report_url(@incident.supervisor_incident_report)
     .edit-link= link_to 'Edit Supervisor Report',
       edit_supervisor_report_url(@incident.supervisor_report)
-- elsif current_user.supervisor? || current_user.staff?
-  %h3 Assign a supervisor...
-  = render 'incidents/add_supervisor', incident: @incident
 = link_to 'Show', @incident
 |
 = link_to 'Back', incidents_url
