@@ -1,9 +1,2 @@
 = form_with model: incident, local: true do |form|
-  = form.fields_for :supervisor_incident_report,
-    incident.supervisor_incident_report || IncidentReport.new do |supervisor_form|
-    .field
-      = supervisor_form.label :user_id, 'Supervisor'
-      = supervisor_form.select :user_id,
-        options_from_collection_for_select(User.active.supervisors.name_order, :id, :proper_name, incident.supervisor.try(:id)),
-        { include_blank: 'No supervisor' }, id: :report_supervisor_id
   .actions= form.submit 'Assign supervisor'

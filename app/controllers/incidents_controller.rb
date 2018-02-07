@@ -27,6 +27,7 @@ class IncidentsController < ApplicationController
     @incident.assign_attributes incident_params
     if @incident.save
       @incident.notify_supervisor_of_new_report if @assigning_supervisor
+      @incident.remove_supervisor if @removing_supervisor
       redirect_to incidents_url, notice: 'Incident was successfully created.'
     else render :new, status: :unprocessable_entity
     end
@@ -122,6 +123,7 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       if @incident.save
         @incident.notify_supervisor_of_new_report if @assigning_supervisor
+        @incident.remove_supervisor if @removing_supervisor
         format.html do
           redirect_to @incident,
                       notice: 'Incident report was successfully saved.'
@@ -143,9 +145,8 @@ class IncidentsController < ApplicationController
         @incident.supervisor_report = SupervisorReport.new
         @assigning_supervisor = true
       elsif sup_report_attrs.key? :user_id # but it's blank anyway
-        @incident.supervisor_incident_report.delete
-        @incident.supervisor_report.delete
         data.delete :supervisor_incident_report_attributes
+        @removing_supervisor = true
       end
     end
     data
