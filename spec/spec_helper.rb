@@ -38,6 +38,11 @@ RSpec.configure do |config|
 end
 
 def fill_in_base_incident_fields
+  select Time.now.strftime('%Y'), from: 'Year'
+  select Time.now.strftime('%B'), from: 'Month'
+  select Time.now.strftime('%-e'), from: 'Day'
+  select Time.now.strftime('%H %p'), from: 'Hour'
+  select Time.now.strftime('%m'), from: 'Minute'
   fill_in 'Bus #', with: '1803'
   fill_in 'Location', with: 'Mill and Locust'
   select 'Springfield', from: 'Town'

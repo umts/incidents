@@ -14,7 +14,8 @@ describe 'creating incidents as a driver' do
   it 'requires bus, location, and town' do
     visit new_incident_url
     click_on 'Save report'
-    expect(page).to have_text 'This incident report has 4 missing values and so cannot be marked as completed.'
+    expect(page).to have_text 'This incident report has 5 missing values and so cannot be marked as completed.'
+    expect(page).to have_text "Date and time of incident can't be blank"
     expect(page).to have_text "Location can't be blank"
     expect(page).to have_text "Town can't be blank"
     expect(page).to have_text "Bus # can't be blank"

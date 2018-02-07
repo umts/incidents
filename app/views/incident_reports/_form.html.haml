@@ -21,7 +21,7 @@
           { include_blank: true }, id: :incident_report_user_id
     .field
       = form.label :occurred_at
-      - a11y_datetime_labels('report_occurred_at').each do |label|
+      - a11y_datetime_labels('incident_report_occurred_at').each do |label|
         = label
       = form.datetime_select :occurred_at, id: :incident_report_occurred_at,
         prompt: true, ampm: true
