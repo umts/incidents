@@ -11,8 +11,6 @@ describe 'reviewing incidents as staff' do
     it 'is not possible to review' do
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
-      expect(page).not_to have_selector 'table.incidents tbody tr button',
-        text: 'View / Review'
       click_button 'View'
       expect(page.current_url).to end_with incident_path(incident)
       expect(page).not_to have_selector 'h3', text: 'Staff Review'
@@ -23,7 +21,7 @@ describe 'reviewing incidents as staff' do
     it 'is possible to review' do
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
-      click_button 'View / Review'
+      click_button 'View'
       expect(page.current_url).to end_with incident_path(incident)
       fill_in 'Add your review', with: 'This is my review.'
       click_button 'Create staff review'

@@ -110,6 +110,12 @@ class Incident < ApplicationRecord
     end
   end
 
+  def remove_supervisor
+    self.supervisor_report = nil
+    self.supervisor_incident_report = nil
+    save
+  end
+
   def reviewed?
     staff_reviews.present?
   end

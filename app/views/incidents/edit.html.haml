@@ -23,9 +23,6 @@
       edit_incident_report_url(@incident.supervisor_incident_report)
     .edit-link= link_to 'Edit Supervisor Report',
       edit_supervisor_report_url(@incident.supervisor_report)
-- elsif current_user.supervisor? || current_user.staff?
-  %h3 Assign a supervisor...
-  = render 'incidents/add_supervisor', incident: @incident
 = link_to 'Show', @incident
 |
 = link_to 'Back', incidents_url
