@@ -49,7 +49,8 @@ class IncidentReport < ApplicationRecord
   belongs_to :user
   has_one :incident
 
-  validates :occurred_at, :location, :direction, :town, :bus, presence: true, unless: :new_record?
+  validates :occurred_at, :location, :direction, :town, :bus,
+    presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
 
   def full_location(include_state: false)
