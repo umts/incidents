@@ -132,14 +132,14 @@ class Incident < ApplicationRecord
       row << report.full_location # Location
       row << report.run # Route
       row << reason_code.try(:identifier) || "" # Classification 1
-      row << incident.second_reason_code # Classification 2
+      row << second_reason_code # Classification 2
       # AVOIDABLE, UNAVOIDABLE, OTHER VEHICLE, PEDESTRIAN, BICYCLE,
       # STATIONARY OBJ, STATIONARY VEH, COMPANY VEH, BOARDING, ALIGHTING,
       # ONBOARD, THROWN IN BUS, INJURED ON BUS, CAUGHT IN DOOR, MISC,
       # AMB REQUESTED, # OF INJURED
       row += [""] * 17
       row << report.block # Block
-      row << incident.root_cause_analysis
+      row << root_cause_analysis
       # Video File Name
       row << ""
       classification = if report.passenger_incident? then 'Passenger Incident'
