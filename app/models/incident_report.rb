@@ -49,7 +49,7 @@ class IncidentReport < ApplicationRecord
   belongs_to :user
   has_one :incident
 
-  validates :occurred_at, :location, :direction, :town, :bus,
+  validates :occurred_at, :location, :direction, :town, :bus, :description,
     presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
 

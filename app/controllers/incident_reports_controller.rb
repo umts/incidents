@@ -10,7 +10,11 @@ class IncidentReportsController < ApplicationController
 
   def update
     if @report.update(report_params)
-      redirect_to @incident, notice: 'Incident report was successfully saved.'
+      if @current_user == @incident.supervisor && @incident.supervisor_report.invalid?
+        redirect_to edit_supervisor_report_url(@incident.supervisor_report),
+          notice: 'Incident report was successfully saved. Please complete the supervisor report.'
+      else redirect_to @incident, notice: 'Incident report was successfully saved.'
+      end
     else render 'edit'
     end
   end
