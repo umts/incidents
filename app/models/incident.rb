@@ -124,15 +124,14 @@ class Incident < ApplicationRecord
     CSV.generate do |csv|
       row = []
       report = driver_incident_report
-      row << report.occurred_at.strftime('%m/%d/%Y %H:%M:%S') # Timestamp
       row << report.occurred_at.strftime('%m/%d/%Y') # Date
       row << report.bus # Bus
       row << "#{driver.badge_number} | #{driver.proper_name.upcase}" # Badge # and Operator
-      row << report.occurred_at.strftime('%m/%d/%Y') # Time
+      row << report.occurred_at.strftime('%H:%M:%S') # Time
       row << report.full_location # Location
       row << report.run # Route
       row << reason_code.try(:identifier) || "" # Classification 1
-      row << second_reason_code # Classification 2
+      row << second_reason_code.try(:first, 3) # Classification 2
       # AVOIDABLE, UNAVOIDABLE, OTHER VEHICLE, PEDESTRIAN, BICYCLE,
       # STATIONARY OBJ, STATIONARY VEH, COMPANY VEH, BOARDING, ALIGHTING,
       # ONBOARD, THROWN IN BUS, INJURED ON BUS, CAUGHT IN DOOR, MISC,
