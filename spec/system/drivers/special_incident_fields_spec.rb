@@ -6,20 +6,18 @@ describe 'special incident fields' do
   let(:driver) { create :user, :driver }
   before(:each) { when_current_user_is driver }
   it 'allows filling in collision fields' do
-    visit new_incident_url
+    visit new_incident_path
     expect(page).not_to have_text 'Motor Vehicle Collision Information'
     check 'Did the incident involve a collision with non-PVTA property?'
     expect(page).to have_text 'Motor Vehicle Collision Information'
   end
   it 'does not require filling in fields for collisions' do
-    visit new_incident_url
+    visit new_incident_path
     fill_in_base_incident_fields
     check 'Did the incident involve a collision with non-PVTA property?'
     wait_for_animation!
     click_on 'Save report'
-    wait_for_ajax!
-    expect(page).to have_selector 'p.notice',
-      text: 'Incident report was successfully saved.'
+    expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
   end
   it 'shows collision fields for collision incidents' do
     driver_report = create :incident_report, :driver_report, :with_incident,
@@ -31,7 +29,7 @@ describe 'special incident fields' do
   end
 
   it 'allows filling in other vehicle info as necessary' do
-    visit new_incident_url
+    visit new_incident_path
     check 'Did the incident involve a collision with non-PVTA property?'
     wait_for_animation!
     expect(page).to have_field 'Other vehicle owner name'
@@ -48,7 +46,7 @@ describe 'special incident fields' do
   end
 
   it 'allows filling in police info' do
-    visit new_incident_url
+    visit new_incident_path
     check 'Did the incident involve a collision with non-PVTA property?'
     wait_for_animation!
     expect(page).not_to have_field 'Police badge number'
@@ -57,15 +55,13 @@ describe 'special incident fields' do
     expect(page).to have_field 'Police badge number'
   end
   it 'does not require police info' do
-    visit new_incident_url
+    visit new_incident_path
     fill_in_base_incident_fields
     check 'Did the incident involve a collision with non-PVTA property?'
     wait_for_animation!
     check 'Did police respond to the incident?'
     click_on 'Save report'
-    wait_for_ajax!
-    expect(page).to have_selector 'p.notice',
-      text: 'Incident report was successfully saved.'
+    expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
   end
   it 'shows police fields as necessary' do
     driver_report = create :incident_report, :driver_report, :with_incident,
@@ -77,21 +73,19 @@ describe 'special incident fields' do
   end
 
   it 'allows filling in passenger incident fields' do
-    visit new_incident_url
+    visit new_incident_path
     expect(page).not_to have_text 'Passenger Incident Information'
     check 'Did the incident involve a passenger?'
     expect(page).to have_text 'Passenger Incident Information'
   end
   it 'does not require filling in passenger incident fields' do
-    visit new_incident_url
+    visit new_incident_path
     fill_in_base_incident_fields
     check 'Did the incident involve a passenger?'
     wait_for_animation!
     expect(page).to have_text 'Passenger Incident Information'
     click_on 'Save report'
-    wait_for_ajax!
-    expect(page).to have_selector 'p.notice',
-      text: 'Incident report was successfully saved.'
+    expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
   end
   it 'shows passenger fields for passenger incidents' do
     driver_report = create :incident_report, :driver_report, :with_incident, 
@@ -102,7 +96,7 @@ describe 'special incident fields' do
   end
 
   it 'allows filling in reason bus was not up to curb' do
-    visit new_incident_url
+    visit new_incident_path
     check 'Did the incident involve a passenger?'
     expect(page).not_to have_field 'Reason not up to curb'
     select 'Stopped', from: 'Motion of bus'
@@ -110,14 +104,13 @@ describe 'special incident fields' do
     expect(page).to have_field 'Reason not up to curb'
   end
   it 'does not require filling in reason not up to curb' do
-    visit new_incident_url
+    visit new_incident_path
     fill_in_base_incident_fields
     check 'Did the incident involve a passenger?'
     select 'Stopped', from: 'Motion of bus'
     uncheck 'Was the bus pulled completely up to the curb?'
     click_on 'Save report'
-    expect(page).to have_selector 'p.notice',
-      text: 'Incident report was successfully saved.'
+    expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
   end
   it 'shows reason not up to curb field as necessary' do
     driver_report = create :incident_report, :driver_report, :with_incident,

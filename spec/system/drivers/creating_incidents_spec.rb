@@ -26,7 +26,6 @@ describe 'creating incidents as a driver' do
     visit new_incident_url
     fill_in_base_incident_fields
     click_on 'Save report'
-    expect(page).to have_text 'Incident report was successfully saved.'
-    expect(page.current_url).to end_with incident_path(Incident.last)
+    expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
   end
 end

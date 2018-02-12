@@ -300,4 +300,7 @@
     = form.label :description
     = form.text_area :description, id: :incident_report_description, size: '80x8'
   .actions
-    = form.submit 'Save report'
+    - if @current_user == @incident.driver
+      = form.submit 'Save report and print PDF'
+    - else
+      = form.submit 'Save report'
