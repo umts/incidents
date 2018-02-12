@@ -15,6 +15,7 @@
   - if report.town.present?
     %ai_district= report.town
   %ai_division= incident.division.name
+  %ai_dvr_pulled= incident.video_pulled?
   %ai_employee= report.user.hastus_id
   %ai_is_preventable= incident.preventable?
   - if report.run.present?

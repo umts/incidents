@@ -29,6 +29,9 @@
     %p
       %strong= human_name :incident, :preventable
       = yes_no_image @incident.preventable
+    %p
+      %strong= human_name :incident, :video_pulled
+      = yes_no_image @incident.video_pulled
 
 %hr
 .driver-incident-report

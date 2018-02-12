@@ -3,6 +3,7 @@ en:
     attributes:
       incident:
         preventable: 'Preventable?'
+        video_pulled: 'Was video pulled from the vehicle?'
       driver_incident_report:
         user: 'Driver'
       supervisor_incident_report:
