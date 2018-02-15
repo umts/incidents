@@ -1,5 +1,35 @@
 %h1 Import User Data
 
+%h2 Import Instructions
+%ol
+  %li
+    Download the control file,and save in a location where you can access it from Hastus.
+    %br
+    = link_to 'Link to control file',
+      'https://raw.githubusercontent.com/umts/incidents/master/contrib/Users.ix'
+  %li
+    On the main Hastus screen, navigate to
+    %b File &rarr; Generate Interfaces &rarr; From Control File...
+  %li
+    For
+    = succeed ',' do
+      %b File name:
+    select the control file.
+  %li
+    For
+    = succeed ',' do
+      %b Directory:
+    select where you would like the output XML file to be placed.
+  %li
+    Un-check
+    = succeed '.' do
+      %b View file
+  %li
+    Click
+    %b Generate.
+    This will take 1-3 minutes.
+  %li Upload the generated XML file below.
+
 = form_with url: '#', local: true, multipart: true, authenticity_token: true do |form|
   .field
     = form.label :file

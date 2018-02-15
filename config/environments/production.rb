@@ -94,7 +94,7 @@ Rails.application.configure do
   config.middleware.use ExceptionNotification::Rack, email: {
     email_prefix: 'incidents.pvta.com exception:',
     sender_address: %{"Incidents Server" <incidents@pvta.com>},
-    exception_recipients: %w[david.faulkenberry@gmail.com]
+    exception_recipients: %w[transit-it@admin.umass.edu]
   }
 
   config.action_mailer.default_url_options = { host: 'incidents.pvta.com' }
