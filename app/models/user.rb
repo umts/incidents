@@ -54,10 +54,6 @@ class User < ApplicationRecord
     end
   end
 
-  def hastus_id
-    badge_number
-  end
-
   def inactive_message
     if !active? then :inactive
     else super

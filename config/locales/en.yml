@@ -77,5 +77,4 @@ en:
       injured_passenger:
         transported_to_hospital: 'Transported to hospital by ambulance?'
       user:
-        hastus_id: 'Hastus ID'
         division_ids: 'Divisions'

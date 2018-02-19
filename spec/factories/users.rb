@@ -4,7 +4,6 @@ FactoryBot.define do
   factory :user do
     first_name 'User'
     sequence :last_name
-    sequence :hastus_id
     divisions { [create(:division)] }
     badge_number { rand(5000).to_s.rjust 4, '0' }
 

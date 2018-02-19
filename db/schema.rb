@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180219130308) do
+ActiveRecord::Schema.define(version: 20180219131427) do
 
   create_table "divisions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", null: false
@@ -200,7 +200,6 @@ ActiveRecord::Schema.define(version: 20180219130308) do
     t.string "badge_number"
     t.boolean "active", default: true
     t.boolean "supervisor", default: false
-    t.integer "hastus_id"
     t.string "first_name"
     t.string "last_name"
     t.string "division"
