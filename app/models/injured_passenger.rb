@@ -10,8 +10,8 @@ class InjuredPassenger < ApplicationRecord
 
   def transported_to_hospital_display
     if transported_to_hospital?
-      'Transported to hospital'
-    else 'Not transported to hospital'
+      'Transported to hospital by ambulance'
+    else 'Not transported to hospital by ambulance'
     end
   end
 

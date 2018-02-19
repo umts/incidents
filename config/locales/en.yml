@@ -72,6 +72,8 @@ en:
         driver_discounted: 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
         reason_threshold_not_met: 'Please explain how the FTA threshold is not met.'
         reason_driver_discounted: 'Please explain why the driver can be discounted.'
+      injured_passenger:
+        transported_to_hospital: 'Transported to hospital by ambulance?'
       user:
         hastus_id: 'Hastus ID'
         division_ids: 'Divisions'
