@@ -199,6 +199,12 @@
         = form.label :other_vehicle_owner_work_phone
         = form.text_field :other_vehicle_owner_work_phone, id: :incident_report_other_vehicle_owner_work_phone
     .field
+      = form.label :towed_from_scene
+      = form.check_box :towed_from_scene, id: :incident_report_towed_from_scene
+    .field
+      = form.label :other_vehicle_towed_from_scene
+      = form.check_box :other_vehicle_towed_from_scene, id: :incident_report_other_vehicle_towed_from_scene
+    .field
       = form.label :police_on_scene?
       = form.check_box :police_on_scene, id: :incident_report_police_on_scene
     .police-info{style: ('display: none;' unless report.police_on_scene?)}
