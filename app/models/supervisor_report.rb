@@ -44,11 +44,11 @@ class SupervisorReport < ApplicationRecord
   end
 
   def has_injured_passengers?
-    injured_passengers.present? && injured_passengers.first.persisted?
+    injured_passengers.present? && injured_passengers.any?(&:persisted?)
   end
 
   def has_witnesses?
-    witnesses.present? && witnesses.first.persisted?
+    witnesses.present? && witnesses.any?(&:persisted?)
   end
 
   def last_update
