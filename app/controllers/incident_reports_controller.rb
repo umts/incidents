@@ -18,7 +18,7 @@ class IncidentReportsController < ApplicationController
         redirect_to incident_url(@incident, format: :pdf)
       else redirect_to @incident, notice: 'Incident report was successfully saved.'
       end
-    else render 'edit'
+    else build_passengers and render 'edit'
     end
   end
 
