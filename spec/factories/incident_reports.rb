@@ -90,6 +90,12 @@ FactoryBot.define do
       motion_of_bus            { IncidentReport::BUS_MOTION_OPTIONS.sample }
       condition_of_steps       { IncidentReport::STEP_CONDITION_OPTIONS.sample }
       bus_kneeled              { FFaker::Boolean.random }
+
+      before :create do |report|
+        rand(3).times do
+          create :injured_passenger, incident_report: report
+        end
+      end
     end
 
     trait :not_up_to_curb do

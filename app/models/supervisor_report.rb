@@ -21,9 +21,7 @@ class SupervisorReport < ApplicationRecord
   has_one :incident
 
   has_many :witnesses
-  has_many :injured_passengers
   accepts_nested_attributes_for :witnesses
-  accepts_nested_attributes_for :injured_passengers
 
   def additional_comments
     if completed_drug_or_alcohol_test?
@@ -41,10 +39,6 @@ class SupervisorReport < ApplicationRecord
       sections << "Reason driver was discounted: #{reason_driver_discounted}"
     end
     sections.join("\n")
-  end
-
-  def has_injured_passengers?
-    injured_passengers.present? && injured_passengers.any?(&:persisted?)
   end
 
   def has_witnesses?

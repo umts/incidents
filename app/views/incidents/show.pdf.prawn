@@ -418,13 +418,13 @@ prawn_document do |pdf|
       end
     end
 
-    if sup_report.injured_passengers.present?
+    if report.injured_passengers.present?
       pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
         pdf.move_down 15
         pdf.text 'Injured Passenger Information'.upcase,
           align: :center, size: 14, style: :bold
       end
-      sup_report.injured_passengers.each.with_index 1 do |pax, index|
+      report.injured_passengers.each.with_index 1 do |pax, index|
         pdf.text "#{index}. #{pax.display_info}", size: 10
       end
     end

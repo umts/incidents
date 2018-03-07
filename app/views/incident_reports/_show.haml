@@ -196,6 +196,12 @@
     = report.insurance_effective_date
 - if report.passenger_incident?
   %h3 Passenger Incident Information
+  - if report.injured_passengers.present?
+    %p
+      %strong Injured Passenger Information:
+      %ol
+        - report.injured_passengers.each do |pax|
+          %li= pax.display_info
   %p
     %strong= human_name :incident_report, :point_of_impact
     = report.occurred_full_location

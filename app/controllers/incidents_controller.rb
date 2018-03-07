@@ -50,12 +50,6 @@ class IncidentsController < ApplicationController
       # It's the only thing they can edit anyway.
       redirect_to edit_incident_report_url(@incident.driver_incident_report)
     end
-    s_report = @incident.supervisor_report
-    if s_report.present?
-      [s_report.witnesses, s_report.injured_passengers].each do |collection|
-        collection.build if collection.blank?
-      end
-    end
   end
 
   def incomplete
