@@ -8,13 +8,13 @@ describe 'special incident fields' do
   it 'allows filling in collision fields' do
     visit new_incident_path
     expect(page).not_to have_text 'Motor Vehicle Collision Information'
-    check 'Did the incident involve a collision with non-PVTA property?'
+    check 'Did the incident involve a collision?'
     expect(page).to have_text 'Motor Vehicle Collision Information'
   end
   it 'does not require filling in fields for collisions' do
     visit new_incident_path
     fill_in_base_incident_fields
-    check 'Did the incident involve a collision with non-PVTA property?'
+    check 'Did the incident involve a collision?'
     wait_for_animation!
     click_on 'Save report'
     expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
@@ -30,7 +30,7 @@ describe 'special incident fields' do
 
   it 'allows filling in other vehicle info as necessary' do
     visit new_incident_path
-    check 'Did the incident involve a collision with non-PVTA property?'
+    check 'Did the incident involve a collision?'
     wait_for_animation!
     expect(page).to have_field 'Other vehicle owner name'
     check 'Is the other driver involved the owner of the vehicle?'
@@ -47,7 +47,7 @@ describe 'special incident fields' do
 
   it 'allows filling in police info' do
     visit new_incident_path
-    check 'Did the incident involve a collision with non-PVTA property?'
+    check 'Did the incident involve a collision?'
     wait_for_animation!
     expect(page).not_to have_field 'Police badge number'
     check 'Did police respond to the incident?'
@@ -57,7 +57,7 @@ describe 'special incident fields' do
   it 'does not require police info' do
     visit new_incident_path
     fill_in_base_incident_fields
-    check 'Did the incident involve a collision with non-PVTA property?'
+    check 'Did the incident involve a collision?'
     wait_for_animation!
     check 'Did police respond to the incident?'
     click_on 'Save report'
