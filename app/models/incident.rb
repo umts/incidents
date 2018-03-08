@@ -120,6 +120,34 @@ class Incident < ApplicationRecord
     staff_reviews.present?
   end
 
+  # from https://gist.github.com/janko-m/2b2cea3e8e21d9232fb9
+  def to_claims_sql
+    report = driver_incident_report
+    fields = {
+      street: report.location,
+      city: report.town,
+      state: 'MA',
+      # zip: driver.incident_report.zip,
+      longitude: longitude,
+      latitude: latitude,
+      'EmployeeID' => driver.badge_number,
+      'IncidentDesc' => root_cause_analysis,
+      'VehicleRouteNum' => report.block,
+      'VehicleNum' => report.bus,
+      'PointOfContact' => report.damage_to_bus_point_of_impact,
+      'Status' => 'ir',
+      reason1: reason_code.identifier,
+      reason2: second_reason_code.try(:first, 3)
+    }
+
+    insert = Arel::Nodes::InsertStatement.new
+    insert.relation = Arel::Table.new(:incident)
+    insert.columns = fields.keys.map{ |field| insert.relation[field] }
+    insert.values = Arel::Nodes::Values.new(fields.values, insert.columns)
+
+    insert.to_sql
+  end
+
   def to_csv
     CSV.generate do |csv|
       row = []
