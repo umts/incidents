@@ -140,12 +140,11 @@ class Incident < ApplicationRecord
       reason2: second_reason_code.try(:first, 3)
     }
 
-    insert = Arel::Nodes::InsertStatement.new
-    insert.relation = Arel::Table.new(:incident)
-    insert.columns = fields.keys.map{ |field| insert.relation[field] }
-    insert.values = Arel::Nodes::Values.new(fields.values, insert.columns)
-
-    insert.to_sql
+    remote_table = Arel::Table.new(:incident)
+    insert = Arel::InsertManager.new
+    fields.each_key { |column| insert.columns << remote_table[column] }
+    insert.values = Arel::Nodes::Values.new(fields.values)
+    insert.into(remote_table).to_sql
   end
 
   def to_csv
