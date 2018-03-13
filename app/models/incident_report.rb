@@ -48,6 +48,9 @@ class IncidentReport < ApplicationRecord
 
   belongs_to :user
   has_one :incident
+  has_many :injured_passengers
+
+  accepts_nested_attributes_for :injured_passengers
 
   validates :occurred_at, :location, :direction, :town, :bus, :description,
     presence: true, if: :changed?, unless: :new_record?
@@ -61,6 +64,10 @@ class IncidentReport < ApplicationRecord
       parts << 'MA'
     end
     parts.join ', '
+  end
+
+  def has_injured_passengers?
+    injured_passengers.present? && injured_passengers.any?(&:persisted?)
   end
 
   def incident

@@ -139,6 +139,7 @@ ActiveRecord::Schema.define(version: 20180313003503) do
     t.string "home_phone"
     t.string "cell_phone"
     t.string "work_phone"
+    t.integer "incident_report_id"
   end
 
   create_table "reason_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

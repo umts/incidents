@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :injured_passenger do
-    supervisor_report
+    incident_report
     name { FFaker::Name.name }
     address do
       [FFaker::AddressUS.street_address,

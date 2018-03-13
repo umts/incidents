@@ -3,6 +3,7 @@
 class IncidentReportsController < ApplicationController
   # set_report handles access control for member routes.
   before_action :set_report
+  before_action :build_passengers, only: :edit
 
   def history
     @history = @report.versions.order 'created_at desc'
@@ -17,14 +18,24 @@ class IncidentReportsController < ApplicationController
         redirect_to incident_url(@incident, format: :pdf)
       else redirect_to @incident, notice: 'Incident report was successfully saved.'
       end
-    else render 'edit'
+    else build_passengers and render 'edit'
     end
   end
 
   private
 
+  def build_passengers
+    @report.injured_passengers.build unless @report.injured_passengers.present?
+    @report.injured_passengers
+  end
+
   def report_params
-    params.require(:incident_report).permit!
+    data = params.require(:incident_report).permit!
+    unless data[:inj_pax_info] == '1'
+      data.delete :injured_passengers_attributes
+      @report.injured_passengers.destroy_all
+    end
+    data.except :inj_pax_info
   end
 
   def set_report
