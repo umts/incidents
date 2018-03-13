@@ -26,6 +26,7 @@ class IncidentReportsController < ApplicationController
 
   def build_passengers
     @report.injured_passengers.build unless @report.injured_passengers.present?
+    @report.injured_passengers
   end
 
   def report_params

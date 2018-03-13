@@ -20,6 +20,7 @@ class SupervisorReportsController < ApplicationController
 
   def build_witnesses
     @report.witnesses.build unless @report.witnesses.present?
+    @report.witnesses
   end
 
   def report_params

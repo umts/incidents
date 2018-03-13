@@ -12,7 +12,7 @@
     - if current_user.staff?
       .field
         - if report == report.incident.driver_incident_report
-          - label, users = 'Driver', User.active.drivers.name_order
+          - label, users = 'Driver', User.active.name_order
         - else
           - label, users = 'Supervisor', User.active.supervisors.name_order
         = form.label :user_id, label
