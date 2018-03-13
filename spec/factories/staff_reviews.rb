@@ -4,6 +4,6 @@ FactoryBot.define do
   factory :staff_review do
     user { create :user, :staff }
     incident
-    text { FFaker::BaconIpsum.paragraph }
+    text { FFaker::Lorem.paragraph }
   end
 end

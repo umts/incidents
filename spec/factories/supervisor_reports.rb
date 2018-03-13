@@ -3,7 +3,7 @@
 FactoryBot.define do
   factory :supervisor_report do
     pictures_saved { [true, false].sample }
-    passenger_statement { FFaker::BaconIpsum.paragraphs(5).join "\n" }
+    passenger_statement { FFaker::Lorem.paragraphs(5).join "\n" }
     faxed { [nil, Time.zone.now].sample }
     completed_drug_or_alcohol_test { [true, true, false].sample }
     completed_drug_test { [true, false].sample }
@@ -22,7 +22,7 @@ FactoryBot.define do
       report.saved_pictures = rand 50 if report.pictures_saved?
 
       if rand(20).zero?
-        report.amplifying_comments = FFaker::BaconIpsum.paragraph
+        report.amplifying_comments = FFaker::Lorem.paragraph
       end
 
       rand(3).times do
@@ -46,14 +46,14 @@ FactoryBot.define do
           report.observation_made_at = Time.zone.now - 5.minutes
           reason = %w[appearance behavior speech odor].sample
           report.send "test_due_to_employee_#{reason}=", true
-          report.send "employee_#{reason}=", FFaker::BaconIpsum.sentence
+          report.send "employee_#{reason}=", FFaker::Lorem.sentence
         end
       elsif [true, false].sample
         report.fta_threshold_not_met = true
-        report.reason_threshold_not_met = FFaker::BaconIpsum.sentence
+        report.reason_threshold_not_met = FFaker::Lorem.sentence
       else
         report.driver_discounted = true
-        report.reason_driver_discounted = FFaker::BaconIpsum.sentence
+        report.reason_driver_discounted = FFaker::Lorem.sentence
       end
     end
   end
