@@ -1,0 +1,2 @@
+class ClaimsIncident < ClaimsTable
+end

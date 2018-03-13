@@ -94,6 +94,11 @@ class Incident < ApplicationRecord
     save! validate: false
   end
 
+  def export_to_claims!
+    ci = ClaimsIncident.create! claims_fields table: :incident
+    update claims_id: ci.UID
+  end
+
   def geocode_location
     driver_incident_report.full_location include_state: true
   end
@@ -120,8 +125,7 @@ class Incident < ApplicationRecord
     staff_reviews.present?
   end
 
-  # from https://gist.github.com/janko-m/2b2cea3e8e21d9232fb9
-  def to_claims_sql(table:)
+  def claims_fields(table:)
     report = driver_incident_report
 
     fields = {
@@ -155,9 +159,9 @@ class Incident < ApplicationRecord
         'TotalPass' => report.passengers_onboard,
         # 'Ambulance' => report.injured_passengers.any?(&:transported_to_hospital?)
       },
-    }.fetch(table)
-
-    arel_insert_statement(table, fields)
+    }
+    
+    fields.fetch(table)
   end
 
   def to_csv
@@ -195,14 +199,6 @@ class Incident < ApplicationRecord
   end
 
   private
-
-  def arel_insert_statement(table_name, fields)
-    remote_table = Arel::Table.new(table_name)
-    insert = Arel::InsertManager.new
-    fields.each_key { |column| insert.columns << remote_table[column] }
-    insert.values = Arel::Nodes::Values.new(fields.values)
-    insert.into(remote_table).to_sql
-  end
 
   def supervisor_in_correct_group
     unless supervisor_incident_report.blank? ||
