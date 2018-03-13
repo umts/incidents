@@ -8,7 +8,7 @@ FactoryBot.define do
       [FFaker::AddressUS.street_address,
        %w[Amherst Northampton Springfield].sample].join(', ')
     end
-    nature_of_injury { FFaker::BaconIpsum.sentence }
+    nature_of_injury { FFaker::Lorem.sentence }
     home_phone { FFaker::PhoneNumber.short_phone_number if rand(2).zero? }
     cell_phone { FFaker::PhoneNumber.short_phone_number }
     work_phone { FFaker::PhoneNumber.short_phone_number if rand(4).zero? }

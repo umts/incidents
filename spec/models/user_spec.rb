@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe User do
   describe '.import_from_xml' do
+    let!(:umass) { create :division, name: 'UMASS' }
     let :import! do
       xml = Nokogiri::XML.parse xml_text
       User.import_from_xml(xml)
@@ -55,7 +56,6 @@ describe User do
     end
     context 'user already exists' do
       before :each do
-        umass = create :division, name: 'UMASS'
         create :user, :driver, first_name: 'John',
           last_name: 'Smith', badge_number: 1234,
           divisions: [umass]

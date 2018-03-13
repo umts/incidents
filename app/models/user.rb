@@ -99,7 +99,8 @@ class User < ApplicationRecord
       else
         # Only assign divisions to new users.
         division_name = user_data.at_css('division').text.upcase
-        attrs[:divisions] = [Division.where(name: division_name).first_or_create]
+        division = Division.where(name: division_name).first
+        attrs[:divisions] = [division] if division.present?
         user = User.new attrs.merge(badge_number: hastus_id)
         if user.save
           users_present << user

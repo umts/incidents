@@ -18,7 +18,7 @@ FactoryBot.define do
     weather_conditions         { IncidentReport::WEATHER_OPTIONS.sample }
     road_conditions            { IncidentReport::ROAD_OPTIONS.sample }
     light_conditions           { IncidentReport::LIGHT_OPTIONS.sample }
-    description                { FFaker::BaconIpsum.paragraphs(5).join "\n" }
+    description                { FFaker::Lorem.paragraphs(5).join "\n" }
     occurred_at { DateTime.now.beginning_of_minute }
 
     trait :driver_report do
@@ -101,7 +101,7 @@ FactoryBot.define do
     trait :not_up_to_curb do
       motion_of_bus 'Stopped'
       bus_up_to_curb false
-      reason_not_up_to_curb     { FFaker::BaconIpsum.sentence }
+      reason_not_up_to_curb     { FFaker::Lorem.sentence }
       vehicle_in_bus_stop_plate { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
     end
 
