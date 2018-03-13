@@ -39,14 +39,13 @@ describe 'special supervisor report fields' do
     wait_for_animation!
     expect(page).to have_text 'Witness Information'
   end
-  it 'does not require filling in the witness information' do
+  it 'requires filling in the witness information' do
     incident.supervisor_report.witnesses.delete_all
     visit edit_supervisor_report_url(incident.supervisor_report)
     check 'Were there witnesses?'
     click_button 'Save supervisor report'
     wait_for_ajax!
-    expect(page).to have_selector 'p.notice',
-      text: 'Incident report was successfully saved.'
+    expect(page).to have_text "Witnesses name can't be blank"
   end
   it 'shows witness information for reports where it applies' do
     incident.supervisor_report.witnesses.delete_all
