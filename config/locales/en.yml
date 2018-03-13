@@ -12,6 +12,7 @@ en:
         run: 'Run #'
         block: 'Block #'
         bus: 'Bus #'
+        zip: 'ZIP'
         occurred_at: 'Date and time of incident'
         speed: 'Speed at time of incident'
         motor_vehicle_collision?: 'Did the incident involve a collision?'

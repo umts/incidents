@@ -64,6 +64,9 @@
         options_for_select(IncidentReport::TOWN_OPTIONS, report.town),
         { include_blank: true }, id: :incident_report_town
     .field
+      = form.label :zip,
+      = form.text_field :zip, id: :incident_zip
+    .field
       = form.label :motor_vehicle_collision?
       = form.check_box :motor_vehicle_collision, id: :incident_report_motor_vehicle_collision
     .field
