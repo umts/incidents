@@ -121,30 +121,43 @@ class Incident < ApplicationRecord
   end
 
   # from https://gist.github.com/janko-m/2b2cea3e8e21d9232fb9
-  def to_claims_sql
+  def to_claims_sql(table:)
     report = driver_incident_report
-    fields = {
-      street: report.location,
-      city: report.town,
-      state: 'MA',
-      # zip: driver.incident_report.zip,
-      longitude: longitude,
-      latitude: latitude,
-      'EmployeeID' => driver.badge_number,
-      'IncidentDesc' => root_cause_analysis,
-      'VehicleRouteNum' => report.block,
-      'VehicleNum' => report.bus,
-      'PointOfContact' => report.damage_to_bus_point_of_impact,
-      'Status' => 'ir',
-      reason1: reason_code.identifier,
-      reason2: second_reason_code.try(:first, 3)
-    }
 
-    remote_table = Arel::Table.new(:incident)
-    insert = Arel::InsertManager.new
-    fields.each_key { |column| insert.columns << remote_table[column] }
-    insert.values = Arel::Nodes::Values.new(fields.values)
-    insert.into(remote_table).to_sql
+    fields = {
+      incident: {
+        street: report.location,
+        city: report.town,
+        state: 'MA',
+        # zip: driver.incident_report.zip,
+        longitude: longitude,
+        latitude: latitude,
+        'IncidentDesc' => root_cause_analysis,
+        'VehicleRouteNum' => report.block,
+        'VehicleNum' => 777, # will be pulled from claims table
+        'PointOfContact' => report.damage_to_bus_point_of_impact,
+        'Status' => 'ir',
+        reason1: reason_code.identifier,
+        reason2: second_reason_code.try(:first, 3),
+        'Company' => driver.division.claims_id,
+        'DateEntered' => Date.today.strftime('%Y-%m-%d'),
+        'IncidentDate' => report.occurred_at,
+        'EmployeeID' => driver.badge_number,
+        'Driver' => 999, # will be pulled from claims table
+        'DriverDesc' => report.description,
+      },
+      drivers_report: {
+        'Speed' => report.speed,
+        'Weather' => report.weather_conditions,
+        'Lighting' => report.light_conditions,
+        'PointOfContact' => report.damage_to_bus_point_of_impact,
+        'FileID' => 888, # will be pulled from corresponding claims record
+        'TotalPass' => report.passengers_onboard,
+        # 'Ambulance' => report.injured_passengers.any?(&:transported_to_hospital?)
+      },
+    }.fetch(table)
+
+    arel_insert_statement(table, fields)
   end
 
   def to_csv
@@ -182,6 +195,14 @@ class Incident < ApplicationRecord
   end
 
   private
+
+  def arel_insert_statement(table_name, fields)
+    remote_table = Arel::Table.new(table_name)
+    insert = Arel::InsertManager.new
+    fields.each_key { |column| insert.columns << remote_table[column] }
+    insert.values = Arel::Nodes::Values.new(fields.values)
+    insert.into(remote_table).to_sql
+  end
 
   def supervisor_in_correct_group
     unless supervisor_incident_report.blank? ||
