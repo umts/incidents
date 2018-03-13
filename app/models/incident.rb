@@ -95,8 +95,11 @@ class Incident < ApplicationRecord
   end
 
   def export_to_claims!
-    ci = ClaimsIncident.create! claims_fields table: :incident
-    update claims_id: ci.UID
+    ci = ClaimsIncident.create claims_fields table: :incident
+    if ci
+      update claims_id: ci.UID
+    else # cry havoc and let slip the hogs of war
+    end
   end
 
   def geocode_location
