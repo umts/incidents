@@ -15,6 +15,7 @@ FactoryBot.define do
     speed                      { rand 40 }
     location                   { FFaker::Address.street_name }
     town                       { %w[Amherst Northampton Springfield].sample }
+    zip                        { '01' + rand(1_000).to_s.rjust(3, '0') }
     weather_conditions         { IncidentReport::WEATHER_OPTIONS.sample }
     road_conditions            { IncidentReport::ROAD_OPTIONS.sample }
     light_conditions           { IncidentReport::LIGHT_OPTIONS.sample }
