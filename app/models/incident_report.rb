@@ -52,7 +52,7 @@ class IncidentReport < ApplicationRecord
 
   accepts_nested_attributes_for :injured_passengers
 
-  validates :occurred_at, :location, :direction, :town, :bus, :description,
+  validates :occurred_at, :location, :direction, :town, :bus, :description, :zip,
     presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
   validates :location, length: { maximum: 50 }
