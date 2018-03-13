@@ -491,11 +491,13 @@ prawn_document do |pdf|
     end
 
     pdf.field_row height: 25, units: 4 do |row|
-      row.text_field field: 'Test conducted?', value: yes_no(sup_report.completed_drug_or_alcohol_test)
+      row.text_field field: 'Test conducted?', value: yes_no(sup_report.completed_drug_or_alcohol_test),
+        options: { if: sup_report.reasonable_suspicion? }
       test_types = []
       test_types << 'Drug' if sup_report.completed_drug_test?
       test_types << 'Alcohol' if sup_report.completed_alcohol_test?
-      row.text_field field: 'Type of test', value: test_types.join(' & ')
+      row.text_field field: 'Type of test', value: test_types.join(' & '),
+        options: { if: sup_report.reasonable_suspicion? }
       row.text_field field: 'Time of observation', value: sup_report.observation_made_at.try(:strftime, '%l:%M %P')
       test_reasons = []
       test_reasons << 'Appearance' if sup_report.test_due_to_employee_appearance?
