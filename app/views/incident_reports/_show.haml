@@ -48,6 +48,9 @@
   %strong= human_name :incident_report, :town
   = report.town
 %p
+  %strong= human_name :incident_report, :zip
+  = report.zip
+%p
   %strong= human_name :incident_report, :motor_vehicle_collision?
   = yes_no_image report.motor_vehicle_collision?
 %p
