@@ -136,7 +136,7 @@ class Incident < ApplicationRecord
         street: report.location,
         city: report.town,
         state: 'MA',
-        # zip: driver.incident_report.zip,
+        zip: report.zip,
         longitude: longitude,
         latitude: latitude,
         'IncidentDesc' => root_cause_analysis,
