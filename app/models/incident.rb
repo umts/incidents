@@ -95,15 +95,16 @@ class Incident < ApplicationRecord
   end
 
   def export_to_claims!
-    ci = ClaimsIncident.create claims_fields table: :incident
-    if ci
+    return unless completed?
+    begin
+      ci = ClaimsIncident.create claims_fields table: :incident
       update claims_id: ci.UID
-      cdr = ClaimsDriversReport.create claims_fields table: :drivers_report
-      if cdr
-        # TODO: report success to the user
-      else # TODO: report cdr save fail to the user
-      end
-    else # TODO: report ci save fail to the user
+      ClaimsDriversReport.create claims_fields table: :drivers_report
+    rescue ActiveRecord::StatementInvalid => e
+      puts e.cause and return false
+      # TODO: report failure to the user, and report error to programmers
+      # We only get here if an error was caused by a programmer.
+      # The constraints on completed records should be such that we never reach this rescue block.
     end
   end
 
@@ -134,6 +135,7 @@ class Incident < ApplicationRecord
   end
 
   # Fields we can't provide are commented where they appear in the claims schema.
+  # Field we're not providing in the first stage are implemented but commented.
   def claims_fields(table:)
     report = driver_incident_report
 
@@ -153,11 +155,11 @@ class Incident < ApplicationRecord
         'Company' => driver.division.claims_id,
         'IncidentDesc' => root_cause_analysis,
         'EmployeeID' => driver.badge_number,
-        'Driver' => 999, # will be pulled from claims table
+        'Driver' => 999, # TODO: pull from claims table
         'DriverDesc' => report.description,
         'VehicleRouteNum' => report.route,
         # VehicleDestination
-        'VehicleNum' => 777, # will be pulled from claims table
+        'VehicleNum' => 777, # TODO: pull from claims table
         # VehicleAppraisalAmnt
         'VehicleDamageArea' => report.damage_to_other_vehicle_point_of_impact,
         # Comments, ReportGiver
@@ -165,27 +167,27 @@ class Incident < ApplicationRecord
         # TotalSettlement
         'Status' => 'ir',
         # CloseDate, ReopenDate, DownDate, ac_type
-        reason1: reason_code.identifier,
-        reason2: second_reason_code.try(:first, 3),
+      # reason1: reason_code.identifier,
+      # reason2: second_reason_code.try(:first, 3),
       },
       drivers_report: {
         'FileID' => claims_id,
-        'PolicePresent' => report.police_on_scene?,
+      # 'PolicePresent' => report.police_on_scene?,
         # OfficerName
-        'BadgeNum' => report.police_badge_number,
+      # 'BadgeNum' => report.police_badge_number,
         # ArrivalTime
         'Citation' => report.summons_or_warning_issued?,
-        'CitationWho' => report.summons_or_warning_info,
+      # 'CitationWho' => report.summons_or_warning_info,
         'Weather' => report.weather_conditions,
         'SurrCond' => report.road_conditions,
         'Lighting' => report.light_conditions,
         # LossLocation
         'Speed' => report.speed,
         'MotionBus' => report.motion_of_bus,
-        'Direction' => report.direction,
+      # 'Direction' => report.direction,
         # ChairOnLift, LiftDeployed, PassengersPresent, SeatBelts
         'PointOfContact' => report.damage_to_bus_point_of_impact,
-        'CurbDist' => report.bus_distance_from_curb,
+      # 'CurbDist' => report.bus_distance_from_curb,
         # VehicleDistance, ReviewFlg
         'TotalPass' => report.passengers_onboard,
         # PVTAatFault, Wheelchair, YellowLine, NotReported
