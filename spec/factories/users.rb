@@ -5,7 +5,7 @@ FactoryBot.define do
     first_name 'User'
     sequence :last_name
     divisions { [create(:division)] }
-    badge_number { rand(5000).to_s.rjust 4, '0' }
+    badge_number { (('0000'..'4999').to_a - User.pluck(:badge_number)).sample }
 
     trait :driver do
       supervisor false

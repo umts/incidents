@@ -11,7 +11,7 @@ describe 'creating incidents as a driver' do
     driver_report = Incident.last.driver_incident_report
     expect(page.current_url).to end_with edit_incident_report_path(driver_report)
   end
-  it 'requires bus, location, and town' do
+  it 'requires base fields' do
     visit new_incident_url
     click_on 'Save report'
     expect(page).to have_text 'This incident report has 7 missing values and so cannot be marked as completed.'

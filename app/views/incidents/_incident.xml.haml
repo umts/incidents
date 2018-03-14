@@ -18,8 +18,8 @@
   %ai_dvr_pulled= incident.video_pulled?
   %ai_employee= report.user.badge_number
   %ai_is_preventable= incident.preventable?
-  - if report.run.present?
-    %ai_route= report.run
+  - if report.route.present?
+    %ai_route= report.route
   - if report.point_of_impact.present?
     %ai_point_of_impact= report.point_of_impact
   %ai_report_final_date= Time.zone.now.strftime '%Y-%m-%d'
