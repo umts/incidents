@@ -40,5 +40,7 @@ To set up claims integration in your development environment, configure the appr
 
 Then as a mysql user with access to that database, type:
 
+```sql
 > USE your_database_name_here;
-> source setup-claims.sql
+> source setup-claims.sql;
+```
