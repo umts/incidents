@@ -101,10 +101,10 @@ class Incident < ApplicationRecord
       update claims_id: ci.UID
       ClaimsDriversReport.create claims_fields table: :drivers_report
     rescue ActiveRecord::StatementInvalid => e
+      puts e.cause and return false
       # TODO: report failure to the user, and report error to programmers
       # We only get here if an error was caused by a programmer.
       # The constraints on completed records should be such that we never reach this rescue block.
-      raise
     end
   end
 
