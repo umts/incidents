@@ -98,7 +98,12 @@ class Incident < ApplicationRecord
     ci = ClaimsIncident.create claims_fields table: :incident
     if ci
       update claims_id: ci.UID
-    else # cry havoc and let slip the hogs of war
+      cdr = ClaimsDriversReport.create claims_fields table: :drivers_report
+      if cdr
+        # TODO: report success to the user
+      else # TODO: report cdr save fail to the user
+      end
+    else # TODO: report ci save fail to the user
     end
   end
 
@@ -128,39 +133,66 @@ class Incident < ApplicationRecord
     staff_reviews.present?
   end
 
+  # Fields we can't provide are commented where they appear in the claims schema.
   def claims_fields(table:)
     report = driver_incident_report
 
     fields = {
       incident: {
+        # FilePrefix, FileNum
+        'DateEntered' => Date.today.strftime('%Y-%m-%d'),
+        # AppraisalMade, AppraisalNote
+        'IncidentDate' => report.occurred_at,
         street: report.location,
         city: report.town,
         state: 'MA',
         zip: report.zip,
         longitude: longitude,
         latitude: latitude,
-        'IncidentDesc' => root_cause_analysis,
-        'VehicleRouteNum' => report.block,
-        'VehicleNum' => 777, # will be pulled from claims table
-        'PointOfContact' => report.damage_to_bus_point_of_impact,
-        'Status' => 'ir',
-        reason1: reason_code.identifier,
-        reason2: second_reason_code.try(:first, 3),
+        # AccidentCode, AccidentCodeGroup
         'Company' => driver.division.claims_id,
-        'DateEntered' => Date.today.strftime('%Y-%m-%d'),
-        'IncidentDate' => report.occurred_at,
+        'IncidentDesc' => root_cause_analysis,
         'EmployeeID' => driver.badge_number,
         'Driver' => 999, # will be pulled from claims table
         'DriverDesc' => report.description,
+        'VehicleRouteNum' => report.route,
+        # VehicleDestination
+        'VehicleNum' => 777, # will be pulled from claims table
+        # VehicleAppraisalAmnt
+        'VehicleDamageArea' => report.damage_to_other_vehicle_point_of_impact,
+        # Comments, ReportGiver
+        'PointOfContact' => report.damage_to_bus_point_of_impact,
+        # TotalSettlement
+        'Status' => 'ir',
+        # CloseDate, ReopenDate, DownDate, ac_type
+        reason1: reason_code.identifier,
+        reason2: second_reason_code.try(:first, 3),
       },
       drivers_report: {
-        'Speed' => report.speed,
+        'FileID' => claims_id,
+        'PolicePresent' => report.police_on_scene?,
+        # OfficerName
+        'BadgeNum' => report.police_badge_number,
+        # ArrivalTime
+        'Citation' => report.summons_or_warning_issued?,
+        'CitationWho' => report.summons_or_warning_info,
         'Weather' => report.weather_conditions,
+        'SurrCond' => report.road_conditions,
         'Lighting' => report.light_conditions,
+        # LossLocation
+        'Speed' => report.speed,
+        'MotionBus' => report.motion_of_bus,
+        'Direction' => report.direction,
+        # ChairOnLift, LiftDeployed, PassengersPresent, SeatBelts
         'PointOfContact' => report.damage_to_bus_point_of_impact,
-        'FileID' => 888, # will be pulled from corresponding claims record
+        'CurbDist' => report.bus_distance_from_curb,
+        # VehicleDistance, ReviewFlg
         'TotalPass' => report.passengers_onboard,
-        # 'Ambulance' => report.injured_passengers.any?(&:transported_to_hospital?)
+        # PVTAatFault, Wheelchair, YellowLine, NotReported
+        'Ambulance' => report.injured_passengers.any?(&:transported_to_hospital?),
+        'OVTow' => report.other_vehicle_towed_from_scene?,
+        'PVTATow' => report.towed_from_scene?,
+        # Fatality, assistRequest, PD, Note, externalAppraisal
       },
     }
     
