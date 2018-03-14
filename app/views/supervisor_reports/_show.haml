@@ -27,12 +27,6 @@
     %ol
       - report.witnesses.each do |witness|
         %li= witness.display_info
-- if report.injured_passengers.present?
-  %p
-    %strong Injured Passenger Information:
-    %ol
-      - report.injured_passengers.each do |pax|
-        %li= pax.display_info
 %p
   %strong= human_name :supervisor_report, :completed_drug_or_alcohol_test?
   = yes_no_image report.completed_drug_or_alcohol_test?

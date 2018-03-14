@@ -1,5 +1,5 @@
 class InjuredPassenger < ApplicationRecord
-  belongs_to :supervisor_report
+  belongs_to :incident_report
   validates :name, :nature_of_injury, presence: true
 
   def display_info

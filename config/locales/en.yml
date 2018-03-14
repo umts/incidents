@@ -12,6 +12,7 @@ en:
         run: 'Run #'
         block: 'Block #'
         bus: 'Bus #'
+        zip: 'ZIP'
         occurred_at: 'Date and time of incident'
         speed: 'Speed at time of incident'
         motor_vehicle_collision?: 'Did the incident involve a collision?'
@@ -46,6 +47,7 @@ en:
         insurance_carrier: "Other driver's insurance carrier"
         insurance_policy_number: 'Policy #'
         insurance_effective_date: 'Effective date'
+        inj_pax_info: 'Were passengers injured?'
         occurred_front_door?: 'In the front door'
         occurred_rear_door?: 'In the rear door'
         occurred_front_steps?: 'In the front steps'
@@ -69,7 +71,6 @@ en:
         program_manager_notified_at: 'Program Manager for Drug & Alcohol Testing notified at'
         director_notified_at: 'Director / Assistant Director notified at'
         witness_info: 'Were there witnesses?'
-        inj_pax_info: 'Were passengers injured?'
         fta_threshold_not_met: 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
         driver_discounted: 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
         reason_threshold_not_met: 'Please explain how the FTA threshold is not met.'

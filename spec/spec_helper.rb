@@ -45,6 +45,7 @@ def fill_in_base_incident_fields
   select Time.now.strftime('%m'), from: 'Minute'
   fill_in 'Bus #', with: '1803'
   fill_in 'Location', with: 'Mill and Locust'
+  fill_in 'ZIP', with: '01108'
   select 'Springfield', from: 'Town'
   select 'North', from: 'Direction'
   fill_in 'Describe the incident in detail.',

@@ -12,7 +12,7 @@
     - if current_user.staff?
       .field
         - if report == report.incident.driver_incident_report
-          - label, users = 'Driver', User.active.drivers.name_order
+          - label, users = 'Driver', User.active.name_order
         - else
           - label, users = 'Supervisor', User.active.supervisors.name_order
         = form.label :user_id, label
@@ -33,6 +33,9 @@
       = form.label :block
       = form.text_field :block, id: :incident_report_block
       .example 1-03, 90-06; VATCo is four digits with no symbols
+    .field
+      = form.label :route
+      = form.text_field :route, id: :incident_report_route
     .field
       = form.label :bus
       = form.text_field :bus, id: :incident_report_bus
@@ -63,6 +66,9 @@
       = form.select :town,
         options_for_select(IncidentReport::TOWN_OPTIONS, report.town),
         { include_blank: true }, id: :incident_report_town
+    .field
+      = form.label :zip
+      = form.text_field :zip, id: :incident_report_zip
     .field
       = form.label :motor_vehicle_collision?
       = form.check_box :motor_vehicle_collision, id: :incident_report_motor_vehicle_collision
@@ -244,6 +250,32 @@
         prompt: true
   .passenger-incident-info{style: ('display: none;' unless report.passenger_incident?)}
     %h3 Passenger Incident Information
+    .field
+      = form.label :inj_pax_info
+      = form.check_box :inj_pax_info, checked: report.has_injured_passengers?,
+        id: :supervisor_report_inj_pax_info
+    .inj-pax-info{style: ('display: none;' unless report.has_injured_passengers?)}
+      %h3 Injured Passenger Info
+      = form.fields_for :injured_passengers do |pax_form|
+        .pax-fields
+          .field
+            = pax_form.label :name
+            = pax_form.text_field :name
+            = pax_form.label :address
+            = pax_form.text_field :address
+          .field
+            = pax_form.label :nature_of_injury
+            = pax_form.text_field :nature_of_injury
+            = pax_form.label :transported_to_hospital
+            = pax_form.check_box :transported_to_hospital
+          .field
+            = pax_form.label :home_phone
+            = pax_form.text_field :home_phone
+            = pax_form.label :cell_phone
+            = pax_form.text_field :cell_phone
+            = pax_form.label :work_phone
+            = pax_form.text_field :work_phone
+      %button.btn-default.add-pax Add injured passenger info
     %b Where / how did the incident occur? Check all that apply.
     .field
       = form.label :occurred_front_door?

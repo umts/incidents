@@ -48,8 +48,11 @@ class IncidentReport < ApplicationRecord
 
   belongs_to :user
   has_one :incident
+  has_many :injured_passengers
 
-  validates :occurred_at, :location, :direction, :town, :bus, :description,
+  accepts_nested_attributes_for :injured_passengers
+
+  validates :occurred_at, :location, :direction, :town, :bus, :description, :zip,
     presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
   validates :location, length: { maximum: 50 }
@@ -58,9 +61,13 @@ class IncidentReport < ApplicationRecord
     return unless location.present? && town.present?
     parts = [location, town]
     if include_state
-      parts << 'MA'
+      parts << 'MA #{zip}'
     end
     parts.join ', '
+  end
+
+  def has_injured_passengers?
+    injured_passengers.present? && injured_passengers.any?(&:persisted?)
   end
 
   def incident

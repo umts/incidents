@@ -29,10 +29,6 @@ FactoryBot.define do
         create :witness, supervisor_report: report
       end
 
-      rand(3).times do
-        create :injured_passenger, supervisor_report: report
-      end
-
       if report.completed_drug_or_alcohol_test?
         case report.reason_test_completed
         when 'Post-Accident'

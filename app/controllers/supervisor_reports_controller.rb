@@ -2,7 +2,7 @@
 
 class SupervisorReportsController < ApplicationController
   before_action :set_report, :restrict_to_supervisors
-  before_action :build_collections, only: :edit
+  before_action :build_witnesses, only: :edit
 
   def history
     @history = @report.versions.order 'created_at desc'
@@ -12,15 +12,15 @@ class SupervisorReportsController < ApplicationController
     if @report.update report_params
       redirect_to @incident,
                   notice: 'Incident report was successfully saved.'
-    else build_collections and render 'edit'
+    else build_witnesses and render 'edit'
     end
   end
 
   private
 
-  def build_collections
+  def build_witnesses
     @report.witnesses.build unless @report.witnesses.present?
-    @report.injured_passengers.build unless @report.injured_passengers.present?
+    @report.witnesses
   end
 
   def report_params
@@ -29,11 +29,7 @@ class SupervisorReportsController < ApplicationController
       data.delete :witnesses_attributes
       @report.witnesses.destroy_all
     end
-    unless data[:inj_pax_info] == '1'
-      data.delete :injured_passengers_attributes
-      @report.injured_passengers.destroy_all
-    end
-    data.except :witness_info, :inj_pax_info
+    data.except :witness_info
   end
 
   def set_report

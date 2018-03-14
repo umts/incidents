@@ -6,6 +6,7 @@ FactoryBot.define do
     motor_vehicle_collision false
     passenger_incident false
     run                        { rand 1_000 }
+    route                      { rand 1_000 }
     block                      { "Block #{rand 20}" }
     bus                        { 3_000 + 100 * rand(3) + rand(30) }
     direction                               { IncidentReport::DIRECTIONS.keys.sample }
@@ -15,6 +16,7 @@ FactoryBot.define do
     speed                      { rand 40 }
     location                   { FFaker::Address.street_name }
     town                       { %w[Amherst Northampton Springfield].sample }
+    zip                        { '01' + rand(1_000).to_s.rjust(3, '0') }
     weather_conditions         { IncidentReport::WEATHER_OPTIONS.sample }
     road_conditions            { IncidentReport::ROAD_OPTIONS.sample }
     light_conditions           { IncidentReport::LIGHT_OPTIONS.sample }
@@ -90,6 +92,12 @@ FactoryBot.define do
       motion_of_bus            { IncidentReport::BUS_MOTION_OPTIONS.sample }
       condition_of_steps       { IncidentReport::STEP_CONDITION_OPTIONS.sample }
       bus_kneeled              { FFaker::Boolean.random }
+
+      before :create do |report|
+        rand(3).times do
+          create :injured_passenger, incident_report: report
+        end
+      end
     end
 
     trait :not_up_to_curb do

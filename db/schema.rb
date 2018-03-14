@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180313003503) do
+ActiveRecord::Schema.define(version: 20180314155110) do
 
   create_table "divisions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", null: false
@@ -109,6 +109,8 @@ ActiveRecord::Schema.define(version: 20180313003503) do
     t.datetime "occurred_at"
     t.boolean "towed_from_scene"
     t.boolean "other_vehicle_towed_from_scene"
+    t.string "zip"
+    t.string "route"
   end
 
   create_table "incidents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -131,7 +133,6 @@ ActiveRecord::Schema.define(version: 20180313003503) do
   end
 
   create_table "injured_passengers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer "supervisor_report_id"
     t.string "name"
     t.text "address"
     t.string "nature_of_injury"
@@ -139,6 +140,7 @@ ActiveRecord::Schema.define(version: 20180313003503) do
     t.string "home_phone"
     t.string "cell_phone"
     t.string "work_phone"
+    t.integer "incident_report_id"
   end
 
   create_table "reason_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
