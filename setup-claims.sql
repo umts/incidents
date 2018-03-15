@@ -33,8 +33,8 @@ CREATE TABLE incident (
   ReopenDate date DEFAULT NULL,
   DownDate date DEFAULT NULL,
   ac_type varchar(10) DEFAULT NULL,
-  reason1 varchar(100) NOT NULL,
-  reason2 varchar(100) NOT NULL,
+  reason1 varchar(100) DEFAULT NULL,
+  reason2 varchar(100) DEFAULT NULL,
   PRIMARY KEY (UID)
 );
 
