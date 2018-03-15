@@ -167,8 +167,8 @@ class Incident < ApplicationRecord
         # TotalSettlement
         'Status' => 'ir',
         # CloseDate, ReopenDate, DownDate, ac_type
-      # reason1: reason_code.identifier,
-      # reason2: second_reason_code.try(:first, 3),
+        reason1: reason_code.identifier,
+        reason2: second_reason_code.try(:first, 3),
       },
       drivers_report: {
         'FileID' => claims_id,
