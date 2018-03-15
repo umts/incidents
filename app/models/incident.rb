@@ -153,7 +153,7 @@ class Incident < ApplicationRecord
         latitude: latitude,
         # AccidentCode, AccidentCodeGroup
         'Company' => driver.division.claims_id,
-        'IncidentDesc' => root_cause_analysis,
+        'IncidentDesc' => supervisor_incident_report.try(:description),
         'EmployeeID' => driver.badge_number,
         'Driver' => 999, # TODO: pull from claims table
         'DriverDesc' => report.description,
