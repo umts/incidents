@@ -95,17 +95,21 @@ class Incident < ApplicationRecord
   end
 
   def export_to_claims!
-    return unless completed? && valid?
-    begin
-      ci = ClaimsIncident.create claims_fields table: :incident
-      update claims_id: ci.UID
-      ClaimsDriversReport.create claims_fields table: :drivers_report
-      self.update exported_to_claims: true
-    rescue ActiveRecord::StatementInvalid => e
-      puts e.cause and return false
-      # TODO: report failure to the user, and report error to programmers
-      # We only get here if an error was caused by a programmer.
-      # The constraints on completed records should be such that we never reach this rescue block.
+    if completed? && valid?
+      begin
+        ci = ClaimsIncident.create claims_fields table: :incident
+        update claims_id: ci.UID
+        ClaimsDriversReport.create claims_fields table: :drivers_report
+        self.update exported_to_claims: true
+        return { status: :success }
+      rescue ActiveRecord::StatementInvalid => e
+        # We only get here if an error was caused by a programmer.
+        # TODO notify a programmer
+        return { status: :failure, reason: e.message }
+      end
+    else
+      self.update completed: false
+      return { status: :invalid }
     end
   end
 

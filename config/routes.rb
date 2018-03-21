@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     end
     member do
       post :claim
+      post :claims_export
       get  :history
     end
   end
