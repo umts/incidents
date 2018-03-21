@@ -95,11 +95,12 @@ class Incident < ApplicationRecord
   end
 
   def export_to_claims!
-    return unless completed?
+    return unless completed? && valid?
     begin
       ci = ClaimsIncident.create claims_fields table: :incident
       update claims_id: ci.UID
       ClaimsDriversReport.create claims_fields table: :drivers_report
+      self.update exported_to_claims: true
     rescue ActiveRecord::StatementInvalid => e
       puts e.cause and return false
       # TODO: report failure to the user, and report error to programmers
@@ -112,8 +113,8 @@ class Incident < ApplicationRecord
     driver_incident_report.full_location include_state: true
   end
 
-  def mark_as_exported
-    self.exported = true
+  def mark_as_exported_to_hastus
+    self.exported_to_hastus = true
     save! validate: false
   end
 

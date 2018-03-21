@@ -7,12 +7,12 @@ class IncidentsController < ApplicationController
   before_action :set_incident, only: %i[destroy edit show update]
   before_action :set_user_lists, only: %i[create new]
 
-  def batch_export
+  def batch_hastus_export
     @incidents = Incident.where(id: params[:ids])
     send_data render_to_string('batch_export.xml.haml'),
       filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
       disposition: 'attachment'
-    @incidents.each(&:mark_as_exported)
+    @incidents.each(&:mark_as_exported_to_hastus)
   end
   
   def claim
