@@ -12,7 +12,3 @@ development:
 test:
   <<: *default
   database: incidents_test
-
-claims_development:
-  <<: *default
-  database: claims_development
