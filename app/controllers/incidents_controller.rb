@@ -24,20 +24,20 @@ class IncidentsController < ApplicationController
 
   def claims_export
     result = @incident.export_to_claims!
-    notice =
-      case result.fetch(:status)
-      when :success
-        'Exported successfully to claims.'
-      when :failure
-        "Export to claims failed. Reason: #{result.fetch(:reason)}"
-      when :invalid
-        'Export to claims failed.' \
-          'Incident had been marked as completed, but is no longer valid. ' \
-          'Incident is now marked as incomplete. ' \
-          'Please re-mark as completed and fix any errors ' \
-          'before attempting another export.'
-      end
-    redirect_back fallback_location: @incident, notice: notice
+    case result.fetch(:status)
+    when :success
+      notice = 'Exported successfully to claims.'
+    when :failure
+      alert = "Export to claims failed. Reason: #{result.fetch(:reason)}"
+    when :invalid
+      alert = 'Export to claims failed. ' \
+        'Incident had been marked as completed, but is no longer valid. ' \
+        'Incident is now marked as incomplete. ' \
+        'Please re-mark as completed and fix any errors ' \
+        'before attempting another export.'
+    end
+    redirect_back fallback_location: @incident,
+      notice: notice, alert: alert
   end
 
   def create

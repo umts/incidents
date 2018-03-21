@@ -37,7 +37,7 @@ class Incident < ApplicationRecord
   # I wish there were a way to write this as a one-liner, e.g.
   # belongs_to :reason_code, optional: { unless: :completed? }
   belongs_to :reason_code, optional: true
-  validates :reason_code, :second_reason_code, :root_cause_analysis, :latitude, :longitude,
+  validates :reason_code, :second_reason_code, :root_cause_analysis, :longitude,
     presence: true, if: :completed?
   validates :second_reason_code,
     inclusion: { in: SECOND_REASON_CODES, allow_blank: true },
@@ -104,8 +104,9 @@ class Incident < ApplicationRecord
         return { status: :success }
       rescue ActiveRecord::StatementInvalid => e
         # We only get here if an error was caused by a programmer.
-        # TODO notify a programmer
-        return { status: :failure, reason: e.message }
+        ApplicationMailer.with(incident: self, cause: cause)
+                         .claims_export_error.deliver_now
+        return { status: :failure, reason: e.cause }
       end
     else
       self.update completed: false

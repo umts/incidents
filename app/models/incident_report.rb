@@ -61,7 +61,7 @@ class IncidentReport < ApplicationRecord
     return unless location.present? && town.present?
     parts = [location, town]
     if include_state
-      parts << 'MA #{zip}'
+      parts << "MA #{zip}"
     end
     parts.join ', '
   end

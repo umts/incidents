@@ -1,8 +1,15 @@
 %h1.title Incident Report
-%p#notice= notice
 
 - if current_user.staff?
-  .link= link_to 'Export XML', incident_url(@incident, format: :xml)
+  - if @incident.exported_to_claims?
+    %em Exported to claims.
+  - else
+    = button_to 'Export to claims',
+      claims_export_incident_url(@incident), class: 'btn btn-primary',
+      disabled: !@incident.completed?
+    - unless @incident.completed?
+      %em Must be marked as completed before exporting to claims.
+  .link= link_to 'Export XML (Hastus)', incident_url(@incident, format: :xml)
   .link= link_to 'Export CSV', incident_url(@incident, format: :csv)
   .link= link_to 'Print PDF', incident_url(@incident, format: :pdf)
 
