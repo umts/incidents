@@ -24,9 +24,7 @@
         %tr{data: { division: incident.division.name }}
           %td.batch-hastus-export= check_box_tag :batch_export, false, false,
             class: 'batch-hastus-export-incident',
-            data: { id: incident.id,
-              exported_to_hastus: incident.exported_to_hastus?,
-              exported_to_claims: incident.exported_to_claims? }
+            data: { id: incident.id, exported_to_hastus: incident.exported_to_hastus? }
           %td= incident.driver.proper_name
           %td= incident.supervisor.try :proper_name
           %td= incident.occurred_at_readable
