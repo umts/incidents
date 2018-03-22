@@ -14,14 +14,13 @@ describe 'creating incidents as a driver' do
   it 'requires base fields' do
     visit new_incident_url
     click_on 'Save report'
-    expect(page).to have_text 'This incident report has 7 missing values and so cannot be marked as completed.'
+    expect(page).to have_text 'This incident report has 6 missing values and so cannot be marked as completed.'
     expect(page).to have_text "Date and time of incident can't be blank"
     expect(page).to have_text "Location can't be blank"
     expect(page).to have_text "Town can't be blank"
     expect(page).to have_text "Bus # can't be blank"
     expect(page).to have_text "Direction bus was travelling can't be blank"
     expect(page).to have_text "Describe the incident in detail. can't be blank"
-    expect(page).to have_text "ZIP can't be blank"
   end
   it 'only requires bus, location, and town' do
     visit new_incident_url
