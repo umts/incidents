@@ -449,6 +449,8 @@ prawn_document do |pdf|
         options: { valign: :top, align: :left }
     end
 
+    pdf.start_new_page
+
     pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
       pdf.move_down 15
       pdf.text 'Drug & Alcohol Testing'.upcase,
