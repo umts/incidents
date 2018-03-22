@@ -80,7 +80,7 @@ class SupervisorReport < ApplicationRecord
       director_notified
     ].each do |method|
       time = send "#{method}_at"
-      events[method] = time if time.present?
+      events[method] = time
     end
     format_timeline(events)
   end
@@ -94,8 +94,8 @@ class SupervisorReport < ApplicationRecord
   end
 
   def format_timeline(events)
-    events.sort_by { |_, time| time }.map do |method, time|
-      [time.strftime('%-l:%M %P'), method.humanize.capitalize].join ': '
+    events.map do |method, time|
+      "#{method.humanize.capitalize}: #{time.try :strftime, '%-l:%M %P'}"
     end
   end
 end
