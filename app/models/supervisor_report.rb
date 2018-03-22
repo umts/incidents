@@ -23,6 +23,14 @@ class SupervisorReport < ApplicationRecord
   has_many :witnesses
   accepts_nested_attributes_for :witnesses
 
+  before_save do
+    # Post-accident tests always complete both kinds.
+    if completed_drug_or_alcohol_test? && post_accident?
+      assign_attributes completed_drug_test: true,
+        completed_alcohol_test: true
+    end
+  end
+
   def additional_comments
     if completed_drug_or_alcohol_test?
       amplifying_comments
