@@ -33,3 +33,14 @@ rails users:elevate_staff staff.txt
 
 We develop using mailcatcher. They don't recommend listing it in the Gemfile, so install with `gem install mailcatcher`.
 Then run `mailcatcher`, daemon by default, to catch mail and to `localhost:1080` to view the sent mail.
+
+### Claims integration
+
+To set up claims integration in your development environment, configure the appropriate database in database.yml under the name `claims_development`.
+
+Then as a mysql user with access to that database, type:
+
+```sql
+> USE your_database_name_here;
+> source setup-claims.sql;
+```
