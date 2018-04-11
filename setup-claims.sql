@@ -1,15 +1,15 @@
 CREATE TABLE `incident` (
   `UID` int(11) NOT NULL AUTO_INCREMENT,
-  `FilePrefix` varchar(25) NOT NULL,
+  `FilePrefix` varchar(25) DEFAULT NULL,
   `FileNum` varchar(25) DEFAULT NULL,
   `DateEntered` date DEFAULT NULL,
   `AppraisalMade` enum('no','yes','request','reopen') NOT NULL DEFAULT 'no',
-  `AppraisalNote` text NOT NULL,
+  `AppraisalNote` text,
   `IncidentDate` datetime DEFAULT NULL,
   `street` varchar(255) DEFAULT NULL,
-  `city` varchar(255) NOT NULL,
-  `state` varchar(2) NOT NULL,
-  `zip` varchar(20) NOT NULL,
+  `city` varchar(255) DEFAULT NULL,
+  `state` varchar(2) DEFAULT NULL,
+  `zip` varchar(20) DEFAULT NULL,
   `longitude` varchar(20) NOT NULL,
   `latitude` varchar(20) NOT NULL,
   `AccidentCode` int(11) NOT NULL DEFAULT '0',
@@ -32,12 +32,12 @@ CREATE TABLE `incident` (
   `CloseDate` date DEFAULT NULL,
   `ReopenDate` date DEFAULT NULL,
   `DownDate` date DEFAULT NULL,
-  `ac_type` varchar(10) NOT NULL,
+  `ac_type` varchar(10) DEFAULT NULL,
   `reason1` varchar(100) DEFAULT NULL,
   `reason2` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`UID`),
   KEY `IncidentID` (`UID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4640 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB AUTO_INCREMENT=4640 DEFAULT CHARSET=latin1;
 
 CREATE TABLE `drivers_report` (
   `UID` int(11) NOT NULL AUTO_INCREMENT,
@@ -50,7 +50,7 @@ CREATE TABLE `drivers_report` (
   `CitationWho` varchar(255) DEFAULT NULL,
   `Weather` varchar(255) DEFAULT NULL,
   `SurrCond` varchar(255) DEFAULT NULL,
-  `Lighting` varchar(50) NOT NULL,
+  `Lighting` varchar(50) DEFAULT NULL,
   `LossLocation` varchar(255) DEFAULT NULL,
   `Speed` varchar(50) DEFAULT NULL,
   `Direction` varchar(20) DEFAULT NULL,
@@ -76,4 +76,4 @@ CREATE TABLE `drivers_report` (
   `Note` text COMMENT 'Note from Appraisal report',
   `externalAppraisal` double(10,2) NOT NULL DEFAULT '0.00',
   KEY `DriverReportID` (`UID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4337 DEFAULT CHARSET=latin1
+) ENGINE=InnoDB AUTO_INCREMENT=4337 DEFAULT CHARSET=latin1;

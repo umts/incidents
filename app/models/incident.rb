@@ -183,7 +183,7 @@ class Incident < ApplicationRecord
         'Lighting' => report.light_conditions,
         # LossLocation
         'Speed' => report.speed,
-        'MotionBus' => report.motion_of_bus,
+      #  'MotionBus' => report.motion_of_bus,
       # 'Direction' => report.direction,
         # ChairOnLift, LiftDeployed, PassengersPresent, SeatBelts
         'PointOfContact' => report.damage_to_bus_point_of_impact,
