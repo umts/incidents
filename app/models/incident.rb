@@ -95,13 +95,19 @@ class Incident < ApplicationRecord
   end
 
   def export_to_claims!
+
     return unless completed?
     begin
-      ci = ClaimsIncident.create claims_fields table: :incident
-      update claims_id: ci.UID
-      ClaimsDriversReport.create claims_fields table: :drivers_report
-    rescue ActiveRecord::StatementInvalid => e
-      puts e.cause and return false
+      # Transactions only occur in the *database* in which the model lives.
+      # So ClaimsIncident.transaction uses a transaction in the claims database.
+      # All we do is write a UID to the local database, so no transaction needed there.
+      ClaimsIncident.transaction do
+        ci = ClaimsIncident.create claims_fields table: :incident
+        ClaimsDriversReport.create claims_fields table: :drivers_report
+      end
+      update claims_id: ci.try(:UID)
+    rescue StandardError => e
+      puts e.message and return false
       # TODO: report failure to the user, and report error to programmers
       # We only get here if an error was caused by a programmer.
       # The constraints on completed records should be such that we never reach this rescue block.
