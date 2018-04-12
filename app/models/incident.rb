@@ -95,7 +95,6 @@ class Incident < ApplicationRecord
   end
 
   def export_to_claims!
-
     return unless completed?
     begin
       # Transactions only occur in the *database* in which the model lives.
