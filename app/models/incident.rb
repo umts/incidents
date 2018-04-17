@@ -99,13 +99,12 @@ class Incident < ApplicationRecord
     begin
       # Transactions only occur in the *database* in which the model lives.
       # So ClaimsIncident.transaction uses a transaction in the claims database.
-      # All we do is write a UID to the local database, so no transaction needed there.
       ci = ClaimsIncident.new
       ClaimsIncident.transaction do
         ci = ClaimsIncident.create claims_fields table: :incident
+        update claims_id: ci.UID
         ClaimsDriversReport.create claims_fields table: :drivers_report
       end
-      update claims_id: ci.UID
     rescue StandardError => e
       puts e.message and return false
       # TODO: report failure to the user, and report error to programmers
