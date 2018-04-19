@@ -449,6 +449,8 @@ prawn_document do |pdf|
         options: { valign: :top, align: :left }
     end
 
+    pdf.start_new_page
+
     pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
       pdf.move_down 15
       pdf.text 'Drug & Alcohol Testing'.upcase,
@@ -498,26 +500,38 @@ prawn_document do |pdf|
       test_types << 'Alcohol' if sup_report.completed_alcohol_test?
       row.text_field field: 'Type of test', value: test_types.join(' & '),
         options: { if: sup_report.reasonable_suspicion? }
-      row.text_field field: 'Time of observation', value: sup_report.observation_made_at.try(:strftime, '%l:%M %P')
+      row.text_field field: 'Time of observation', value: sup_report.observation_made_at.try(:strftime, '%l:%M %P'),
+        options: { if: sup_report.reasonable_suspicion? }
       test_reasons = []
       test_reasons << 'Appearance' if sup_report.test_due_to_employee_appearance?
       test_reasons << 'Behavior' if sup_report.test_due_to_employee_behavior?
       test_reasons << 'Odor' if sup_report.test_due_to_employee_odor?
       test_reasons << 'Speech' if sup_report.test_due_to_employee_speech?
-      row.text_field field: 'Reason for conducting test', value: test_reasons.join('/')
+      row.text_field field: 'Reason for conducting test', value: test_reasons.join('/'),
+        options: { if: sup_report.reasonable_suspicion? }
     end
 
     pdf.field_row height: 25, units: 4 do |row|
-      row.text_field field: 'Details of appearance', value: sup_report.employee_appearance
-      row.text_field field: 'Details of behavior', value: sup_report.employee_behavior
-      row.text_field field: 'Details of odor', value: sup_report.employee_odor
-      row.text_field field: 'Details of speech', value: sup_report.employee_speech
+      row.text_field field: 'Details of appearance', value: sup_report.employee_appearance,
+        options: { if: sup_report.reasonable_suspicion? }
+      row.text_field field: 'Details of behavior', value: sup_report.employee_behavior,
+        options: { if: sup_report.reasonable_suspicion? }
+      row.text_field field: 'Details of odor', value: sup_report.employee_odor,
+        options: { if: sup_report.reasonable_suspicion? }
+      row.text_field field: 'Details of speech', value: sup_report.employee_speech,
+        options: { if: sup_report.reasonable_suspicion? }
     end
 
     pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
       pdf.move_down 15
       pdf.text 'Complete the following if post-accident test'.upcase,
         align: :center, size: 14, style: :bold
+    end
+
+
+    pdf.field_row height: 25, units: 1 do |row|
+      row.text_field field: 'Type of test', value: 'Drug & Alcohol',
+        options: { if: sup_report.post_accident? }
     end
 
     pdf.field_row height: 75, units: 1 do |row|

@@ -23,6 +23,14 @@ class SupervisorReport < ApplicationRecord
   has_many :witnesses
   accepts_nested_attributes_for :witnesses
 
+  before_save do
+    # Post-accident tests always complete both kinds.
+    if completed_drug_or_alcohol_test? && post_accident?
+      assign_attributes completed_drug_test: true,
+        completed_alcohol_test: true
+    end
+  end
+
   def additional_comments
     if completed_drug_or_alcohol_test?
       amplifying_comments
@@ -80,7 +88,7 @@ class SupervisorReport < ApplicationRecord
       director_notified
     ].each do |method|
       time = send "#{method}_at"
-      events[method] = time if time.present?
+      events[method] = time
     end
     format_timeline(events)
   end
@@ -94,8 +102,8 @@ class SupervisorReport < ApplicationRecord
   end
 
   def format_timeline(events)
-    events.sort_by { |_, time| time }.map do |method, time|
-      [time.strftime('%-l:%M %P'), method.humanize.capitalize].join ': '
+    events.map do |method, time|
+      "#{method.humanize.capitalize}: #{time.try :strftime, '%-l:%M %P'}"
     end
   end
 end

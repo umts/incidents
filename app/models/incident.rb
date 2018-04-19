@@ -145,6 +145,13 @@ class Incident < ApplicationRecord
   def claims_fields(table:)
     report = driver_incident_report
 
+    # define associated records only when necessary
+    case table
+    when :incident
+      claims_driver = ClaimsDriver.find_by BadgeNum: driver.badge_number
+      claims_vehicle = ClaimsVehicle.find_by VehicleNum: report.bus, Active: 'yes'
+    end
+
     fields = {
       incident: {
         # FilePrefix, FileNum
@@ -161,11 +168,11 @@ class Incident < ApplicationRecord
         'Company' => driver.division.claims_id,
         'IncidentDesc' => supervisor_incident_report.try(:description),
         'EmployeeID' => driver.badge_number,
-        'Driver' => 999, # TODO: pull from claims table
+        'Driver' => claims_driver.try(:UID),
         'DriverDesc' => report.description,
         'VehicleRouteNum' => report.route,
         # VehicleDestination
-        'VehicleNum' => 777, # TODO: pull from claims table
+        'VehicleNum' => claims_vehicle.try(:UID),
         # VehicleAppraisalAmnt
         'VehicleDamageArea' => report.damage_to_other_vehicle_point_of_impact,
         # Comments, ReportGiver
@@ -189,7 +196,7 @@ class Incident < ApplicationRecord
         'Lighting' => report.light_conditions,
         # LossLocation
         'Speed' => report.speed,
-        'MotionBus' => report.motion_of_bus,
+      #  'MotionBus' => report.motion_of_bus,
       # 'Direction' => report.direction,
         # ChairOnLift, LiftDeployed, PassengersPresent, SeatBelts
         'PointOfContact' => report.damage_to_bus_point_of_impact,
