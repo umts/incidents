@@ -4,22 +4,40 @@ class IncidentsController < ApplicationController
   # set_incident handles access control for member routes.
   before_action :restrict_to_staff, only: %i[destroy incomplete]
   before_action :restrict_to_supervisors, only: :claim
-  before_action :set_incident, only: %i[destroy edit show update]
+  before_action :set_incident,
+    only: %i[claim claims_export destroy edit show update]
   before_action :set_user_lists, only: %i[create new]
 
-  def batch_export
+  def batch_hastus_export
     @incidents = Incident.where(id: params[:ids])
     send_data render_to_string('batch_export.xml.haml'),
       filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
       disposition: 'attachment'
-    @incidents.each(&:mark_as_exported)
+    @incidents.each(&:mark_as_exported_to_hastus)
   end
   
   def claim
-    @incident = Incident.find(params[:id])
     @incident.claim_for current_user
     redirect_to incidents_url,
                 notice: 'You have claimed this incident. Please complete the supervisor report.'
+  end
+
+  def claims_export
+    result = @incident.export_to_claims!
+    case result.fetch(:status)
+    when :success
+      notice = 'Exported successfully to claims.'
+    when :failure
+      alert = "Export to claims failed. Reason: #{result.fetch(:reason)}"
+    when :invalid
+      alert = 'Export to claims failed. ' \
+        'Incident had been marked as completed, but is no longer valid. ' \
+        'Incident is now marked as incomplete. ' \
+        'Please re-mark as completed and fix any errors ' \
+        'before attempting another export.'
+    end
+    redirect_back fallback_location: @incident,
+      notice: notice, alert: alert
   end
 
   def create

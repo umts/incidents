@@ -95,21 +95,22 @@ class Incident < ApplicationRecord
   end
 
   def export_to_claims!
-    return unless completed?
-    begin
-      # Transactions only occur in the *database* in which the model lives.
-      # So ClaimsIncident.transaction uses a transaction in the claims database.
-      ci = ClaimsIncident.new
-      ClaimsIncident.transaction do
+    if completed? && valid?
+      begin
         ci = ClaimsIncident.create claims_fields table: :incident
         update claims_id: ci.UID
         ClaimsDriversReport.create claims_fields table: :drivers_report
+        self.update exported_to_claims: true
+        return { status: :success }
+      rescue ActiveRecord::StatementInvalid => e
+        # We only get here if an error was caused by a programmer.
+        ApplicationMailer.with(incident: self, cause: e.cause)
+                         .claims_export_error.deliver_now
+        return { status: :failure, reason: e.cause }
       end
-    rescue StandardError => e
-      puts e.message and return false
-      # TODO: report failure to the user, and report error to programmers
-      # We only get here if an error was caused by a programmer.
-      # The constraints on completed records should be such that we never reach this rescue block.
+    else
+      self.update completed: false
+      return { status: :invalid }
     end
   end
 
@@ -117,8 +118,8 @@ class Incident < ApplicationRecord
     driver_incident_report.full_location include_state: true
   end
 
-  def mark_as_exported
-    self.exported = true
+  def mark_as_exported_to_hastus
+    self.exported_to_hastus = true
     save! validate: false
   end
 

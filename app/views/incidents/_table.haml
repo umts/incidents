@@ -2,17 +2,18 @@
   %table.incidents
     %thead
       %tr
-        %th.batch-export
+        %th.batch-hastus-export
         %th Driver
         %th Supervisor
         %th Occurred at
-        %th Claim #
+        %th Claim#
         %th Run
         %th Bus
         %th Location
         %th Complete?
         - if current_user.staff?
-          %th Exported?
+          %th Hastus?
+          %th Claims?
           %th{ colspan: 5 }
         - if current_user.supervisor?
           %th{ colspan: 4 }
@@ -21,9 +22,9 @@
     %tbody
       - @incidents.each do |incident|
         %tr{data: { division: incident.division.name }}
-          %td.batch-export= check_box_tag :batch_export, false, false,
-            class: 'batch-export-incident',
-            data: { id: incident.id, exported: incident.exported? }
+          %td.batch-hastus-export= check_box_tag :batch_export, false, false,
+            class: 'batch-hastus-export-incident',
+            data: { id: incident.id, exported_to_hastus: incident.exported_to_hastus? }
           %td= incident.driver.proper_name
           %td= incident.supervisor.try :proper_name
           %td= incident.occurred_at_readable
@@ -33,7 +34,8 @@
           %td= incident.driver_incident_report.location
           %td= yes_no_image incident.completed?
           - if current_user.staff?
-            %td= yes_no_image incident.exported?
+            %td= yes_no_image incident.exported_to_hastus?
+            %td= yes_no_image incident.exported_to_claims?
           - unless current_user.driver?
             %td
               - if incident.unclaimed?

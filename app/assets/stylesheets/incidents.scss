@@ -1,4 +1,4 @@
-.date-navigation,.filters,.claim-search,.batch-export{
+.date-navigation,.filters,.claim-search,.batch-hastus-export{
   display: flex;
   margin-bottom: 15px;
   justify-content: center;
@@ -14,7 +14,7 @@
 }
 
 table.incidents{
-  .batch-export{
+  .batch-hastus-export{
     display: none;
     &:not(th){
       background: yellow;
