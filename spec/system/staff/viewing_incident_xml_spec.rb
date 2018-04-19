@@ -9,9 +9,9 @@ describe 'viewing incident XML as a staff member' do
   it 'marks the incident as exported' do
     visit incidents_url
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
-    expect(page).to have_selector 'table.incidents th', text: 'Exported?'
+    expect(page).to have_selector 'table.incidents th', text: 'Hastus?'
     # Find the column which indicates whether the incident is exported.
-    exported_column = page.find('table.incidents th', text: 'Exported?')
+    exported_column = page.find('table.incidents th', text: 'Hastus?')
     # Find its number within the other columns.
     exported_column_index = page.find_all('table.incidents th').index exported_column
     # Find the corresponding column in the singular table row.
@@ -67,9 +67,9 @@ describe 'batch exporting XML' do
   it 'marks incidents as exported' do
     visit incidents_url
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
-    expect(page).to have_selector 'table.incidents th', text: 'Exported?'
+    expect(page).to have_selector 'table.incidents th', text: 'Hastus?'
     # Find the column which indicates whether the incident is exported.
-    exported_column = page.find('table.incidents th', text: 'Exported?')
+    exported_column = page.find('table.incidents th', text: 'Hastus?')
     # Find its number within the other columns.
     exported_column_index = page.find_all('table.incidents th').index exported_column
     # Find the corresponding column in the singular table row.
