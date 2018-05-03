@@ -117,7 +117,7 @@ class IncidentsController < ApplicationController
         unless Rails.env.development?
           response.set_header 'Content-Disposition', 'attachment'
         end
-        @incident.mark_as_exported
+        @incident.mark_as_exported_to_hastus
         render 'show.xml.haml'
       end
     end
