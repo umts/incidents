@@ -3,6 +3,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   before_action :authenticate_user!
+  before_action :set_paper_trail_whodunnit
   before_action :check_for_required_password_change, if: -> { user_signed_in? }
   before_action :check_for_incomplete_incidents, if: -> { user_signed_in? }
   before_action :check_for_unclaimed_incidents, if: -> { user_signed_in? }
