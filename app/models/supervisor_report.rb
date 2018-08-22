@@ -18,6 +18,7 @@ class SupervisorReport < ApplicationRecord
     unless: :completed_drug_or_alcohol_test?
   validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
   validates :reason_driver_discounted, presence: { if: :driver_discounted? }
+  validates :incident, presence: true
   has_one :incident
 
   has_many :witnesses
