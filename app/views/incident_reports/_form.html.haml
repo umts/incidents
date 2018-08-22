@@ -70,9 +70,6 @@
       = form.label :zip
       = form.text_field :zip, id: :incident_report_zip
     .field
-      = form.label :motor_vehicle_collision?
-      = form.check_box :motor_vehicle_collision, id: :incident_report_motor_vehicle_collision
-    .field
       = form.label :passenger_incident?
       = form.check_box :passenger_incident, id: :incident_report_passenger_incident
     .field
@@ -118,6 +115,9 @@
           = form.label :summons_or_warning_info
           = form.text_area :summons_or_warning_info, id: :incident_report_summons_or_warning_info,
             size: '80x4'
+    .field
+      = form.label :motor_vehicle_collision?
+      = form.check_box :motor_vehicle_collision, id: :incident_report_motor_vehicle_collision
   .motor-vehicle-collision-info{style: ('display: none;' unless report.motor_vehicle_collision?)}
     %h3 Motor Vehicle Collision Information
     .field
