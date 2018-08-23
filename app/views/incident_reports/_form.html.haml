@@ -245,9 +245,9 @@
         = label
       = form.date_select :insurance_effective_date, id: :incident_report_insurance_effective_date,
         prompt: true
-    .field
-      = form.label :passenger_incident?
-      = form.check_box :passenger_incident, id: :incident_report_passenger_incident
+  .field
+    = form.label :passenger_incident?
+    = form.check_box :passenger_incident, id: :incident_report_passenger_incident
   .passenger-incident-info{style: ('display: none;' unless report.passenger_incident?)}
     %h3 Passenger Incident Information
     .field
