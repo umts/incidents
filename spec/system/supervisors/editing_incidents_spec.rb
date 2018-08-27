@@ -21,4 +21,14 @@ describe 'editing incidents as a supervisor' do
     expect(page).to have_selector 'p.notice',
       text: 'Incident report was successfully saved. Please complete the supervisor report.'
   end
+  context 'admin deletes incident' do
+    it 'sends you to the edit page' do
+      visit edit_incident_report_url(incident.supervisor_incident_report)
+      binding.pry
+      fill_in_base_incident_fields
+      incident.delete
+      click_button 'Save report'
+      expect(response).to render_template 'edit'
+    end
+  end
 end

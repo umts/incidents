@@ -10,6 +10,10 @@ class IncidentReportsController < ApplicationController
   end
 
   def update
+    if @incident.errors.present?
+      flash[:errors] = @incident.errors.full_messages
+      render 'edit'
+    end
     if @report.update(report_params)
       if @current_user == @incident.supervisor && @incident.supervisor_report.invalid?
         redirect_to edit_supervisor_report_url(@incident.supervisor_report),
