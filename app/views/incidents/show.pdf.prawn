@@ -164,14 +164,25 @@ prawn_document do |pdf|
     end
   end
 
-  pdf.move_cursor_to 160
+  if report.injured_passengers.present?
+    pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 20 do
+      pdf.move_down 5
+      pdf.text 'Injured Passenger Information',
+        align: :center, size: 12
+    end
+    report.injured_passengers.each.with_index 1 do |pax, index|
+      pdf.text "#{index}. #{pax.display_info}", size: 10
+    end
+  end
 
-  description = if report.long_description?
+  pdf.move_cursor_to 130
+
+  description = if report.long_description? || report.injured_passengers.count > 2
                   '(Description on next page due to length)'
                 else report.description
                 end
 
-  pdf.field_row height: 130, units: 1 do |row|
+  pdf.field_row height: 100, units: 1 do |row|
     row.text_field field: 'Describe the accident or incident in detail', value: description,
       options: { valign: :top, align: :left }
   end
@@ -231,6 +242,8 @@ prawn_document do |pdf|
     pdf.image Rails.root.join('app/assets/images/bus_diagram.png'),
       width: pdf.bounds.width, height: pdf.bounds.height
   end
+
+
 
   if @incident.supervisor.present? && @current_user != @incident.driver
 
@@ -415,17 +428,6 @@ prawn_document do |pdf|
       end
       sup_report.witnesses.each.with_index 1 do |witness, index|
         pdf.text "#{index}. #{witness.display_info}", size: 10
-      end
-    end
-
-    if report.injured_passengers.present?
-      pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
-        pdf.move_down 15
-        pdf.text 'Injured Passenger Information'.upcase,
-          align: :center, size: 14, style: :bold
-      end
-      report.injured_passengers.each.with_index 1 do |pax, index|
-        pdf.text "#{index}. #{pax.display_info}", size: 10
       end
     end
 

@@ -88,7 +88,7 @@ class IncidentReport < ApplicationRecord
   end
 
   def long_description?
-    description.present? && description.length > 1_000
+    description.present? && description.length > 600
   end
 
   def needs_reason_not_up_to_curb?
