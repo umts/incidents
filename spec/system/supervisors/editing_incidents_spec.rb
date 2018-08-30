@@ -21,4 +21,13 @@ describe 'editing incidents as a supervisor' do
     expect(page).to have_selector 'p.notice',
       text: 'Incident report was successfully saved. Please complete the supervisor report.'
   end
+  context 'admin deletes the incident' do
+    it 'displays a nice error message' do
+      visit edit_incident_report_url(incident.supervisor_incident_report)
+      incident.destroy
+      click_button 'Save report'
+      wait_for_ajax!
+      expect(response.status).to eq 500
+    end
+  end
 end
