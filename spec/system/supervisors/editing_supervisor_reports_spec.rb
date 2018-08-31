@@ -22,10 +22,11 @@ describe 'editing supervisor reports as a supervisor' do
     it 'displays a nice error message' do
       visit edit_incident_url(incident)
       click_on 'Edit Supervisor Report'
+      expect(page).to have_content 'Editing Supervisor Report'
       incident.destroy
       click_button 'Save supervisor report'
       wait_for_ajax!
-      expect(response.status).to eq 500
+      expect(page).to have_selector 'p.notice', text: 'This incident report no longer exists.'
     end
   end
 end
