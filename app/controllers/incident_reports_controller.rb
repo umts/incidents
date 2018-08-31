@@ -10,15 +10,19 @@ class IncidentReportsController < ApplicationController
   end
 
   def update
-    if @report.update(report_params)
-      if @current_user == @incident.supervisor && @incident.supervisor_report.invalid?
-        redirect_to edit_supervisor_report_url(@incident.supervisor_report),
-          notice: 'Incident report was successfully saved. Please complete the supervisor report.'
-      elsif @current_user == @incident.driver
-        redirect_to incident_url(@incident, format: :pdf)
-      else redirect_to @incident, notice: 'Incident report was successfully saved.'
+    if @incident
+      if @report.update(report_params)
+        if @current_user == @incident.supervisor && @incident.supervisor_report.invalid?
+          redirect_to edit_supervisor_report_url(@incident.supervisor_report),
+            notice: 'Incident report was successfully saved. Please complete the supervisor report.'
+        elsif @current_user == @incident.driver
+          redirect_to incident_url(@incident, format: :pdf)
+        else redirect_to @incident, notice: 'Incident report was successfully saved.'
+        end
+      else build_passengers and render 'edit'
       end
-    else build_passengers and render 'edit'
+    else
+      redirect_to incidents_url, notice: 'This incident report no longer exists.'
     end
   end
 
