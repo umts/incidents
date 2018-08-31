@@ -14,10 +14,11 @@ describe 'editing incidents as a driver' do
       within 'tr', text: driver.proper_name do
         click_button 'Edit'
       end
+      expect(page).to have_content 'Editing Driver Account of Incident'
       incident.destroy
       click_button 'Save report'
       wait_for_ajax!
-      expect(response.status).to eq 500
+      expect(page).to have_selector 'p.notice', text: 'This incident report no longer exists.'
     end
   end
 end
