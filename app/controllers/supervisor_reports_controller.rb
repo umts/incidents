@@ -9,7 +9,7 @@ class SupervisorReportsController < ApplicationController
   end
 
   def update
-    if @report.update report_params && @incident
+    if @report.update(report_params) && @incident
       redirect_to @incident,
                   notice: 'Incident report was successfully saved.'
     elsif @incident
