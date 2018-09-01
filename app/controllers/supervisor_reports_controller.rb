@@ -9,12 +9,11 @@ class SupervisorReportsController < ApplicationController
   end
 
   def update
-    if @incident
-      if @report.update report_params
-        redirect_to @incident,
-                    notice: 'Incident report was successfully saved.'
-      else build_witnesses and render 'edit'
-      end
+    if @report.update report_params && @incident
+      redirect_to @incident,
+                  notice: 'Incident report was successfully saved.'
+    elsif @incident
+      build_witnesses and render 'edit'
     else
       redirect_to incidents_url, notice: 'This incident report no longer exists.'
     end
