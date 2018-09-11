@@ -6,7 +6,7 @@
       by
       = report.last_updated_by
     |
-    = link_to 'View full history', history_supervisor_report_url(report)
+    = link_to 'View full history', history_supervisor_report_path(report)
 %p
   %strong= human_name :supervisor_report, :pictures_saved?
   = yes_no_image report.pictures_saved?
@@ -142,4 +142,4 @@
       %strong= human_name :supervisor_report, :reason_driver_discounted
       = simple_format report.reason_driver_discounted
 - if @current_user.staff? || @current_user == report.incident.supervisor
-  = link_to 'Edit Supervisor Report', edit_supervisor_report_url(report)
+  = link_to 'Edit Supervisor Report', edit_supervisor_report_path(report)

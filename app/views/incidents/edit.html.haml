@@ -16,13 +16,13 @@
 %hr
 - if current_user == @incident.driver || current_user.staff?
   .edit-link= link_to 'Edit Driver Account of Incident',
-    edit_incident_report_url(@incident.driver_incident_report)
+    edit_incident_report_path(@incident.driver_incident_report)
 - if @incident.supervisor.present?
   - if current_user == @incident.supervisor || current_user.staff?
     .edit-link= link_to 'Edit Supervisor Account of Incident',
-      edit_incident_report_url(@incident.supervisor_incident_report)
+      edit_incident_report_path(@incident.supervisor_incident_report)
     .edit-link= link_to 'Edit Supervisor Report',
-      edit_supervisor_report_url(@incident.supervisor_report)
+      edit_supervisor_report_path(@incident.supervisor_report)
 = link_to 'Show', @incident
 |
-= link_to 'Back', incidents_url
+= link_to 'Back', incidents_path

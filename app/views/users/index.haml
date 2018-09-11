@@ -3,14 +3,14 @@
 - else 
   %h1 Active Users
 
-.center= link_to 'Add New User', new_user_url
-.center= link_to 'Import User Data', import_users_url
+.center= link_to 'Add New User', new_user_path
+.center= link_to 'Import User Data', import_users_path
 
 .center
   - if params[:inactive]
-    = link_to 'Manage active users', users_url
+    = link_to 'Manage active users', users_path
   - elsif User.inactive.present?
-    = link_to 'Manage inactive users', users_url(inactive: true)
+    = link_to 'Manage inactive users', users_path(inactive: true)
 
 .filters.groups
   %button.btn.btn-primary All
@@ -37,21 +37,21 @@
         %td= yes_no_image user.staff?
         %td
           - if user.driver?
-            = link_to incidents_user_url(user) do
+            = link_to incidents_user_path(user) do
               %button.btn.btn-default View incidents
         %td
-          = link_to edit_user_url(user) do
+          = link_to edit_user_path(user) do
             %button.btn.btn-default Edit
         %td
           - if user.active?
-            = link_to deactivate_user_url(user), method: :post do
+            = link_to deactivate_user_path(user), method: :post do
               %button.btn.btn-default.delete Deactivate
           - else
-            = link_to reactivate_user_url(user), method: :post do
+            = link_to reactivate_user_path(user), method: :post do
               %button.btn.btn-default.delete Reactivate
         %td
-          = link_to reset_password_user_url(user), method: :post do
+          = link_to reset_password_user_path(user), method: :post do
             %button.btn.btn-default Reset Password
         %td
-          = link_to user_url(user), method: :delete do
+          = link_to user_path(user), method: :delete do
             %button.btn.btn-default.delete Delete

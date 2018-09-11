@@ -9,7 +9,7 @@ class UsersController < ApplicationController
     @user = User.new
     @user.assign_attributes user_params
     if @user.save
-      redirect_to users_url, notice: 'User was successfully created.'
+      redirect_to users_path, notice: 'User was successfully created.'
     else render :new, status: :unprocessable_entity
     end
   end
@@ -17,7 +17,7 @@ class UsersController < ApplicationController
   def deactivate
     @user.update! active: false
     flash[:notice] = 'User was deactivated successfully.'
-    redirect_to users_url
+    redirect_to users_path
   end
 
   def destroy
@@ -26,7 +26,7 @@ class UsersController < ApplicationController
     else
       flash[:alert] = 'Cannot delete users who have incidents in their name.'
     end
-    redirect_to users_url
+    redirect_to users_path
   end
 
   def import
@@ -43,10 +43,10 @@ class UsersController < ApplicationController
           message += " #{statuses[:deactivated]} users were deactivated."
         end
         if statuses[:rejected].zero?
-          redirect_to users_url, notice: message
+          redirect_to users_path, notice: message
         else
           message += " #{statuses[:rejected]} were rejected."
-          redirect_to users_url, alert: message
+          redirect_to users_path, alert: message
         end
       else render :import, alert: 'Could not import from file.'
       end
@@ -72,12 +72,12 @@ class UsersController < ApplicationController
   def reactivate
     @user.update! active: true
     flash[:notice] = 'User was reactivated successfully.'
-    redirect_to users_url
+    redirect_to users_path
   end
 
   def reset_password
     @user.set_default_password and @user.save!
-    redirect_to users_url,
+    redirect_to users_path,
       notice: "#{@user.full_name}'s password was reset to the default password."
   end
 
@@ -91,7 +91,7 @@ class UsersController < ApplicationController
   def attempt_save
     if @user.save
       flash[:notice] = "User was #{params[:action]}d successfully."
-      redirect_to users_url
+      redirect_to users_path
     else
       flash[:errors] = @user.errors.full_messages
       render 'edit'

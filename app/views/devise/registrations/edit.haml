@@ -1,6 +1,6 @@
 %h1 Change Password
 
-= form_for resource, as: resource_name, url: user_registration_url(resource), html: { method: :patch } do |f|
+= form_for resource, as: resource_name, url: user_registration_path(resource), html: { method: :patch } do |f|
   = devise_error_messages!
   .field
     = f.label :password

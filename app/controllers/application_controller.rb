@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   def check_for_required_password_change
     return if params[:controller] == 'devise/registrations'
     if current_user.requires_password_change?
-      redirect_to change_password_url,
+      redirect_to change_password_path,
         notice: 'You must change your password from the default before continuing.'
     end
   end

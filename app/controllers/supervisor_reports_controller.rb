@@ -15,7 +15,7 @@ class SupervisorReportsController < ApplicationController
     elsif @incident
       build_witnesses and render 'edit'
     else
-      redirect_to incidents_url, notice: 'This incident report no longer exists.'
+      redirect_to incidents_path, notice: 'This incident report no longer exists.'
     end
   end
 
