@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180321213642) do
+ActiveRecord::Schema.define(version: 20180911000832) do
 
   create_table "divisions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", null: false
@@ -131,6 +131,7 @@ ActiveRecord::Schema.define(version: 20180321213642) do
     t.boolean "video_pulled"
     t.integer "claims_id"
     t.boolean "exported_to_claims"
+    t.integer "supplementary_reason_code_id"
   end
 
   create_table "injured_passengers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -196,6 +197,11 @@ ActiveRecord::Schema.define(version: 20180321213642) do
     t.boolean "driver_discounted"
     t.text "reason_threshold_not_met"
     t.text "reason_driver_discounted"
+  end
+
+  create_table "supplementary_reason_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "identifier"
+    t.string "description"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

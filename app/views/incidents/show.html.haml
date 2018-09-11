@@ -31,8 +31,8 @@
       %strong= human_name :incident, :reason_code
       = @incident.reason_code.full_label
     %p
-      %strong= human_name :incident, :second_reason_code
-      = @incident.second_reason_code
+      %strong= human_name :incident, :supplementary_reason_code
+      = @incident.supplementary_reason_code.full_label
     %p
       %strong= human_name :incident, :preventable
       = yes_no_image @incident.preventable
