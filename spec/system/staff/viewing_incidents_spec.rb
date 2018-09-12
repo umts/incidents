@@ -145,4 +145,17 @@ describe 'viewing incidents as staff' do
       expect(page).to have_text 'Front door, While exiting'
     end
   end
+
+  context 'with multiple passenger incidents' do
+    it 'displays all the passengers' do
+      report = create :incident_report
+      pax = create :injured_passenger, name: 'Justin', incident_report: report
+      pax2 = create :injured_passenger, name: 'Ava', incident_report: report
+      report.update passenger_incident: true
+      incident = create :incident, driver_incident_report: report
+      visit incident_url(incident)
+      expect(page).to have_text 'Justin'
+      expect(page).to have_text 'Ava'
+    end
+  end
 end
