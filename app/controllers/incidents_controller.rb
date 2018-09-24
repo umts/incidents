@@ -64,6 +64,8 @@ class IncidentsController < ApplicationController
 
   def edit
     deny_access and return if !current_user.staff? && @incident.reviewed?
+    @reason_codes = ReasonCode.order(:identifier)
+    @supplementary_reason_codes = SupplementaryReasonCode.order(:identifier)
     if current_user.driver?
       # It's the only thing they can edit anyway.
       redirect_to edit_incident_report_url(@incident.driver_incident_report)
@@ -131,6 +133,8 @@ class IncidentsController < ApplicationController
   end
 
   def update
+    @reason_codes = ReasonCode.order(:identifier)
+    @supplementary_reason_codes = SupplementaryReasonCode.order(:identifier)
     @incident.assign_attributes incident_params
     respond_to do |format|
       if @incident.save

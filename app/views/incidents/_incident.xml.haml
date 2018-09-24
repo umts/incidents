@@ -24,8 +24,8 @@
     %ai_point_of_impact= report.point_of_impact
   %ai_report_final_date= Time.zone.now.strftime '%Y-%m-%d'
   %ai_report_final_time= Time.zone.now.strftime '2000-01-01T%H:%M:00.000'
-  - if incident.second_reason_code.present?
-    %ai_second_code= incident.second_reason_code.try :first, 3
+  - if incident.supplementary_reason_code.present?
+    %ai_second_code= incident.supplementary_reason_code.try :identifier
   - if report.location.present?
     %ai_street= report.location
   %ai_type_situation= report.type_situation

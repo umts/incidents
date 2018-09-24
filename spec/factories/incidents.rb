@@ -12,7 +12,7 @@ FactoryBot.define do
     trait :completed do
       completed true
       association :reason_code
-      second_reason_code { Incident::SECOND_REASON_CODES.sample }
+      association :supplementary_reason_code
       root_cause_analysis { FFaker::Lorem.paragraph }
       latitude { "42.#{rand(100_000).to_s.rjust 5, '0'}" }
       longitude { "-72.#{rand(100_000).to_s.rjust 5, '0'}" }
