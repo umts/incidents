@@ -5,18 +5,18 @@
     &mdash;
     = @end_date.strftime '%A, %B %e'
   .date-navigation
-    = link_to incidents_url(mode: @mode, start_date: @prev_start), class: 'prev' do
+    = link_to incidents_path(mode: @mode, start_date: @prev_start), class: 'prev' do
       %button.btn.btn-primary
         &larr;
         Previous #{@mode}
     - case @mode
     - when 'week'
-      = link_to incidents_url(mode: 'month', start_date: @start_date.beginning_of_month), class: 'switch' do
+      = link_to incidents_path(mode: 'month', start_date: @start_date.beginning_of_month), class: 'switch' do
         %button.btn.btn-primary View for whole month
     - when 'month'
-      = link_to incidents_url(mode: 'week', start_date: @week_start_date), class: 'switch' do
+      = link_to incidents_path(mode: 'week', start_date: @week_start_date), class: 'switch' do
         %button.btn.btn-primary View single week
-    = link_to incidents_url(mode: @mode, start_date: @next_start), class: 'next' do
+    = link_to incidents_path(mode: @mode, start_date: @next_start), class: 'next' do
       %button.btn.btn-primary
         Next #{@mode}
         &rarr;

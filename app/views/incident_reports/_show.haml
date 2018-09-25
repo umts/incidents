@@ -6,7 +6,7 @@
       by
       = report.last_updated_by
     |
-    = link_to 'View full history', history_incident_report_url(report)
+    = link_to 'View full history', history_incident_report_path(report)
 %p
   %strong
     - if report.user.driver?
@@ -239,4 +239,4 @@
   %strong= human_name :incident_report, :description
   = simple_format report.description
 - if current_user.staff? || current_user == report.user
-  = link_to 'Edit Incident Report', edit_incident_report_url(report)
+  = link_to 'Edit Incident Report', edit_incident_report_path(report)

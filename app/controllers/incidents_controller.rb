@@ -18,7 +18,7 @@ class IncidentsController < ApplicationController
   
   def claim
     @incident.claim_for current_user
-    redirect_to incidents_url,
+    redirect_to incidents_path,
                 notice: 'You have claimed this incident. Please complete the supervisor report.'
   end
 
@@ -46,7 +46,7 @@ class IncidentsController < ApplicationController
     if @incident.save
       @incident.notify_supervisor_of_new_report if @assigning_supervisor
       @incident.remove_supervisor if @removing_supervisor
-      redirect_to incidents_url, notice: 'Incident was successfully created.'
+      redirect_to incidents_path, notice: 'Incident was successfully created.'
     else render :new, status: :unprocessable_entity
     end
   end
@@ -68,14 +68,14 @@ class IncidentsController < ApplicationController
     @supplementary_reason_codes = SupplementaryReasonCode.order(:identifier)
     if current_user.driver?
       # It's the only thing they can edit anyway.
-      redirect_to edit_incident_report_url(@incident.driver_incident_report)
+      redirect_to edit_incident_report_path(@incident.driver_incident_report)
     end
   end
 
   def incomplete
     @incidents = Incident.in_divisions(current_user.divisions).incomplete.occurred_order
     if @incidents.blank?
-      redirect_to incidents_url, notice: 'No incomplete incidents.'
+      redirect_to incidents_path, notice: 'No incomplete incidents.'
     end
   end
 
@@ -98,7 +98,7 @@ class IncidentsController < ApplicationController
   def new
     if current_user.driver?
       @incident = Incident.create driver_incident_report_attributes: { user_id: current_user.id }
-      redirect_to edit_incident_url(@incident)
+      redirect_to edit_incident_path(@incident)
     else @incident = Incident.new
     end
   end
@@ -128,7 +128,7 @@ class IncidentsController < ApplicationController
   def unclaimed
     @incidents = Incident.in_divisions(current_user.divisions).unclaimed.occurred_order
     if @incidents.blank?
-      redirect_to incidents_url, notice: 'No unclaimed incidents.'
+      redirect_to incidents_path, notice: 'No unclaimed incidents.'
     end
   end
 
