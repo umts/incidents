@@ -27,7 +27,6 @@ describe 'editing incidents as a driver' do
     it 'displays all of them' do
       check 'Did the incident involve a passenger?'
       expect(page).to have_text 'Passenger Incident Information'
-      binding.pry
       check 'Were passengers injured?'
       
       fill_in 'Name', with: 'Ben'
