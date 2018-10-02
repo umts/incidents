@@ -23,4 +23,24 @@ describe 'editing incidents as a driver' do
       expect(page).to have_selector 'p.notice', text: 'This incident report no longer exists.'
     end
   end
+  context 'adding multiple injured passengers' do
+    it 'displays all of them' do
+      check 'Did the incident involve a passenger?'
+      expect(page).to have_text 'Passenger Incident Information'
+      binding.pry
+      check 'Were passengers injured?'
+      
+      fill_in 'Name', with: 'Ben'
+      fill_in 'Nature of injury', with: 'Slipped on banana'
+      click 'Add injured passenger info'
+      fill_in 'Name', with: 'Emily'
+      fill_in 'Nature of injury', with: 'Slipped on many bananas'
+      click_button 'Save report'
+      wait_for_ajax!
+
+      visit incident_url(incident)
+      expect(page).to have_text 'Ben'
+      expect(page).to have_text 'Emily'
+    end
+  end
 end
