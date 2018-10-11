@@ -27,19 +27,25 @@ describe 'editing incidents as a driver' do
     it 'displays all of them' do
       check 'Did the incident involve a passenger?'
       expect(page).to have_text 'Passenger Incident Information'
-      check 'Were passengers injured?'
-      
-      fill_in 'Name', with: 'Ben'
-      fill_in 'Nature of injury', with: 'Slipped on banana'
-      click 'Add injured passenger info'
-      fill_in 'Name', with: 'Emily'
-      fill_in 'Nature of injury', with: 'Slipped on many bananas'
+      within first('div', text: 'Passenger Incident Information') do
+      # unable to check 'Were passengers injured?'
+        page.find('#supervisor_report_inj_pax_info').click()
+        fill_in 'Name', with: 'Ben'
+        fill_in 'Nature of injury', with: 'Slipped on banana'
+        click_button 'Add injured passenger info'
+        within '.pax-fields:nth-child(1)' do
+          fill_in 'Name', with: 'Emily'
+          fill_in 'Nature of injury', with: 'Slipped on many bananas'
+        end
+      end
       click_button 'Save report'
-      wait_for_ajax!
-
+      
       visit incident_url(incident)
-      expect(page).to have_text 'Ben'
-      expect(page).to have_text 'Emily'
+      expect(page).to have_selector 'h2', text: 'Driver Incident Report'
+      expect(page).to have_selector 'h3', text: 'Passenger Incident Information'
+      expect(page).to have_text 'Injured Passenger Information'
+      expect(page).to have_selector 'li', text: 'Ben; Slipped on banana; Not transported to hospital by ambulance'
+      expect(page).to have_selector 'li', text: 'Emily; Slipped on many bananas; Not transported to hospital by ambulance'
     end
   end
 end
