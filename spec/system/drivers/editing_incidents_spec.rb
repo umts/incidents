@@ -33,7 +33,8 @@ describe 'editing incidents as a driver' do
         fill_in 'Name', with: 'Ben'
         fill_in 'Nature of injury', with: 'Slipped on banana'
         click_button 'Add injured passenger info'
-        within '.pax-fields:nth-child(1)' do
+        second_field = all('.pax-fields')[1]
+        within second_field do
           fill_in 'Name', with: 'Emily'
           fill_in 'Nature of injury', with: 'Slipped on many bananas'
         end
