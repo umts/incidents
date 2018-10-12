@@ -19,8 +19,9 @@ addFields = (fieldsSelector) ->
   fields = $(fieldsSelector).last()
   field = fields.clone()
   for attrs in field.find('input')
-    num = parseInt(attrs.id.match /\d+/) + 1
-    attrs.id = attrs.id.replace /\d+/, num
+    num = parseInt(attrs.name.match /\d+/) + 1
+    if attrs.id != null
+      attrs.id = attrs.id.replace /\d+/, num
     attrs.name = attrs.name.replace /\d+/, num
   field.insertAfter fields
   $(fieldsSelector).last().find('input').val('').prop 'checked', false
