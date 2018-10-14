@@ -20,7 +20,8 @@ describe 'editing incidents as a driver' do
       incident.destroy
       click_button 'Save report'
       wait_for_ajax!
-      expect(page).to have_selector 'p.notice', text: 'This incident report no longer exists.'
+      expect(page).to have_selector 'p.notice',
+                                    text: 'This incident report no longer exists.'
     end
   end
   context 'adding multiple injured passengers' do
@@ -28,8 +29,8 @@ describe 'editing incidents as a driver' do
       check 'Did the incident involve a passenger?'
       expect(page).to have_text 'Passenger Incident Information'
       within first('div', text: 'Passenger Incident Information') do
-      # unable to check 'Were passengers injured?'
-        page.find('#supervisor_report_inj_pax_info').click()
+        # unable to check 'Were passengers injured?'
+        page.find('#supervisor_report_inj_pax_info').click
         fill_in 'Name', with: 'Ben'
         fill_in 'Nature of injury', with: 'Slipped on banana'
         click_button 'Add injured passenger info'
@@ -40,13 +41,15 @@ describe 'editing incidents as a driver' do
         end
       end
       click_button 'Save report'
-      
+
       visit incident_url(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
       expect(page).to have_selector 'h3', text: 'Passenger Incident Information'
       expect(page).to have_text 'Injured Passenger Information'
-      expect(page).to have_selector 'li', text: 'Ben; Slipped on banana; Not transported to hospital by ambulance'
-      expect(page).to have_selector 'li', text: 'Emily; Slipped on many bananas; Not transported to hospital by ambulance'
+      expect(page).to have_selector 'li',
+                                    text: 'Ben; Slipped on banana; Not transported to hospital by ambulance'
+      expect(page).to have_selector 'li',
+                                    text: 'Emily; Slipped on many bananas; Not transported to hospital by ambulance'
     end
   end
 end
