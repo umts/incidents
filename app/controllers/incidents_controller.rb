@@ -210,7 +210,9 @@ class IncidentsController < ApplicationController
     @incident = Incident.find(params[:id])
     @staff_reviews = @incident.staff_reviews.order :created_at
     return if current_user.staff?
-    unless ([@incident.driver, @incident.supervisor].include?(current_user) || @incident.supervisor.nil?)
+    current_user_is_involved = [@incident.driver, @incident.supervisor].include?(current_user)
+    current_user_can_claim_incident = current_user.supervisor? && @incident.supervisor.nil?
+    unless current_user_is_involved || current_user_can_claim_incident
       deny_access and return
     end
   end
