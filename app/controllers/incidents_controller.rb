@@ -211,7 +211,7 @@ class IncidentsController < ApplicationController
     @staff_reviews = @incident.staff_reviews.order :created_at
     return if current_user.staff?
     # if incident has a supervisor, deny_access and return
-    unless [@incident.driver, @incident.supervisor].include? current_user
+    unless ([@incident.driver, @incident.supervisor].include?(current_user) || @incident.supervisor.nil?)
       deny_access and return
     end
   end
