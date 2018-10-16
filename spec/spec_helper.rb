@@ -64,8 +64,15 @@ end
 
 # source: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
 def wait_for_ajax!
-  Timeout.timeout Capybara.default_max_wait_time do
-    loop until page.evaluate_script('jQuery.active').zero?
+  Timeout.timeout Capybara.default_wait_time do
+    loop do
+      # want this to happen if jQuery is undefined
+      if page.find('jQuery') == undefined
+        raise "User doesn't have correct traits to access the page."
+      end
+      active = page.evaluate_script 'jQuery.active'
+      break if active == 0
+    end
   end
 end
 
