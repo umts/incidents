@@ -3,7 +3,8 @@ require 'spec_helper'
 describe SupervisorReportsController do
   describe 'POST #update' do
     context 'with an invalid report' do
-      let!(:supervisor_report) { create :supervisor_report }
+      let(:supervisor_report) { create :supervisor_report }
+      let!(:incident){ create :incident, supervisor_report: supervisor_report }
       it 'renders the edit page' do
         when_current_user_is :supervisor
         expect_any_instance_of(SupervisorReport)
