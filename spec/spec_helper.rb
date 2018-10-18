@@ -66,7 +66,7 @@ end
 def wait_for_ajax!
   Timeout.timeout Capybara.default_max_wait_time do
     loop do
-      break if page.evaluate_script 'jQuery.active'.zero?
+      break if page.evaluate_script('jQuery.active').zero?
       rescue Selenium::WebDriver::Error::UnknownError
         raise "User doesn't have correct traits to access the page being tested."
     end
