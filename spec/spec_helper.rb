@@ -64,7 +64,7 @@ end
 
 # source: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
 def wait_for_ajax!
-  #Timeout.timeout Capybara.default_wait_time do
+  Timeout.timeout Capybara.default_wait_time do
     loop do
     # want this to happen if jQuery is undefined
       binding.pry
@@ -73,7 +73,7 @@ def wait_for_ajax!
         raise "User doesn't have correct traits to access the page being tested."
       break if active == 0
     end
-  #end
+  end
 end
 
 def wait_for_animation!
