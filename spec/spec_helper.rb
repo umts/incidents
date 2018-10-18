@@ -66,8 +66,6 @@ end
 def wait_for_ajax!
   Timeout.timeout Capybara.default_wait_time do
     loop do
-    # want this to happen if jQuery is undefined
-      binding.pry
       active = page.evaluate_script 'jQuery.active'
       rescue Selenium::WebDriver::Error::UnknownError => e
         raise "User doesn't have correct traits to access the page being tested."
