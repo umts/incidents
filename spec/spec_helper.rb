@@ -64,7 +64,7 @@ end
 
 # source: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
 def wait_for_ajax!
-  Timeout.timeout Capybara.default_wait_time do
+  Timeout.timeout Capybara.default_max_wait_time do
     loop do
       active = page.evaluate_script 'jQuery.active'
       rescue Selenium::WebDriver::Error::UnknownError => e
