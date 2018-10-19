@@ -26,8 +26,6 @@ enableSelectMode = ->
   $('.batch-hastus-export #main-button').hide()
   $('.batch-hastus-export #xml-button').show()
   $('.batch-hastus-export #csv-button').show()
-  $('.batch-hastus-export #xml-button').text 'Select incidents to export...'
-  $('.batch-hastus-export #csv-button').text 'Select incidents to export...'
   $('.batch-hastus-export #select-all').show()
   setSelectAllText()
 
