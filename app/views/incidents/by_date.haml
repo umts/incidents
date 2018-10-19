@@ -23,6 +23,8 @@
 = render 'division_filters' if current_user.divisions.many?
 = render 'claim_search'
 .batch-hastus-export
-  %button.btn.btn-primary#main-button Batch export Hastus XML
+  %button.btn.btn-primary#main-button Batch export
+  %button.btn.btn-primary#xml-button Batch export Hastus XML
+  %button.btn.btn-primary#csv-button Batch export Hastus CSV
   %button.btn.btn-primary#select-all Select all
 = render 'table'
