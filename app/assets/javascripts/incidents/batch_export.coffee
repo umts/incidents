@@ -23,6 +23,8 @@ handleExporting = ->
 
 enableSelectMode = ->
   $('table.incidents .batch-hastus-export').show()
+  $('.batch-hastus-export #xml-button').prop 'disabled', true
+  $('.batch-hastus-export #csv-button').prop 'disabled', true
   $('.batch-hastus-export #main-button').hide()
   $('.batch-hastus-export #xml-button').show()
   $('.batch-hastus-export #csv-button').show()
@@ -32,12 +34,15 @@ enableSelectMode = ->
 handleIncidentSelected = ->
   selectedIncidentCount = $('.batch-hastus-export input:checked').length
   if selectedIncidentCount > 0
+    $('.batch-hastus-export #xml-button').prop 'disabled', false
+    $('.batch-hastus-export #csv-button').prop 'disabled', false
     $('.batch-hastus-export #xml-button').text "Generate XML export (#{selectedIncidentCount} selected)"
     $('.batch-hastus-export #csv-button').text "Generate CSV export (#{selectedIncidentCount} selected)"
   else
+    $('.batch-hastus-export #xml-button').prop 'disabled', true
+    $('.batch-hastus-export #csv-button').prop 'disabled', true
     $('.batch-hastus-export #xml-button').text 'Select incidents to export...'
     $('.batch-hastus-export #csv-button').text 'Select incidents to export...'
-
 
 selectAllIncidents = ->
   if $(this).text() == 'Deselect all'
