@@ -119,3 +119,7 @@ $(document).on 'turbolinks:load', ->
   $('form').on 'click', 'button.add-witness', addWitnessFields
 
   $('form').on 'click', 'button.add-pax', addInjuredPassengerFields
+  
+  $('form').on 'click', 'button.delete-witness', deleteWitnessFields
+
+  $('form').on 'click', 'button.delete-pax', deleteInjuredPassengerFields
