@@ -34,6 +34,17 @@ addInjuredPassengerFields = (event) ->
   event.preventDefault()
   addFields '.pax-fields'
 
+deleteFields = (fieldsSelector) ->
+  $(fieldsSelector).last().destroy()
+
+deleteWitnessFields = (event) ->
+  event.preventDefault()
+  deleteFields '.witness-fields'
+
+deleteInjuredPassengerFields = (event) ->
+  event.preventDefault()
+  deleteFields '.pax-fields'
+
 toggleReasonsForTesting = ->
   reason = $('#incident_report_reason_test_completed').val()
   switch reason
