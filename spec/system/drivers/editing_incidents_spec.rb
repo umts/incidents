@@ -57,8 +57,8 @@ describe 'editing incidents as a driver' do
   end
   context 'deleting an injured passenger' do
     it 'displays the current injured passengers' do
-      pax = create :injured_passenger, name: 'Eva', incident_report: report
-      pax2 = create :injured_passenger, name: 'Bob', incident_report: report
+      pax = create :injured_passenger, incident_report: report
+      pax2 = create :injured_passenger, incident_report: report
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
