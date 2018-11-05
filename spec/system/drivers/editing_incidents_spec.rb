@@ -56,7 +56,7 @@ describe 'editing incidents as a driver' do
     end
   end
   context 'deleting an injured passenger' do
-    it 'displays current' do
+    it 'displays the current injured passengers' do
       pax = create :injured_passenger, name: 'Eva', incident_report: report
       pax2 = create :injured_passenger, name: 'Bob', incident_report: report
       visit incidents_url
