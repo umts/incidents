@@ -35,7 +35,9 @@ addInjuredPassengerFields = (event) ->
   addFields '.pax-fields'
 
 deleteFields = (fieldsSelector) ->
-  $(fieldsSelector).last().remove()
+  fields = $(fieldsSelector).last()
+  fields.find('input').remove()
+  fields.remove()
 
 deleteWitnessFields = (event) ->
   event.preventDefault()
