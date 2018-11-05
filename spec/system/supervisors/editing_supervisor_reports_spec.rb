@@ -58,4 +58,8 @@ describe 'editing supervisor reports as a supervisor' do
                                     text: 'Karin; 51 Forestry Way, Amherst'
     end
   end
+  context 'deleting a witness' do
+    it 'displays the current witnesses' do
+    end
+  end
 end
