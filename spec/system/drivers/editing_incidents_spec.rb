@@ -57,12 +57,23 @@ describe 'editing incidents as a driver' do
   end
   context 'deleting an injured passenger' do
     it 'displays current' do
-      # update the incident to have two injured passengers here
+      pax = create :injured_passenger, name: 'Eva', incident_report: report
+      pax2 = create :injured_passenger, name: 'Bob', incident_report: report
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
         click_button 'Edit'
       end
+      check 'Did the incident involve a passenger?'
+      click_button 'Delete injured passenger info'
+      binding.pry
+      click_button 'Save report'
+
+      visit incident_url(incident)
+      expect(page).to have_selector 'h2', text: 'Driver Incident Report'
+      expect(page).to have_selector 'h3', text: 'Passenger Incident Information'
+      expect(page).to have_text 'Injured Passenger Information'
+      expect(page).to have_selector 'li', count: 1
     end
   end
 end
