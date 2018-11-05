@@ -55,4 +55,14 @@ describe 'editing incidents as a driver' do
                                     text: 'Emily; Slipped on many bananas; Not transported to hospital by ambulance'
     end
   end
+  context 'deleting an injured passenger' do
+    it 'displays current' do
+      # update the incident to have two injured passengers here
+      visit incidents_url
+      expect(page).to have_selector 'table.incidents tbody tr', count: 1
+      within 'tr', text: driver.proper_name do
+        click_button 'Edit'
+      end
+    end
+  end
 end
