@@ -66,7 +66,6 @@ describe 'editing incidents as a driver' do
       end
       check 'Did the incident involve a passenger?'
       click_button 'Delete injured passenger info'
-      binding.pry
       click_button 'Save report'
 
       visit incident_url(incident)
