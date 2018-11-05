@@ -60,8 +60,8 @@ describe 'editing supervisor reports as a supervisor' do
   end
   context 'deleting a witness' do
     it 'displays the current witnesses' do
-      witness = create :witness, incident_report: report
-      witness2 = create :witness, incident_report: report
+      witness = create :witness, supervisor_report: incident.supervisor_report
+      witness2 = create :witness, supervisor_report: incident.supervisor_report
       visit edit_incident_url(incident)
       click_on 'Edit Supervisor Report'
       expect(page).to have_content 'Editing Supervisor Report'
@@ -70,8 +70,8 @@ describe 'editing supervisor reports as a supervisor' do
       click_button 'Save supervisor report'
 
       visit incident_url(incident)
-      expect(page).to have_selector 'h2', text: 'Supervisor Incident Report'
-      expect(page).to have_selector 'h3', text: 'Witness Information'
+      expect(page).to have_selector 'h2', text: 'Supervisor Report'
+      expect(page).to have_text 'Witness Information'
       expect(page).to have_selector 'li', count: 1
     end
   end
