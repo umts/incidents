@@ -15,14 +15,17 @@ determineShouldProvideReasonNotUpToCurb = ->
     formSection.slideDown()
   else formSection.slideUp()
 
+incrementAttrs = (attrs) ->
+  num = parseInt(attrs.name.match /\d+/) + 1
+  if attrs.id != null
+    attrs.id = attrs.id.replace /\d+/, num
+  attrs.name = attrs.name.replace /\d+/, num
+
 addFields = (fieldsSelector) ->
   fields = $(fieldsSelector).last()
   field = fields.clone()
   for attrs in field.find('input')
-    num = parseInt(attrs.name.match /\d+/) + 1
-    if attrs.id != null
-      attrs.id = attrs.id.replace /\d+/, num
-    attrs.name = attrs.name.replace /\d+/, num
+    incrementAttrs attrs
   field.insertAfter fields
   $(fieldsSelector).last().find('input').val('').prop 'checked', false
 
