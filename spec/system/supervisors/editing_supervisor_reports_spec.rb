@@ -53,7 +53,7 @@ describe 'editing supervisor reports as a supervisor' do
       expect(page).to have_selector 'h2', text: 'Supervisor Incident Report'
       expect(page).to have_selector 'h3', text: 'Witness Information'
       expect(page).to have_selector 'li',
-                                    text: 'Adam; 355 Governors Dr, Amherst'
+                                    text: 'Adam; 255 Governors Dr, Amherst'
       expect(page).to have_selector 'li',
                                     text: 'Karin; 51 Forestry Way, Amherst'
     end
