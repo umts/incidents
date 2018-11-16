@@ -38,7 +38,7 @@ RSpec.configure do |config|
     desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
       'chromeOptions' => {
         'prefs' => {
-          'download.default_directory' => Rails.root.join('spec/downloads'),
+          'download.default_directory' => Rails.root.join('spec', 'downloads'),
           'download.prompt_for_download' => false,
           'plugins.plugins_disabled' => ['Chrome PDF Viewer']
         }
@@ -47,6 +47,10 @@ RSpec.configure do |config|
     driven_by :selenium,
               using: :chrome,
               options: { desired_capabilities: desired_capabilities }
+  end
+
+  config.before :suite do
+    FileUtils.rm_f Rails.root.join('spec', 'downloads').glob('*')
   end
 end
 
