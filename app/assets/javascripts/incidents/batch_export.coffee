@@ -22,6 +22,7 @@ handleExporting = ->
      window.location.href = 'incidents/batch_hastus_export?' + $.param(ids: ids)
   else
     $('table.incidents .batch-hastus-export').show()
+    $('.batch-hastus-export #main-button').prop 'disabled', true
     $(this).text 'Select incidents to export...'
     $('.batch-hastus-export #select-all').show()
     setSelectAllText()
@@ -29,8 +30,11 @@ handleExporting = ->
 handleIncidentSelected = ->
   selectedIncidentCount = $('.batch-hastus-export input:checked').length
   if selectedIncidentCount > 0
+    $('.batch-hastus-export #main-button').prop 'disabled', false
     $('.batch-hastus-export #main-button').text "Generate XML export (#{selectedIncidentCount} selected)"
-  else $('.batch-hastus-export #main-button').text 'Select incidents to export...'
+  else
+    $('.batch-hastus-export #main-button').prop 'disabled', true
+    $('.batch-hastus-export #main-button').text 'Select incidents to export...'
 
 selectAllIncidents = ->
   if $(this).text() == 'Deselect all'
