@@ -65,7 +65,11 @@ end
 # source: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
 def wait_for_ajax!
   Timeout.timeout Capybara.default_max_wait_time do
-    loop until page.evaluate_script('jQuery.active').zero?
+    loop do
+      break if page.evaluate_script('jQuery.active').zero?
+      rescue Selenium::WebDriver::Error::UnknownError
+        raise "User doesn't have correct traits to access the page being tested."
+    end
   end
 end
 
