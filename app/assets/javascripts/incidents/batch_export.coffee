@@ -60,5 +60,6 @@ setSelectAllText = ->
 $(document).on 'turbolinks:load', ->
   $('.batch-hastus-export #main-button').click enableSelectMode
   $('.batch-hastus-export #xml-button').click handleExporting
+  $('.batch-hastus-export #csv-button').click handleExporting
   $('.batch-hastus-export input').change handleIncidentSelected
   $('.batch-hastus-export #select-all').click selectAllIncidents
