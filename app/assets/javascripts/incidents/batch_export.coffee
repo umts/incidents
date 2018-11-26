@@ -19,7 +19,8 @@ handleExporting = ->
     if alreadyExported > 0
       unless confirm alreadyExportedWarning(alreadyExported)
         return false
-     window.location.href = 'incidents/batch_hastus_export?' + $.param(ids: ids) + '&' + $.param(format: format)
+    format = $(this)[0].id
+    window.location.href = 'incidents/batch_hastus_export?' + $.param(ids: ids) + '&' + $.param(format: format)
 
 enableSelectMode = ->
   $('table.incidents .batch-hastus-export').show()
