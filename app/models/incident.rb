@@ -194,7 +194,7 @@ class Incident < ApplicationRecord
     fields.fetch(table)
   end
 
-  def to_csv
+  def self.to_csv
     all.each do |incident|
       CSV.generate do |csv|
         row = []
