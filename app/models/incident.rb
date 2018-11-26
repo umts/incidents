@@ -194,6 +194,36 @@ class Incident < ApplicationRecord
     fields.fetch(table)
   end
 
+  def to_csv
+    CSV.generate do |csv|
+      row = []
+      report = driver_incident_report
+      row << report.occurred_at.strftime('%m/%d/%Y') # Date
+      row << report.bus # Bus
+      row << "#{driver.badge_number} | #{driver.proper_name.upcase}" # Badge # and Operator
+      row << report.occurred_at.strftime('%H:%M:%S') # Time
+      row << report.full_location # Location
+      row << report.run # Route
+      row << reason_code.try(:identifier) || "" # Classification 1
+      row << supplementary_reason_code.try(:identifier) # Classification 2
+      # AVOIDABLE, UNAVOIDABLE, OTHER VEHICLE, PEDESTRIAN, BICYCLE,
+      # STATIONARY OBJ, STATIONARY VEH, COMPANY VEH, BOARDING, ALIGHTING,
+      # ONBOARD, THROWN IN BUS, INJURED ON BUS, CAUGHT IN DOOR, MISC,
+      # AMB REQUESTED, # OF INJURED
+      row += [""] * 17
+      row << report.block # Block
+      row << root_cause_analysis
+      # Video File Name
+      row << ""
+      classification = if report.passenger_incident? then 'Passenger Incident'
+                       elsif report.motor_vehicle_collision? then 'Collision'
+                       else 'Other'
+                       end
+      row << classification # Collision or Passenger Incident
+      csv << row
+    end
+  end
+
   def self.to_csv
     CSV.generate do |csv|
       all.each do |incident|
