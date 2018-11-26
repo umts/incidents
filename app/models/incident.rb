@@ -195,8 +195,8 @@ class Incident < ApplicationRecord
   end
 
   def self.to_csv
-    all.each do |incident|
-      CSV.generate do |csv|
+    CSV.generate do |csv|
+      all.each do |incident|
         row = []
         report = incident.driver_incident_report
         row << report.occurred_at.strftime('%m/%d/%Y') # Date
