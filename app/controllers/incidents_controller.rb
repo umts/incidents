@@ -15,7 +15,7 @@ class IncidentsController < ApplicationController
         filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
         disposition: 'attachment'
     elsif params[:format] == 'csv-button'
-      send_data render_to_string('batch_export.csv.haml'),
+      send_data @incidents.to_csv,
         filename: "#{@incidents.map(&:id).sort.join(',')}.csv",
         disposition: 'attachment'
     end
