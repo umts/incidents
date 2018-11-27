@@ -196,62 +196,14 @@ class Incident < ApplicationRecord
 
   def to_csv
     CSV.generate do |csv|
-      row = []
-      report = driver_incident_report
-      row << report.occurred_at.strftime('%m/%d/%Y') # Date
-      row << report.bus # Bus
-      row << "#{driver.badge_number} | #{driver.proper_name.upcase}" # Badge # and Operator
-      row << report.occurred_at.strftime('%H:%M:%S') # Time
-      row << report.full_location # Location
-      row << report.run # Route
-      row << reason_code.try(:identifier) || "" # Classification 1
-      row << supplementary_reason_code.try(:identifier) # Classification 2
-      # AVOIDABLE, UNAVOIDABLE, OTHER VEHICLE, PEDESTRIAN, BICYCLE,
-      # STATIONARY OBJ, STATIONARY VEH, COMPANY VEH, BOARDING, ALIGHTING,
-      # ONBOARD, THROWN IN BUS, INJURED ON BUS, CAUGHT IN DOOR, MISC,
-      # AMB REQUESTED, # OF INJURED
-      row += [""] * 17
-      row << report.block # Block
-      row << root_cause_analysis
-      # Video File Name
-      row << ""
-      classification = if report.passenger_incident? then 'Passenger Incident'
-                       elsif report.motor_vehicle_collision? then 'Collision'
-                       else 'Other'
-                       end
-      row << classification # Collision or Passenger Incident
-      csv << row
+      csv << csv_row
     end
   end
 
   def self.to_csv
     CSV.generate do |csv|
       all.each do |incident|
-        row = []
-        report = incident.driver_incident_report
-        row << report.occurred_at.strftime('%m/%d/%Y') # Date
-        row << report.bus # Bus
-        row << "#{incident.driver.badge_number} | #{incident.driver.proper_name.upcase}" # Badge # and Operator
-        row << report.occurred_at.strftime('%H:%M:%S') # Time
-        row << report.full_location # Location
-        row << report.run # Route
-        row << incident.reason_code.try(:identifier) || "" # Classification 1
-        row << incident.supplementary_reason_code.try(:identifier) # Classification 2
-        # AVOIDABLE, UNAVOIDABLE, OTHER VEHICLE, PEDESTRIAN, BICYCLE,
-        # STATIONARY OBJ, STATIONARY VEH, COMPANY VEH, BOARDING, ALIGHTING,
-        # ONBOARD, THROWN IN BUS, INJURED ON BUS, CAUGHT IN DOOR, MISC,
-        # AMB REQUESTED, # OF INJURED
-        row += [""] * 17
-        row << report.block # Block
-        row << incident.root_cause_analysis
-        # Video File Name
-        row << ""
-        classification = if report.passenger_incident? then 'Passenger Incident'
-                         elsif report.motor_vehicle_collision? then 'Collision'
-                         else 'Other'
-                         end
-        row << classification # Collision or Passenger Incident
-        csv << row
+        csv << incident.csv_row
       end
     end
   end
@@ -262,6 +214,35 @@ class Incident < ApplicationRecord
 
   private
 
+  def csv_row
+    row = []
+    report = driver_incident_report
+    row << report.occurred_at.strftime('%m/%d/%Y') # Date
+    row << report.bus # Bus
+    row << "#{driver.badge_number} | #{driver.proper_name.upcase}" # Badge # and Operator
+    row << report.occurred_at.strftime('%H:%M:%S') # Time
+    row << report.full_location # Location
+    row << report.run # Route
+    row << reason_code.try(:identifier) || "" # Classification 1
+    row << supplementary_reason_code.try(:identifier) # Classification 2
+    # AVOIDABLE, UNAVOIDABLE, OTHER VEHICLE, PEDESTRIAN, BICYCLE,
+    # STATIONARY OBJ, STATIONARY VEH, COMPANY VEH, BOARDING, ALIGHTING,
+    # ONBOARD, THROWN IN BUS, INJURED ON BUS, CAUGHT IN DOOR, MISC,
+    # AMB REQUESTED, # OF INJURED
+    row += [""] * 17
+    row << report.block # Block
+    row << root_cause_analysis
+    # Video File Name
+    row << ""
+    classification = if report.passenger_incident? then 'Passenger Incident'
+                     elsif report.motor_vehicle_collision? then 'Collision'
+                     else 'Other'
+                     end
+    row << classification # Collision or Passenger Incident
+    csv << row
+    row
+  end
+  
   def supervisor_in_correct_group
     unless supervisor_incident_report.blank? ||
            supervisor_incident_report.try(:user).try(:supervisor?)
