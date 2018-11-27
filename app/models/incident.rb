@@ -203,9 +203,13 @@ class Incident < ApplicationRecord
   def self.to_csv
     CSV.generate do |csv|
       all.each do |incident|
-        csv << incident.csv_row
+        csv << incident.incident_row
       end
     end
+  end
+
+  def incident_row
+    csv_row
   end
 
   def unclaimed?
