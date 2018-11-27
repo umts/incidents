@@ -239,7 +239,6 @@ class Incident < ApplicationRecord
                      else 'Other'
                      end
     row << classification # Collision or Passenger Incident
-    csv << row
     row
   end
   
