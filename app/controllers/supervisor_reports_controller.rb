@@ -10,12 +10,7 @@ class SupervisorReportsController < ApplicationController
 
   def update
     if @report.update(report_params) && @incident
-      report_params[:witnesses_attributes].each do |witness_num, witness_info|
-        # only their id is given, which means that they were deleted.
-        if witness_info.values.length == 1
-          @report.witnesses.destroy(witness_info.values.first)
-        end
-      end
+      delete_witnesses
       redirect_to @incident,
                   notice: 'Incident report was successfully saved.'
     elsif @incident
@@ -30,6 +25,15 @@ class SupervisorReportsController < ApplicationController
   def build_witnesses
     @report.witnesses.build unless @report.witnesses.present?
     @report.witnesses
+  end
+  
+  def delete_witnesses
+    report_params[:witnesses_attributes].each do |witness_num, witness_info|
+      # only their id is given in params, which means that field was deleted.
+      if witness_info.values.length == 1
+        @report.witnesses.destroy(witness_info.values.first)
+      end
+    end
   end
 
   def report_params
