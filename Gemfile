@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 
 gem 'bootstrap-sass', '~> 3.3'
 gem 'coffee-rails', '~> 4.2'
+gem 'csv'
 gem 'devise'
 gem 'haml-rails'
 gem 'jbuilder', '~> 2.5'
