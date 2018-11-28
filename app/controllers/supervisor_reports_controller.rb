@@ -10,6 +10,12 @@ class SupervisorReportsController < ApplicationController
 
   def update
     if @report.update(report_params) && @incident
+      report_params[:witnesses_attributes].each do |witness_num, witness_info|
+        # only their id is given, which means that they were deleted.
+        if witness_info.values.length == 1
+          @report.witnesses.destroy(witness_info.values.first)
+        end
+      end
       redirect_to @incident,
                   notice: 'Incident report was successfully saved.'
     elsif @incident
