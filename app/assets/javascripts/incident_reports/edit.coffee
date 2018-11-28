@@ -39,8 +39,9 @@ addInjuredPassengerFields = (event) ->
 
 deleteFields = (fieldsSelector) ->
   fields = $(fieldsSelector).last()
-  fields.find('input').remove()
-  fields.remove()
+  fields.find('input').val('').prop 'checked', false
+  if $(fieldsSelector).length > 1
+    fields.remove()
 
 deleteWitnessFields = (event) ->
   event.preventDefault()
