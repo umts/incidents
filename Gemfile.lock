@@ -92,6 +92,7 @@ GEM
     coffee-script-source (1.12.2)
     concurrent-ruby (1.0.5)
     crass (1.0.4)
+    csv (3.0.0)
     devise (4.5.0)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -186,7 +187,7 @@ GEM
       pry (~> 0.10)
     public_suffix (3.0.3)
     puma (3.12.0)
-    rack (2.0.5)
+    rack (2.0.6)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.1.6)
@@ -326,6 +327,7 @@ DEPENDENCIES
   capybara (~> 2.16)
   chromedriver-helper (~> 1.1)
   coffee-rails (~> 4.2)
+  csv
   devise
   exception_notification (~> 4.2.2)
   factory_bot_rails (~> 4.8.2)
