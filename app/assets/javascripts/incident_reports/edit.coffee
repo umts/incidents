@@ -47,11 +47,11 @@ deleteFields = (fieldsSelector, fieldsCheckbox) ->
 
 deleteWitnessFields = (event) ->
   event.preventDefault()
-  deleteFields '.witness-fields'
+  deleteFields '.witness-fields', '#supervisor_report_witness_info'
 
 deleteInjuredPassengerFields = (event) ->
   event.preventDefault()
-  deleteFields '.pax-fields'
+  deleteFields '.pax-fields', '#supervisor_report_inj_pax_info'
 
 toggleReasonsForTesting = ->
   reason = $('#incident_report_reason_test_completed').val()
