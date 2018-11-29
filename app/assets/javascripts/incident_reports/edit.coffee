@@ -37,11 +37,12 @@ addInjuredPassengerFields = (event) ->
   event.preventDefault()
   addFields '.pax-fields'
 
-deleteFields = (fieldsSelector) ->
+deleteFields = (fieldsSelector, fieldsCheckbox) ->
   fields = $(fieldsSelector).last()
   fields.find('input').val('').prop 'checked', false
   if $(fieldsSelector).length > 1
     fields.remove()
+    $(fieldsCheckbox).prop 'checked', false
 
 deleteWitnessFields = (event) ->
   event.preventDefault()
