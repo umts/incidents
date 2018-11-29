@@ -42,6 +42,7 @@ deleteFields = (fieldsSelector, fieldsCheckbox) ->
   fields.find('input').val('').prop 'checked', false
   if $(fieldsSelector).length > 1
     fields.remove()
+  if $(fieldsSelector).length == 1
     $(fieldsCheckbox).prop 'checked', false
 
 deleteWitnessFields = (event) ->
