@@ -60,12 +60,12 @@ describe 'editing supervisor reports as a supervisor' do
   end
   context 'deleting a witness' do
     it 'displays the current witnesses' do
+      incident.supervisor_report.witnesses = []
       witness = create :witness, supervisor_report: incident.supervisor_report
       witness2 = create :witness, supervisor_report: incident.supervisor_report
       visit edit_incident_url(incident)
       click_on 'Edit Supervisor Report'
       expect(page).to have_content 'Editing Supervisor Report'
-      check 'Were there witnesses?'
       click_button 'Delete witness info'
       click_button 'Save supervisor report'
 
