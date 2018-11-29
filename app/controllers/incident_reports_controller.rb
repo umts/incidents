@@ -35,10 +35,12 @@ class IncidentReportsController < ApplicationController
   end
   
   def delete_passengers
-    report_params[:injured_passengers_attributes].each do |pax_num, pax_info|
-      # only their id is given, which means that they were deleted.
-      if pax_info.values.length == 1
-        @report.injured_passengers.destroy(pax_info.values.first)
+    if report_params[:injured_passengers_attributes]
+      report_params[:injured_passengers_attributes].each do |pax_num, pax_info|
+        # only their id is given, which means that they were deleted.
+        if pax_info.values.length == 1
+          @report.injured_passengers.destroy(pax_info.values.first)
+        end
       end
     end
   end

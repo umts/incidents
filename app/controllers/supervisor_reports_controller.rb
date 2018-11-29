@@ -28,10 +28,12 @@ class SupervisorReportsController < ApplicationController
   end
   
   def delete_witnesses
-    report_params[:witnesses_attributes].each do |witness_num, witness_info|
-      # only their id is given in params, which means that field was deleted.
-      if witness_info.values.length == 1
-        @report.witnesses.destroy(witness_info.values.first)
+    if report_params[:witnesses_attributes]
+      report_params[:witnesses_attributes].each do |witness_num, witness_info|
+        # only their id is given in params, which means that field was deleted.
+        if witness_info.values.length == 1
+          @report.witnesses.destroy(witness_info.values.first)
+        end
       end
     end
   end
