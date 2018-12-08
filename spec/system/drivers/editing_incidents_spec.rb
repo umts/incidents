@@ -26,6 +26,7 @@ describe 'editing incidents as a driver' do
   end
   context 'adding multiple injured passengers' do
     it 'displays all of them' do
+      expect(page).to have_content 'Editing Driver Account of Incident'
       check 'Did the incident involve a passenger?'
       expect(page).to have_text 'Passenger Incident Information'
       within first('div', text: 'Passenger Incident Information') do
