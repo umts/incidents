@@ -28,10 +28,12 @@ describe 'editing incidents as a driver' do
     it 'displays all of them' do
       expect(page).to have_content 'Editing Driver Account of Incident'
       check 'Did the incident involve a passenger?'
+      wait_for_animation!
       expect(page).to have_text 'Passenger Incident Information'
       within first('div', text: 'Passenger Incident Information') do
         # unable to check 'Were passengers injured?'
         page.find('#supervisor_report_inj_pax_info').click
+        wait_for_animation!
         fill_in 'Name', with: 'Ben'
         fill_in 'Nature of injury', with: 'Slipped on banana'
         click_button 'Add injured passenger info'
