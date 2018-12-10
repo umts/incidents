@@ -53,6 +53,7 @@ describe 'special supervisor report fields' do
       end
       it 'requires filling in the witness information' do
         check 'Were there witnesses?'
+        wait_for_animation!
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page).to have_text "Witnesses name can't be blank"
@@ -79,6 +80,7 @@ describe 'special supervisor report fields' do
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).not_to have_text 'Please document why a test was not conducted.'
         uncheck 'Completed drug or alcohol test?'
+        wait_for_animation!
         expect(page).to have_text 'Please document why a test was not conducted.'
       end
     end
@@ -88,6 +90,7 @@ describe 'special supervisor report fields' do
         uncheck 'Completed drug or alcohol test?'
         uncheck :supervisor_report_fta_threshold_not_met
         uncheck :supervisor_report_driver_discounted
+        wait_for_animation!
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page).to have_text 'You must provide a reason why no test was conducted.'
@@ -111,6 +114,7 @@ describe 'special supervisor report fields' do
       end
       it 'requires explaining how the FTA threshold was not met' do
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
+        wait_for_animation!
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page).to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
@@ -146,6 +150,7 @@ describe 'special supervisor report fields' do
         incident.supervisor_report.update! reason_driver_discounted: nil
         visit edit_supervisor_report_url(incident.supervisor_report)
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
+        wait_for_animation!
         expect(page).to have_text 'Please explain why the driver can be discounted.'
         click_button 'Save supervisor report'
         wait_for_ajax!
