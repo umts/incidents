@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: tru
 
 require 'spec_helper'
 
@@ -38,25 +38,28 @@ describe 'special supervisor report fields' do
     end
   end
   describe 'witness information related fields' do
+    before :each do
+      incident.supervisor_report.witnesses.delete_all
+    end
     context 'without witnesses' do
-      it 'allows filling in witness information' do
-        incident.supervisor_report.witnesses.delete_all
+      before :each do
         visit edit_supervisor_report_url(incident.supervisor_report)
+      end
+      it 'allows filling in witness information' do
         expect(page).not_to have_text 'Witness Information'
         check 'Were there witnesses?'
         wait_for_animation!
         expect(page).to have_text 'Witness Information'
       end
       it 'requires filling in the witness information' do
-        incident.supervisor_report.witnesses.delete_all
-        visit edit_supervisor_report_url(incident.supervisor_report)
         check 'Were there witnesses?'
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page).to have_text "Witnesses name can't be blank"
       end
+    end
+    context 'with witnesses' do
       it 'shows witness information for reports where it applies' do
-        incident.supervisor_report.witnesses.delete_all
         create :witness, supervisor_report: incident.supervisor_report
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).to have_text 'Witness Information'
@@ -78,6 +81,8 @@ describe 'special supervisor report fields' do
         uncheck 'Completed drug or alcohol test?'
         expect(page).to have_text 'Please document why a test was not conducted.'
       end
+    end
+    context 'without test conducted' do
       it 'requires selecting a reason why a test was not conducted' do
         visit edit_supervisor_report_url(incident.supervisor_report)
         uncheck 'Completed drug or alcohol test?'
@@ -91,19 +96,20 @@ describe 'special supervisor report fields' do
   end
   describe 'FTA threshold related fields' do
     context 'with FTA threshold met' do
-      it 'allows filling in a reason why the FTA threshold was not met' do
+      before :each do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-          fta_threshold_not_met: false, driver_discounted: true, reason_driver_discounted: 'Placeholder'
+                                           fta_threshold_not_met: false,
+                                           driver_discounted: true,
+                                           reason_driver_discounted: 'Placeholder'
         visit edit_supervisor_report_url(incident.supervisor_report)
+      end
+      it 'allows filling in a reason why the FTA threshold was not met' do
         expect(page).not_to have_text 'Please explain how the FTA threshold is not met.'
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
         wait_for_animation!
         expect(page).to have_text 'Please explain how the FTA threshold is not met.'
       end
       it 'requires explaining how the FTA threshold was not met' do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-          fta_threshold_not_met: false, driver_discounted: true, reason_driver_discounted: 'Placeholder'
-        visit edit_supervisor_report_url(incident.supervisor_report)
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
         click_button 'Save supervisor report'
         wait_for_ajax!
@@ -113,7 +119,9 @@ describe 'special supervisor report fields' do
     context 'without FTA threshold met' do
       it 'shows FTA threshold information when it applies' do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-          fta_threshold_not_met: true, driver_discounted: false, reason_threshold_not_met: 'Placeholder'
+                                           fta_threshold_not_met: true,
+                                           driver_discounted: false,
+                                           reason_threshold_not_met: 'Placeholder'
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).to have_text 'Please explain how the FTA threshold is not met.'
       end
@@ -121,9 +129,13 @@ describe 'special supervisor report fields' do
   end
   describe 'driver discount related fields' do
     context 'without driver discounted' do
-      it 'allows filling in a reason why a driver can be discounted' do
+      before :each do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-          driver_discounted: false, fta_threshold_not_met: true, reason_threshold_not_met: 'Placeholder'
+                                           driver_discounted: false,
+                                           fta_threshold_not_met: true,
+                                           reason_threshold_not_met: 'Placeholder'
+      end
+      it 'allows filling in a reason why a driver can be discounted' do
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).not_to have_text 'Please explain why the driver can be discounted.'
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
@@ -131,9 +143,7 @@ describe 'special supervisor report fields' do
         expect(page).to have_text 'Please explain why the driver can be discounted.'
       end
       it 'requires explaining why the driver can be discounted' do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-          driver_discounted: false, fta_threshold_not_met: true, reason_threshold_not_met: 'Placeholder',
-          reason_driver_discounted: nil
+        incident.supervisor_report.update! reason_driver_discounted: nil
         visit edit_supervisor_report_url(incident.supervisor_report)
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
         click_button 'Save supervisor report'
@@ -144,7 +154,9 @@ describe 'special supervisor report fields' do
     context 'with driver discounted' do
       it 'shows driver discount information when it applies' do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-          driver_discounted: true, fta_threshold_not_met: false, reason_driver_discounted: 'Placeholder'
+                                           driver_discounted: true,
+                                           fta_threshold_not_met: false,
+                                           reason_driver_discounted: 'Placeholder'
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).to have_text 'Please explain why the driver can be discounted.'
       end
