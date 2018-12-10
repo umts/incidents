@@ -77,9 +77,11 @@ describe 'special supervisor report fields' do
 
   describe 'test completion related fields' do
     context 'with test conducted' do
-      it 'allows filling in fields related to a test not being completed' do
+      before :each do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: true
         visit edit_supervisor_report_url(incident.supervisor_report)
+      end
+      it 'allows filling in fields related to a test not being completed' do
         expect(page).not_to have_text 'Please document why a test was not conducted.'
         uncheck 'Completed drug or alcohol test?'
         wait_for_animation!
@@ -88,7 +90,6 @@ describe 'special supervisor report fields' do
     end
     context 'without test conducted' do
       it 'requires selecting a reason why a test was not conducted' do
-        visit edit_supervisor_report_url(incident.supervisor_report)
         uncheck 'Completed drug or alcohol test?'
         uncheck :supervisor_report_fta_threshold_not_met
         uncheck :supervisor_report_driver_discounted
