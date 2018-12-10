@@ -40,9 +40,9 @@ describe 'editing incidents as a driver' do
         wait_for_animation!
         # unable to easily find these fields...
         fill_in 'incident_report_injured_passengers_attributes_1_name',
-                  with: 'Emily'
+                with: 'Emily'
         fill_in 'incident_report_injured_passengers_attributes_1_nature_of_injury',
-                  with: 'Slipped on many bananas'
+                with: 'Slipped on many bananas'
       end
       click_button 'Save report'
 
