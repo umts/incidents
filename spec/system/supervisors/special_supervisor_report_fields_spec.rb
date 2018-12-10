@@ -37,6 +37,7 @@ describe 'special supervisor report fields' do
       end
     end
   end
+
   describe 'witness information related fields' do
     before :each do
       incident.supervisor_report.witnesses.delete_all
@@ -73,6 +74,7 @@ describe 'special supervisor report fields' do
       end
     end
   end
+
   describe 'test completion related fields' do
     context 'with test conducted' do
       it 'allows filling in fields related to a test not being completed' do
@@ -97,6 +99,7 @@ describe 'special supervisor report fields' do
       end
     end
   end
+
   describe 'FTA threshold related fields' do
     context 'with FTA threshold met' do
       before :each do
@@ -131,6 +134,7 @@ describe 'special supervisor report fields' do
       end
     end
   end
+
   describe 'driver discount related fields' do
     context 'without driver discounted' do
       before :each do
