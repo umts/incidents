@@ -83,7 +83,6 @@ describe 'special incident fields' do
       it 'does not require police info' do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
-        wait_for_animation!
         check 'Did police respond to the incident?'
         wait_for_animation!
         click_on 'Save report'
