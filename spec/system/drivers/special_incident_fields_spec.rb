@@ -7,7 +7,7 @@ describe 'special incident fields' do
   before(:each) { when_current_user_is driver }
   describe 'collision related fields' do
     context 'without collision' do
-      before :each do 
+      before :each do
         visit new_incident_path
       end
       it 'allows filling in collision fields' do
