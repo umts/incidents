@@ -47,7 +47,7 @@ describe 'special incident fields' do
         expect(page).not_to have_field 'Other vehicle owner name'
       end
     end
-    context 'with other vehicle info' dp
+    context 'with other vehicle info' do
       it 'shows other vehicle owner information as necessary' do
         driver_report = create :incident_report, :driver_report, :with_incident,
           :collision, :other_vehicle_not_driven_by_owner, user: driver
