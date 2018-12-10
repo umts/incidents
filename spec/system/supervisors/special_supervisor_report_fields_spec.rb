@@ -146,6 +146,7 @@ describe 'special supervisor report fields' do
         incident.supervisor_report.update! reason_driver_discounted: nil
         visit edit_supervisor_report_url(incident.supervisor_report)
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
+        expect(page).to have_text 'Please explain why the driver can be discounted.'
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page).to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
