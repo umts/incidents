@@ -20,7 +20,7 @@ describe 'special incident fields' do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
         wait_for_animation!
-        click_on 'Save report'
+        click_on 'Save report and print PDF'
         expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
       end
     end
@@ -85,7 +85,7 @@ describe 'special incident fields' do
         check 'Did the incident involve a collision?'
         check 'Did police respond to the incident?'
         wait_for_animation!
-        click_on 'Save report'
+        click_on 'Save report and print PDF'
         expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
       end
     end
@@ -121,7 +121,7 @@ describe 'special incident fields' do
         check 'Did the incident involve a passenger?'
         wait_for_animation!
         expect(page).to have_text 'Passenger Incident Information'
-        click_on 'Save report'
+        click_on 'Save report and print PDF'
         expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
       end
     end
@@ -160,7 +160,7 @@ describe 'special incident fields' do
         select 'Stopped', from: 'Motion of bus'
         uncheck 'Was the bus pulled completely up to the curb?'
         wait_for_animation!
-        click_on 'Save report'
+        click_on 'Save report and print PDF'
         expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
       end
     end
