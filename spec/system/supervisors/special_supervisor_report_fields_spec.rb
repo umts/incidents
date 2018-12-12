@@ -88,7 +88,6 @@ describe 'special supervisor report fields' do
     context 'without test conducted' do
       it 'requires selecting a reason why a test was not conducted' do
         visit edit_supervisor_report_url(incident.supervisor_report)
-        binding.pry
         uncheck 'Completed drug or alcohol test?'
         uncheck :supervisor_report_fta_threshold_not_met
         uncheck :supervisor_report_driver_discounted
