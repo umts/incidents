@@ -18,12 +18,10 @@ describe 'special supervisor report fields' do
       it 'allows filling in the number of pictures saved' do
         expect(page).not_to have_text 'Number of pictures saved'
         check 'Were pictures taken?'
-        wait_for_animation!
         expect(page).to have_text 'Number of pictures saved'
       end
       it 'does not require filling in the number of saved pictures' do
         check 'Were pictures taken?'
-        wait_for_animation!
         fill_in 'Number of pictures saved', with: ''
         click_button 'Save supervisor report'
         wait_for_ajax!
@@ -51,12 +49,10 @@ describe 'special supervisor report fields' do
       it 'allows filling in witness information' do
         expect(page).not_to have_text 'Witness Information'
         check 'Were there witnesses?'
-        wait_for_animation!
         expect(page).to have_text 'Witness Information'
       end
       it 'requires filling in the witness information' do
         check 'Were there witnesses?'
-        wait_for_animation!
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page).to have_text "Witnesses name can't be blank"
@@ -87,7 +83,6 @@ describe 'special supervisor report fields' do
         expect(page)
           .not_to have_text 'Please document why a test was not conducted.'
         uncheck 'Completed drug or alcohol test?'
-        wait_for_animation!
         expect(page)
           .to have_text 'Please document why a test was not conducted.'
       end
@@ -97,7 +92,6 @@ describe 'special supervisor report fields' do
         uncheck 'Completed drug or alcohol test?'
         uncheck :supervisor_report_fta_threshold_not_met
         uncheck :supervisor_report_driver_discounted
-        wait_for_animation!
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page)
@@ -119,12 +113,10 @@ describe 'special supervisor report fields' do
         expect(page)
           .not_to have_text 'Please explain how the FTA threshold is not met.'
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
-        wait_for_animation!
         expect(page).to have_text 'Please explain how the FTA threshold is not met.'
       end
       it 'requires explaining how the FTA threshold was not met' do
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
-        wait_for_animation!
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page)
@@ -155,14 +147,12 @@ describe 'special supervisor report fields' do
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).not_to have_text 'Please explain why the driver can be discounted.'
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
-        wait_for_animation!
         expect(page).to have_text 'Please explain why the driver can be discounted.'
       end
       it 'requires explaining why the driver can be discounted' do
         incident.supervisor_report.update! reason_driver_discounted: nil
         visit edit_supervisor_report_url(incident.supervisor_report)
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
-        wait_for_animation!
         expect(page)
           .to have_text 'Please explain why the driver can be discounted.'
         click_button 'Save supervisor report'

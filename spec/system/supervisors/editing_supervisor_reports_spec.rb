@@ -12,7 +12,6 @@ describe 'editing supervisor reports as a supervisor' do
     expect(page.current_url)
       .to end_with edit_supervisor_report_path(incident.supervisor_report)
     check 'Were pictures taken?'
-    wait_for_animation!
     fill_in 'Number of pictures saved', with: 37
     click_button 'Save supervisor report'
     wait_for_ajax!
@@ -41,7 +40,6 @@ describe 'editing supervisor reports as a supervisor' do
       click_on 'Edit Supervisor Report'
       expect(page).to have_content 'Editing Supervisor Report'
       check 'Were there witnesses?'
-      wait_for_animation!
       expect(page).to have_text 'Witness Information'
       fill_in 'Name', with: 'Adam'
       fill_in 'Address', with: '255 Governors Dr, Amherst'

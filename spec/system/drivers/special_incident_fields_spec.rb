@@ -13,13 +13,11 @@ describe 'special incident fields' do
       it 'allows filling in collision fields' do
         expect(page).not_to have_text 'Motor Vehicle Collision Information'
         check 'Did the incident involve a collision?'
-        wait_for_animation!
         expect(page).to have_text 'Motor Vehicle Collision Information'
       end
       it 'does not require filling in fields for collisions' do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
-        wait_for_animation!
         click_on 'Save report and print PDF'
         expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
       end
@@ -44,10 +42,8 @@ describe 'special incident fields' do
       it 'allows filling in other vehicle info as necessary' do
         visit new_incident_path
         check 'Did the incident involve a collision?'
-        wait_for_animation!
         expect(page).to have_field 'Other vehicle owner name'
         check 'Is the other driver involved the owner of the vehicle?'
-        wait_for_animation!
         expect(page).not_to have_field 'Other vehicle owner name'
       end
     end
@@ -74,17 +70,14 @@ describe 'special incident fields' do
       end
       it 'allows filling in police info' do
         check 'Did the incident involve a collision?'
-        wait_for_animation!
         expect(page).not_to have_field 'Police badge number'
         check 'Did police respond to the incident?'
-        wait_for_animation!
         expect(page).to have_field 'Police badge number'
       end
       it 'does not require police info' do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
         check 'Did police respond to the incident?'
-        wait_for_animation!
         click_on 'Save report and print PDF'
         expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
       end
@@ -113,13 +106,11 @@ describe 'special incident fields' do
       it 'allows filling in passenger incident fields' do
         expect(page).not_to have_text 'Passenger Incident Information'
         check 'Did the incident involve a passenger?'
-        wait_for_animation!
         expect(page).to have_text 'Passenger Incident Information'
       end
       it 'does not require filling in passenger incident fields' do
         fill_in_base_incident_fields
         check 'Did the incident involve a passenger?'
-        wait_for_animation!
         expect(page).to have_text 'Passenger Incident Information'
         click_on 'Save report and print PDF'
         expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
@@ -146,20 +137,16 @@ describe 'special incident fields' do
     context 'without reason not up to curb' do
       it 'allows filling in reason bus was not up to curb' do
         check 'Did the incident involve a passenger?'
-        wait_for_animation!
         expect(page).not_to have_field 'Reason not up to curb'
         select 'Stopped', from: 'Motion of bus'
         uncheck 'Was the bus pulled completely up to the curb?'
-        wait_for_animation!
         expect(page).to have_field 'Reason not up to curb'
       end
       it 'does not require filling in reason not up to curb' do
         fill_in_base_incident_fields
         check 'Did the incident involve a passenger?'
-        wait_for_animation!
         select 'Stopped', from: 'Motion of bus'
         uncheck 'Was the bus pulled completely up to the curb?'
-        wait_for_animation!
         click_on 'Save report and print PDF'
         expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
       end

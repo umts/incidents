@@ -90,10 +90,6 @@ def wait_for_ajax!
   end
 end
 
-def wait_for_animation!
-  sleep 0.5
-end
-
 def when_current_user_is(user)
   current_user = case user
                  when User, nil then user
