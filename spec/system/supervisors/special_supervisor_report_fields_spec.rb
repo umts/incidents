@@ -6,7 +6,9 @@ describe 'special supervisor report fields' do
   let(:supervisor) { create :user, :supervisor }
   before(:each) { when_current_user_is supervisor }
   let(:supervisor_incident_report) { create :incident_report, user: supervisor }
-  let(:incident) { create :incident, supervisor_incident_report: supervisor_incident_report }
+  let(:incident) do
+    create :incident, supervisor_incident_report: supervisor_incident_report
+  end
   describe 'pictures saved related fields' do
     context 'without pictures saved' do
       before :each do
@@ -26,7 +28,7 @@ describe 'special supervisor report fields' do
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page).to have_selector 'p.notice',
-          text: 'Incident report was successfully saved.'
+                                      text: 'Incident report was successfully saved.'
       end
     end
     context 'with pictures saved' do
@@ -69,7 +71,7 @@ describe 'special supervisor report fields' do
         click_button 'Save supervisor report'
         wait_for_ajax!
         expect(page).to have_selector 'p.notice',
-          text: 'Incident report was successfully saved.'
+                                      text: 'Incident report was successfully saved.'
         expect(page).to have_text 'Cornelius Fudge'
       end
     end
@@ -82,10 +84,12 @@ describe 'special supervisor report fields' do
         visit edit_supervisor_report_url(incident.supervisor_report)
       end
       it 'allows filling in fields related to a test not being completed' do
-        expect(page).not_to have_text 'Please document why a test was not conducted.'
+        expect(page)
+          .not_to have_text 'Please document why a test was not conducted.'
         uncheck 'Completed drug or alcohol test?'
         wait_for_animation!
-        expect(page).to have_text 'Please document why a test was not conducted.'
+        expect(page)
+          .to have_text 'Please document why a test was not conducted.'
       end
     end
     context 'without test conducted' do
@@ -96,7 +100,8 @@ describe 'special supervisor report fields' do
         wait_for_animation!
         click_button 'Save supervisor report'
         wait_for_ajax!
-        expect(page).to have_text 'You must provide a reason why no test was conducted.'
+        expect(page)
+          .to have_text 'You must provide a reason why no test was conducted.'
       end
     end
   end
@@ -111,7 +116,8 @@ describe 'special supervisor report fields' do
         visit edit_supervisor_report_url(incident.supervisor_report)
       end
       it 'allows filling in a reason why the FTA threshold was not met' do
-        expect(page).not_to have_text 'Please explain how the FTA threshold is not met.'
+        expect(page)
+          .not_to have_text 'Please explain how the FTA threshold is not met.'
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
         wait_for_animation!
         expect(page).to have_text 'Please explain how the FTA threshold is not met.'
@@ -121,7 +127,8 @@ describe 'special supervisor report fields' do
         wait_for_animation!
         click_button 'Save supervisor report'
         wait_for_ajax!
-        expect(page).to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
+        expect(page)
+          .to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
       end
     end
     context 'without FTA threshold met' do
@@ -156,10 +163,12 @@ describe 'special supervisor report fields' do
         visit edit_supervisor_report_url(incident.supervisor_report)
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
         wait_for_animation!
-        expect(page).to have_text 'Please explain why the driver can be discounted.'
+        expect(page)
+          .to have_text 'Please explain why the driver can be discounted.'
         click_button 'Save supervisor report'
         wait_for_ajax!
-        expect(page).to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
+        expect(page)
+          .to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
       end
     end
     context 'with driver discounted' do
@@ -169,7 +178,8 @@ describe 'special supervisor report fields' do
                                            fta_threshold_not_met: false,
                                            reason_driver_discounted: 'Placeholder'
         visit edit_supervisor_report_url(incident.supervisor_report)
-        expect(page).to have_text 'Please explain why the driver can be discounted.'
+        expect(page)
+          .to have_text 'Please explain why the driver can be discounted.'
       end
     end
   end
