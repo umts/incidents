@@ -30,6 +30,7 @@ describe 'viewing users as staff' do
           text: 'View incidents', count: 1
         click_button 'View incidents'
         expect(page.current_url).to end_with incidents_user_path(driver)
+        expect(page).to have_content 'No incidents found.'
         expect(page).to have_selector 'h1',
           text: "#{driver.full_name}'s Incidents"
       end
@@ -62,7 +63,6 @@ describe 'viewing users as staff' do
       expect(page).to have_text 'Manage inactive users'
       expect(page).not_to have_text inactive.proper_name
       click_on 'Manage inactive users'
-      expect(page).to have_selector 'h1', text: 'Inactive Users'
       expect(page).to have_text inactive.proper_name
       expect(page).not_to have_text staff.proper_name
     end
@@ -70,6 +70,7 @@ describe 'viewing users as staff' do
       visit users_url
       click_on 'Manage inactive users'
       expect(page.current_url).to end_with users_path(inactive: true)
+      expect(page).to have_selector 'h1', text: 'Inactive Users'
       click_on 'Manage active users'
       expect(page.current_url).to end_with users_path
       expect(page).to have_selector 'h1', text: 'Active Users'
