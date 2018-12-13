@@ -34,19 +34,21 @@ describe 'viewing users as staff' do
     click_button 'All'
     expect(page).to have_selector 'table.index tbody tr', count: 3
   end
-  it 'allows managing inactive users' do
-    inactive = create :user, active: false
-    visit users_url
-    expect(page).to have_text 'Manage inactive users'
-    expect(page).not_to have_text inactive.proper_name
-    click_on 'Manage inactive users'
-    expect(page).to have_selector 'h1', text: 'Inactive Users'
-    expect(page.current_url).to end_with users_path(inactive: true)
-    expect(page).to have_text inactive.proper_name
-    expect(page).not_to have_text staff.proper_name
-    click_on 'Manage active users'
-    expect(page.current_url).to end_with users_path
-    expect(page).to have_selector 'h1', text: 'Active Users'
+  context 'with inactive users' do
+    it 'allows managing inactive users' do
+      inactive = create :user, active: false
+      visit users_url
+      expect(page).to have_text 'Manage inactive users'
+      expect(page).not_to have_text inactive.proper_name
+      click_on 'Manage inactive users'
+      expect(page).to have_selector 'h1', text: 'Inactive Users'
+      expect(page.current_url).to end_with users_path(inactive: true)
+      expect(page).to have_text inactive.proper_name
+      expect(page).not_to have_text staff.proper_name
+      click_on 'Manage active users'
+      expect(page.current_url).to end_with users_path
+      expect(page).to have_selector 'h1', text: 'Active Users'
+    end
   end
   context 'with no inactive users' do
     it 'does not allow managing inactive users' do
