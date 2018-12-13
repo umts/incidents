@@ -40,7 +40,7 @@ describe 'special supervisor report fields' do
 
   describe 'witness information related fields' do
     before :each do
-      incident.supervisor_report.witnesses.delete_all
+      incident.supervisor_report.witnesses = []
     end
     context 'without witnesses' do
       before :each do
