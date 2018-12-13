@@ -56,16 +56,20 @@ describe 'viewing users as staff' do
     end
   end
   context 'with inactive users' do
+    let!(:inactive) { create :user, active: false }
     it 'allows managing inactive users' do
-      inactive = create :user, active: false
       visit users_url
       expect(page).to have_text 'Manage inactive users'
       expect(page).not_to have_text inactive.proper_name
       click_on 'Manage inactive users'
       expect(page).to have_selector 'h1', text: 'Inactive Users'
-      expect(page.current_url).to end_with users_path(inactive: true)
       expect(page).to have_text inactive.proper_name
       expect(page).not_to have_text staff.proper_name
+    end
+    it 'allows user to go between inactive and active' do
+      visit users_url
+      click_on 'Manage inactive users'
+      expect(page.current_url).to end_with users_path(inactive: true)
       click_on 'Manage active users'
       expect(page.current_url).to end_with users_path
       expect(page).to have_selector 'h1', text: 'Active Users'
