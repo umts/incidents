@@ -12,6 +12,7 @@ class IncidentReportsController < ApplicationController
   def update
     if @incident
       if @report.update(report_params)
+        delete_passengers
         if @current_user == @incident.supervisor && @incident.supervisor_report.invalid?
           redirect_to edit_supervisor_report_path(@incident.supervisor_report),
             notice: 'Incident report was successfully saved. Please complete the supervisor report.'
@@ -31,6 +32,17 @@ class IncidentReportsController < ApplicationController
   def build_passengers
     @report.injured_passengers.build unless @report.injured_passengers.present?
     @report.injured_passengers
+  end
+  
+  def delete_passengers
+    if report_params[:injured_passengers_attributes]
+      report_params[:injured_passengers_attributes].each do |pax_num, pax_info|
+        # only their id is given, which means that they were deleted.
+        if pax_info.values.length == 1
+          @report.injured_passengers.destroy(pax_info.values.first)
+        end
+      end
+    end
   end
 
   def report_params
