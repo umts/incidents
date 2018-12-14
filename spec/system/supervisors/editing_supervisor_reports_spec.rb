@@ -31,7 +31,6 @@ describe 'editing supervisor reports as a supervisor' do
                                     text: 'This incident report no longer exists.'
     end
   end
-  # this test fails because the second_field is disabled...?
   context 'adding multiple witnesses' do
     it 'displays all of them' do
       # there is one witness filled in otherwise
@@ -44,6 +43,7 @@ describe 'editing supervisor reports as a supervisor' do
       fill_in 'Name', with: 'Adam'
       fill_in 'Address', with: '255 Governors Dr, Amherst'
       click_button 'Add witness info'
+      expect(page).to have_text 'Witness Information'
       fill_in 'supervisor_report_witnesses_attributes_1_name',
               with: 'Karin'
       fill_in 'supervisor_report_witnesses_attributes_1_address',
@@ -57,6 +57,25 @@ describe 'editing supervisor reports as a supervisor' do
                                     text: 'Adam; 255 Governors Dr, Amherst'
       expect(page).to have_selector 'li',
                                     text: 'Karin; 51 Forestry Way, Amherst'
+    end
+  end
+  context 'deleting a witness' do
+    it 'displays the current witnesses' do
+      incident.supervisor_report.witnesses = []
+      witness = create :witness, supervisor_report: incident.supervisor_report
+      witness2 = create :witness, supervisor_report: incident.supervisor_report
+      visit edit_incident_url(incident)
+      click_on 'Edit Supervisor Report'
+      expect(page).to have_content 'Editing Supervisor Report'
+      click_button 'Delete witness info'
+      click_button 'Save supervisor report'
+
+      visit incident_url(incident)
+      expect(page).not_to have_content witness2.name
+      expect(page).to have_content witness.name
+      expect(page).to have_selector 'h2', text: 'Supervisor Report'
+      expect(page).to have_text 'Witness Information'
+      expect(page).to have_selector 'li', count: 1
     end
   end
 end

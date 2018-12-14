@@ -37,6 +37,22 @@ addInjuredPassengerFields = (event) ->
   event.preventDefault()
   addFields '.pax-fields'
 
+deleteFields = (fieldsSelector, fieldsCheckbox) ->
+  fields = $(fieldsSelector).last()
+  fields.find('input').val('').prop 'checked', false
+  if $(fieldsSelector).length == 1
+    $(fieldsCheckbox).prop 'checked', false
+  if $(fieldsSelector).length > 1
+    fields.remove()
+
+deleteWitnessFields = (event) ->
+  event.preventDefault()
+  deleteFields '.witness-fields', '#supervisor_report_witness_info'
+
+deleteInjuredPassengerFields = (event) ->
+  event.preventDefault()
+  deleteFields '.pax-fields', '#supervisor_report_inj_pax_info'
+
 toggleReasonsForTesting = ->
   reason = $('#incident_report_reason_test_completed').val()
   switch reason
@@ -111,3 +127,7 @@ $(document).on 'turbolinks:load', ->
   $('form').on 'click', 'button.add-witness', addWitnessFields
 
   $('form').on 'click', 'button.add-pax', addInjuredPassengerFields
+  
+  $('form').on 'click', 'button.delete-witness', deleteWitnessFields
+
+  $('form').on 'click', 'button.delete-pax', deleteInjuredPassengerFields
