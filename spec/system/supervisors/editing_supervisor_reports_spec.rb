@@ -31,7 +31,6 @@ describe 'editing supervisor reports as a supervisor' do
                                     text: 'This incident report no longer exists.'
     end
   end
-  # this test fails because the second_field is disabled...?
   context 'adding multiple witnesses' do
     it 'displays all of them' do
       # there is one witness filled in otherwise
