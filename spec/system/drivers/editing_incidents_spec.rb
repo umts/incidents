@@ -26,6 +26,7 @@ describe 'editing incidents as a driver' do
   end
   context 'adding multiple injured passengers' do
     it 'displays all of them' do
+      expect(page).to have_content 'Editing Driver Account of Incident'
       check 'Did the incident involve a passenger?'
       expect(page).to have_text 'Passenger Incident Information'
       within first('div', text: 'Passenger Incident Information') do
@@ -34,11 +35,11 @@ describe 'editing incidents as a driver' do
         fill_in 'Name', with: 'Ben'
         fill_in 'Nature of injury', with: 'Slipped on banana'
         click_button 'Add injured passenger info'
-        second_field = all('.pax-fields')[1]
-        within second_field do
-          fill_in 'Name', with: 'Emily'
-          fill_in 'Nature of injury', with: 'Slipped on many bananas'
-        end
+        # unable to easily find these fields...
+        fill_in 'incident_report_injured_passengers_attributes_1_name',
+                with: 'Emily'
+        fill_in 'incident_report_injured_passengers_attributes_1_nature_of_injury',
+                with: 'Slipped on many bananas'
       end
       click_button 'Save report'
 

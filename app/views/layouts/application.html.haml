@@ -9,6 +9,9 @@
     %script{ src: "https://maps.google.com/maps/api/js?key=#{Rails.application.secrets.google_maps_api_key}" }
     = favicon_link_tag
   %body
+    - if Rails.env.test?
+      :javascript
+        jQuery.fx.off = true;
     = render 'layouts/navbar'
     #main-panel.panel.panel-default
       .panel-body
