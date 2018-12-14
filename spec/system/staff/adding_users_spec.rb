@@ -8,6 +8,10 @@ describe 'adding users as staff' do
   it 'allows adding users' do
     visit users_url
     click_on 'Add New User'
+    expect(page).to have_content 'First name'
+    expect(page).to have_content 'Last name'
+    expect(page).to have_content 'Badge number'
+    expect(page).to have_content 'Divisions'
     expect(page.current_url).to end_with new_user_path
     expect(page).to have_selector 'h1', text: 'Add New User'
   end

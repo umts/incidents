@@ -33,6 +33,7 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
+  Capybara.default_max_wait_time = 10
 
   config.before :each, type: :system do
     desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
@@ -88,10 +89,6 @@ def wait_for_ajax!
         raise "User doesn't have correct traits to access the page being tested."
     end
   end
-end
-
-def wait_for_animation!
-  sleep 0.5
 end
 
 def when_current_user_is(user)
