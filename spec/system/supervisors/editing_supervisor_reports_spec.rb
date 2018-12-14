@@ -71,6 +71,8 @@ describe 'editing supervisor reports as a supervisor' do
       click_button 'Save supervisor report'
 
       visit incident_url(incident)
+      expect(page).not_to have_content witness2.name
+      expect(page).to have_content witness.name
       expect(page).to have_selector 'h2', text: 'Supervisor Report'
       expect(page).to have_text 'Witness Information'
       expect(page).to have_selector 'li', count: 1
