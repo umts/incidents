@@ -43,6 +43,7 @@ describe 'editing supervisor reports as a supervisor' do
       fill_in 'Name', with: 'Adam'
       fill_in 'Address', with: '255 Governors Dr, Amherst'
       click_button 'Add witness info'
+      expect(page).to have_text 'Witness Information'
       fill_in 'supervisor_report_witnesses_attributes_1_name',
               with: 'Karin'
       fill_in 'supervisor_report_witnesses_attributes_1_address',
