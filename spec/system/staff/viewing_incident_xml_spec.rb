@@ -80,7 +80,7 @@ describe 'batch exporting XML' do
     end
 
     # This should mark it as exported.
-    click_button 'Batch export Hastus XML'
+    click_button 'Batch export'
     check 'batch_export'
     click_button 'Generate XML export (1 selected)'
 
@@ -97,7 +97,7 @@ describe 'batch exporting XML' do
     # 3 plus the one we created above should be 4.
     3.times { incident_in_divisions staff.divisions }
     visit incidents_url
-    click_button 'Batch export Hastus XML'
+    click_button 'Batch export'
 
     expect(page).to have_unchecked_field 'batch_export', count: 4
     click_button 'Select all (4)'
@@ -120,7 +120,7 @@ describe 'batch exporting incident XML as a staff member' do
       click_button division1.name
       expect(page).to have_selector 'table.incidents tbody tr', count: 3
 
-      click_button 'Batch export Hastus XML'
+      click_button 'Batch export'
       click_button 'Select all (3)'
 
       expect(page).to have_checked_field 'batch_export', count: 3
