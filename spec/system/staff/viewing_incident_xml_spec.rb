@@ -41,16 +41,6 @@ describe 'viewing incident XML as a staff member' do
   end
 end
 
-describe 'viewing incident CSV as a staff member' do
-  let(:staff) { create :user, :staff }
-  before(:each) { when_current_user_is staff }
-  let(:driver_report) { create :incident_report, :driver_report, :collision }
-  let(:incident) { create :incident, driver_incident_report: driver_report }
-  it 'works' do
-    expect { visit incident_url(incident, format: :csv) }.not_to raise_error
-  end
-end
-
 describe 'viewing incident XML as a driver' do
   let(:incident) { create :incident }
   it "you can't" do
@@ -80,7 +70,7 @@ describe 'batch exporting XML' do
     end
 
     # This should mark it as exported.
-    click_button 'Batch export Hastus XML'
+    click_button 'Batch export'
     check 'batch_export'
     click_button 'Generate XML export (1 selected)'
 
@@ -97,7 +87,7 @@ describe 'batch exporting XML' do
     # 3 plus the one we created above should be 4.
     3.times { incident_in_divisions staff.divisions }
     visit incidents_url
-    click_button 'Batch export Hastus XML'
+    click_button 'Batch export'
 
     expect(page).to have_unchecked_field 'batch_export', count: 4
     click_button 'Select all (4)'
@@ -105,7 +95,7 @@ describe 'batch exporting XML' do
   end
 end
 
-describe 'batch exporting incident XML as a staff member' do
+describe 'batch exporting incident XML or CSV as a staff member' do
   context 'with staff in multiple divisions, filtering by a single division' do
     let(:division1) { create :division }
     let(:division2) { create :division }
@@ -120,7 +110,7 @@ describe 'batch exporting incident XML as a staff member' do
       click_button division1.name
       expect(page).to have_selector 'table.incidents tbody tr', count: 3
 
-      click_button 'Batch export Hastus XML'
+      click_button 'Batch export'
       click_button 'Select all (3)'
 
       expect(page).to have_checked_field 'batch_export', count: 3
