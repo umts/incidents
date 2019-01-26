@@ -165,7 +165,7 @@ class Incident < ApplicationRecord
         # FilePrefix, FileNum
         'DateEntered' => Date.today.strftime('%Y-%m-%d'),
         # AppraisalMade, AppraisalNote
-        'IncidentDate' => report.occurred_at,
+        'IncidentDate' => report.occurred_at.iso8601,
         street: report.location,
         city: report.town,
         state: 'MA',
