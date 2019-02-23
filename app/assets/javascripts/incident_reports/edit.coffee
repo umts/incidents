@@ -54,7 +54,7 @@ deleteInjuredPassengerFields = (event) ->
   deleteFields '.pax-fields', '#supervisor_report_inj_pax_info'
 
 toggleReasonsForTesting = ->
-  reason = $('#incident_report_reason_test_completed').val()
+  reason = $('#supervisor_report_reason_test_completed').val()
   switch reason
     when 'Post-Accident'
       $('.post-accident-info').slideDown()

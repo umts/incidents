@@ -84,7 +84,39 @@ describe 'special supervisor report fields' do
         expect(page)
           .to have_text 'Please document why a test was not conducted.'
       end
+
+      it 'allows filling in the reason for testing' do
+        incident.supervisor_report.update! completed_drug_or_alcohol_test: true,
+                                           reason_test_completed: 'Post-Accident'
+        visit edit_supervisor_report_url(incident.supervisor_report)
+        within('.test-info') do
+          expect(page).to have_text 'bodily injury'
+          expect(page).to have_text 'disabling damage'
+          expect(page).to have_text 'fatality'
+          expect(page).not_to have_text 'Completed drug test'
+          expect(page).not_to have_text 'Completed alcohol test'
+          expect(page).not_to have_text 'Observation made at'
+          expect(page).not_to have_text 'Observation made at'
+          %w[appearance behavior speech odor].each do |reason|
+            expect(page).not_to have_text "Test due to employee #{reason}"
+          end
+        end
+        select 'Reasonable Suspicion', from: 'Reason test completed'
+        within('.test-info') do
+          expect(page).not_to have_text 'bodily injury'
+          expect(page).not_to have_text 'disabling damage'
+          expect(page).not_to have_text 'fatality'
+          expect(page).to have_text 'Completed drug test'
+          expect(page).to have_text 'Completed alcohol test'
+          expect(page).to have_text 'Observation made at'
+          expect(page).to have_text 'Observation made at'
+          %w[appearance behavior speech odor].each do |reason|
+            expect(page).to have_text "Test due to employee #{reason}"
+          end
+        end
+      end
     end
+
     context 'without test conducted' do
       it 'requires selecting a reason why a test was not conducted' do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: true,
