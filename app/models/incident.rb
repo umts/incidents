@@ -3,6 +3,8 @@
 require 'csv'
 
 class Incident < ApplicationRecord
+  CLAIMS_XML_DIR = Rails.root.join('claims_xml')
+
   has_paper_trail
 
 
@@ -102,9 +104,55 @@ class Incident < ApplicationRecord
     row
   end
 
+  def export_claims_xml!
+    report = driver_incident_report
+    builder = Nokogiri::XML::Builder.new do |doc|
+      doc.claims_incident_data do
+        doc.incident do
+          doc.date_entered        Date.today.strftime('%Y-%m-%d')
+          doc.incident_date       report.occurred_at.iso8601
+          doc.street              report.location
+          doc.city                report.town
+          doc.state               'MA'
+          doc.zip                 report.zip
+          doc.longitude           longitude
+          doc.latitude            latitude
+          doc.company             driver.division.claims_id
+          doc.incident_desc       supervisor_incident_report.try(:description)
+          doc.employee_id         driver.badge_number
+          doc.driver              driver.badge_number
+          doc.driver_desc         report.description
+          doc.vehicle_route_num   report.route
+          doc.vehicle_num         report.bus
+          doc.vehicle_damage_area report.damage_to_other_vehicle_point_of_impact
+          doc.point_of_contact    report.damage_to_bus_point_of_impact
+          doc.status              'ir'
+          doc.reason1             reason_code.identifier
+          doc.reason2             supplementary_reason_code.try(:identifier)
+        end
+        doc.drivers_report do
+          doc.citation         report.summons_or_warning_issued?
+          doc.weather          report.weather_conditions
+          doc.surr_cond        report.road_conditions
+          doc.lighting         report.light_conditions
+          doc.speed            report.speed
+          doc.point_of_contact report.damage_to_bus_point_of_impact
+          doc.total_pass       report.passengers_onboard
+          doc.ambulance        report.injured_passengers.any?(&:transported_to_hospital?)
+          doc.ov_tow           report.other_vehicle_towed_from_scene?
+          doc.pvta_tow         report.towed_from_scene?
+        end
+      end
+    end
+    File.open File.join(CLAIMS_XML_DIR, "#{id}.xml"), 'w' do |xml_file|
+      xml_file.puts builder.to_xml
+    end
+  end
+
   def export_to_claims!
     if completed? && valid?
       begin
+        export_claims_xml!
         ci = ClaimsIncident.create claims_fields table: :incident
         update claims_id: ci.UID
         ClaimsDriversReport.create claims_fields table: :drivers_report

@@ -41,3 +41,6 @@ contrib/*.sql
 
 # Ignore files downloaded durung test
 /spec/downloads/*
+
+# Ignore claims XML files
+/claims_xml/*.xml
