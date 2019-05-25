@@ -194,7 +194,7 @@ prawn_document do |pdf|
     row.text_field width: 5, field: "Date recv'd", value: ''
   end
 
-  if report.long_description?
+  if report.long_description? || report.injured_passengers.count > 2
     
     pdf.start_new_page
 
