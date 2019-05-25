@@ -1,9 +1,9 @@
 %h1 Incidents
 - if @start_date.present?
   %h2
-    = @start_date.strftime '%A, %B %e'
+    = @start_date.strftime '%A, %B %e, %Y'
     &mdash;
-    = @end_date.strftime '%A, %B %e'
+    = @end_date.strftime '%A, %B %e, %Y'
   .date-navigation
     = link_to incidents_path(mode: @mode, start_date: @prev_start), class: 'prev' do
       %button.btn.btn-primary
@@ -20,6 +20,17 @@
       %button.btn.btn-primary
         Next #{@mode}
         &rarr;
+  - if @mode == 'month'
+    .date-navigation
+      = link_to incidents_path(mode: 'month', start_date: @start_date - 1.year), class: 'prev' do
+        %button.btn.btn-primary
+          &larr;
+          Jump to #{(@start_date - 1.year).strftime('%B %Y')}
+      = link_to incidents_path(mode: 'month', start_date: @start_date + 1.year), class: 'prev' do
+        %button.btn.btn-primary
+          Jump to #{(@start_date + 1.year).strftime('%B %Y')}
+          &rarr;
+      
 = render 'division_filters' if current_user.divisions.many?
 = render 'claim_search'
 .batch-hastus-export
