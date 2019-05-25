@@ -5,6 +5,6 @@ Devise.setup do |config|
   config.authentication_keys = [:badge_number]
   config.strip_whitespace_keys = [:badge_number]
   config.stretches = Rails.env.test? ? 1 : 11
-  config.timeout_in = 1.hour
+  config.timeout_in = 2.hours
   config.sign_out_via = :delete
 end
