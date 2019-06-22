@@ -441,12 +441,12 @@ prawn_document do |pdf|
     pdf.start_new_page
     pdf.move_down 40
 
-    pdf.field_row height: 130, units: 1 do |row|
+    pdf.field_row height: 325, units: 1 do |row|
       row.text_field field: 'Passenger statement and/or injury information in detail',
         value: sup_report.passenger_statement, options: { valign: :top, align: :left }
     end
 
-    pdf.field_row height: 130, units: 1 do |row|
+    pdf.field_row height: 325, units: 1 do |row|
       row.text_field field: 'Statement of involved person(s)', value: report.description,
         options: { valign: :top, align: :left }
     end
