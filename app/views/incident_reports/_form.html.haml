@@ -340,6 +340,7 @@
     = form.text_area :description, id: :incident_report_description, size: '80x8'
   .actions
     - if @current_user == @incident.driver
-      = form.submit 'Save report and preview PDF', data: {confirm: 'You are about to preview the report. Please don’t forget to print, sign, and submit it.'}
+      = form.submit 'Save report and preview PDF',
+      data: {confirm: 'You are about to preview the report. Please don’t forget to print, sign, and submit it.'}
     - else
       = form.submit 'Save report'
