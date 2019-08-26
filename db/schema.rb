@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180911000832) do
+ActiveRecord::Schema.define(version: 20190826161228) do
 
   create_table "divisions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name", null: false
@@ -164,7 +164,7 @@ ActiveRecord::Schema.define(version: 20180911000832) do
     t.text "passenger_statement"
     t.datetime "faxed"
     t.boolean "completed_drug_or_alcohol_test"
-    t.string "reason_test_completed"
+    t.string "test_status"
     t.string "testing_facility"
     t.datetime "testing_facility_notified_at"
     t.datetime "employee_notified_of_test_at"

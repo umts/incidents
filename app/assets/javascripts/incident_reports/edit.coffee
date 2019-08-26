@@ -54,17 +54,16 @@ deleteInjuredPassengerFields = (event) ->
   deleteFields '.pax-fields', '#supervisor_report_inj_pax_info'
 
 toggleReasonsForTesting = ->
-  reason = $('#supervisor_report_reason_test_completed').val()
-  switch reason
-    when 'Post-Accident'
-      $('.post-accident-info').slideDown()
-      $('.reasonable-suspicion-info').slideUp()
-    when 'Reasonable Suspicion'
-      $('.post-accident-info').slideUp()
-      $('.reasonable-suspicion-info').slideDown()
-    when ''
-      $('.post-accident-info').slideUp()
-      $('.reasonable-suspicion-info').slideUp()
+  reason = $('#supervisor_report_test_status').val()
+  if reason.search('Post Accident') == 0
+    $('.post-accident-info').slideDown()
+    $('.reasonable-suspicion-info').slideUp()
+  if reason.search('Reasonable Suspicion') == 0
+    $('.post-accident-info').slideUp()
+    $('.reasonable-suspicion-info').slideDown()
+  if reason == ''
+    $('.post-accident-info').slideUp()
+    $('.reasonable-suspicion-info').slideUp()
 
 $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#incident_report_motor_vehicle_collision',
@@ -103,7 +102,7 @@ $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#supervisor_report_driver_discounted',
                           '.driver-discounted-info'
 
-  $('form').on 'change', '#supervisor_report_reason_test_completed',
+  $('form').on 'change', '#supervisor_report_test_status',
                toggleReasonsForTesting
 
   $('form').showIfChecked '#supervisor_report_test_due_to_employee_appearance',

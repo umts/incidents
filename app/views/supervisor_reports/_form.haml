@@ -49,31 +49,12 @@
             = witness_form.text_field :work_phone
       %button.btn-default.add-witness Add witness info
       %button.btn-default.delete-witness Delete witness info
-    .field
-      = form.label :completed_drug_or_alcohol_test?
-      = form.check_box :completed_drug_or_alcohol_test, id: :supervisor_report_completed_drug_or_alcohol_test
-    .no-test-info{style: ('display: none;' if report.completed_drug_or_alcohol_test?)}
-      %h3 Please document why a test was not conducted.
+    .test-info
       .field
-        = form.label :fta_threshold_not_met
-        = form.check_box :fta_threshold_not_met, id: :supervisor_report_fta_threshold_not_met
-      .fta-threshold-info{style: ('display: none;' unless report.fta_threshold_not_met?)}
-        = form.label :reason_threshold_not_met
-        = form.text_area :reason_threshold_not_met, id: :supervisor_report_reason_threshold_not_met,
-          size: '80x4'
-      .field
-        = form.label :driver_discounted
-        = form.check_box :driver_discounted, id: :supervisor_report_driver_discounted
-      .driver-discounted-info{style: ('display: none;' unless report.driver_discounted?)}
-        = form.label :reason_driver_discounted
-        = form.text_area :reason_driver_discounted, id: :supervisor_report_reason_driver_discounted,
-          size: '80x4'
-    .test-info{style: ('display: none;' unless report.completed_drug_or_alcohol_test?)}
-      .field
-        = form.label :reason_test_completed
-        = form.select :reason_test_completed,
+        = form.label :test_status
+        = form.select :test_status,
           options_for_select(SupervisorReport::REASONS_FOR_TEST), { include_blank: true },
-          id: :supervisor_report_reason_test_completed
+          id: :supervisor_report_test_status
       .post-accident-info{style: ('display: none;' unless report.post_accident?)}
         .field
           = form.label :test_due_to_bodily_injury?

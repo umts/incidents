@@ -3,7 +3,12 @@
 class SupervisorReport < ApplicationRecord
   has_paper_trail
 
-  REASONS_FOR_TEST = ['Post-Accident', 'Reasonable Suspicion'].freeze
+  REASONS_FOR_TEST = [
+    'Post Accident: Threshold met (completed drug test)',
+    'Post Accident: No threshold met (no drug test)',
+    'Post Accident: Threshold met and discounted (no drug test)',
+    'Reasonable Suspicion: Completed drug test'
+  ].freeze
   TESTING_FACILITIES = [
     'Occuhealth East Longmeadow',
     'Occuhealth Northampton',
@@ -12,7 +17,7 @@ class SupervisorReport < ApplicationRecord
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
-  validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
+  validates :test_status, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
   validate :documentation_provided_for_no_test,
     unless: :completed_drug_or_alcohol_test?
@@ -66,11 +71,11 @@ class SupervisorReport < ApplicationRecord
   end
 
   def reasonable_suspicion?
-    reason_test_completed == 'Reasonable Suspicion'
+    test_status.include? 'Reasonable Suspicion'
   end
 
   def post_accident?
-    reason_test_completed == 'Post-Accident'
+    test_status.include? 'Post-Accident'
   end
 
   def timeline

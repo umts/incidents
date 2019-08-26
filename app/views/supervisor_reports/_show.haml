@@ -32,9 +32,9 @@
   = yes_no_image report.completed_drug_or_alcohol_test?
 - if report.completed_drug_or_alcohol_test?
   %p
-    %strong= human_name :supervisor_report, :reason_test_completed
-    = report.reason_test_completed
-  - case report.reason_test_completed
+    %strong= human_name :supervisor_report, :test_status
+    = report.test_status
+  - case report.test_status
   - when 'Post-Accident'
     %p
       %strong= human_name :supervisor_report, :test_due_to_bodily_injury?
