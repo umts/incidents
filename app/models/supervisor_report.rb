@@ -71,11 +71,11 @@ class SupervisorReport < ApplicationRecord
   end
 
   def reasonable_suspicion?
-    test_status.include? 'Reasonable Suspicion'
+    test_status.try(:include?, 'Reasonable Suspicion')
   end
 
   def post_accident?
-    test_status.include? 'Post-Accident'
+      test_status.try(:include?, 'Post-Accident')
   end
 
   def timeline
