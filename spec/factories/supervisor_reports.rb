@@ -5,10 +5,7 @@ FactoryBot.define do
     pictures_saved { [true, false].sample }
     passenger_statement { FFaker::Lorem.paragraphs(5).join "\n" }
     faxed { [nil, Time.zone.now].sample }
-    completed_drug_or_alcohol_test { [true, true, false].sample }
-    completed_drug_test { [true, false].sample }
-    completed_alcohol_test { [true, false].sample }
-    reason_test_completed { SupervisorReport::REASONS_FOR_TEST.sample }
+    test_status { SupervisorReport::REASONS_FOR_TEST.sample }
     testing_facility { SupervisorReport::TESTING_FACILITIES.sample }
     testing_facility_notified_at { Time.zone.now - 6.minutes }
     employee_notified_of_test_at { Time.zone.now - 5.minutes }
@@ -30,7 +27,7 @@ FactoryBot.define do
       end
 
       if report.completed_drug_or_alcohol_test?
-        case report.reason_test_completed
+        case report.test_status
         when 'Post-Accident'
           field = %w[
             test_due_to_bodily_injury

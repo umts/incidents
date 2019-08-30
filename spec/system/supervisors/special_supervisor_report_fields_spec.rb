@@ -87,7 +87,7 @@ describe 'special supervisor report fields' do
 
       it 'allows filling in the reason for testing' do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: true,
-                                           reason_test_completed: 'Post-Accident'
+                                           test_status: 'Post-Accident'
         visit edit_supervisor_report_url(incident.supervisor_report)
         within('.test-info') do
           expect(page).to have_text 'bodily injury'

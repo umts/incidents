@@ -28,118 +28,98 @@
       - report.witnesses.each do |witness|
         %li= witness.display_info
 %p
-  %strong= human_name :supervisor_report, :completed_drug_or_alcohol_test?
-  = yes_no_image report.completed_drug_or_alcohol_test?
-- if report.completed_drug_or_alcohol_test?
+%strong= human_name :supervisor_report, :test_status
+= report.test_status
+- if report.test_status.try(:include?, 'Post Accident')
   %p
-    %strong= human_name :supervisor_report, :test_status
-    = report.test_status
-  - case report.test_status
-  - when 'Post-Accident'
-    %p
-      %strong= human_name :supervisor_report, :test_due_to_bodily_injury?
-      = yes_no_image report.test_due_to_bodily_injury?
-    %p
-      %strong= human_name :supervisor_report, :test_due_to_disabling_damage?
-      = yes_no_image report.test_due_to_disabling_damage?
-    %p
-      %strong= human_name :supervisor_report, :test_due_to_fatality?
-      = yes_no_image report.test_due_to_fatality?
-  - when 'Reasonable Suspicion'
-    %p
-      %strong= human_name :supervisor_report, :completed_drug_test?
-      = yes_no_image report.completed_drug_test?
-    %p
-      %strong= human_name :supervisor_report, :completed_alcohol_test?
-      = yes_no_image report.completed_alcohol_test?
-    %p
-      %strong= human_name :supervisor_report, :observation_made_at
-      = report.observation_made_at.try :strftime, '%l:%M %P'
-    %p
-      %strong= human_name :supervisor_report, :test_due_to_employee_appearance?
-      = yes_no_image report.test_due_to_employee_appearance?
-    - if report.test_due_to_employee_appearance?
-      %p
-        %strong= human_name :supervisor_report, :employee_appearance
-        = report.employee_appearance
-    %p
-      %strong= human_name :supervisor_report, :test_due_to_employee_speech?
-      = yes_no_image report.test_due_to_employee_speech?
-    - if report.test_due_to_employee_speech?
-      %p
-        %strong= human_name :supervisor_report, :employee_speech
-        = report.employee_speech
-    %p
-      %strong= human_name :supervisor_report, :test_due_to_employee_behavior?
-      = yes_no_image report.test_due_to_employee_behavior?
-    - if report.test_due_to_employee_behavior?
-      %p
-        %strong= human_name :supervisor_report, :employee_behavior
-        = report.employee_behavior
-    %p
-      %strong= human_name :supervisor_report, :test_due_to_employee_odor?
-      = yes_no_image report.test_due_to_employee_odor?
-    - if report.test_due_to_employee_odor?
-      %p
-        %strong= human_name :supervisor_report, :employee_odor
-        = report.employee_odor
+    %strong= human_name :supervisor_report, :test_due_to_bodily_injury?
+    = yes_no_image report.test_due_to_bodily_injury?
   %p
-    %strong= human_name :supervisor_report, :testing_facility
-    = report.testing_facility
-  - if report.testing_facility_notified_at.present?
-    %p
-      %strong= human_name :supervisor_report, :testing_facility_notified_at
-      = report.testing_facility_notified_at.strftime '%l:%M %P'
-  - if report.employee_notified_of_test_at.present?
-    %p
-      %strong= human_name :supervisor_report, :employee_notified_of_test_at
-      = report.employee_notified_of_test_at.strftime '%l:%M %P'
-  - if report.employee_departed_to_test_at.present?
-    %p
-      %strong= human_name :supervisor_report, :employee_departed_to_test_at
-      = report.employee_departed_to_test_at.strftime '%l:%M %P'
-  - if report.employee_arrived_at_test_at.present?
-    %p
-      %strong= human_name :supervisor_report, :employee_arrived_to_test_at
-      = report.employee_arrived_at_test_at.strftime '%l:%M %P'
-  - if report.test_started_at.present?
-    %p
-      %strong= human_name :supervisor_report, :test_started_at
-      = report.test_started_at.strftime '%l:%M %P'
-  - if report.test_ended_at.present?
-    %p
-      %strong= human_name :supervisor_report, :test_ended_at
-      = report.test_ended_at.strftime '%l:%M %P'
-  - if report.superintendent_notified_at.present?
-    %p
-      %strong= human_name :supervisor_report, :superintendent_notified_at
-      = report.superintendent_notified_at.strftime '%l:%M %P'
-  - if report.program_manager_notified_at.present?
-    %p
-      %strong= human_name :supervisor_report, :program_manager_notified_at
-      = report.program_manager_notified_at.strftime '%l:%M %P'
-  - if report.director_notified_at.present?
-    %p
-      %strong= human_name :supervisor_report, :director_notified_at
-      = report.director_notified_at.strftime '%l:%M %P'
-  - if report.amplifying_comments.present?
-    %p
-      %strong= human_name :supervisor_report, :amplifying_comments
-      = simple_format report.amplifying_comments
-- else
+    %strong= human_name :supervisor_report, :test_due_to_disabling_damage?
+    = yes_no_image report.test_due_to_disabling_damage?
   %p
-    %strong= human_name :supervisor_report, :fta_threshold_not_met
-    = yes_no_image report.fta_threshold_not_met
-  - if report.fta_threshold_not_met?
-    %p
-      %strong= human_name :supervisor_report, :reason_threshold_not_met
-      = simple_format report.reason_threshold_not_met
+    %strong= human_name :supervisor_report, :test_due_to_fatality?
+    = yes_no_image report.test_due_to_fatality?
+- if report.test_status.try(:include?, 'Reasonable Suspicion')
   %p
-    %strong= human_name :supervisor_report, :driver_discounted
-    = yes_no_image report.driver_discounted
-  - if report.driver_discounted?
-    %p
-      %strong= human_name :supervisor_report, :reason_driver_discounted
-      = simple_format report.reason_driver_discounted
+    %strong= human_name :supervisor_report, :completed_drug_test?
+    = yes_no_image report.completed_drug_test?
+  %p
+    %strong= human_name :supervisor_report, :completed_alcohol_test?
+    = yes_no_image report.completed_alcohol_test?
+  %p
+    %strong= human_name :supervisor_report, :observation_made_at
+    = report.observation_made_at.try :strftime, '%l:%M %P'
+  %p
+    %strong= human_name :supervisor_report, :test_due_to_employee_appearance?
+    = yes_no_image report.test_due_to_employee_appearance?
+- if report.test_due_to_employee_appearance?
+  %p
+    %strong= human_name :supervisor_report, :employee_appearance
+    = report.employee_appearance
+%p
+  %strong= human_name :supervisor_report, :test_due_to_employee_speech?
+  = yes_no_image report.test_due_to_employee_speech?
+- if report.test_due_to_employee_speech?
+  %p
+    %strong= human_name :supervisor_report, :employee_speech
+    = report.employee_speech
+%p
+  %strong= human_name :supervisor_report, :test_due_to_employee_behavior?
+  = yes_no_image report.test_due_to_employee_behavior?
+- if report.test_due_to_employee_behavior?
+  %p
+    %strong= human_name :supervisor_report, :employee_behavior
+    = report.employee_behavior
+%p
+  %strong= human_name :supervisor_report, :test_due_to_employee_odor?
+  = yes_no_image report.test_due_to_employee_odor?
+- if report.test_due_to_employee_odor?
+  %p
+    %strong= human_name :supervisor_report, :employee_odor
+    = report.employee_odor
+%p
+  %strong= human_name :supervisor_report, :testing_facility
+  = report.testing_facility
+- if report.testing_facility_notified_at.present?
+  %p
+    %strong= human_name :supervisor_report, :testing_facility_notified_at
+    = report.testing_facility_notified_at.strftime '%l:%M %P'
+- if report.employee_notified_of_test_at.present?
+  %p
+    %strong= human_name :supervisor_report, :employee_notified_of_test_at
+    = report.employee_notified_of_test_at.strftime '%l:%M %P'
+- if report.employee_departed_to_test_at.present?
+  %p
+    %strong= human_name :supervisor_report, :employee_departed_to_test_at
+    = report.employee_departed_to_test_at.strftime '%l:%M %P'
+- if report.employee_arrived_at_test_at.present?
+  %p
+    %strong= human_name :supervisor_report, :employee_arrived_to_test_at
+    = report.employee_arrived_at_test_at.strftime '%l:%M %P'
+- if report.test_started_at.present?
+  %p
+    %strong= human_name :supervisor_report, :test_started_at
+    = report.test_started_at.strftime '%l:%M %P'
+- if report.test_ended_at.present?
+  %p
+    %strong= human_name :supervisor_report, :test_ended_at
+    = report.test_ended_at.strftime '%l:%M %P'
+- if report.superintendent_notified_at.present?
+  %p
+    %strong= human_name :supervisor_report, :superintendent_notified_at
+    = report.superintendent_notified_at.strftime '%l:%M %P'
+- if report.program_manager_notified_at.present?
+  %p
+    %strong= human_name :supervisor_report, :program_manager_notified_at
+    = report.program_manager_notified_at.strftime '%l:%M %P'
+- if report.director_notified_at.present?
+  %p
+    %strong= human_name :supervisor_report, :director_notified_at
+    = report.director_notified_at.strftime '%l:%M %P'
+- if report.amplifying_comments.present?
+  %p
+    %strong= human_name :supervisor_report, :amplifying_comments
+    = simple_format report.amplifying_comments
 - if @current_user.staff? || @current_user == report.incident.supervisor
   = link_to 'Edit Supervisor Report', edit_supervisor_report_path(report)

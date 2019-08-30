@@ -19,10 +19,10 @@ class SupervisorReport < ApplicationRecord
 
   validates :test_status, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
-  validate :documentation_provided_for_no_test,
-    unless: :completed_drug_or_alcohol_test?
-  validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
-  validates :reason_driver_discounted, presence: { if: :driver_discounted? }
+  #validate :documentation_provided_for_no_test,
+   # unless: :completed_drug_or_alcohol_test?
+  #validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
+  #validates :reason_driver_discounted, presence: { if: :driver_discounted? }
   has_one :incident
 
   has_many :witnesses

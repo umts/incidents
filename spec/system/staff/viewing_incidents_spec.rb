@@ -79,25 +79,25 @@ describe 'viewing incidents as staff' do
     it 'starts out navigating by month' do
       visit incidents_url
       expect(page).to have_selector 'h2',
-                                    text: 'Monday, January 1 — Wednesday, January 31'
+                                    text: 'Monday, January 1, 2018 — Wednesday, January 31, 2018'
     end
     it 'allows going to the previous month' do
       visit incidents_url
       click_button '← Previous month'
       expect(page).to have_selector 'h2',
-                                    text: 'Friday, December 1 — Sunday, December 31'
+                                    text: 'Friday, December 1, 2017 — Sunday, December 31, 2017'
     end
     it 'allows going to the next month' do
       visit incidents_url
       click_button 'Next month →'
       expect(page).to have_selector 'h2',
-                                    text: 'Thursday, February 1 — Wednesday, February 28'
+                                    text: 'Thursday, February 1, 2018 — Wednesday, February 28, 2018'
     end
     it 'allows navigating by week' do
       visit incidents_url
       click_button 'View single week'
       expect(page).to have_selector 'h2',
-                                    text: 'Sunday, December 31 — Saturday, January 6'
+                                    text: 'Sunday, December 31, 2017 — Saturday, January 6, 2018'
     end
     context 'navigating by week' do
       it 'goes to the first week in the month, not the current week' do
@@ -107,31 +107,31 @@ describe 'viewing incidents as staff' do
           expect(page).not_to have_selector 'h2',
                                             text: 'Sunday, January 7 — Saturday, January 13'
           expect(page).to have_selector 'h2',
-                                        text: 'Sunday, December 31 — Saturday, January 6'
+                                        text: 'Sunday, December 31, 2017 — Saturday, January 6, 2018'
         end
       end
     end
     it 'allows going from week mode back to month mode' do
       visit incidents_url(mode: 'week')
       expect(page).to have_selector 'h2',
-                                    text: 'Sunday, December 31 — Saturday, January 6'
+                                    text: 'Sunday, December 31, 2017 — Saturday, January 6, 2018'
       click_button 'View for whole month'
       # Note that it doesn't go back to January,
       # because the first day of the week is in December.
       expect(page).to have_selector 'h2',
-                                    text: 'Friday, December 1 — Sunday, December 31'
+                                    text: 'Friday, December 1, 2017 — Sunday, December 31, 2017'
     end
     it 'allows going to the next week' do
       visit incidents_url(mode: 'week')
       click_button 'Next week →'
       expect(page).to have_selector 'h2',
-                                    text: 'Sunday, January 7 — Saturday, January 13'
+                                    text: 'Sunday, January 7, 2018 — Saturday, January 13, 2018'
     end
     it 'allows going to the previous week' do
       visit incidents_url(mode: 'week')
       click_button '← Previous week'
       expect(page).to have_selector 'h2',
-                                    text: 'Sunday, December 24 — Saturday, December 30'
+                                    text: 'Sunday, December 24, 2017 — Saturday, December 30, 2017'
     end
   end
 
