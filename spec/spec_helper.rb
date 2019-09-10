@@ -11,6 +11,7 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 require 'rspec/rails'
 require 'devise'
 require 'factory_bot_rails'
@@ -36,18 +37,7 @@ RSpec.configure do |config|
   Capybara.default_max_wait_time = 10
 
   config.before :each, type: :system do
-    desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      'chromeOptions' => {
-        'prefs' => {
-          'download.default_directory' => Rails.root.join('spec', 'downloads'),
-          'download.prompt_for_download' => false,
-          'plugins.plugins_disabled' => ['Chrome PDF Viewer']
-        }
-      }
-    )
-    driven_by :selenium,
-              using: :chrome,
-              options: { desired_capabilities: desired_capabilities }
+    driven_by :custom_chrome
   end
 
   config.before :suite do
