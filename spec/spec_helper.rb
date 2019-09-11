@@ -12,11 +12,13 @@ require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
 Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
 require 'rspec/rails'
 require 'devise'
 require 'factory_bot_rails'
 
 ActiveRecord::Migration.maintain_test_schema!
+
 RSpec.configure do |config|
   config.order = :random
   config.include FactoryBot::Syntax::Methods
@@ -37,7 +39,7 @@ RSpec.configure do |config|
   Capybara.default_max_wait_time = 10
 
   config.before :each, type: :system do
-    driven_by :custom_chrome
+    driven_by :custom_headless_chrome
   end
 
   config.before :suite do
