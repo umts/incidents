@@ -19,7 +19,7 @@ ActiveRecord::Migration.maintain_test_schema!
 RSpec.configure do |config|
   config.order = :random
   config.include FactoryBot::Syntax::Methods
-  config.include Devise::Test::ControllerHelpers, type: :controller
+  config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
   config.before :all do
     FactoryBot.reload
