@@ -1,18 +1,20 @@
 language: ruby
-rvm: 2.5.0
 env:
   global:
     - CC_TEST_REPORTER_ID=611cda7a6df35c4ca4df08319797b6eba033ca5f61068f90072cb148f71714c8
 addons:
   chrome: stable
+before_install:
+  - gem update --system
+  - gem install bundler -v '~> 1.17'
 before_script:
   - cp config/database.travis.yml config/database.yml
   - cp config/secrets.yml.example config/secrets.yml
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
+  - bundle exec rake db:reset
 script:
-  - RAILS_ENV=test bundle exec rake db:create db:schema:load
   - bundle exec rspec
 after_script:
   - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
