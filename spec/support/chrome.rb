@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-DOWNLOAD_DIR = Rails.root.join('spec', 'downloads')
+options = Selenium::WebDriver::Chrome::Options.new
+options.add_preference(:plugins, always_open_pdf_externally: true)
 
 Capybara.register_driver :custom_chrome do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome).tap do |driver|
-    driver.browser.download_path = DOWNLOAD_DIR
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options).tap do |driver|
+    driver.browser.download_path = Downloads::PATH
   end
 end
 
 Capybara.register_driver :custom_headless_chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new
   options.headless!
 
-  Capybara::Selenium::Driver.new( app, browser: :chrome, options: options).tap do |driver|
-    driver.browser.download_path = DOWNLOAD_DIR
+  Capybara::Selenium::Driver.new(app, browser: :chrome, options: options).tap do |driver|
+    driver.browser.download_path = Downloads::PATH
   end
 end
