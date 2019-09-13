@@ -8,10 +8,9 @@ describe 'printing incidents' do
   it 'shows a place to print incidents' do
     report = create :incident_report, :with_incident, user: driver
     visit incidents_url
-    expect(page).to have_link 'Print'
 
-    expect { click_button 'Print' }
-      .to download_file_named incident_path(report.incident, format: :pdf)
+    expect(page)
+      .to have_link('Print', href: incident_path(report.incident, format: :pdf))
   end
   it 'prints different kinds of incidents' do
     report = create :incident_report, :with_incident,

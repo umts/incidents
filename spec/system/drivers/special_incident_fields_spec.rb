@@ -18,8 +18,9 @@ describe 'special incident fields' do
       it 'does not require filling in fields for collisions' do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
-        expect { click_on 'Save report and print PDF' }
-          .to download_file_named incident_path(Incident.last, format: :pdf)
+        click_on 'Save report and print PDF'
+
+        expect(page).not_to have_text('cannot be marked as completed')
       end
     end
     context 'with collision' do
@@ -78,8 +79,9 @@ describe 'special incident fields' do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
         check 'Did police respond to the incident?'
-        expect { click_on 'Save report and print PDF' }
-          .to download_file_named incident_path(Incident.last, format: :pdf)
+        click_on 'Save report and print PDF'
+
+        expect(page).not_to have_text('cannot be marked as completed')
       end
     end
     context 'with police info' do
@@ -112,8 +114,9 @@ describe 'special incident fields' do
         fill_in_base_incident_fields
         check 'Did the incident involve a passenger?'
         expect(page).to have_text 'Passenger Incident Information'
-        expect { click_on 'Save report and print PDF' }
-          .to download_file_named incident_path(Incident.last, format: :pdf)
+        click_on 'Save report and print PDF'
+
+        expect(page).not_to have_text('cannot be marked as completed')
       end
     end
     context 'with passenger incidents' do
@@ -147,8 +150,9 @@ describe 'special incident fields' do
         check 'Did the incident involve a passenger?'
         select 'Stopped', from: 'Motion of bus'
         uncheck 'Was the bus pulled completely up to the curb?'
-        expect { click_on 'Save report and print PDF' }
-          .to download_file_named incident_path(Incident.last, format: :pdf)
+        click_on 'Save report and print PDF'
+
+        expect(page).not_to have_text('cannot be marked as completed')
       end
     end
     context 'with reason not up to curb' do

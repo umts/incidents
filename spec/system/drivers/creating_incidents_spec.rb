@@ -25,7 +25,8 @@ describe 'creating incidents as a driver' do
   it 'only requires bus, location, and town' do
     visit new_incident_url
     fill_in_base_incident_fields
-    expect { click_on 'Save report' }
-      .to download_file_named incident_path(Incident.last, format: :pdf)
+    click_on 'Save report'
+
+    expect(page).not_to have_text('cannot be marked as completed')
   end
 end
