@@ -11,47 +11,44 @@ ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 
+Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+
 require 'rspec/rails'
 require 'devise'
 require 'factory_bot_rails'
 
 ActiveRecord::Migration.maintain_test_schema!
+
 RSpec.configure do |config|
   config.order = :random
+  config.example_status_persistence_file_path =
+    Rails.root.join('spec', 'examples.txt')
+
   config.include FactoryBot::Syntax::Methods
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include Devise::Test::IntegrationHelpers, type: :system
+
   config.before :all do
     FactoryBot.reload
   end
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
   config.mock_with :rspec do |mocks|
     mocks.verify_partial_doubles = true
   end
+
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
-  Capybara.default_max_wait_time = 10
 
   config.before :each, type: :system do
-    desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-      'chromeOptions' => {
-        'prefs' => {
-          'download.default_directory' => Rails.root.join('spec', 'downloads'),
-          'download.prompt_for_download' => false,
-          'plugins.plugins_disabled' => ['Chrome PDF Viewer']
-        }
-      }
-    )
-    driven_by :selenium,
-              using: :chrome,
-              options: { desired_capabilities: desired_capabilities }
+    driven_by :custom_headless_chrome
   end
 
   config.before :suite do
-    FileUtils.rm_f Rails.root.join('spec', 'downloads').glob('*')
+    Downloads.clear_downloads
   end
 end
 

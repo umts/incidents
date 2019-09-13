@@ -39,7 +39,10 @@ contrib/*.girolog
 contrib/*.pdf
 contrib/*.sql
 
-# Ignore files downloaded durung test
+# Ignore spec-run status
+/spec/examples.txt
+
+# Ignore files downloaded during test
 /spec/downloads/*
 
 # Ignore claims XML files

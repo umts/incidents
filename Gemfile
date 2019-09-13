@@ -42,9 +42,9 @@ group :development, :test do
 end
 
 group :test do
-  gem 'capybara', '~> 2.16'
-  gem 'chromedriver-helper', '~> 1.1'
+  gem 'capybara'
+  gem 'webdrivers', '~> 4.0'
   gem 'rspec-rails', '~> 3.7'
-  gem 'selenium-webdriver', '~> 3.8'
+  gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.15'
 end
