@@ -55,13 +55,13 @@ deleteInjuredPassengerFields = (event) ->
 
 toggleReasonsForTesting = ->
   reason = $('#supervisor_report_test_status').val()
-  if reason.search('Post Accident') == 0
-    $('.post-accident-info').slideDown()
-    $('.reasonable-suspicion-info').slideUp()
-  if reason.search('Reasonable Suspicion') == 0
+  if reason.includes('Reasonable Suspicion')
     $('.post-accident-info').slideUp()
     $('.reasonable-suspicion-info').slideDown()
-  if reason == ''
+  else if reason.includes('Threshold met (completed drug test)')
+    $('.reasonable-suspicion-info').slideUp()
+    $('.post-accident-info').slideDown()
+  else
     $('.post-accident-info').slideUp()
     $('.reasonable-suspicion-info').slideUp()
 
