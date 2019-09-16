@@ -470,10 +470,13 @@ prawn_document do |pdf|
         align: :center, size: 14, style: :bold
     end
 
-    pdf.field_row height: 40, units: 8 do |row|
-      row.check_box_field field: 'Testing scenario', width: 2,
+    pdf.field_row height: 40, units: 1 do |row|
+      row.check_box_field field: 'Testing scenario', width: 1,
         options: SupervisorReport::REASONS_FOR_TEST,
-        checked: SupervisorReport::REASONS_FOR_TEST.select{ |c| sup_report.test_status == c }
+        checked: SupervisorReport::REASONS_FOR_TEST.map{ |c| sup_report.test_status == c },
+        per_column: 2
+    end
+    pdf.field_row height: 25, units: 6 do |row|
       row.text_field field: 'Employee', width: 1,
         value: @incident.driver.proper_name,
         options: { valign: :center }
