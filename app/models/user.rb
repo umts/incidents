@@ -128,7 +128,7 @@ class User < ApplicationRecord
 
   def password_required?
     # Only if we're trying to change the password
-    !password.nil? || !password_confirmation.nil?
+    !(password.nil? && password_confirmation.nil?) && password_changed_from_default?
   end
 
   def track_password_changed
