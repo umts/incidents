@@ -47,8 +47,8 @@ handleIncidentSelected = ->
 
 selectAllIncidents = ->
   if $(this).text() == 'Deselect all'
-    $('.batch-hastus-export input:visible').prop('checked', false).change()
-  else $('.batch-hastus-export input:visible').prop('checked', true).change()
+    $('.batch-hastus-export input:visible').prop('checked', false).trigger('change')
+  else $('.batch-hastus-export input:visible').prop('checked', true).trigger('change')
   setSelectAllText()
 
 setSelectAllText = ->
@@ -59,8 +59,8 @@ setSelectAllText = ->
   else $('.batch-hastus-export #select-all').text 'Deselect all'
 
 $(document).on 'turbolinks:load', ->
-  $('.batch-hastus-export #main-button').click enableSelectMode
-  $('.batch-hastus-export #xml-button').click handleExporting
-  $('.batch-hastus-export #csv-button').click handleExporting
-  $('.batch-hastus-export input').change handleIncidentSelected
-  $('.batch-hastus-export #select-all').click selectAllIncidents
+  $('.batch-hastus-export #main-button').on('click', enableSelectMode)
+  $('.batch-hastus-export #xml-button').on('click', handleExporting)
+  $('.batch-hastus-export #csv-button').on('click', handleExporting)
+  $('.batch-hastus-export input').on('change', handleIncidentSelected)
+  $('.batch-hastus-export #select-all').on('click', selectAllIncidents)
