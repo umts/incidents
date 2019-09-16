@@ -11,6 +11,13 @@ class User < ApplicationRecord
   validates :first_name, :last_name, :badge_number, :divisions, presence: true
   validates :badge_number, uniqueness: true
 
+  validates :password,
+            presence: true, confirmation: true, if: :password_required?
+  validates :password,
+            length: { in: 6..128 },
+            allow_blank: true,
+            if: :password_changed_from_default?
+
   scope :active, -> { where active: true }
   scope :inactive, -> { where.not active: true }
   scope :drivers, -> { where supervisor: false, staff: false }
@@ -118,6 +125,11 @@ class User < ApplicationRecord
   end
 
   private
+
+  def password_required?
+    # Only if we're trying to change the password
+    !password.nil? || !password_confirmation.nil?
+  end
 
   def track_password_changed
     if encrypted_password_changed? && !password_changed_from_default_changed?
