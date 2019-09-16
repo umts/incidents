@@ -53,7 +53,7 @@
       .field
         = form.label :test_status
         = form.select :test_status,
-          options_for_select(SupervisorReport::REASONS_FOR_TEST), { include_blank: true },
+          options_for_select(SupervisorReport::REASONS_FOR_TEST, report.test_status), { include_blank: true },
           id: :supervisor_report_test_status
       .post-accident-info{style: ('display: none;' unless report.post_accident?)}
         .field
@@ -113,7 +113,7 @@
       .field
         = form.label :testing_facility
         = form.select :testing_facility,
-          options_for_select(SupervisorReport::TESTING_FACILITIES),
+          options_for_select(SupervisorReport::TESTING_FACILITIES, report.testing_facility),
           include_blank: true, id: :supervisor_report_testing_facility
       %h3 Testing Timeline
       .field
