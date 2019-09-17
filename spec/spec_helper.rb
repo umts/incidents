@@ -21,6 +21,12 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.order = :random
+
+  config.filter_run :focus
+  config.run_all_when_everything_filtered = true
+
+  config.default_formatter = 'doc' if config.files_to_run.one?
+
   config.example_status_persistence_file_path =
     Rails.root.join('spec', 'examples.txt')
 
