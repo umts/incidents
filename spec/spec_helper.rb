@@ -21,6 +21,8 @@ ActiveRecord::Migration.maintain_test_schema!
 
 RSpec.configure do |config|
   config.order = :random
+  Kernel.srand config.seed
+
   config.example_status_persistence_file_path =
     Rails.root.join('spec', 'examples.txt')
 
