@@ -26,6 +26,7 @@ describe 'creating incidents as a driver' do
     visit new_incident_url
     fill_in_base_incident_fields
     click_on 'Save report'
-    expect(page.current_url).to end_with incident_path(Incident.last, format: :pdf)
+
+    expect(page).not_to have_text('cannot be marked as completed')
   end
 end

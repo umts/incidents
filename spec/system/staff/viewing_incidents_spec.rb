@@ -105,7 +105,7 @@ describe 'viewing incidents as staff' do
           visit incidents_url
           click_button 'View single week'
           expect(page).not_to have_selector 'h2',
-                                            text: 'Sunday, January 7 — Saturday, January 13'
+                                            text: 'Sunday, January 7, 2018 — Saturday, January 13, 2018'
           expect(page).to have_selector 'h2',
                                         text: 'Sunday, December 31, 2017 — Saturday, January 6, 2018'
         end
