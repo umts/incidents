@@ -25,27 +25,21 @@ FactoryBot.define do
       rand(3).times do
         create :witness, supervisor_report: report
       end
-
-      if report.completed_drug_or_alcohol_test?
-        case report.test_status
-        when 'Post-Accident'
-          field = %w[
-            test_due_to_bodily_injury
-            test_due_to_disabling_damage
-            test_due_to_fatality
-          ].sample
-          report.send field + '=', true
-        when 'Reasonable Suspicion'
-          report.observation_made_at = Time.zone.now - 5.minutes
-          reason = %w[appearance behavior speech odor].sample
-          report.send "test_due_to_employee_#{reason}=", true
-          report.send "employee_#{reason}=", FFaker::Lorem.sentence
-        end
-      elsif [true, false].sample
-        report.fta_threshold_not_met = true
+      if report.test_status.include?('Post-Accident: Threshold met (completed drug test)')
+        field = %w[
+          test_due_to_bodily_injury
+          test_due_to_disabling_damage
+          test_due_to_fatality
+        ].sample
+        report.send field + '=', true
+      elsif report.test_status.include?('Reasonable Suspicion: Completed drug test')
+        report.observation_made_at = Time.zone.now - 5.minutes
+        reason = %w[appearance behavior speech odor].sample
+        report.send "test_due_to_employee_#{reason}=", true
+        report.send "employee_#{reason}=", FFaker::Lorem.sentence
+      elsif report.fta_threshold_not_met?
         report.reason_threshold_not_met = FFaker::Lorem.sentence
       else
-        report.driver_discounted = true
         report.reason_driver_discounted = FFaker::Lorem.sentence
       end
     end

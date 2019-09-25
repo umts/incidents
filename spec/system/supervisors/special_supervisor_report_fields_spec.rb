@@ -75,25 +75,13 @@ describe 'special supervisor report fields' do
 
   describe 'test completion related fields' do
     context 'with test conducted' do
-      it 'allows filling in fields related to a test not being completed' do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: true
-        visit edit_supervisor_report_url(incident.supervisor_report)
-        expect(page)
-          .not_to have_text 'Please document why a test was not conducted.'
-        uncheck 'Completed drug or alcohol test?'
-        expect(page)
-          .to have_text 'Please document why a test was not conducted.'
-      end
-
       it 'allows filling in the reason for testing' do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: true,
-                                           test_status: 'Post-Accident'
         visit edit_supervisor_report_url(incident.supervisor_report)
+        select 'Post Accident: Threshold met (completed drug test)', from: 'Test status'
         within('.test-info') do
           expect(page).to have_text 'bodily injury'
           expect(page).to have_text 'disabling damage'
           expect(page).to have_text 'fatality'
-          expect(page).not_to have_text 'Completed drug test'
           expect(page).not_to have_text 'Completed alcohol test'
           expect(page).not_to have_text 'Observation made at'
           expect(page).not_to have_text 'Observation made at'
@@ -101,7 +89,7 @@ describe 'special supervisor report fields' do
             expect(page).not_to have_text "Test due to employee #{reason}"
           end
         end
-        select 'Reasonable Suspicion', from: 'Reason test completed'
+        select 'Reasonable Suspicion', from: 'Test status'
         within('.test-info') do
           expect(page).not_to have_text 'bodily injury'
           expect(page).not_to have_text 'disabling damage'
@@ -114,98 +102,20 @@ describe 'special supervisor report fields' do
             expect(page).to have_text "Test due to employee #{reason}"
           end
         end
-      end
-    end
-
-    context 'without test conducted' do
-      it 'requires selecting a reason why a test was not conducted' do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: true,
-                                           fta_threshold_not_met: true,
-                                           driver_discounted: true,
-                                           reason_driver_discounted: 'Placeholder',
-                                           reason_threshold_not_met: 'Placeholder'
-        visit edit_supervisor_report_url(incident.supervisor_report)
-        uncheck 'Completed drug or alcohol test?'
-        uncheck :supervisor_report_fta_threshold_not_met
-        uncheck :supervisor_report_driver_discounted
-        click_button 'Save supervisor report'
-        wait_for_ajax!
-        expect(page)
-          .to have_text 'You must provide a reason why no test was conducted.'
-      end
-    end
-  end
-
-  describe 'FTA threshold related fields' do
-    context 'with FTA threshold met' do
-      before :each do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-                                           fta_threshold_not_met: false,
-                                           driver_discounted: true,
-                                           reason_driver_discounted: 'Placeholder'
-        visit edit_supervisor_report_url(incident.supervisor_report)
-      end
-      it 'allows filling in a reason why the FTA threshold was not met' do
-        expect(page)
-          .not_to have_text 'Please explain how the FTA threshold is not met.'
-        check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
-        expect(page).to have_text 'Please explain how the FTA threshold is not met.'
-      end
-      it 'requires explaining how the FTA threshold was not met' do
-        check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
-        click_button 'Save supervisor report'
-        wait_for_ajax!
-        expect(page)
-          .to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
-      end
-    end
-    context 'without FTA threshold met' do
-      it 'shows FTA threshold information when it applies' do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-                                           fta_threshold_not_met: true,
-                                           driver_discounted: false,
-                                           reason_threshold_not_met: 'Placeholder'
-        visit edit_supervisor_report_url(incident.supervisor_report)
-        expect(page).to have_text 'Please explain how the FTA threshold is not met.'
-      end
-    end
-  end
-
-  describe 'driver discount related fields' do
-    context 'without driver discounted' do
-      before :each do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-                                           driver_discounted: false,
-                                           fta_threshold_not_met: true,
-                                           reason_threshold_not_met: 'Placeholder'
-      end
-      it 'allows filling in a reason why a driver can be discounted' do
-        visit edit_supervisor_report_url(incident.supervisor_report)
-        expect(page).not_to have_text 'Please explain why the driver can be discounted.'
-        check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
-        expect(page).to have_text 'Please explain why the driver can be discounted.'
-      end
-      it 'requires explaining why the driver can be discounted' do
-        incident.supervisor_report.update! reason_driver_discounted: nil
-        visit edit_supervisor_report_url(incident.supervisor_report)
-        check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
-        expect(page)
-          .to have_text 'Please explain why the driver can be discounted.'
-        click_button 'Save supervisor report'
-        wait_for_ajax!
-        expect(page)
-          .to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
-      end
-    end
-    context 'with driver discounted' do
-      it 'shows driver discount information when it applies' do
-        incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
-                                           driver_discounted: true,
-                                           fta_threshold_not_met: false,
-                                           reason_driver_discounted: 'Placeholder'
-        visit edit_supervisor_report_url(incident.supervisor_report)
-        expect(page)
-          .to have_text 'Please explain why the driver can be discounted.'
+        select 'Post Accident: Threshold met and discounted', from: 'Test status'
+        within('.test-info') do
+          expect(page).not_to have_text 'bodily injury'
+          expect(page).not_to have_text 'disabling damage'
+          expect(page).not_to have_text 'fatality'
+          expect(page).to have_text 'Please explain why the driver can be discounted.'
+        end
+        select 'No threshold met', from: 'Test status'
+        within('.test-info') do
+          expect(page).not_to have_text 'bodily injury'
+          expect(page).not_to have_text 'disabling damage'
+          expect(page).not_to have_text 'fatality'
+          expect(page).to have_text 'Please explain how the FTA threshold is not met.'
+        end
       end
     end
   end
