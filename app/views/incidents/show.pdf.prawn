@@ -547,7 +547,7 @@ prawn_document do |pdf|
 
     pdf.field_row height: 25, units: 1 do |row|
       row.text_field field: 'Type of test', value: 'Drug & Alcohol',
-        options: { if: sup_report.post_accident? }
+        options: { if: sup_report.post_accident_completed_drug_test? }
     end
 
     pdf.field_row height: 75, units: 1 do |row|

@@ -28,9 +28,25 @@
       - report.witnesses.each do |witness|
         %li= witness.display_info
 %p
-%strong= human_name :supervisor_report, :test_status
-= report.test_status
-- if report.test_status.try(:include?, 'Post Accident')
+  %strong= human_name :supervisor_report, :test_status
+  = report.test_status
+- if report.driver_discounted?
+  %p
+    %strong= human_name :supervisor_report, :driver_discounted
+    = yes_no_image report.driver_discounted?
+  - if report.driver_discounted?
+    %p
+      %strong= human_name :supervisor_report, :reason_driver_discounted
+      = simple_format report.reason_driver_discounted
+- if report.fta_threshold_not_met?
+  %p
+    %strong= human_name :supervisor_report, :fta_threshold_not_met
+    = yes_no_image report.fta_threshold_not_met?
+  - if report.fta_threshold_not_met?
+    %p
+      %strong= human_name :supervisor_report, :reason_threshold_not_met
+      = simple_format report.reason_threshold_not_met
+- if report.post_accident_completed_drug_test?
   %p
     %strong= human_name :supervisor_report, :test_due_to_bodily_injury?
     = yes_no_image report.test_due_to_bodily_injury?
@@ -40,7 +56,7 @@
   %p
     %strong= human_name :supervisor_report, :test_due_to_fatality?
     = yes_no_image report.test_due_to_fatality?
-- if report.test_status.try(:include?, 'Reasonable Suspicion')
+- if report.reasonable_suspicion?
   %p
     %strong= human_name :supervisor_report, :completed_drug_test?
     = yes_no_image report.completed_drug_test?
@@ -53,31 +69,31 @@
   %p
     %strong= human_name :supervisor_report, :test_due_to_employee_appearance?
     = yes_no_image report.test_due_to_employee_appearance?
-- if report.test_due_to_employee_appearance?
+  - if report.test_due_to_employee_appearance?
+    %p
+      %strong= human_name :supervisor_report, :employee_appearance
+      = report.employee_appearance
   %p
-    %strong= human_name :supervisor_report, :employee_appearance
-    = report.employee_appearance
-%p
-  %strong= human_name :supervisor_report, :test_due_to_employee_speech?
-  = yes_no_image report.test_due_to_employee_speech?
-- if report.test_due_to_employee_speech?
+    %strong= human_name :supervisor_report, :test_due_to_employee_speech?
+    = yes_no_image report.test_due_to_employee_speech?
+  - if report.test_due_to_employee_speech?
+    %p
+      %strong= human_name :supervisor_report, :employee_speech
+      = report.employee_speech
   %p
-    %strong= human_name :supervisor_report, :employee_speech
-    = report.employee_speech
-%p
-  %strong= human_name :supervisor_report, :test_due_to_employee_behavior?
-  = yes_no_image report.test_due_to_employee_behavior?
-- if report.test_due_to_employee_behavior?
+    %strong= human_name :supervisor_report, :test_due_to_employee_behavior?
+    = yes_no_image report.test_due_to_employee_behavior?
+  - if report.test_due_to_employee_behavior?
+    %p
+      %strong= human_name :supervisor_report, :employee_behavior
+      = report.employee_behavior
   %p
-    %strong= human_name :supervisor_report, :employee_behavior
-    = report.employee_behavior
-%p
-  %strong= human_name :supervisor_report, :test_due_to_employee_odor?
-  = yes_no_image report.test_due_to_employee_odor?
-- if report.test_due_to_employee_odor?
-  %p
-    %strong= human_name :supervisor_report, :employee_odor
-    = report.employee_odor
+    %strong= human_name :supervisor_report, :test_due_to_employee_odor?
+    = yes_no_image report.test_due_to_employee_odor?
+  - if report.test_due_to_employee_odor?
+    %p
+      %strong= human_name :supervisor_report, :employee_odor
+      = report.employee_odor
 %p
   %strong= human_name :supervisor_report, :testing_facility
   = report.testing_facility

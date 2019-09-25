@@ -55,7 +55,15 @@
         = form.select :test_status,
           options_for_select(SupervisorReport::REASONS_FOR_TEST, report.test_status), { include_blank: true },
           id: :supervisor_report_test_status
-      .post-accident-info{style: ('display: none;' unless report.post_accident?)}
+      .fta-threshold-info{style: ('display: none;' unless report.fta_threshold_not_met?)}
+        = form.label :reason_threshold_not_met
+        = form.text_area :reason_threshold_not_met, id: :supervisor_report_reason_threshold_not_met,
+          size: '80x4'
+      .driver-discounted-info{style: ('display: none;' unless report.driver_discounted?)}
+        = form.label :reason_driver_discounted
+        = form.text_area :reason_driver_discounted, id: :supervisor_report_reason_driver_discounted,
+          size: '80x4'
+      .post-accident-info{style: ('display: none;' unless report.post_accident_completed_drug_test?)}
         .field
           = form.label :test_due_to_bodily_injury?
           = form.check_box :test_due_to_bodily_injury, id: :supervisor_report_test_due_to_bodily_injury
