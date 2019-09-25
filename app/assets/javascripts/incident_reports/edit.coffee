@@ -58,10 +58,30 @@ toggleReasonsForTesting = ->
   if reason.includes('Reasonable Suspicion')
     $('.post-accident-info').slideUp()
     $('.reasonable-suspicion-info').slideDown()
+    $('.driver-discounted-info').slideUp()
+    $('.fta-threshold-info').slideUp()
+
   else if reason.includes('Threshold met (completed drug test)')
+    $('.driver-discounted-info').slideUp()
     $('.reasonable-suspicion-info').slideUp()
+    $('.fta-threshold-info').slideUp()
     $('.post-accident-info').slideDown()
+
+  else if reason.includes('No threshold met')
+    $('.driver-discounted-info').slideUp()
+    $('.fta-threshold-info').slideDown()
+    $('.post-accident-info').slideUp()
+    $('.reasonable-suspicion-info').slideUp()
+
+  else if reason.includes('discounted')
+    $('.driver-discounted-info').slideDown()
+    $('.fta-threshold-info').slideUp()
+    $('.post-accident-info').slideUp()
+    $('.reasonable-suspicion-info').slideUp()
+
   else
+    $('.driver-discounted-info').slideUp()
+    $('.fta-threshold-info').slideUp()
     $('.post-accident-info').slideUp()
     $('.reasonable-suspicion-info').slideUp()
 
