@@ -25,7 +25,7 @@ describe 'editing supervisor reports as a supervisor' do
 
     visit edit_incident_path(incident)
     click_on 'Edit Supervisor Report'
-    check 'I can completely discount the operator' # But don't give a reason
+    select 'Post Accident: Threshold met and discounted' # But don't give a reason
 
     click_button 'Save supervisor report'
     wait_for_ajax!
