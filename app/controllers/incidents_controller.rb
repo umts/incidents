@@ -120,7 +120,11 @@ class IncidentsController < ApplicationController
     respond_to do |format|
       format.csv { send_data @incident.to_csv, filename: "#{@incident.id}.csv" }
       format.html { render 'show' }
-      format.pdf { record_print_event and render pdf: 'show.pdf.prawn' }
+      format.pdf do
+        record_print_event
+        @filename = "#{@incident.id}.pdf"
+        render pdf: 'show.pdf.prawn'
+      end
       format.xml do
         unless Rails.env.development?
           response.set_header 'Content-Disposition', 'attachment'
