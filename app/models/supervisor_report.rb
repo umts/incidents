@@ -110,6 +110,9 @@ class SupervisorReport < ApplicationRecord
 
   def no_drug_test?
     test_status.try(:include, 'no drug test')
+
+  def post_accident?
+    test_status.try(:include?, 'completed drug test')
   end
 
   def timeline
