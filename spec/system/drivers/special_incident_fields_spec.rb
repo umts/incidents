@@ -18,7 +18,8 @@ describe 'special incident fields' do
       it 'does not require filling in fields for collisions' do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
-        click_on 'Save report and print PDF'
+        click_on 'Save report and preview PDF'
+        page.driver.browser.switch_to.alert.accept
 
         expect(page).not_to have_text('cannot be marked as completed')
       end
@@ -79,7 +80,8 @@ describe 'special incident fields' do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
         check 'Did police respond to the incident?'
-        click_on 'Save report and print PDF'
+        click_on 'Save report and preview PDF'
+        page.driver.browser.switch_to.alert.accept
 
         expect(page).not_to have_text('cannot be marked as completed')
       end
@@ -114,7 +116,8 @@ describe 'special incident fields' do
         fill_in_base_incident_fields
         check 'Did the incident involve a passenger?'
         expect(page).to have_text 'Passenger Incident Information'
-        click_on 'Save report and print PDF'
+        click_on 'Save report and preview PDF'
+        page.driver.browser.switch_to.alert.accept
 
         expect(page).not_to have_text('cannot be marked as completed')
       end
@@ -150,7 +153,8 @@ describe 'special incident fields' do
         check 'Did the incident involve a passenger?'
         select 'Stopped', from: 'Motion of bus'
         uncheck 'Was the bus pulled completely up to the curb?'
-        click_on 'Save report and print PDF'
+        click_on 'Save report and preview PDF'
+        page.driver.browser.switch_to.alert.accept
 
         expect(page).not_to have_text('cannot be marked as completed')
       end
