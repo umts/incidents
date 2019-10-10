@@ -150,4 +150,57 @@ describe User do
       end
     end
   end
+
+  describe 'password validation', focus: true do
+    let(:user) { create :user, :driver, :default_password }
+
+    it "doesn't require either if no attempt to change password" do
+      user.first_name = 'Betty'
+      expect(user).to be_valid
+    end
+
+    it 'requires the confirmation to be there' do
+      user.password = 'GoodPassword'
+      expect(user).not_to be_valid
+    end
+
+    it 'requires the confirmation to match' do
+      user.password = 'GoodPassword'
+      user.password_confirmation = 'NotGoodPassword'
+      expect(user).not_to be_valid
+    end
+
+    it 'has a minimum length if non-default' do
+      user.assign_attributes(password: 'Dog', password_confirmation: 'Dog')
+      expect(user).not_to be_valid
+
+      user.set_default_password
+      expect(user).to be_valid
+    end
+  end
+
+  describe 'password resets and change tracking', focus: true do
+    let(:user) { create :user, :driver, :default_password }
+    let(:pw) { 'GoodPassword' }
+
+    it 'starts out as default' do
+      expect(user.valid_password? user.last_name).to be true
+      expect(user.password_changed_from_default?).to be false
+    end
+
+    it 'records that users changed their password' do
+      user.update(password: pw, password_confirmation: pw)
+      expect(user.valid_password? pw).to be true
+      expect(user.password_changed_from_default?).to be true
+    end
+
+    it 'allows password resets' do
+      user.update(password: pw, password_confirmation: pw)
+      user.set_default_password
+      user.save!
+
+      expect(user.valid_password? user.last_name).to be true
+      expect(user.password_changed_from_default?).to be false
+    end
+  end
 end

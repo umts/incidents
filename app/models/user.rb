@@ -31,7 +31,7 @@ class User < ApplicationRecord
   end)
 
   before_validation :set_default_password, if: :new_record?
-  before_save :track_password_changed
+  before_validation :track_password_changed
 
   # Only active users should be able to log in.
   def active_for_authentication?
@@ -128,11 +128,11 @@ class User < ApplicationRecord
 
   def password_required?
     # Only if we're trying to change the password
-    !(password.nil? && password_confirmation.nil?) && password_changed_from_default?
+    !password.nil? || !password_confirmation.nil?
   end
 
   def track_password_changed
-    if encrypted_password_changed? && !password_changed_from_default_changed?
+    unless valid_password?(last_name)
       assign_attributes password_changed_from_default: true
     end
   end
