@@ -151,7 +151,7 @@ describe User do
     end
   end
 
-  describe 'password validation', focus: true do
+  describe 'password validation' do
     let(:user) { create :user, :driver, :default_password }
 
     it "doesn't require either if no attempt to change password" do
@@ -179,7 +179,7 @@ describe User do
     end
   end
 
-  describe 'password resets and change tracking', focus: true do
+  describe 'password resets and change tracking' do
     let(:user) { create :user, :driver, :default_password }
     let(:pw) { 'GoodPassword' }
 
