@@ -5,7 +5,8 @@ FactoryBot.define do
     pictures_saved { [true, false].sample }
     passenger_statement { FFaker::Lorem.paragraphs(5).join "\n" }
     faxed { [nil, Time.zone.now].sample }
-    test_status { SupervisorReport::REASONS_FOR_TEST.sample }
+    test_status 'Post Accident: Threshold met and discounted (no drug test)'
+    reason_driver_discounted 'Post-Accident: Threshold met (completed drug test)'
     testing_facility { SupervisorReport::TESTING_FACILITIES.sample }
     testing_facility_notified_at { Time.zone.now - 6.minutes }
     employee_notified_of_test_at { Time.zone.now - 5.minutes }
