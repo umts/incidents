@@ -175,8 +175,7 @@ prawn_document do |pdf|
     end
   end
 
-  if !report.long_description? || report.injured_passengers.count < 3
-
+  if !report.long_description? && report.injured_passengers.count < 3
     pdf.field_row height: 100, units: 1 do |row|
       row.text_field field: 'Describe the accident or incident in detail', value: report.description,
         options: { valign: :top, align: :left }
@@ -189,7 +188,7 @@ prawn_document do |pdf|
       row.text_field width: 5, field: "Date recv'd", value: ''
     end
 
-  else report.long_description? || report.injured_passengers.count > 2
+  else
 
     pdf.start_new_page
 
