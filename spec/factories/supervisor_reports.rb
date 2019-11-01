@@ -20,7 +20,6 @@ FactoryBot.define do
 
     before :create do |report|
       report.saved_pictures = rand 50 if report.pictures_saved?
-
       if rand(20).zero?
         report.amplifying_comments = FFaker::Lorem.paragraph
       end
