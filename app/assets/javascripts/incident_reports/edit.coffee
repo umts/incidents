@@ -54,36 +54,57 @@ deleteInjuredPassengerFields = (event) ->
   deleteFields '.pax-fields', '#supervisor_report_inj_pax_info'
 
 toggleReasonsForTesting = ->
-  reason = $('#supervisor_report_test_status').val()
-  if reason.includes('Reasonable Suspicion')
+
+  toggle_reasonable_suspicion = ->
     $('.post-accident-info').slideUp()
     $('.reasonable-suspicion-info').slideDown()
     $('.driver-discounted-info').slideUp()
     $('.fta-threshold-info').slideUp()
+    return
 
-  else if reason.includes('Threshold met (completed drug test)')
+  toggle_threshold_met = ->
     $('.driver-discounted-info').slideUp()
     $('.reasonable-suspicion-info').slideUp()
     $('.fta-threshold-info').slideUp()
     $('.post-accident-info').slideDown()
+    return
 
-  else if reason.includes('No threshold met')
+  toggle_no_threshold_met = ->
     $('.driver-discounted-info').slideUp()
     $('.fta-threshold-info').slideDown()
     $('.post-accident-info').slideUp()
     $('.reasonable-suspicion-info').slideUp()
+    return
 
-  else if reason.includes('discounted')
+  toggle_discounted_drivers = ->
     $('.driver-discounted-info').slideDown()
     $('.fta-threshold-info').slideUp()
     $('.post-accident-info').slideUp()
     $('.reasonable-suspicion-info').slideUp()
+    return
 
-  else
+  toggle_for_nil_values = ->
     $('.driver-discounted-info').slideUp()
     $('.fta-threshold-info').slideUp()
     $('.post-accident-info').slideUp()
     $('.reasonable-suspicion-info').slideUp()
+    return
+
+  reason = $('#supervisor_report_test_status').val()
+  if reason.includes('Reasonable Suspicion')
+    toggle_reasonable_suspicion()
+
+  else if reason.includes('Threshold met (completed drug test)')
+    toggle_threshold_met()
+
+  else if reason.includes('No threshold met')
+    toggle_no_threshold_met()
+
+  else if reason.includes('discounted')
+    toggle_discounted_drivers()
+
+  else
+    toggle_for_nil_values()
 
 $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#incident_report_motor_vehicle_collision',
