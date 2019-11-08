@@ -55,56 +55,30 @@ deleteInjuredPassengerFields = (event) ->
 
 toggleReasonsForTesting = ->
 
-  toggle_reasonable_suspicion = ->
-    $('.post-accident-info').slideUp()
-    $('.reasonable-suspicion-info').slideDown()
-    $('.driver-discounted-info').slideUp()
-    $('.fta-threshold-info').slideUp()
-    return
-
-  toggle_threshold_met = ->
-    $('.driver-discounted-info').slideUp()
-    $('.reasonable-suspicion-info').slideUp()
-    $('.fta-threshold-info').slideUp()
-    $('.post-accident-info').slideDown()
-    return
-
-  toggle_no_threshold_met = ->
-    $('.driver-discounted-info').slideUp()
-    $('.fta-threshold-info').slideDown()
-    $('.post-accident-info').slideUp()
-    $('.reasonable-suspicion-info').slideUp()
-    return
-
-  toggle_discounted_drivers = ->
-    $('.driver-discounted-info').slideDown()
-    $('.fta-threshold-info').slideUp()
-    $('.post-accident-info').slideUp()
-    $('.reasonable-suspicion-info').slideUp()
-    return
-
-  toggle_for_nil_values = ->
-    $('.driver-discounted-info').slideUp()
-    $('.fta-threshold-info').slideUp()
-    $('.post-accident-info').slideUp()
-    $('.reasonable-suspicion-info').slideUp()
-    return
+  showOnly = (field) ->
+    infos = [
+      '.post-accident-info',
+      '.reasonable-suspician-info',
+      '.driver-discounted-info',
+      '.fta-threshold-info'
+    ]
+    irrelevantInformation = infos.filter((info ) ->
+      info != field
+    )
+    $(irrelevantInformation.join()).slideUp()
+    $(field).slideDown()
 
   reason = $('#supervisor_report_test_status').val()
-  if reason.includes('Reasonable Suspicion')
-    toggle_reasonable_suspicion()
-
-  else if reason.includes('Threshold met (completed drug test)')
-    toggle_threshold_met()
-
-  else if reason.includes('No threshold met')
-    toggle_no_threshold_met()
-
-  else if reason.includes('discounted')
-    toggle_discounted_drivers()
-
-  else
-    toggle_for_nil_values()
+  switch reason
+    when 'Reasonable Suspicion: Completed drug test'
+      showOnly('.reasonable-suspicion-info')
+    when 'Post Accident: Threshold met (completed drug test)'
+      showOnly('.post-accident-info')
+    when 'Post Accident: No threshold met (no drug test)'
+      showOnly('.fta-threshold-info')
+    when 'Post Accident: Threshold met and discounted (no drug test)'
+      showOnly('.driver-discounted-info')
+    else showOnly('nothing')
 
 $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#incident_report_motor_vehicle_collision',
