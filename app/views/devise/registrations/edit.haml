@@ -1,7 +1,8 @@
 %h1 Change Password
 
 = form_for resource, as: resource_name, url: user_registration_path(resource), html: { method: :patch } do |f|
-  = devise_error_messages!
+  - if resource.errors.present?
+    = render 'devise/shared/error_messages', resource: resource
   .field
     = f.label :password
     = f.password_field :password, autocomplete: :off
