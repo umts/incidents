@@ -13,7 +13,9 @@ describe 'creating incidents as a driver' do
   end
   it 'requires base fields' do
     visit new_incident_url
-    click_on 'Save report'
+    click_on 'Save report and preview PDF'
+    page.driver.browser.switch_to.alert.accept
+
     expect(page).to have_text 'This incident report has 6 missing values and so cannot be marked as completed.'
     expect(page).to have_text "Date and time of incident can't be blank"
     expect(page).to have_text "Location can't be blank"
@@ -25,7 +27,8 @@ describe 'creating incidents as a driver' do
   it 'only requires bus, location, and town' do
     visit new_incident_url
     fill_in_base_incident_fields
-    click_on 'Save report'
+    click_on 'Save report and preview PDF'
+    page.driver.browser.switch_to.alert.accept
 
     expect(page).not_to have_text('cannot be marked as completed')
   end

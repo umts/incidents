@@ -11,6 +11,13 @@ class User < ApplicationRecord
   validates :first_name, :last_name, :badge_number, :divisions, presence: true
   validates :badge_number, uniqueness: true
 
+  validates :password,
+            presence: true, confirmation: true, if: :password_required?
+  validates :password,
+            length: { in: 6..128 },
+            allow_blank: true,
+            if: :password_changed_from_default?
+
   scope :active, -> { where active: true }
   scope :inactive, -> { where.not active: true }
   scope :drivers, -> { where supervisor: false, staff: false }
@@ -24,7 +31,7 @@ class User < ApplicationRecord
   end)
 
   before_validation :set_default_password, if: :new_record?
-  before_save :track_password_changed
+  before_validation :track_password_changed
 
   # Only active users should be able to log in.
   def active_for_authentication?
@@ -119,8 +126,13 @@ class User < ApplicationRecord
 
   private
 
+  def password_required?
+    # Only if we're trying to change the password
+    !password.nil? || !password_confirmation.nil?
+  end
+
   def track_password_changed
-    if encrypted_password_changed? && !password_changed_from_default_changed?
+    unless valid_password?(last_name)
       assign_attributes password_changed_from_default: true
     end
   end
