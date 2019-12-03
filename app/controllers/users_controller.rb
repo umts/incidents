@@ -10,7 +10,12 @@ class UsersController < ApplicationController
     @user.assign_attributes user_params
     if @user.save
       redirect_to users_path, notice: 'User was successfully created.'
-    else render :new, status: :unprocessable_entity
+    else
+      # If there's a problem with the password of a new employee it can ony
+      # be because the user left the last name blank (which has it's own
+      # message).
+      @user.errors.delete(:password)
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -76,7 +81,8 @@ class UsersController < ApplicationController
   end
 
   def reset_password
-    @user.set_default_password and @user.save!
+    @user.set_default_password
+    @user.save!
     redirect_to users_path,
       notice: "#{@user.full_name}'s password was reset to the default password."
   end

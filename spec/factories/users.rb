@@ -6,6 +6,9 @@ FactoryBot.define do
     sequence :last_name
     divisions { [create(:division)] }
     badge_number { (('0000'..'4999').to_a - User.pluck(:badge_number)).sample }
+    after :create do |user|
+      user.update password: 'Password1', password_confirmation: 'Password1'
+    end
 
     trait :driver do
       supervisor false
