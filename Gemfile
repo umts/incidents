@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'bootsnap'
 gem 'bootstrap-sass', '~> 3.3'
 gem 'coffee-rails', '~> 4.2'
 gem 'csv'
@@ -11,10 +12,10 @@ gem 'jbuilder', '~> 2.5'
 gem 'mysql2'
 gem 'nokogiri', '>= 1.8.1'
 gem 'openssl'
-gem 'paper_trail', '~> 8.1'
+gem 'paper_trail', '~> 10.3'
 gem 'prawn-rails-forms', '~> 0.1.2'
 gem 'puma', '~> 3.12'
-gem 'rails', '~> 5.1.0'
+gem 'rails', '~> 5.2.4'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
@@ -45,6 +46,5 @@ group :test do
   gem 'capybara'
   gem 'webdrivers', '~> 4.0'
   gem 'rspec-rails', '~> 3.7'
-  gem 'selenium-webdriver'
   gem 'simplecov', '~> 0.15'
 end
