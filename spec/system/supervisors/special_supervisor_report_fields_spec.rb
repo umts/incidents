@@ -150,6 +150,7 @@ describe 'special supervisor report fields' do
           .not_to have_text 'Please explain how the FTA threshold is not met.'
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
         expect(page).to have_text 'Please explain how the FTA threshold is not met.'
+        check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
       end
       it 'requires explaining how the FTA threshold was not met' do
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
