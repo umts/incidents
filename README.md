@@ -8,26 +8,29 @@ This is a prototype of UMass Transit's incident tracking model, designed for use
 
 ## Development
 
-After bundling and database setup, you can obtain data either by seeding:
+### Setup
+1. `bundle`
+2. Create the database: `rails db:create`
+3. Run migrations: `rails db:migrate`
+4. Create development data: `rails db:seed`
 
-```
-rails db:seed
-```
-
-Or by importing XML files from Hastus:
-
+Alternativley you can import your data from Hatus:
 ```
 rails users:import users.xml
 rails reason_codes:import reason_codes.xml
-# coming soon to a README near you
 ```
-
 Note that Hastus will import all supervisors as the same with no distinction between dispatchers and staff members.
 To elevate the appropriate administrative staff, record their full names in a .txt file and run e.g.:
-
 ```
 rails users:elevate_staff staff.txt
 ```
+
+### Logging into the Rails server
+When you connect to the Rails server you will be prompted to log in.
+If you seeded your data you will be able to log in using these credentials:
+
+**Badge number:** 5000  
+**Password:** password
 
 ### Email
 
