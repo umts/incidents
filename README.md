@@ -10,10 +10,11 @@ This is a prototype of UMass Transit's incident tracking model, designed for use
 
 ### Setup
 1. `bundle`
-2. Create the databases: `rails db:create:all`
-3. Setup database: `rails db:schema:load`
-4. Create development data: `rails db:seed`
-5. Create claims data: `mysql -u root --database=claims_development -e "SOURCE db/setup-claims.sql;"`
+2. `yarn`
+3. Create the databases: `rails db:create:all`
+4. Setup database: `rails db:schema:load`
+5. Create development data: `rails db:seed`
+6. Create claims data: `mysql -u root --database=claims_development -e "SOURCE db/setup-claims.sql;"`
 
 Alternatively you can import your data from Hatus:
 ```
