@@ -10,11 +10,11 @@ This is a prototype of UMass Transit's incident tracking model, designed for use
 
 ### Setup
 1. `bundle`
-2. Create the databases: `rails db:create:all`
+2. Create the database: `rails db:create`
 3. Run migrations: `rails db:migrate`
 4. Create development data: `rails db:seed`
 
-Alternatively you can import your data from Hatus:
+Alternativley you can import your data from Hatus:
 ```
 rails users:import users.xml
 rails reason_codes:import reason_codes.xml
