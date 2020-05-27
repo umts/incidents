@@ -42,16 +42,16 @@
       .example 1803
     .field
       = form.label :passengers_onboard
-      = form.number_field :passengers_onboard, id: :incident_report_passengers_onboard
+      = form.number_field :passengers_onboard, id: :incident_report_passengers_onboard, min: 0
     .field
       = form.label :courtesy_cards_distributed
-      = form.number_field :courtesy_cards_distributed, id: :incident_report_courtesy_cards_distributed
+      = form.number_field :courtesy_cards_distributed, id: :incident_report_courtesy_cards_distributed, min: 0
     .field
       = form.label :courtesy_cards_collected
-      = form.number_field :courtesy_cards_collected, id: :incident_report_courtesy_cards_collected
+      = form.number_field :courtesy_cards_collected, id: :incident_report_courtesy_cards_collected, min: 0
     .field
       = form.label :speed
-      = form.number_field :speed, id: :incident_report_speed
+      = form.number_field :speed, id: :incident_report_speed, min: 0
     .field
       = form.label :location
       = form.text_field :location, id: :incident_report_location
@@ -90,7 +90,7 @@
     - if report == @incident.supervisor_incident_report
       .field
         = form.label :posted_speed_limit
-        = form.number_field :posted_speed_limit, id: :incident_report_posted_speed_limit
+        = form.number_field :posted_speed_limit, id: :incident_report_posted_speed_limit, min: 0
       .field
         = form.label :surface_type
         = form.select :surface_type,
@@ -137,7 +137,7 @@
       = form.text_field :other_vehicle_color, id: :incident_report_other_vehicle_color
     .field
       = form.label :other_vehicle_passengers
-      = form.number_field :other_vehicle_passengers, id: :incident_report_other_vehicle_passengers
+      = form.number_field :other_vehicle_passengers, id: :incident_report_other_vehicle_passengers, min: 0
     .field
       = form.label :other_vehicle_direction
       = form.select :other_vehicle_direction,
