@@ -8,23 +8,22 @@ This is a prototype of UMass Transit's incident tracking model, designed for use
 
 ## Development
 
-After bundling and database setup, you can obtain data either by seeding:
+### Setup
+1. `bundle`
+2. `yarn`
+3. Create your database.yml: `cp config/database.yml.example config/database.yml`
+4. Create the databases: `rails db:create:all`
+5. Setup database: `rails db:schema:load`
+6. Create development data: `rails db:seed`
+7. Create claims data: `mysql -u root --database=claims_development -e "SOURCE db/setup-claims.sql;"`
 
-```
-rails db:seed
-```
-
-Or by importing XML files from Hastus:
-
+Alternatively you can import your data from Hatus:
 ```
 rails users:import users.xml
 rails reason_codes:import reason_codes.xml
-# coming soon to a README near you
 ```
-
 Note that Hastus will import all supervisors as the same with no distinction between dispatchers and staff members.
 To elevate the appropriate administrative staff, record their full names in a .txt file and run e.g.:
-
 ```
 rails users:elevate_staff staff.txt
 ```
@@ -41,13 +40,3 @@ If you seeded your data you will be able to log in using these credentials:
 We develop using mailcatcher. They don't recommend listing it in the Gemfile, so install with `gem install mailcatcher`.
 Then run `mailcatcher`, daemon by default, to catch mail and to `localhost:1080` to view the sent mail.
 
-### Claims integration
-
-To set up claims integration in your development environment, configure the appropriate database in database.yml under the name `claims_development`.
-
-Then as a mysql user with access to that database, type:
-
-```sql
-> USE your_database_name_here;
-> source setup-claims.sql;
-```
