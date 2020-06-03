@@ -76,6 +76,9 @@ $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#incident_report_police_on_scene',
                           '.police-info'
 
+  $('form').showIfChecked '#incident_report_incident_involved_a_van',
+                          '.van-info'
+
   $('form').showIfChecked '#incident_report_other_vehicle_owned_by_other_driver',
                           '.other-vehicle-owner-info', reverse: true
 
@@ -127,7 +130,7 @@ $(document).on 'turbolinks:load', ->
   $('form').on 'click', 'button.add-witness', addWitnessFields
 
   $('form').on 'click', 'button.add-pax', addInjuredPassengerFields
-  
+
   $('form').on 'click', 'button.delete-witness', deleteWitnessFields
 
   $('form').on 'click', 'button.delete-pax', deleteInjuredPassengerFields

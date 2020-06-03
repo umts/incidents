@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_27_193904) do
+ActiveRecord::Schema.define(version: 2020_06_03_175713) do
 
   create_table "divisions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -114,8 +114,14 @@ ActiveRecord::Schema.define(version: 2020_05_27_193904) do
     t.text "vehicle_distance"
     t.boolean "wheelchair_involved", default: false
     t.boolean "other_passenger_information_taken"
-    t.boolean "transit_passenger_information_taken"
     t.boolean "property_owner_information_taken"
+    t.string "state"
+    t.boolean "ambulance_present", default: false
+    t.boolean "citation_information_taken"
+    t.boolean "assistance_requested", null: false
+    t.boolean "chair_on_lift", null: false
+    t.boolean "lift_deployed", null: false
+    t.boolean "incident_involved_a_van", null: false
   end
 
   create_table "incidents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|

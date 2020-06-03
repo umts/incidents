@@ -45,11 +45,20 @@
   %strong= human_name :incident_report, :speed
   = report.speed
 %p
+  %strong= human_name :incident, :latitude
+  = report.incident.latitude
+%p
+  %strong= human_name :incident, :longitude
+  = report.incident.longitude
+%p
   %strong= human_name :incident_report, :location
   = report.location
 %p
   %strong= human_name :incident_report, :town
   = report.town
+%p
+  %strong= human_name :incident_report, :state
+  = report.state
 %p
   %strong= human_name :incident_report, :zip
   = report.zip
@@ -71,6 +80,44 @@
 %p
   %strong= human_name :incident_report, :headlights_used?
   = yes_no_image report.headlights_used?
+%p
+  %strong= human_name :incident_report, :police_on_scene
+  = yes_no_image report.police_on_scene?
+- if report.police_on_scene?
+  %p
+    %strong= human_name :incident_report, :police_badge_number
+    = report.police_badge_number
+  %p
+    %strong= human_name :incident_report, :police_town_or_state
+    = report.police_town_or_state
+  %p
+    %strong= human_name :incident_report, :police_case_assigned
+    = report.police_case_assigned
+  %p
+    %strong= human_name :incident_report, :citation_information_taken
+    = yes_no_image report.citation_information_taken?
+%p
+  %strong= human_name :incident_report, :ambulance_present
+  = yes_no_image report.ambulance_present?
+%p
+  %strong= human_name :incident_report, :wheelchair_involved
+  = yes_no_image report.wheelchair_involved?
+%p
+  %strong= human_name :incident_report, :vehicle_distance
+  = report.vehicle_distance
+%p
+  %strong= human_name :incident_report, :incident_involved_a_van
+  = yes_no_image report.incident_involved_a_van?
+- if report.incident_involved_a_van?
+  %p
+    %strong= human_name :incident_report, :assistance_requested
+    = yes_no_image report.assistance_requested?
+  %p
+    %strong= human_name :incident_report, :chair_on_lift
+    = yes_no_image report.chair_on_lift?
+  %p
+    %strong= human_name :incident_report, :lift_deployed
+    = yes_no_image report.lift_deployed?
 - if report == @incident.supervisor_incident_report
   %p
     %strong= human_name :incident_report, :posted_speed_limit
@@ -114,6 +161,9 @@
   %p
     %strong= human_name :incident_report, :other_vehicle_passengers
     = report.other_vehicle_passengers
+  %p
+    %strong= human_name :incident_report, :other_passenger_information_taken
+    = yes_no_image report.other_passenger_information_taken?
   %p
     %strong= human_name :incident_report, :direction
     = report.direction
@@ -173,19 +223,6 @@
     %strong= human_name :incident_report, :other_vehicle_towed_from_scene
     = yes_no_image report.other_vehicle_towed_from_scene?
   %p
-    %strong= human_name :incident_report, :police_on_scene
-    = yes_no_image report.police_on_scene?
-  - if report.police_on_scene?
-    %p
-      %strong= human_name :incident_report, :police_badge_number
-      = report.police_badge_number
-    %p
-      %strong= human_name :incident_report, :police_town_or_state
-      = report.police_town_or_state
-    %p
-      %strong= human_name :incident_report, :police_case_assigned
-      = report.police_case_assigned
-  %p
     %strong= human_name :incident_report, :damage_to_bus_point_of_impact
     = report.damage_to_bus_point_of_impact
   %p
@@ -200,6 +237,9 @@
   %p
     %strong= human_name :incident_report, :insurance_effective_date
     = report.insurance_effective_date
+  %p
+    %strong= human_name :incident_report, :property_owner_information_taken
+    = yes_no_image report.property_owner_information_taken
 - if report.passenger_incident?
   %h3 Passenger Incident Information
   - if report.injured_passengers.present?
