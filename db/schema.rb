@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_09_11_000832) do
+ActiveRecord::Schema.define(version: 2020_06_03_175713) do
 
   create_table "divisions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -111,6 +111,17 @@ ActiveRecord::Schema.define(version: 2018_09_11_000832) do
     t.boolean "other_vehicle_towed_from_scene"
     t.string "zip"
     t.string "route"
+    t.text "vehicle_distance"
+    t.boolean "wheelchair_involved", default: false
+    t.boolean "other_passenger_information_taken"
+    t.boolean "property_owner_information_taken"
+    t.string "state"
+    t.boolean "ambulance_present", default: false
+    t.boolean "citation_information_taken"
+    t.boolean "assistance_requested", null: false
+    t.boolean "chair_on_lift", null: false
+    t.boolean "lift_deployed", null: false
+    t.boolean "incident_involved_a_van", null: false
   end
 
   create_table "incidents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
@@ -222,7 +233,7 @@ ActiveRecord::Schema.define(version: 2018_09_11_000832) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.integer "item_id", null: false
     t.string "event", null: false

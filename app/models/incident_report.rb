@@ -33,9 +33,7 @@ class IncidentReport < ApplicationRecord
                              Level High\ Crowned Banked].freeze
   DIRECTIONS = {
     NORTH: 'North', SOUTH: 'South', EAST: 'East', WEST: 'West',
-    INB: 'Inbound', OUTB: 'Outbound', INW: 'Inward', OUTW: 'Outward',
-    CW: 'Clockwise', CCW: 'Counterclockwise', DIR1: 'DIR1', DIR2: 'DIR2',
-    UPWARD: 'Upward', DOWNWARD: 'Downward', NA: 'N/A or Unknown'
+    NORTHEAST: 'Northeast', NORTHWEST: 'Northwest', SOUTHEAST: 'Southeast', SOUTHWEST: 'Southwest'
   }.stringify_keys.freeze
 
   TOWN_OPTIONS = %w[
@@ -45,6 +43,8 @@ class IncidentReport < ApplicationRecord
   ]
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
+
+  STATE_OPTIONS = %w[ Massachusetts Connecticut ].freeze
 
   belongs_to :user
   has_one :incident

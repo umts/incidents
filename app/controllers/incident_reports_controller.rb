@@ -33,7 +33,7 @@ class IncidentReportsController < ApplicationController
     @report.injured_passengers.build unless @report.injured_passengers.present?
     @report.injured_passengers
   end
-  
+
   def delete_passengers
     if report_params[:injured_passengers_attributes]
       report_params[:injured_passengers_attributes].each do |pax_num, pax_info|
@@ -47,11 +47,14 @@ class IncidentReportsController < ApplicationController
 
   def report_params
     data = params.require(:incident_report).permit!
+    if data[:incidents]
+      @incident.update_attributes(latitude: data[:incidents][:latitude], longitude: data[:incidents][:longitude] )
+    end
     unless data[:inj_pax_info] == '1'
       data.delete :injured_passengers_attributes
       @report.injured_passengers.destroy_all
     end
-    data.except :inj_pax_info
+    data.except :inj_pax_info, :incidents
   end
 
   def set_report
