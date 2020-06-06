@@ -44,7 +44,7 @@ class IncidentReport < ApplicationRecord
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
-  STATE_OPTIONS = [ 'Massachusetts', 'Connecticut' ].freeze
+  STATE_OPTIONS = %w[ Massachusetts Connecticut ].freeze
 
   belongs_to :user
   has_one :incident
