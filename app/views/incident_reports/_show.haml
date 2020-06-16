@@ -36,6 +36,9 @@
   %strong= human_name :incident_report, :passengers_onboard
   = report.passengers_onboard
 %p
+  %strong= human_name :incident_report, :pvta_passenger_information_taken
+  = yes_no_image report.pvta_passenger_information_taken?
+%p
   %strong= human_name :incident_report, :courtesy_cards_distributed
   = report.courtesy_cards_distributed
 %p

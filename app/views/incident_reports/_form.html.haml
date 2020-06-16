@@ -44,6 +44,9 @@
       = form.label :passengers_onboard
       = form.number_field :passengers_onboard, id: :incident_report_passengers_onboard, min: 0
     .field
+      = form.label :pvta_passenger_information_taken
+      = form.check_box :pvta_passenger_information_taken, id: :incident_report_pvta_passenger_information_taken
+    .field
       = form.label :courtesy_cards_distributed
       = form.number_field :courtesy_cards_distributed, id: :incident_report_courtesy_cards_distributed, min: 0
     .field
