@@ -37,7 +37,7 @@ class Incident < ApplicationRecord
 
   has_many :staff_reviews, dependent: :destroy
 
-  scope :between, (lambda do |start_date, end_date| 
+  scope :between, (lambda do |start_date, end_date|
     joins(:driver_incident_report)
       .where incident_reports: { occurred_at: start_date..end_date }
   end)
@@ -109,38 +109,55 @@ class Incident < ApplicationRecord
     builder = Nokogiri::XML::Builder.new do |doc|
       doc.claims_incident_data do
         doc.incident do
+          doc.incident_number     id
           doc.date_entered        Date.today.strftime('%Y-%m-%d')
           doc.incident_date       report.occurred_at.iso8601
-          doc.street              report.location
-          doc.city                report.town
-          doc.state               'MA'
-          doc.zip                 report.zip
           doc.longitude           longitude
           doc.latitude            latitude
           doc.company             driver.division.claims_id
           doc.incident_desc       supervisor_incident_report.try(:description)
           doc.employee_id         driver.badge_number
           doc.driver              driver.badge_number
-          doc.driver_desc         report.description
-          doc.vehicle_route_num   report.route
-          doc.vehicle_num         report.bus
-          doc.vehicle_damage_area report.damage_to_other_vehicle_point_of_impact
-          doc.point_of_contact    report.damage_to_bus_point_of_impact
+          doc.curb_distance       supervisor_incident_report.try(:curb_distance)
+          doc.preventable         preventable
+          doc.fatality            supervisor_report.try(:test_due_to_fatality)
           doc.status              'ir'
           doc.reason1             reason_code.identifier
           doc.reason2             supplementary_reason_code.try(:identifier)
         end
         doc.drivers_report do
-          doc.citation         report.summons_or_warning_issued?
-          doc.weather          report.weather_conditions
-          doc.surr_cond        report.road_conditions
-          doc.lighting         report.light_conditions
-          doc.speed            report.speed
-          doc.point_of_contact report.damage_to_bus_point_of_impact
-          doc.total_pass       report.passengers_onboard
-          doc.ambulance        report.injured_passengers.any?(&:transported_to_hospital?)
-          doc.ov_tow           report.other_vehicle_towed_from_scene?
-          doc.pvta_tow         report.towed_from_scene?
+          doc.street              report.location
+          doc.city                report.town
+          doc.state               report.state
+          doc.zip                 report.zip
+          doc.driver_desc         report.description
+          doc.vehicle_route_num   report.route
+          doc.vehicle_num         report.bus
+          doc.police_on_scene     report.police_on_scene
+          doc.citation            report.summons_or_warning_issued?
+          doc.officer_info_taken  report.police_badge_number.present?
+          doc.wheelchair_involved report.wheelchair_involved
+          doc.weather             report.weather_conditions
+          doc.surr_cond           report.road_conditions
+          doc.lighting            report.light_conditions
+          doc.direction           report.direction
+          doc.speed               report.speed
+          doc.point_of_contact    report.damage_to_bus_point_of_impact
+          doc.vehicle_distance    report.vehicle_distance
+          doc.vehicle_damage_area report.damage_to_other_vehicle_point_of_impact
+          doc.other_vehicle_info_taken   report.motor_vehicle_collision
+          doc.other_driver_info_taken    report.other_driver_license_number.present?
+          doc.other_passenger_info_taken report.other_passenger_information_taken
+          doc.pvta_passenger_info_taken  report.pvta_passenger_information_taken
+          doc.property_owner_info_taken  report.property_owner_information_taken
+          doc.witness_info_taken         supervisor_report.try(:witnesses).present?
+          doc.assistance_requested       report.assistance_requested
+          doc.chair_on_lift       report.chair_on_lift
+          doc.lift_deployed       report.lift_deployed
+          doc.total_pass          report.passengers_onboard
+          doc.ambulance           report.injured_passengers.any?(&:transported_to_hospital?)
+          doc.ov_tow              report.other_vehicle_towed_from_scene?
+          doc.pvta_tow            report.towed_from_scene?
         end
       end
     end
@@ -200,7 +217,6 @@ class Incident < ApplicationRecord
   # Field we're not providing in the first stage are implemented but commented.
   def claims_fields(table:)
     report = driver_incident_report
-
     # define associated records only when necessary
     case table
     when :incident
@@ -216,7 +232,7 @@ class Incident < ApplicationRecord
         'IncidentDate' => report.occurred_at.iso8601,
         street: report.location,
         city: report.town,
-        state: 'MA',
+        state: report.state,
         zip: report.zip,
         longitude: longitude,
         latitude: latitude,
@@ -241,7 +257,7 @@ class Incident < ApplicationRecord
       },
       drivers_report: {
         'FileID' => claims_id,
-      # 'PolicePresent' => report.police_on_scene?,
+        'PolicePresent' => report.police_on_scene?,
         # OfficerName
       # 'BadgeNum' => report.police_badge_number,
         # ArrivalTime
@@ -266,7 +282,7 @@ class Incident < ApplicationRecord
         # Fatality, assistRequest, PD, Note, externalAppraisal
       },
     }
-    
+
     fields.fetch(table)
   end
 
@@ -289,7 +305,7 @@ class Incident < ApplicationRecord
   end
 
   private
-  
+
   def supervisor_in_correct_group
     unless supervisor_incident_report.blank? ||
            supervisor_incident_report.try(:user).try(:supervisor?)
