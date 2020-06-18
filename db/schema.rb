@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_16_175358) do
+ActiveRecord::Schema.define(version: 2020_06_16_175007) do
 
   create_table "divisions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
@@ -117,10 +117,10 @@ ActiveRecord::Schema.define(version: 2020_06_16_175358) do
     t.boolean "property_owner_information_taken", default: false
     t.string "state"
     t.boolean "ambulance_present", default: false
-    t.boolean "assistance_requested", default: false
-    t.boolean "chair_on_lift", default: false
-    t.boolean "lift_deployed", default: false
-    t.boolean "incident_involved_a_van", default: false
+    t.boolean "assistance_requested", default: false, null: false
+    t.boolean "chair_on_lift", default: false, null: false
+    t.boolean "lift_deployed", default: false, null: false
+    t.boolean "incident_involved_a_van", default: false, null: false
     t.boolean "pvta_passenger_information_taken", default: false
   end
 
