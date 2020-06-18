@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'changing your password' do
+describe 'changing your password', js: true do
   let(:user) { create :user, :default_password }
   let(:old_password) { 'BadOldPassword' }
   let(:new_password) { 'GreatNewPassword' }

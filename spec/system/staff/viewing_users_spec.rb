@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'viewing users as staff' do
+describe 'viewing users as staff', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   context 'with active users' do

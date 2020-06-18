@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'special incident fields' do
   let(:driver) { create :user, :driver }
   before(:each) { when_current_user_is driver }
-  describe 'collision related fields' do
+  describe 'collision related fields', js: true do
     context 'without collision' do
       before :each do
         visit new_incident_path
@@ -39,7 +39,7 @@ describe 'special incident fields' do
     end
   end
 
-  describe 'other vehicle related fields' do
+  describe 'other vehicle related fields', js: true do
     context 'without other vehicle info' do
       it 'allows filling in other vehicle info as necessary' do
         visit new_incident_path
@@ -65,7 +65,7 @@ describe 'special incident fields' do
     end
   end
 
-  describe 'police related fields' do
+  describe 'police related fields', js: true do
     context 'without police info' do
       before :each do
         visit new_incident_path
@@ -102,7 +102,7 @@ describe 'special incident fields' do
     end
   end
 
-  describe 'passenger incident related fields' do
+  describe 'passenger incident related fields', js: true do
     context 'without passenger incidents' do
       before :each do
         visit new_incident_path
@@ -136,7 +136,7 @@ describe 'special incident fields' do
     end
   end
 
-  describe 'reason not up to curb related fields' do
+  describe 'reason not up to curb related fields', js: true do
     before :each do
       visit new_incident_path
     end

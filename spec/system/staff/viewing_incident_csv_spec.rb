@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'viewing incident CSV as a staff member' do
+describe 'viewing incident CSV as a staff member', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let(:driver_report) { create :incident_report, :driver_report, :collision }
@@ -12,7 +12,7 @@ describe 'viewing incident CSV as a staff member' do
   end
 end
 
-describe 'batch exporting CSV' do
+describe 'batch exporting CSV', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }

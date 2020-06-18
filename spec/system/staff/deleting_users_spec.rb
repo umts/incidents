@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'deleting users as staff' do
+describe 'deleting users as staff', js: true do
   before(:each) { when_current_user_is :staff }
   let!(:user) { create :user, :driver }
   context 'user has no incidents' do

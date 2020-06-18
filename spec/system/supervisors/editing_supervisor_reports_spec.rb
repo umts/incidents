@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'editing supervisor reports as a supervisor' do
+describe 'editing supervisor reports as a supervisor', js: true do
   let(:incident) { create :incident }
   let(:supervisor) { incident.supervisor }
   before(:each) { when_current_user_is supervisor }

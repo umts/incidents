@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'creating incidents as a driver' do
+describe 'creating incidents as a driver', js: true do
   before(:each) { when_current_user_is :driver }
   it 'brings drivers directly to the form' do
     visit incidents_url

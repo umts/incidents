@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'listing incidents as a supervisor' do
+describe 'listing incidents as a supervisor', js: true do
   let(:supervisor) { create :user, :supervisor }
   before(:each) { when_current_user_is supervisor }
 

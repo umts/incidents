@@ -2,14 +2,14 @@
 
 require 'spec_helper'
 
-describe 'special supervisor report fields' do
+describe 'special supervisor report fields', js: true do
   let(:supervisor) { create :user, :supervisor }
   before(:each) { when_current_user_is supervisor }
   let(:supervisor_incident_report) { create :incident_report, user: supervisor }
   let(:incident) do
     create :incident, supervisor_incident_report: supervisor_incident_report
   end
-  describe 'pictures saved related fields' do
+  describe 'pictures saved related fields', js: true do
     context 'without pictures saved' do
       before :each do
         incident.supervisor_report.update! pictures_saved: false
@@ -38,7 +38,7 @@ describe 'special supervisor report fields' do
     end
   end
 
-  describe 'witness information related fields' do
+  describe 'witness information related fields', js: true do
     before :each do
       incident.supervisor_report.witnesses = []
     end
@@ -73,7 +73,7 @@ describe 'special supervisor report fields' do
     end
   end
 
-  describe 'test completion related fields' do
+  describe 'test completion related fields', js: true do
     context 'with test conducted' do
       it 'allows filling in fields related to a test not being completed' do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: true
@@ -136,7 +136,7 @@ describe 'special supervisor report fields' do
     end
   end
 
-  describe 'FTA threshold related fields' do
+  describe 'FTA threshold related fields', js: true do
     context 'with FTA threshold met' do
       before :each do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
@@ -172,7 +172,7 @@ describe 'special supervisor report fields' do
     end
   end
 
-  describe 'driver discount related fields' do
+  describe 'driver discount related fields', js: true do
     context 'without driver discounted' do
       before :each do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: false,

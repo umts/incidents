@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'claiming incidents as a supervisor' do
+describe 'claiming incidents as a supervisor', js: true do
   let(:incident) { create :incident, :unclaimed }
   let(:supervisor) { create :user, :supervisor, divisions: incident.driver.divisions }
   before(:each) { when_current_user_is supervisor }

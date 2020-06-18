@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'viewing incident XML as a staff member' do
+describe 'viewing incident XML as a staff member', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }
@@ -41,7 +41,7 @@ describe 'viewing incident XML as a staff member' do
   end
 end
 
-describe 'viewing incident XML as a driver' do
+describe 'viewing incident XML as a driver', js: true do
   let(:incident) { create :incident }
   it "you can't" do
     when_current_user_is :driver
@@ -50,7 +50,7 @@ describe 'viewing incident XML as a driver' do
   end
 end
 
-describe 'batch exporting XML' do
+describe 'batch exporting XML', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }
@@ -95,7 +95,7 @@ describe 'batch exporting XML' do
   end
 end
 
-describe 'batch exporting incident XML or CSV as a staff member' do
+describe 'batch exporting incident XML or CSV as a staff member', js: true do
   context 'with staff in multiple divisions, filtering by a single division' do
     let(:division1) { create :division }
     let(:division2) { create :division }

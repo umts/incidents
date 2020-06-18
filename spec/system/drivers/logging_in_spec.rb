@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'logging in as a driver' do
+describe 'logging in as a driver', js: true do
   before(:each) { when_current_user_is driver }
   context 'with the default password' do
     let(:driver) { create :user, :driver, :default_password }
@@ -13,7 +13,7 @@ describe 'logging in as a driver' do
   end
 end
 
-describe 'logging in with a deactivated account' do
+describe 'logging in with a deactivated account', js: true do
   let!(:driver) { create :user, :driver, :default_password, active: false }
   it 'tells you that your account is deactivated' do
     visit root_url

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'deleting incidents as staff' do
+describe 'deleting incidents as staff', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions(staff.divisions) }

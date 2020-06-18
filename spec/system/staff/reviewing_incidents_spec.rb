@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'reviewing incidents as staff' do
+describe 'reviewing incidents as staff', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
 

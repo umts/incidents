@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'deactivating and reactivating users as staff' do
+describe 'deactivating and reactivating users as staff', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   it 'allows deactivating users' do

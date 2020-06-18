@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'logging in as staff' do
+describe 'logging in as staff', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   context 'with the default password' do

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'editing incidents as a driver' do
+describe 'editing incidents as a driver', js: true do
   let(:driver) { create :user, :driver }
   before(:each) { when_current_user_is driver }
   let(:report) { create :incident_report, :driver_report, user: driver }

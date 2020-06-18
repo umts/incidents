@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'creating incidents as staff' do
+describe 'creating incidents as staff', js: true do
   let(:user) { create :user, :staff }
   let!(:supervisor_in_division) { create :user, :supervisor, divisions: user.divisions }
   let!(:driver_in_division) { create :user, :driver, divisions: user.divisions }

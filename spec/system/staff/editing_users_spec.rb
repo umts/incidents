@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'editing users as staff' do
+describe 'editing users as staff', js: true do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:driver) { create :user, :driver }

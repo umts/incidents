@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'logging in as a supervisor' do
+describe 'logging in as a supervisor', js: true do
   let(:supervisor) { create :user, :supervisor }
   before(:each) { when_current_user_is supervisor }
   context 'with the default password' do
