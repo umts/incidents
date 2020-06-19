@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'adding users as staff', js: true do
+describe 'adding users as staff' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
 

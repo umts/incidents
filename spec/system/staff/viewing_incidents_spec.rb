@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'viewing incidents as staff', js: true do
+describe 'viewing incidents as staff' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   context 'searching by claim number' do

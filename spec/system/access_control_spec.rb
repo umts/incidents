@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'access control', js: true do
+describe 'access control' do
   it 'prevents drivers from accessing supervisor resources' do
     when_current_user_is :driver
     incident = create :incident
