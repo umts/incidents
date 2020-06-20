@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'resetting user passwords' do
+describe 'resetting user passwords', js: true do
   before(:each) { when_current_user_is :staff }
   let!(:user) { create :user, :driver }
 

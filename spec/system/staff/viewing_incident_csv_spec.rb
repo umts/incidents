@@ -16,7 +16,7 @@ describe 'batch exporting CSV' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }
-  it 'marks incidents as exported' do
+  it 'marks incidents as exported', js: true do
     visit incidents_url
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
     expect(page).to have_selector 'table.incidents th', text: 'Hastus?'

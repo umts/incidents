@@ -15,7 +15,7 @@ end
 
 describe 'logging in with a deactivated account' do
   let!(:driver) { create :user, :driver, :default_password, active: false }
-  it 'tells you that your account is deactivated' do
+  it 'tells you that your account is deactivated', js: true do
     visit root_url
     fill_in 'Badge number', with: driver.badge_number
     fill_in 'Password', with: driver.last_name

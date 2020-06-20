@@ -6,7 +6,7 @@ describe 'editing users as staff' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:driver) { create :user, :driver }
-  it 'allows making changes' do
+  it 'allows making changes', js: true  do
     visit users_url
     click_button 'Drivers'
     expect(page).to have_selector 'button',
@@ -21,14 +21,14 @@ describe 'editing users as staff' do
       text: 'User was updated successfully.'
     expect(page).to have_text 'Newname'
   end
-  it 'displays errors if there are any' do
+  it 'displays errors if there are any', js: true  do
     visit edit_user_url(driver)
     fill_in 'First name', with: ''
     click_button 'Save user'
     expect(page).to have_text 'This user has 1 missing value and so cannot be saved:'
     expect(page).to have_text "First name can't be blank"
   end
-  it 'allows resetting passwords' do
+  it 'allows resetting passwords', js: true  do
     visit users_url
     click_button 'Drivers'
     expect(page).to have_selector 'button',
