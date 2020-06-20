@@ -6,13 +6,13 @@ describe 'viewing users as staff' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   context 'with active users' do
-    it 'allows viewing users' do
+    it 'allows viewing users', js: true do
       visit root_url
       click_button 'Manage Users'
       expect(page.current_url).to end_with users_path
       expect(page).to have_selector 'h1', text: 'Active Users'
     end
-    it 'displays users from all divisions' do
+    it 'displays users from all divisions', js: true do
       different_division_user = create :user
       visit users_url
       expect(page).to have_selector 'table.index tbody tr', count: 2
@@ -24,7 +24,7 @@ describe 'viewing users as staff' do
       before :each do
         visit users_url
       end
-      it "allows viewing a driver's incidents" do
+      it 'allows viewing a drivers incidents', js: true do
         visit users_url
         expect(page).to have_selector 'button',
           text: 'View incidents', count: 1
@@ -34,23 +34,23 @@ describe 'viewing users as staff' do
         expect(page).to have_selector 'h1',
           text: "#{driver.full_name}'s Incidents"
       end
-      it 'allows filtering by drivers' do
+      it 'allows filtering by drivers', js: true do
         expect(page).to have_selector 'table.index tbody tr', count: 3
         click_button 'Drivers'
         expect(page).to have_selector 'table.index tbody tr', count: 1
         expect(page).to have_text driver.proper_name
       end
-      it 'allows filtering by supervisors' do
+      it 'allows filtering by supervisors', js: true do
         click_button 'Supervisors'
         expect(page).to have_selector 'table.index tbody tr', count: 1
         expect(page).to have_text supervisor.proper_name
       end
-      it 'allows filtering by staff' do
+      it 'allows filtering by staff', js: true do
         click_button 'Staff'
         expect(page).to have_selector 'table.index tbody tr', count: 1
         expect(page).to have_text staff.proper_name
       end
-      it 'allows filtering by all' do
+      it 'allows filtering by all', js: true do
         click_button 'All'
         expect(page).to have_selector 'table.index tbody tr', count: 3
       end
@@ -58,7 +58,7 @@ describe 'viewing users as staff' do
   end
   context 'with inactive users' do
     let!(:inactive) { create :user, active: false }
-    it 'allows managing inactive users' do
+    it 'allows managing inactive users', js: true do
       visit users_url
       expect(page).to have_text 'Manage inactive users'
       expect(page).not_to have_text inactive.proper_name
@@ -66,7 +66,7 @@ describe 'viewing users as staff' do
       expect(page).to have_text inactive.proper_name
       expect(page).not_to have_text staff.proper_name
     end
-    it 'allows user to go between inactive and active' do
+    it 'allows user to go between inactive and active', js: true do
       visit users_url
       click_on 'Manage inactive users'
       expect(page.current_url).to end_with users_path(inactive: true)

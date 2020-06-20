@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'access control' do
-  it 'prevents drivers from accessing supervisor resources' do
+  it 'prevents drivers from accessing supervisor resources', js: true do
     when_current_user_is :driver
     incident = create :incident
     visit edit_supervisor_report_url(incident.supervisor_report)

@@ -6,7 +6,7 @@ describe 'listing incidents as a driver' do
   let(:driver) { create :user, :driver }
   before(:each) { when_current_user_is driver }
 
-  it 'shows any incomplete incidents for the driver' do
+  it 'shows any incomplete incidents for the driver', js: true do
     driver_report = create :incident_report, :incomplete, user_id: driver.id
     incident = build :incident, driver_incident_report: driver_report
     # Validations don't pass for incomplete incidents. They do in real life,

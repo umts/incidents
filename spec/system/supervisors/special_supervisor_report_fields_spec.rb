@@ -15,12 +15,12 @@ describe 'special supervisor report fields' do
         incident.supervisor_report.update! pictures_saved: false
         visit edit_supervisor_report_url(incident.supervisor_report)
       end
-      it 'allows filling in the number of pictures saved' do
+      it 'allows filling in the number of pictures saved', js: true do
         expect(page).not_to have_text 'Number of pictures saved'
         check 'Were pictures taken?'
         expect(page).to have_text 'Number of pictures saved'
       end
-      it 'does not require filling in the number of saved pictures' do
+      it 'does not require filling in the number of saved pictures', js: true do
         check 'Were pictures taken?'
         fill_in 'Number of pictures saved', with: ''
         click_button 'Save supervisor report'
@@ -30,7 +30,7 @@ describe 'special supervisor report fields' do
       end
     end
     context 'with pictures saved' do
-      it 'shows the number of saved pictures for reports where it applies' do
+      it 'shows the number of saved pictures for reports where it applies', js: true do
         incident.supervisor_report.update! pictures_saved: true
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).to have_text 'Number of pictures saved'
@@ -46,12 +46,12 @@ describe 'special supervisor report fields' do
       before :each do
         visit edit_supervisor_report_url(incident.supervisor_report)
       end
-      it 'allows filling in witness information' do
+      it 'allows filling in witness information', js: true do
         expect(page).not_to have_text 'Witness Information'
         check 'Were there witnesses?'
         expect(page).to have_text 'Witness Information'
       end
-      it 'requires filling in the witness information' do
+      it 'requires filling in the witness information', js: true do
         check 'Were there witnesses?'
         click_button 'Save supervisor report'
         wait_for_ajax!
@@ -59,7 +59,7 @@ describe 'special supervisor report fields' do
       end
     end
     context 'with witnesses' do
-      it 'shows witness information for reports where it applies' do
+      it 'shows witness information for reports where it applies', js: true do
         create :witness, supervisor_report: incident.supervisor_report
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).to have_text 'Witness Information'
@@ -75,7 +75,7 @@ describe 'special supervisor report fields' do
 
   describe 'test completion related fields' do
     context 'with test conducted' do
-      it 'allows filling in fields related to a test not being completed' do
+      it 'allows filling in fields related to a test not being completed', js: true do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: true
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page)
@@ -85,7 +85,7 @@ describe 'special supervisor report fields' do
           .to have_text 'Please document why a test was not conducted.'
       end
 
-      it 'allows filling in the reason for testing' do
+      it 'allows filling in the reason for testing', js: true do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: true,
                                            reason_test_completed: 'Post-Accident'
         visit edit_supervisor_report_url(incident.supervisor_report)
@@ -118,7 +118,7 @@ describe 'special supervisor report fields' do
     end
 
     context 'without test conducted' do
-      it 'requires selecting a reason why a test was not conducted' do
+      it 'requires selecting a reason why a test was not conducted', js: true do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: true,
                                            fta_threshold_not_met: true,
                                            driver_discounted: true,
@@ -145,14 +145,14 @@ describe 'special supervisor report fields' do
                                            reason_driver_discounted: 'Placeholder'
         visit edit_supervisor_report_url(incident.supervisor_report)
       end
-      it 'allows filling in a reason why the FTA threshold was not met' do
+      it 'allows filling in a reason why the FTA threshold was not met', js: true do
         expect(page)
           .not_to have_text 'Please explain how the FTA threshold is not met.'
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
         expect(page).to have_text 'Please explain how the FTA threshold is not met.'
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
       end
-      it 'requires explaining how the FTA threshold was not met' do
+      it 'requires explaining how the FTA threshold was not met', js: true do
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
         click_button 'Save supervisor report'
         wait_for_ajax!
@@ -161,7 +161,7 @@ describe 'special supervisor report fields' do
       end
     end
     context 'without FTA threshold met' do
-      it 'shows FTA threshold information when it applies' do
+      it 'shows FTA threshold information when it applies', js: true do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
                                            fta_threshold_not_met: true,
                                            driver_discounted: false,
@@ -180,13 +180,13 @@ describe 'special supervisor report fields' do
                                            fta_threshold_not_met: true,
                                            reason_threshold_not_met: 'Placeholder'
       end
-      it 'allows filling in a reason why a driver can be discounted' do
+      it 'allows filling in a reason why a driver can be discounted', js: true do
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).not_to have_text 'Please explain why the driver can be discounted.'
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
         expect(page).to have_text 'Please explain why the driver can be discounted.'
       end
-      it 'requires explaining why the driver can be discounted' do
+      it 'requires explaining why the driver can be discounted', js: true do
         incident.supervisor_report.update! reason_driver_discounted: nil
         visit edit_supervisor_report_url(incident.supervisor_report)
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
@@ -199,7 +199,7 @@ describe 'special supervisor report fields' do
       end
     end
     context 'with driver discounted' do
-      it 'shows driver discount information when it applies' do
+      it 'shows driver discount information when it applies', js: true do
         incident.supervisor_report.update! completed_drug_or_alcohol_test: false,
                                            driver_discounted: true,
                                            fta_threshold_not_met: false,

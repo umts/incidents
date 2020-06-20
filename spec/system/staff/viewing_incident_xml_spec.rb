@@ -6,7 +6,7 @@ describe 'viewing incident XML as a staff member' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }
-  it 'marks the incident as exported' do
+  it 'marks the incident as exported', js: true do
     visit incidents_url
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
     expect(page).to have_selector 'table.incidents th', text: 'Hastus?'
@@ -43,7 +43,7 @@ end
 
 describe 'viewing incident XML as a driver' do
   let(:incident) { create :incident }
-  it "you can't" do
+  it 'you can not', js: true do
     when_current_user_is :driver
     visit incident_url(incident, format: :xml)
     expect(page).to have_text 'You do not have permission to access this page.'
@@ -54,7 +54,7 @@ describe 'batch exporting XML' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }
-  it 'marks incidents as exported' do
+  it 'marks incidents as exported', js: true do
     visit incidents_url
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
     expect(page).to have_selector 'table.incidents th', text: 'Hastus?'
@@ -83,7 +83,7 @@ describe 'batch exporting XML' do
     end
   end
 
-  it 'allows selecting all shown incidents' do
+  it 'allows selecting all shown incidents', js: true do
     # 3 plus the one we created above should be 4.
     3.times { incident_in_divisions staff.divisions }
     visit incidents_url
@@ -101,7 +101,7 @@ describe 'batch exporting incident XML or CSV as a staff member' do
     let(:division2) { create :division }
     let(:staff) { create :user, :staff, divisions: [division1, division2] }
     before(:each) { when_current_user_is staff }
-    it 'allows selecting all incidents in the filtered division' do
+    it 'allows selecting all incidents in the filtered division', js: true do
       3.times { incident_in_divisions [division1] }
       3.times { incident_in_divisions [division2] }
 

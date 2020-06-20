@@ -12,7 +12,7 @@ describe 'changing your password' do
     visit change_password_path
   end
 
-  it 'requires your existing password' do
+  it 'requires your existing password', js: true do
     fill_in 'Password', with: new_password
     fill_in 'Password confirmation', with: new_password
     click_on 'Change password'
@@ -21,7 +21,7 @@ describe 'changing your password' do
     expect(page).to have_text "Current password can't be blank"
   end
 
-  it 'requires a password confirmation' do
+  it 'requires a password confirmation', js: true do
     fill_in 'Password', with: new_password
     fill_in 'Current password', with: old_password
     click_on 'Change password'
@@ -30,7 +30,7 @@ describe 'changing your password' do
     expect(page).to have_text "Password confirmation doesn't match Password"
   end
 
-  it 'yells at you if you leave your password blank' do
+  it 'yells at you if you leave your password blank', js: true do
     fill_in 'Current password', with: old_password
     click_on 'Change password'
 
@@ -38,7 +38,7 @@ describe 'changing your password' do
     expect(page).to have_text 'Password cannot be blank'
   end
 
-  it 'actually changes your password' do
+  it 'actually changes your password', js: true do
     fill_in 'Password', with: new_password
     fill_in 'Password confirmation', with: new_password
     fill_in 'Current password', with: old_password

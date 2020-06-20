@@ -6,7 +6,7 @@ describe 'adding users as staff' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
 
-  it 'allows adding users' do
+  it 'allows adding users', js: true  do
     visit users_url
     click_on 'Add New User'
     expect(page).to have_content 'First name'
@@ -17,7 +17,7 @@ describe 'adding users as staff' do
     expect(page).to have_selector 'h1', text: 'Add New User'
   end
 
-  it 'requires first name, last name, badge number, and divisions' do
+  it 'requires first name, last name, badge number, and divisions', js: true  do
     visit new_user_url
     click_button 'Save user'
     wait_for_ajax!
@@ -29,7 +29,7 @@ describe 'adding users as staff' do
     expect(page).to have_text "Divisions can't be blank"
   end
 
-  it 'accepts new users which have the required values' do
+  it 'accepts new users which have the required values', js: true  do
     create :division, name: 'UMASS'
     visit new_user_url
     fill_in 'First name', with: 'Leopold'
@@ -42,7 +42,7 @@ describe 'adding users as staff' do
     expect(page.current_url).to end_with users_path
   end
 
-  it 'gives new users the default password' do
+  it 'gives new users the default password', js: true  do
     new_user = build :user, :driver
     visit new_user_url
     fill_in 'First name', with: new_user.first_name

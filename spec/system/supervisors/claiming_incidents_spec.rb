@@ -6,7 +6,7 @@ describe 'claiming incidents as a supervisor' do
   let(:incident) { create :incident, :unclaimed }
   let(:supervisor) { create :user, :supervisor, divisions: incident.driver.divisions }
   before(:each) { when_current_user_is supervisor }
-  it 'allows claiming incidents' do
+  it 'allows claiming incidents', js: true do
     visit root_url
     click_button 'Unclaimed Incidents 1'
     click_button 'Claim'

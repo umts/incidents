@@ -7,7 +7,7 @@ describe 'logging in as a supervisor' do
   before(:each) { when_current_user_is supervisor }
   context 'with the default password' do
     let(:supervisor) { create :user, :supervisor, :default_password }
-    it 'requires a password change' do
+    it 'requires a password change', js: true do
       visit root_url
       expect(page).to have_text 'You must change your password from the default before continuing.'
       expect(page.current_url).to end_with change_password_path
