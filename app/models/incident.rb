@@ -104,47 +104,44 @@ class Incident < ApplicationRecord
     row
   end
 
-  def export_claims_xml!
+  def export_claims_xml(current_user)
     report = driver_incident_report
     builder = Nokogiri::XML::Builder.new do |doc|
       doc.claims_incident_data do
-        doc.incident do
-          doc.incident_number     id
-          doc.date_entered        Date.today.strftime('%Y-%m-%d')
-          doc.incident_date       report.occurred_at.iso8601
-          doc.longitude           longitude
-          doc.latitude            latitude
-          doc.company             driver.division.claims_id
-          doc.incident_desc       supervisor_incident_report.try(:description)
-          doc.employee_id         driver.badge_number
-          doc.driver              driver.badge_number
-          doc.curb_distance       supervisor_incident_report.try(:curb_distance)
-          doc.preventable         preventable
-          doc.fatality            supervisor_report.try(:test_due_to_fatality)
-          doc.status              'ir'
-          doc.reason1             reason_code.identifier
-          doc.reason2             supplementary_reason_code.try(:identifier)
-        end
         doc.drivers_report do
+          doc.incident_date       report.occurred_at.iso8601
           doc.street              report.location
           doc.city                report.town
           doc.state               report.state
           doc.zip                 report.zip
+          doc.longitude           longitude
+          doc.latitude            latitude
+          doc.company             driver.division.claims_id
           doc.driver_desc         report.description
-          doc.vehicle_route_num   report.route
+          doc.employee_entering   current_user.badge_number
+          doc.driver              driver.badge_number
           doc.vehicle_num         report.bus
-          doc.police_on_scene     report.police_on_scene
-          doc.citation            report.summons_or_warning_issued?
-          doc.officer_info_taken  report.police_badge_number.present?
-          doc.wheelchair_involved report.wheelchair_involved
+          doc.speed               report.speed
+          doc.incident_desc       supervisor_incident_report.try(:description)
+          doc.point_of_contact    report.damage_to_bus_point_of_impact
+          doc.reason1             reason_code.identifier
+          doc.reason2             supplementary_reason_code.try(:identifier)
           doc.weather             report.weather_conditions
           doc.surr_cond           report.road_conditions
           doc.lighting            report.light_conditions
           doc.direction           report.direction
-          doc.speed               report.speed
-          doc.point_of_contact    report.damage_to_bus_point_of_impact
+          doc.curb_distance       supervisor_incident_report.try(:curb_distance)
           doc.vehicle_distance    report.vehicle_distance
-          doc.vehicle_damage_area report.damage_to_other_vehicle_point_of_impact
+          doc.total_pass          report.passengers_onboard
+          doc.preventable         preventable
+          doc.police_on_scene     report.police_on_scene
+          doc.officer_info_taken  report.police_badge_number.present?
+          doc.citation            report.summons_or_warning_issued?
+          doc.wheelchair_involved report.wheelchair_involved
+          doc.ambulance           report.injured_passengers.any?(&:transported_to_hospital?)
+          doc.pvta_tow            report.towed_from_scene?
+          doc.ov_tow              report.other_vehicle_towed_from_scene?
+          doc.fatality            supervisor_report.try(:test_due_to_fatality)
           doc.other_vehicle_info_taken   report.motor_vehicle_collision
           doc.other_driver_info_taken    report.other_driver_license_number.present?
           doc.other_passenger_info_taken report.other_passenger_information_taken
@@ -154,10 +151,6 @@ class Incident < ApplicationRecord
           doc.assistance_requested       report.assistance_requested
           doc.chair_on_lift       report.chair_on_lift
           doc.lift_deployed       report.lift_deployed
-          doc.total_pass          report.passengers_onboard
-          doc.ambulance           report.injured_passengers.any?(&:transported_to_hospital?)
-          doc.ov_tow              report.other_vehicle_towed_from_scene?
-          doc.pvta_tow            report.towed_from_scene?
         end
       end
     end
@@ -166,10 +159,10 @@ class Incident < ApplicationRecord
     end
   end
 
-  def export_to_claims!
+  def export_to_claims(current_user)
     if completed? && valid?
       begin
-        export_claims_xml!
+        export_claims_xml(current_user)
         ci = ClaimsIncident.create claims_fields table: :incident
         update claims_id: ci.UID
         ClaimsDriversReport.create claims_fields table: :drivers_report
@@ -257,7 +250,7 @@ class Incident < ApplicationRecord
       },
       drivers_report: {
         'FileID' => claims_id,
-        'PolicePresent' => report.police_on_scene?,
+        #PolicePresent => report.police_on_scene?,
         # OfficerName
       # 'BadgeNum' => report.police_badge_number,
         # ArrivalTime
