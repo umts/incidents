@@ -21,7 +21,7 @@ class IncidentsController < ApplicationController
     end
     @incidents.each(&:mark_as_exported_to_hastus)
   end
-  
+
   def claim
     @incident.claim_for current_user
     redirect_to incidents_path,
@@ -29,7 +29,7 @@ class IncidentsController < ApplicationController
   end
 
   def claims_export
-    result = @incident.export_to_claims!
+    result = @incident.export_to_claims(current_user)
     case result.fetch(:status)
     when :success
       notice = 'Exported successfully to claims.'
