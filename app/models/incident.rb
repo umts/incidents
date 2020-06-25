@@ -142,7 +142,7 @@ class Incident < ApplicationRecord
           doc.pvta_tow            report.towed_from_scene?
           doc.ov_tow              report.other_vehicle_towed_from_scene?
           doc.fatality            supervisor_report.try(:test_due_to_fatality)
-          doc.other_vehicle_info_taken   report.motor_vehicle_collision
+          doc.other_vehicle_info_taken   report.other_vehicle_plate.present?
           doc.other_driver_info_taken    report.other_driver_license_number.present?
           doc.other_passenger_info_taken report.other_passenger_information_taken
           doc.pvta_passenger_info_taken  report.pvta_passenger_information_taken
@@ -219,9 +219,7 @@ class Incident < ApplicationRecord
 
     fields = {
       incident: {
-        # FilePrefix, FileNum
         'DateEntered' => Date.today.strftime('%Y-%m-%d'),
-        # AppraisalMade, AppraisalNote
         'IncidentDate' => report.occurred_at.iso8601,
         street: report.location,
         city: report.town,
@@ -229,50 +227,31 @@ class Incident < ApplicationRecord
         zip: report.zip,
         longitude: longitude,
         latitude: latitude,
-        # AccidentCode, AccidentCodeGroup
         'Company' => driver.division.claims_id,
         'IncidentDesc' => supervisor_incident_report.try(:description),
         'EmployeeID' => driver.badge_number,
         'Driver' => claims_driver.try(:UID),
         'DriverDesc' => report.description,
         'VehicleRouteNum' => report.route,
-        # VehicleDestination
         'VehicleNum' => claims_vehicle.try(:UID),
-        # VehicleAppraisalAmnt
         'VehicleDamageArea' => report.damage_to_other_vehicle_point_of_impact,
-        # Comments, ReportGiver
         'PointOfContact' => report.damage_to_bus_point_of_impact,
-        # TotalSettlement
         'Status' => 'ir',
-        # CloseDate, ReopenDate, DownDate, ac_type
         reason1: reason_code.identifier,
         reason2: supplementary_reason_code.try(:identifier),
       },
       drivers_report: {
         'FileID' => claims_id,
-        #PolicePresent => report.police_on_scene?,
-        # OfficerName
-      # 'BadgeNum' => report.police_badge_number,
-        # ArrivalTime
         'Citation' => report.summons_or_warning_issued?,
-      # 'CitationWho' => report.summons_or_warning_info,
         'Weather' => report.weather_conditions,
         'SurrCond' => report.road_conditions,
         'Lighting' => report.light_conditions,
-        # LossLocation
         'Speed' => report.speed,
-      #  'MotionBus' => report.motion_of_bus,
-      # 'Direction' => report.direction,
-        # ChairOnLift, LiftDeployed, PassengersPresent, SeatBelts
         'PointOfContact' => report.damage_to_bus_point_of_impact,
-      # 'CurbDist' => report.bus_distance_from_curb,
-        # VehicleDistance, ReviewFlg
         'TotalPass' => report.passengers_onboard,
-        # PVTAatFault, Wheelchair, YellowLine, NotReported
         'Ambulance' => report.injured_passengers.any?(&:transported_to_hospital?),
         'OVTow' => report.other_vehicle_towed_from_scene?,
         'PVTATow' => report.towed_from_scene?,
-        # Fatality, assistRequest, PD, Note, externalAppraisal
       },
     }
 
