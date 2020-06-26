@@ -25,7 +25,7 @@ describe 'special incident fields' do
       end
     end
     context 'with collision' do
-      it 'shows collision fields for collision incidents', js: true do
+      it 'shows collision fields for collision incidents' do
         driver_report = create :incident_report,
                                :driver_report,
                                :with_incident,
@@ -50,7 +50,7 @@ describe 'special incident fields' do
       end
     end
     context 'with other vehicle info' do
-      it 'shows other vehicle owner information as necessary', js: true do
+      it 'shows other vehicle owner information as necessary' do
         driver_report = create :incident_report,
                                :driver_report,
                                :with_incident,
@@ -87,7 +87,7 @@ describe 'special incident fields' do
       end
     end
     context 'with police info' do
-      it 'shows police fields as necessary', js: true do
+      it 'shows police fields as necessary' do
         driver_report = create :incident_report,
                                :driver_report,
                                :with_incident,
@@ -123,7 +123,7 @@ describe 'special incident fields' do
       end
     end
     context 'with passenger incidents' do
-      it 'shows passenger fields for passenger incidents', js: true  do
+      it 'shows passenger fields for passenger incidents' do
         driver_report = create :incident_report,
                                :driver_report,
                                :with_incident,
@@ -160,7 +160,7 @@ describe 'special incident fields' do
       end
     end
     context 'with reason not up to curb' do
-      it 'shows reason not up to curb field as necessary', js: true  do
+      it 'shows reason not up to curb field as necessary' do
         driver_report = create :incident_report,
                                :driver_report,
                                :with_incident,

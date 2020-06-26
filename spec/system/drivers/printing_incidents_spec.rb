@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'printing incidents' do
   let(:driver) { create :user, :driver }
   before(:each) { when_current_user_is driver }
-  it 'shows a place to print incidents', js: true do
+  it 'shows a place to print incidents' do
     report = create :incident_report, :with_incident, user: driver
     visit incidents_url
 

@@ -30,7 +30,7 @@ describe 'special supervisor report fields' do
       end
     end
     context 'with pictures saved' do
-      it 'shows the number of saved pictures for reports where it applies', js: true do
+      it 'shows the number of saved pictures for reports where it applies' do
         incident.supervisor_report.update! pictures_saved: true
         visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).to have_text 'Number of pictures saved'

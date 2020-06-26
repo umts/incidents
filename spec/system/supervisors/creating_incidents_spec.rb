@@ -12,23 +12,23 @@ describe 'creating incidents as a supervisor' do
     expect(page).to have_css 'h1', text: 'New Incident'
     expect(page).to have_select 'Driver'
   end
-  it 'selects you by default', js: true do
+  it 'selects you by default' do
     visit new_incident_url
     expect(page).to have_select 'Supervisor', selected: user.proper_name
   end
-  it 'allows you to select other supervisors from your division', js: true do
+  it 'allows you to select other supervisors from your division' do
     create :user, :supervisor # will be in different division
     visit new_incident_url
     expect(page).to have_select 'Supervisor', options: ['', user.proper_name]
   end
-  it 'does not send you directly to fill in the report after creating it', js: true do
+  it 'does not send you directly to fill in the report after creating it' do
     visit new_incident_url
     select driver_in_division.proper_name, from: 'Driver'
     select user.proper_name, from: 'Supervisor'
     click_on 'Create Incident Report'
     expect(page.current_url).to end_with incidents_path
   end
-  it 'tells you that the report has been created successfully', js: true do
+  it 'tells you that the report has been created successfully' do
     visit new_incident_url
     select driver_in_division.proper_name, from: 'Driver'
     select user.proper_name, from: 'Supervisor'
@@ -36,7 +36,7 @@ describe 'creating incidents as a supervisor' do
     expect(page).to have_text 'Incident was successfully created.'
   end
   context 'without selecting a supervisor' do
-    it 'creates a supervisor-less report', js: true do
+    it 'creates a supervisor-less report' do
       visit new_incident_url
       select driver_in_division.proper_name, from: 'Driver'
       select '', from: 'Supervisor'
@@ -45,7 +45,7 @@ describe 'creating incidents as a supervisor' do
     end
   end
   context 'without selecting a driver' do
-    it 'does not create an incident', js: true do
+    it 'does not create an incident' do
       visit new_incident_url
       select '', from: 'Driver'
       select user.proper_name, from: 'Supervisor'
