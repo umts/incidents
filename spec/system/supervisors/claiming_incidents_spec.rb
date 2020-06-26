@@ -10,7 +10,6 @@ describe 'claiming incidents as a supervisor' do
     visit root_url
     click_button 'Unclaimed Incidents 1'
     click_button 'Claim'
-    wait_for_ajax!
     expect(page).to have_selector 'p.notice',
       text: 'You have claimed this incident. Please complete the supervisor report'
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
