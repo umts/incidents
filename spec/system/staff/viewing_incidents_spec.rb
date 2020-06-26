@@ -39,9 +39,9 @@ describe 'viewing incidents as staff' do
     end
   end
 
-  context 'with incomplete incidents', js: true do
+  context 'with incomplete incidents' do
     let!(:incident) { incident_in_divisions staff.divisions, completed: false }
-    it 'allows viewing incomplete incidents' do
+    it 'allows viewing incomplete incidents', js: true do
       visit incidents_url
       click_button 'Incomplete Incidents 1'
       expect(page.current_url).to end_with incomplete_incidents_path
@@ -56,9 +56,9 @@ describe 'viewing incidents as staff' do
     end
   end
 
-  context 'with unclaimed incidents', js: true do
+  context 'with unclaimed incidents' do
     let!(:incident) { incident_in_divisions staff.divisions, :unclaimed }
-    it 'allows viewing unclaimed incidents'  do
+    it 'allows viewing unclaimed incidents', js: true do
       visit incidents_url
       click_button 'Unclaimed Incidents 1'
       expect(page.current_url).to end_with unclaimed_incidents_path

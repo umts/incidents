@@ -14,6 +14,7 @@ describe 'editing supervisor reports as a supervisor' do
     check 'Were pictures taken?'
     fill_in 'Number of pictures saved', with: 37
     click_button 'Save supervisor report'
+    wait_for_ajax!
     expect(page).to have_selector 'p.notice',
                                   text: 'Incident report was successfully saved.'
     expect(page).to have_text 'Number of pictures saved: 37'
@@ -42,8 +43,8 @@ describe 'editing supervisor reports as a supervisor' do
                                     text: 'This incident report no longer exists.'
     end
   end
-  context 'adding multiple witnesses', js: true do
-    it 'displays all of them' do
+  context 'adding multiple witnesses' do
+    it 'displays all of them', js: true do
       # there is one witness filled in otherwise
       incident.supervisor_report.witnesses = []
       visit edit_incident_url(incident)

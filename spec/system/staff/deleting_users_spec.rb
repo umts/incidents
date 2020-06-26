@@ -12,6 +12,7 @@ describe 'deleting users as staff' do
       expect(page).to have_selector 'button',
         text: 'Delete', count: 1
       click_button 'Delete'
+      wait_for_ajax!
       expect(page).to have_selector 'p.notice',
         text: 'User was deleted successfully.'
       # Just the current user should be left.
@@ -29,6 +30,7 @@ describe 'deleting users as staff' do
       expect(page).to have_selector 'button',
         text: 'Delete', count: 1
       click_button 'Delete'
+      wait_for_ajax!
       expect(page).to have_selector 'p.alert',
         text: 'Cannot delete users who have incidents in their name.'
       # Should be the current user plus the undeleted user.
