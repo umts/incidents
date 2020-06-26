@@ -46,8 +46,10 @@ describe 'editing incidents as a driver' do
         fill_in 'incident_report_injured_passengers_attributes_1_nature_of_injury',
                 with: 'Slipped on many bananas'
       end
-      click_button 'Save report and preview PDF'
-      page.driver.browser.switch_to.alert.accept
+      accept_alert do
+        click_button 'Save report and preview PDF'
+      end
+      Downloads.wait_for("#{incident.id}.pdf")
 
       visit incident_url(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
@@ -61,8 +63,7 @@ describe 'editing incidents as a driver' do
   end
   context 'deleting an injured passenger' do
     it 'displays the current injured passengers' do
-      pax = create :injured_passenger, incident_report: report
-      pax2 = create :injured_passenger, incident_report: report
+      create_list :injured_passenger, 2, incident_report: report
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
@@ -70,8 +71,11 @@ describe 'editing incidents as a driver' do
       end
       check 'Did the incident involve a passenger?'
       click_button 'Delete injured passenger info'
-      click_button 'Save report and preview PDF'
-      page.driver.browser.switch_to.alert.accept
+
+      accept_alert do
+        click_button 'Save report and preview PDF'
+      end
+      Downloads.wait_for("#{incident.id}.pdf")
 
       visit incident_url(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
