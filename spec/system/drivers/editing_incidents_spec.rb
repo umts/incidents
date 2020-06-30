@@ -16,10 +16,8 @@ describe 'editing incidents as a driver' do
       end
       expect(page).to have_content 'Editing Driver Account of Incident'
       incident.destroy
-      click_button 'Save report and preview PDF'
-      page.driver.browser.switch_to.alert.accept
+      save_and_preview
 
-      wait_for_ajax!
       expect(page).to have_selector 'p.notice',
                                     text: 'This incident report no longer exists.'
     end
@@ -46,8 +44,7 @@ describe 'editing incidents as a driver' do
         fill_in 'incident_report_injured_passengers_attributes_1_nature_of_injury',
                 with: 'Slipped on many bananas'
       end
-      click_button 'Save report and preview PDF'
-      page.driver.browser.switch_to.alert.accept
+      save_and_preview
 
       visit incident_url(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
@@ -70,8 +67,7 @@ describe 'editing incidents as a driver' do
       end
       check 'Did the incident involve a passenger?'
       click_button 'Delete injured passenger info'
-      click_button 'Save report and preview PDF'
-      page.driver.browser.switch_to.alert.accept
+      save_and_preview
 
       visit incident_url(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
