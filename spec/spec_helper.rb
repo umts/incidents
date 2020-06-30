@@ -84,14 +84,9 @@ def incident_in_divisions(divisions, *traits)
   create :incident, *traits, attributes.merge(driver_incident_report: report)
 end
 
-# source: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
-def wait_for_ajax!
-  Timeout.timeout Capybara.default_max_wait_time do
-    loop do
-      break if page.evaluate_script('jQuery.active').zero?
-      rescue Selenium::WebDriver::Error::UnknownError
-        raise "User doesn't have correct traits to access the page being tested."
-    end
+def save_and_preview
+  accept_alert do
+    click_on 'Save report and preview PDF'
   end
 end
 

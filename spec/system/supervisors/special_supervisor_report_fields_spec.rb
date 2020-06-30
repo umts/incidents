@@ -24,7 +24,6 @@ describe 'special supervisor report fields' do
         check 'Were pictures taken?'
         fill_in 'Number of pictures saved', with: ''
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page).to have_selector 'p.notice',
                                       text: 'Incident report was successfully saved.'
       end
@@ -54,7 +53,6 @@ describe 'special supervisor report fields' do
       it 'requires filling in the witness information' do
         check 'Were there witnesses?'
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page).to have_text "Witnesses name can't be blank"
       end
     end
@@ -65,7 +63,6 @@ describe 'special supervisor report fields' do
         expect(page).to have_text 'Witness Information'
         fill_in 'Name', with: 'Cornelius Fudge'
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page).to have_selector 'p.notice',
                                       text: 'Incident report was successfully saved.'
         expect(page).to have_text 'Cornelius Fudge'
@@ -129,7 +126,6 @@ describe 'special supervisor report fields' do
         uncheck :supervisor_report_fta_threshold_not_met
         uncheck :supervisor_report_driver_discounted
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page)
           .to have_text 'You must provide a reason why no test was conducted.'
       end
@@ -155,7 +151,6 @@ describe 'special supervisor report fields' do
       it 'requires explaining how the FTA threshold was not met' do
         check 'Accident does not meet FTA post-accident testing criteria. Therefore, no drug or alcohol testing is permitted under FTA.'
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page)
           .to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
       end
@@ -193,7 +188,6 @@ describe 'special supervisor report fields' do
         expect(page)
           .to have_text 'Please explain why the driver can be discounted.'
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page)
           .to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
       end
