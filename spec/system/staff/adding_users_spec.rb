@@ -20,7 +20,6 @@ describe 'adding users as staff' do
   it 'requires first name, last name, badge number, and divisions' do
     visit new_user_url
     click_button 'Save user'
-    wait_for_ajax!
     expect(page).to have_selector 'p',
       text: 'This user has 4 missing values and so cannot be saved:'
     expect(page).to have_text "First name can't be blank"

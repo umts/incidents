@@ -10,7 +10,6 @@ describe 'deleting incidents as staff' do
     visit incidents_url
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
     click_button 'Delete'
-    wait_for_ajax!
     expect(page).to have_selector 'p.notice',
       text: 'Incident was successfully deleted.'
     expect(page).not_to have_selector 'table.incidents tbody tr'
