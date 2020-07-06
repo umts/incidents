@@ -2,27 +2,28 @@
 
 FactoryBot.define do
   factory :user do
-    first_name 'User'
-    sequence :last_name
-    divisions { [create(:division)] }
+    first_name   { 'User' }
+    sequence     :last_name
+    divisions    { [create(:division)] }
     badge_number { (('0000'..'4999').to_a - User.pluck(:badge_number)).sample }
+
     after :create do |user|
       user.update password: 'Password1', password_confirmation: 'Password1'
     end
 
     trait :driver do
-      supervisor false
-      staff false
+      supervisor { false }
+      staff      { false }
     end
 
     trait :supervisor do
-      supervisor true
-      staff false
+      supervisor { true }
+      staff      { false }
     end
 
     trait :staff do
-      staff true
-      supervisor false
+      staff      { true }
+      supervisor { false }
     end
 
     trait :fake_name do
