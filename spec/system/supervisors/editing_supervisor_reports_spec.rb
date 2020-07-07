@@ -19,7 +19,7 @@ describe 'editing supervisor reports as a supervisor' do
                                   text: 'Incident report was successfully saved.'
     expect(page).to have_text 'Number of pictures saved: 37'
   end
-  it 'reloads the edit page if the report is invalid', js: true do
+  it 'reloads the edit page if the report is invalid' do
     incident.remove_supervisor
     incident.claim_for(supervisor)
 
@@ -28,19 +28,17 @@ describe 'editing supervisor reports as a supervisor' do
     check 'I can completely discount the operator' # But don't give a reason
 
     click_button 'Save supervisor report'
-    wait_for_ajax!
 
     expect(page.current_path).to eq supervisor_report_path(incident.supervisor_report)
     expect(page).to have_text 'cannot be marked as complete'
   end
   context 'admin deletes the incident' do
-    it 'displays a nice error message', js: true do
+    it 'displays a nice error message' do
       visit edit_incident_url(incident)
       click_on 'Edit Supervisor Report'
       expect(page).to have_content 'Editing Supervisor Report'
       incident.destroy
       click_button 'Save supervisor report'
-      wait_for_ajax!
       expect(page).to have_selector 'p.notice',
                                     text: 'This incident report no longer exists.'
     end

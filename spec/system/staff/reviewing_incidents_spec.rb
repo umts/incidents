@@ -34,7 +34,7 @@ describe 'reviewing incidents as staff' do
       end
     end
     context 'with an existing review' do
-      it 'is possible to edit the text', js: true do
+      it 'is possible to edit the text' do
         create :staff_review, user: staff, incident: incident
         visit incident_url(incident)
         within '.staff-review' do

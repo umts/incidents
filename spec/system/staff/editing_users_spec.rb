@@ -21,7 +21,7 @@ describe 'editing users as staff' do
       text: 'User was updated successfully.'
     expect(page).to have_text 'Newname'
   end
-  it 'displays errors if there are any', js: true  do
+  it 'displays errors if there are any' do
     visit edit_user_url(driver)
     fill_in 'First name', with: ''
     click_button 'Save user'

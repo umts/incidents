@@ -6,7 +6,7 @@ describe 'viewing incident XML as a staff member' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }
-  it 'marks the incident as exported', js: true do
+  it 'marks the incident as exported' do
     visit incidents_url
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
     expect(page).to have_selector 'table.incidents th', text: 'Hastus?'
@@ -43,7 +43,7 @@ end
 
 describe 'viewing incident XML as a driver' do
   let(:incident) { create :incident }
-  it 'you can not', js: true do
+  it 'you can not' do
     when_current_user_is :driver
     visit incident_url(incident, format: :xml)
     expect(page).to have_text 'You do not have permission to access this page.'

@@ -12,7 +12,7 @@ describe 'viewing users as staff' do
       expect(page.current_url).to end_with users_path
       expect(page).to have_selector 'h1', text: 'Active Users'
     end
-    it 'displays users from all divisions', js: true do
+    it 'displays users from all divisions' do
       different_division_user = create :user
       visit users_url
       expect(page).to have_selector 'table.index tbody tr', count: 2
@@ -58,7 +58,7 @@ describe 'viewing users as staff' do
   end
   context 'with inactive users' do
     let!(:inactive) { create :user, active: false }
-    it 'allows managing inactive users', js: true do
+    it 'allows managing inactive users' do
       visit users_url
       expect(page).to have_text 'Manage inactive users'
       expect(page).not_to have_text inactive.proper_name
@@ -66,7 +66,7 @@ describe 'viewing users as staff' do
       expect(page).to have_text inactive.proper_name
       expect(page).not_to have_text staff.proper_name
     end
-    it 'allows user to go between inactive and active', js: true do
+    it 'allows user to go between inactive and active' do
       visit users_url
       click_on 'Manage inactive users'
       expect(page.current_url).to end_with users_path(inactive: true)
