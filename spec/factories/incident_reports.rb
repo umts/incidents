@@ -3,13 +3,13 @@
 FactoryBot.define do
   factory :incident_report do
     association :user
-    motor_vehicle_collision false
-    passenger_incident false
+    motor_vehicle_collision    { false }
+    passenger_incident         { false }
     run                        { rand 1_000 }
     route                      { rand 1_000 }
     block                      { "Block #{rand 20}" }
     bus                        { 3_000 + 100 * rand(3) + rand(30) }
-    direction                               { IncidentReport::DIRECTIONS.keys.sample }
+    direction                  { IncidentReport::DIRECTIONS.keys.sample }
     passengers_onboard         { rand 40 }
     courtesy_cards_distributed { rand 5 }
     courtesy_cards_collected   { rand 5 }
@@ -32,9 +32,13 @@ FactoryBot.define do
     end
 
     trait :collision do
-      motor_vehicle_collision true
-      other_vehicle_owned_by_other_driver true # so that we don't need all those fields
-      police_on_scene false # so that we don't need those fields
+      motor_vehicle_collision                 { true }
+
+      # so that we don't need all those fields
+      other_vehicle_owned_by_other_driver     { true }
+      # so that we don't need those fields
+      police_on_scene                         { false }
+
       other_vehicle_plate                     { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
       other_vehicle_state                     { %w[MA RI CT NY].sample }
       other_vehicle_make                      { FFaker::Vehicle.make }
@@ -60,7 +64,7 @@ FactoryBot.define do
     end
 
     trait :other_vehicle_not_driven_by_owner do
-      other_vehicle_owned_by_other_driver false
+      other_vehicle_owned_by_other_driver    { false }
       other_vehicle_owner_name               { FFaker::Name.name }
       other_vehicle_owner_address            { FFaker::Address.street_address }
       other_vehicle_owner_address_town       { FFaker::Address.city }
@@ -70,15 +74,18 @@ FactoryBot.define do
     end
 
     trait :police_on_scene do
-      police_on_scene true
-      police_badge_number { rand(9_999) }
+      police_on_scene      { true }
+      police_badge_number  { rand(9_999) }
       police_town_or_state { %w[Amherst Northampton Springfield State].sample }
       police_case_assigned { rand(99_999_999) }
     end
 
     trait :passenger_incident do
-      passenger_incident true
-      bus_up_to_curb true # so that we don't need reason_not_up_to_curb
+      passenger_incident       { true }
+
+      # so that we don't need reason_not_up_to_curb
+      bus_up_to_curb           { true }
+
       occurred_front_door      { FFaker::Boolean.random }
       occurred_rear_door       { FFaker::Boolean.random }
       occurred_front_steps     { FFaker::Boolean.random }
@@ -92,35 +99,37 @@ FactoryBot.define do
       motion_of_bus            { IncidentReport::BUS_MOTION_OPTIONS.sample }
       condition_of_steps       { IncidentReport::STEP_CONDITION_OPTIONS.sample }
       bus_kneeled              { FFaker::Boolean.random }
+    end
+
+    trait :with_injured_passenger do
+      passenger_incident
 
       before :create do |report|
-        rand(3).times do
-          create :injured_passenger, incident_report: report
-        end
+        create :injured_passenger, incident_report: report
       end
     end
 
     trait :not_up_to_curb do
-      motion_of_bus 'Stopped'
-      bus_up_to_curb false
+      motion_of_bus             { 'Stopped' }
+      bus_up_to_curb            { false }
       reason_not_up_to_curb     { FFaker::Lorem.sentence }
       vehicle_in_bus_stop_plate { FFaker::String.from_regexp(/\A\d[A-Z][A-Z][A-Z]\d{2}\Z/) }
     end
 
     trait :incomplete do
-      run                        nil
-      block                      nil
-      bus                        nil
-      passengers_onboard         nil
-      courtesy_cards_distributed nil
-      courtesy_cards_collected   nil
-      speed                      nil
-      location                   nil
-      town                       nil
-      weather_conditions         nil
-      road_conditions            nil
-      light_conditions           nil
-      description                nil
+      run                        { nil }
+      block                      { nil }
+      bus                        { nil }
+      passengers_onboard         { nil }
+      courtesy_cards_distributed { nil }
+      courtesy_cards_collected   { nil }
+      speed                      { nil }
+      location                   { nil }
+      town                       { nil }
+      weather_conditions         { nil }
+      road_conditions            { nil }
+      light_conditions           { nil }
+      description                { nil }
     end
 
     trait :reviewed do

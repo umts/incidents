@@ -14,7 +14,6 @@ describe 'editing supervisor reports as a supervisor' do
     check 'Were pictures taken?'
     fill_in 'Number of pictures saved', with: 37
     click_button 'Save supervisor report'
-    wait_for_ajax!
     expect(page).to have_selector 'p.notice',
                                   text: 'Incident report was successfully saved.'
     expect(page).to have_text 'Number of pictures saved: 37'
@@ -29,7 +28,7 @@ describe 'editing supervisor reports as a supervisor' do
 
     click_button 'Save supervisor report'
 
-    expect(page.current_path).to eq supervisor_report_path(incident.supervisor_report)
+    expect(page).to have_current_path supervisor_report_path(incident.supervisor_report)
     expect(page).to have_text 'cannot be marked as complete'
   end
   context 'admin deletes the incident' do
