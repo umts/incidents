@@ -8,7 +8,7 @@ describe 'editing incidents as a driver' do
   let(:report) { create :incident_report, :driver_report, user: driver }
   let!(:incident) { create :incident, driver_incident_report: report }
   context 'admin deletes the incident' do
-    it 'displays a nice error message' do
+    it 'displays a nice error message', js: true do
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
@@ -23,7 +23,7 @@ describe 'editing incidents as a driver' do
     end
   end
   context 'adding multiple injured passengers' do
-    it 'displays all of them' do
+    it 'displays all of them', js: true do
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
@@ -59,7 +59,7 @@ describe 'editing incidents as a driver' do
     end
   end
   context 'deleting an injured passenger' do
-    it 'displays the current injured passengers' do
+    it 'displays the current injured passengers', js: true do
       create_list :injured_passenger, 2, incident_report: report
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1

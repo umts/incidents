@@ -10,7 +10,7 @@ describe 'editing incidents as a supervisor' do
     create :incident, supervisor_incident_report: report,
       supervisor_report: SupervisorReport.new
   end
-  it "says you're editing a supervisor account of incident" do
+  it 'says you are editing a supervisor account of incident' do
     visit edit_incident_report_url(incident.supervisor_incident_report)
     expect(page).to have_text 'Editing Supervisor Account of Incident'
   end

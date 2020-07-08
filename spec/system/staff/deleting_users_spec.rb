@@ -6,7 +6,7 @@ describe 'deleting users as staff' do
   before(:each) { when_current_user_is :staff }
   let!(:user) { create :user, :driver }
   context 'user has no incidents' do
-    it 'allows deleting the user' do
+    it 'allows deleting the user', js: true  do
       visit users_url
       click_button 'Drivers'
       expect(page).to have_selector 'button',
@@ -19,7 +19,7 @@ describe 'deleting users as staff' do
     end
   end
   context 'user has incidents' do
-    it 'does not allow deleting the user' do
+    it 'does not allow deleting the user', js: true  do
       # Don't create supervisor things so that a supervisor isn't created.
       create :incident,
         driver_incident_report: create(:incident_report, user: user),

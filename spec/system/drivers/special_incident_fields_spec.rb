@@ -11,12 +11,12 @@ describe 'special incident fields' do
       before :each do
         visit new_incident_path
       end
-      it 'allows filling in collision fields' do
+      it 'allows filling in collision fields', js: true do
         expect(page).not_to have_text 'Motor Vehicle Collision Information'
         check 'Did the incident involve a collision?'
         expect(page).to have_text 'Motor Vehicle Collision Information'
       end
-      it 'does not require filling in fields for collisions' do
+      it 'does not require filling in fields for collisions', js: true do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
         save_and_preview
@@ -42,7 +42,7 @@ describe 'special incident fields' do
 
   describe 'other vehicle related fields' do
     context 'without other vehicle info' do
-      it 'allows filling in other vehicle info as necessary' do
+      it 'allows filling in other vehicle info as necessary', js: true do
         visit new_incident_path
         check 'Did the incident involve a collision?'
         expect(page).to have_field 'Other vehicle owner name'
@@ -71,13 +71,13 @@ describe 'special incident fields' do
       before :each do
         visit new_incident_path
       end
-      it 'allows filling in police info' do
+      it 'allows filling in police info', js: true do
         check 'Did the incident involve a collision?'
         expect(page).not_to have_field 'Police badge number'
         check 'Did police respond to the incident?'
         expect(page).to have_field 'Police badge number'
       end
-      it 'does not require police info' do
+      it 'does not require police info', js: true do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
         check 'Did police respond to the incident?'
@@ -108,12 +108,12 @@ describe 'special incident fields' do
       before :each do
         visit new_incident_path
       end
-      it 'allows filling in passenger incident fields' do
+      it 'allows filling in passenger incident fields', js: true do
         expect(page).not_to have_text 'Passenger Incident Information'
         check 'Did the incident involve a passenger?'
         expect(page).to have_text 'Passenger Incident Information'
       end
-      it 'does not require filling in passenger incident fields' do
+      it 'does not require filling in passenger incident fields', js: true  do
         fill_in_base_incident_fields
         check 'Did the incident involve a passenger?'
         expect(page).to have_text 'Passenger Incident Information'
@@ -142,7 +142,7 @@ describe 'special incident fields' do
       visit new_incident_path
     end
     context 'without reason not up to curb' do
-      it 'allows filling in reason bus was not up to curb' do
+      it 'allows filling in reason bus was not up to curb', js: true  do
         check 'Did the incident involve a passenger?'
         expect(page).not_to have_field 'Reason not up to curb'
         select 'Stopped', from: 'Motion of bus'
@@ -150,7 +150,7 @@ describe 'special incident fields' do
         expect(page).to have_field 'Reason not up to curb'
       end
 
-      it 'does not require filling in reason not up to curb' do
+      it 'does not require filling in reason not up to curb', js: true do
         fill_in_base_incident_fields
         check 'Did the incident involve a passenger?'
         select 'Stopped', from: 'Motion of bus'
@@ -176,3 +176,4 @@ describe 'special incident fields' do
     end
   end
 end
+

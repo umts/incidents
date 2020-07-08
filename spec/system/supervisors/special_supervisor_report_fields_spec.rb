@@ -17,12 +17,12 @@ describe 'special supervisor report fields' do
   end
   describe 'pictures saved related fields' do
     context 'without pictures saved' do
-      it 'allows filling in the number of pictures saved' do
+      it 'allows filling in the number of pictures saved', js: true do
         expect(page).not_to have_text 'Number of pictures saved'
         check 'Were pictures taken?'
         expect(page).to have_text 'Number of pictures saved'
       end
-      it 'does not require filling in the number of saved pictures' do
+      it 'does not require filling in the number of saved pictures', js: true do
         check 'Were pictures taken?'
         fill_in 'Number of pictures saved', with: ''
         click_button 'Save supervisor report'
@@ -41,12 +41,12 @@ describe 'special supervisor report fields' do
 
   describe 'witness information related fields' do
     context 'without witnesses' do
-      it 'allows filling in witness information' do
+      it 'allows filling in witness information', js: true do
         expect(page).not_to have_text 'Witness Information'
         check 'Were there witnesses?'
         expect(page).to have_text 'Witness Information'
       end
-      it 'requires filling in the witness information' do
+      it 'requires filling in the witness information', js: true do
         check 'Were there witnesses?'
         click_button 'Save supervisor report'
         expect(page).to have_text "Witnesses name can't be blank"
@@ -69,7 +69,7 @@ describe 'special supervisor report fields' do
     context 'with test conducted' do
       let(:supervisor_report) { create :supervisor_report, :tested_post_accident }
 
-      it 'allows filling in fields related to a test not being completed' do
+      it 'allows filling in fields related to a test not being completed', js: true do
         expect(page)
           .not_to have_text 'Please document why a test was not conducted.'
         uncheck 'Completed drug or alcohol test?'
@@ -77,7 +77,7 @@ describe 'special supervisor report fields' do
           .to have_text 'Please document why a test was not conducted.'
       end
 
-      it 'allows filling in the reason for testing' do
+      it 'allows filling in the reason for testing', js: true do
         within('.test-info') do
           expect(page).to have_text 'bodily injury'
           expect(page).to have_text 'disabling damage'
@@ -139,7 +139,7 @@ describe 'special supervisor report fields' do
 
   describe 'driver discount related fields' do
     context 'without driver discounted' do
-      it 'allows filling in a reason why a driver can be discounted' do
+      it 'allows filling in a reason why a driver can be discounted', js: true do
         expect(page).not_to have_text 'Please explain why the driver can be discounted.'
         check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
         expect(page).to have_text 'Please explain why the driver can be discounted.'
@@ -153,13 +153,13 @@ describe 'special supervisor report fields' do
     end
 
     context 'with driver discounted' do
-    let :supervisor_report do
-      create :supervisor_report,
-             driver_discounted: true,
-             fta_threshold_not_met: false,
-             reason_threshold_not_met: nil,
-             reason_driver_discounted: 'Placeholder'
-    end
+      let :supervisor_report do
+        create :supervisor_report,
+               driver_discounted: true,
+               fta_threshold_not_met: false,
+               reason_threshold_not_met: nil,
+               reason_driver_discounted: 'Placeholder'
+      end
       it 'shows driver discount information when it applies' do
         expect(page)
           .to have_text 'Please explain why the driver can be discounted.'

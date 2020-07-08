@@ -6,7 +6,7 @@ describe 'creating incidents as a supervisor' do
   let(:user) { create :user, :supervisor }
   let!(:driver_in_division) { create :user, :driver, divisions: user.divisions }
   before(:each) { when_current_user_is user }
-  it 'asks you to pick a driver' do
+  it 'asks you to pick a driver', js: true do
     visit incidents_url
     find('button', text: 'New Incident').click
     expect(page).to have_css 'h1', text: 'New Incident'

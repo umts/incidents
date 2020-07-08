@@ -6,7 +6,7 @@ describe 'editing incident details as staff' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
   let(:incident) { incident_in_divisions staff.divisions }
-  it 'allows editing reason codes' do
+  it 'allows editing reason codes', js: true  do
     create :reason_code, identifier: 'A-1', description: 'Falling bananas'
     create :supplementary_reason_code, identifier: 'a-8', description: 'Miscellaneous'
     visit edit_incident_url(incident)
@@ -15,7 +15,7 @@ describe 'editing incident details as staff' do
     expect(page).to have_selector 'p.notice',
       text: 'Incident report was successfully saved.'
   end
-  it 'requires reason codes, latlong, and root cause analysis for completed incidents' do
+  it 'requires reason codes, latlong, and root cause analysis for completed incidents', js: true  do
     create :reason_code, identifier: 'A-1', description: 'Falling bananas'
     create :supplementary_reason_code, identifier: 'a-8', description: 'Miscellaneous'
     visit edit_incident_url(incident)
