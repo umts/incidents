@@ -41,14 +41,14 @@ describe 'viewing incidents as staff' do
 
   context 'with incomplete incidents' do
     let!(:incident) { incident_in_divisions staff.divisions, completed: false }
-    it 'allows viewing incomplete incidents' do
+    it 'allows viewing incomplete incidents', js: true do
       visit incidents_url
       click_button 'Incomplete Incidents 1'
       expect(page.current_url).to end_with incomplete_incidents_path
     end
   end
   context 'with no incomplete incidents' do
-    it "tells you there aren't any" do
+    it 'tells you there are not any' do
       visit incomplete_incidents_url
       expect(page).to have_selector 'p.notice',
                                     text: 'No incomplete incidents.'
@@ -58,14 +58,14 @@ describe 'viewing incidents as staff' do
 
   context 'with unclaimed incidents' do
     let!(:incident) { incident_in_divisions staff.divisions, :unclaimed }
-    it 'allows viewing unclaimed incidents' do
+    it 'allows viewing unclaimed incidents', js: true do
       visit incidents_url
       click_button 'Unclaimed Incidents 1'
       expect(page.current_url).to end_with unclaimed_incidents_path
     end
   end
   context 'with no unclaimed incidents' do
-    it "tells you there aren't any" do
+    it 'tells you there are not any' do
       visit unclaimed_incidents_url
       expect(page).to have_selector 'p.notice',
                                     text: 'No unclaimed incidents.'
@@ -73,7 +73,7 @@ describe 'viewing incidents as staff' do
     end
   end
 
-  context 'navigating by date' do
+  context 'navigating by date', js: true do
     before(:each) { Timecop.freeze Date.new(2018, 1, 4) }
     after(:each) { Timecop.return }
     it 'starts out navigating by month' do

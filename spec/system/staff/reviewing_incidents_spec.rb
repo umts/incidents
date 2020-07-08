@@ -8,7 +8,7 @@ describe 'reviewing incidents as staff' do
 
   context 'with an uncompleted incident' do
     let!(:incident) { incident_in_divisions staff.divisions, completed: false }
-    it 'is not possible to review' do
+    it 'is not possible to review', js: true do
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       click_button 'View'
@@ -18,7 +18,7 @@ describe 'reviewing incidents as staff' do
   end
   context 'with a completed incident' do
     let!(:incident) { incident_in_divisions staff.divisions, :completed }
-    it 'is possible to review' do
+    it 'is possible to review', js: true do
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       click_button 'View'
@@ -48,7 +48,7 @@ describe 'reviewing incidents as staff' do
           expect(page).to have_selector '.text p', text: 'This is a change.'
         end
       end
-      it 'is possible to remove the review' do
+      it 'is possible to remove the review', js: true do
         create :staff_review, user: staff, incident: incident
         visit incident_url(incident)
         within '.staff-review' do
