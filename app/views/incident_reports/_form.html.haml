@@ -56,7 +56,7 @@
       = form.label :speed
       = form.number_field :speed, id: :incident_report_speed, min: 0
     .field
-      = form.fields_for :incidents do |incident_form|
+      = form.fields_for :incidents, @incident do |incident_form|
         .field
           = incident_form.label :latitude
           = incident_form.text_field :latitude, id: :incident_latitude
@@ -295,7 +295,7 @@
         prompt: true
     .field
       = form.label :property_owner_information_taken
-      = form.check_box :property_owner_information_taken, id: :incidnet_report_property_owner_information_taken
+      = form.check_box :property_owner_information_taken, id: :incident_report_property_owner_information_taken
   .field
     = form.label :passenger_incident?
     = form.check_box :passenger_incident, id: :incident_report_passenger_incident
