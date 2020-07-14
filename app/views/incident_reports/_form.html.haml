@@ -146,31 +146,31 @@
       .field
         = form.label :lift_deployed
         = form.check_box :lift_deployed, id: :incident_report_lift_deployed
+    .field
+      = form.label :posted_speed_limit
+      = form.number_field :posted_speed_limit, id: :incident_report_posted_speed_limit, min: 0
+    .field
+      = form.label :surface_type
+      = form.select :surface_type,
+        options_for_select(IncidentReport::SURFACE_TYPE_OPTIONS, report.surface_type),
+        { include_blank: true }, id: :incident_report_surface_type
+    .field
+      = form.label :surface_grade
+      = form.select :surface_grade,
+        options_for_select(IncidentReport::SURFACE_GRADE_OPTIONS, report.surface_grade),
+        { include_blank: true }, id: :incident_report_surface_grade
+    .field
+      = form.label :summons_or_warning_issued?
+      = form.check_box :summons_or_warning_issued, id: :incident_report_summons_or_warning_issued
+    .summons-info{style: ('display: none;' unless report.summons_or_warning_issued?)}
+      .field
+        = form.label :summons_or_warning_info
+        = form.text_area :summons_or_warning_info, id: :incident_report_summons_or_warning_info,
+          size: '80x4'
     - if report == @incident.supervisor_incident_report
-      .field
-        = form.label :posted_speed_limit
-        = form.number_field :posted_speed_limit, id: :incident_report_posted_speed_limit, min: 0
-      .field
-        = form.label :surface_type
-        = form.select :surface_type,
-          options_for_select(IncidentReport::SURFACE_TYPE_OPTIONS, report.surface_type),
-          { include_blank: true }, id: :incident_report_surface_type
-      .field
-        = form.label :surface_grade
-        = form.select :surface_grade,
-          options_for_select(IncidentReport::SURFACE_GRADE_OPTIONS, report.surface_grade),
-          { include_blank: true }, id: :incident_report_surface_grade
       .field
         = form.label :credentials_exchanged?
         = form.check_box :credentials_exchanged, id: :incident_report_credentials_exchanged
-      .field
-        = form.label :summons_or_warning_issued?
-        = form.check_box :summons_or_warning_issued, id: :incident_report_summons_or_warning_issued
-      .summons-info{style: ('display: none;' unless report.summons_or_warning_issued?)}
-        .field
-          = form.label :summons_or_warning_info
-          = form.text_area :summons_or_warning_info, id: :incident_report_summons_or_warning_info,
-            size: '80x4'
     .field
       = form.label :motor_vehicle_collision?
       = form.check_box :motor_vehicle_collision, id: :incident_report_motor_vehicle_collision
@@ -383,9 +383,9 @@
       .field
         = form.label :reason_not_up_to_curb
         = form.text_field :reason_not_up_to_curb, id: :incident_report_reason_not_up_to_curb
-      .field
-        = form.label :vehicle_in_bus_stop_plate
-        = form.text_field :vehicle_in_bus_stop_plate, id: :incident_report_vehicle_in_bus_stop_plate
+    .field
+      = form.label :vehicle_in_bus_stop_plate
+      = form.text_field :vehicle_in_bus_stop_plate, id: :incident_report_vehicle_in_bus_stop_plate
   .field
     = form.label :description
     = form.text_area :description, id: :incident_report_description, size: '80x8'
