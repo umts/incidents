@@ -77,12 +77,14 @@ class SupervisorReport < ApplicationRecord
     events = {}
     %w[
       testing_facility_notified
+      employee_representative_notified
+      employee_representative_arrived
       employee_notified_of_test
       employee_departed_to_test
       employee_arrived_at_test
       test_started
       test_ended
-      employee_returned
+      employee_returned_to_work_or_released_from_duty
       superintendent_notified
       program_manager_notified
       director_notified
@@ -94,7 +96,7 @@ class SupervisorReport < ApplicationRecord
   end
 
   private
-  
+
   def documentation_provided_for_no_test
     unless new_record? || fta_threshold_not_met? || driver_discounted?
       errors.add :base, 'You must provide a reason why no test was conducted.'
