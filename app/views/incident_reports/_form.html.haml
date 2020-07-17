@@ -299,7 +299,7 @@
   .field
     = form.label :passenger_incident?
     = form.check_box :passenger_incident, id: :incident_report_passenger_incident
-  .passenger-incident-info{style: ('display: none;' unless report.passenger_incident?)}
+  .passenger-incident-info{ style: ('display: none;' unless report.passenger_incident? || report.has_injured_passengers? ) }
     %h3 Passenger Incident Information
     .field
       = form.label :inj_pax_info
