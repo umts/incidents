@@ -110,10 +110,10 @@
     %p
       %strong= human_name :supervisor_report, :employee_arrived_to_test_at
       = report.employee_arrived_at_test_at.strftime '%l:%M %P'
-  - if report.test_ended_at.present?
+  - if report.test_started_at.present?
     %p
-      %strong= human_name :supervisor_report, :test_ended_at
-      = report.test_ended_at.strftime '%l:%M %P'
+      %strong= human_name :supervisor_report, :test_started_at
+      = report.test_started_at.strftime '%l:%M %P'
   - if report.test_ended_at.present?
     %p
       %strong= human_name :supervisor_report, :test_ended_at
