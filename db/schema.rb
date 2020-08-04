@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_16_175007) do
+ActiveRecord::Schema.define(version: 2020_07_28_175148) do
 
   create_table "divisions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -122,6 +122,8 @@ ActiveRecord::Schema.define(version: 2020_06_16_175007) do
     t.boolean "lift_deployed", default: false, null: false
     t.boolean "incident_involved_a_van", default: false, null: false
     t.boolean "pvta_passenger_information_taken", default: false
+    t.integer "passengers_injured_in_bus", default: 0
+    t.integer "passengers_injured_in_other_vehicle", default: 0
   end
 
   create_table "incidents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -233,7 +235,7 @@ ActiveRecord::Schema.define(version: 2020_06_16_175007) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.integer "item_id", null: false
     t.string "event", null: false

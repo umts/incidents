@@ -66,6 +66,16 @@ toggleReasonsForTesting = ->
       $('.post-accident-info').slideUp()
       $('.reasonable-suspicion-info').slideUp()
 
+togglePassengerInvolved = ->
+  inj_bus_pax = $('#incident_report_passengers_injured_in_bus').val()
+  other_inj_pax = $('#incident_report_passengers_injured_in_other_vehicle').val()
+  if (inj_bus_pax + other_inj_pax) != "00"
+    $('#incident_report_passenger_incident').prop("checked", true)
+    $('.passenger-incident-info').slideDown()
+  else
+    $('#incident_report_passenger_incident').prop("checked", false)
+    $('.passenger-incident-info').slideUp()
+
 $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#incident_report_motor_vehicle_collision',
                           '.motor-vehicle-collision-info'
@@ -81,6 +91,12 @@ $(document).on 'turbolinks:load', ->
 
   $('form').showIfChecked '#incident_report_other_vehicle_owned_by_other_driver',
                           '.other-vehicle-owner-info', reverse: true
+
+  $('form').on 'change', '#incident_report_passengers_injured_in_bus',
+                          togglePassengerInvolved
+
+  $('form').on 'change', '#incident_report_passengers_injured_in_other_vehicle',
+                          togglePassengerInvolved
 
   $('form').showIfChecked '#incident_report_passenger_incident',
                           '.passenger-incident-info'

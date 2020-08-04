@@ -75,14 +75,19 @@ prawn_document do |pdf|
       align: :center, size: 14, style: :bold
   end
 
-  pdf.field_row height: 30, units: 112 do |row|
+  pdf.field_row height: 30, units: 72 do |row|
     row.text_field width: 18, field: 'Plate # other vehicle', value: report.other_vehicle_plate
     row.text_field width: 7, field: 'State', value: report.other_vehicle_state
     row.text_field width: 13, field: 'Make', value: report.other_vehicle_make
     row.text_field width: 13, field: 'Model', value: report.other_vehicle_model
     row.text_field width: 10, field: 'Year', value: report.other_vehicle_year
     row.text_field width: 11, field: 'Color', value: report.other_vehicle_color
+  end
+
+  pdf.field_row height: 30, units: 68 do |row|
+    row.text_field width: 14, field: '# of passengers injured in bus', value: report.passengers_injured_in_bus
     row.text_field width: 14, field: '# of passengers in other vehicle', value: report.other_vehicle_passengers
+    row.text_field width: 14, field: '# of passengers injured in other vehicle', value: report.passengers_injured_in_other_vehicle
     row.text_field width: 12, field: 'Direction of bus', value: report.direction
     row.text_field width: 14, field: 'Direction of other vehicle', value: report.other_vehicle_direction
   end
@@ -338,14 +343,21 @@ prawn_document do |pdf|
         align: :center, size: 14, style: :bold
     end
 
-    pdf.field_row height: 25, units: 7 do |row|
-      row.text_field field: 'Plate # other vehicle', value: report.other_vehicle_plate
-      row.text_field field: 'State', value: report.other_vehicle_state
-      row.text_field field: 'Make', value: report.other_vehicle_make
-      row.text_field field: 'Model', value: report.other_vehicle_model
-      row.text_field field: 'Year', value: report.other_vehicle_year
-      row.text_field field: '# of passengers', value: report.other_vehicle_passengers
-      row.text_field field: 'Direction', value: report.other_vehicle_direction
+    pdf.field_row height: 30, units: 72 do |row|
+      row.text_field width: 18, field: 'Plate # other vehicle', value: report.other_vehicle_plate
+      row.text_field width: 7, field: 'State', value: report.other_vehicle_state
+      row.text_field width: 13, field: 'Make', value: report.other_vehicle_make
+      row.text_field width: 13, field: 'Model', value: report.other_vehicle_model
+      row.text_field width: 10, field: 'Year', value: report.other_vehicle_year
+      row.text_field width: 11, field: 'Color', value: report.other_vehicle_color
+    end
+
+    pdf.field_row height: 30, units: 68 do |row|
+      row.text_field width: 14, field: '# of passengers injured in bus', value: report.passengers_injured_in_bus
+      row.text_field width: 14, field: '# of passengers in other vehicle', value: report.other_vehicle_passengers
+      row.text_field width: 14, field: '# of passengers injured in other vehicle', value: report.passengers_injured_in_other_vehicle
+      row.text_field width: 12, field: 'Direction of bus', value: report.direction
+      row.text_field width: 14, field: 'Direction of other vehicle', value: report.other_vehicle_direction
     end
 
     owner_name = if report.other_vehicle_owned_by_other_driver?
@@ -575,7 +587,7 @@ prawn_document do |pdf|
         wipers that makes them inoperable.
       DESCRIPTION
     end
-    
+
     pdf.move_down 50
 
     pdf.field_row height: 25, units: 3 do |row|

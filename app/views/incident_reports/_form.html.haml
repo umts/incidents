@@ -195,8 +195,15 @@
       = form.label :other_vehicle_color
       = form.text_field :other_vehicle_color, id: :incident_report_other_vehicle_color
     .field
+      = form.label :passengers_injured_in_bus
+      = form.number_field :passengers_injured_in_bus, id: :incident_report_passengers_injured_in_bus, min: 0
+    .field
       = form.label :other_vehicle_passengers
       = form.number_field :other_vehicle_passengers, id: :incident_report_other_vehicle_passengers, min: 0
+    .field
+      = form.label :passengers_injured_in_other_vehicle
+      = form.number_field :passengers_injured_in_other_vehicle,
+        id: :incident_report_passengers_injured_in_other_vehicle, min: 0
     .field
       = form.label :other_passenger_information_taken?
       = form.check_box :other_passenger_information_taken, id: :other_passenger_information_taken
