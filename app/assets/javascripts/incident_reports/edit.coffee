@@ -94,11 +94,11 @@ $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#supervisor_report_pictures_saved',
                           '.saved-pictures-info'
 
-  $('form').showIfChecked '#supervisor_report_completed_drug_or_alcohol_test',
-                          '.test-info'
+  $('form').showIfChecked '#supervisor_report_test_not_conducted',
+                          '.test-info', reverse: true
 
-  $('form').showIfChecked '#supervisor_report_completed_drug_or_alcohol_test',
-                          '.no-test-info', reverse: true
+  $('form').showIfChecked '#supervisor_report_test_not_conducted',
+                          '.no-test-info'
 
   $('form').showIfChecked '#supervisor_report_fta_threshold_not_met',
                           '.fta-threshold-info'

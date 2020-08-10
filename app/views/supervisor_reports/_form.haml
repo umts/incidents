@@ -50,8 +50,73 @@
       %button.btn-default.add-witness Add witness info
       %button.btn-default.delete-witness Delete witness info
     .field
-      = form.label :completed_drug_or_alcohol_test?
-      = form.check_box :completed_drug_or_alcohol_test, id: :supervisor_report_completed_drug_or_alcohol_test
+      = form.label :reason_test_completed
+      = form.select :reason_test_completed,
+        options_for_select(SupervisorReport::REASONS_FOR_TEST), { include_blank: true },
+        id: :supervisor_report_reason_test_completed
+    .post-accident-info{style: ('display: none;' unless report.post_accident?)}
+      .field
+        = form.label :test_due_to_bodily_injury?
+        = form.check_box :test_due_to_bodily_injury, id: :supervisor_report_test_due_to_bodily_injury
+      .field
+        = form.label :test_due_to_disabling_damage?
+        = form.check_box :test_due_to_disabling_damage, id: :supervisor_report_test_due_to_disabling_damage
+      .field
+        = form.label :test_due_to_fatality?
+        = form.check_box :test_due_to_fatality, id: :supervisor_report_test_due_to_fatality
+    .reasonable-suspicion-info{style: ('display: none;' unless report.reasonable_suspicion?)}
+      .field
+        = form.label :completed_drug_test?
+        = form.check_box :completed_drug_test, id: :supervisor_report_completed_drug_test
+      .field
+        = form.label :completed_alcohol_test?
+        = form.check_box :completed_alcohol_test, id: :supervisor_report_completed_alcohol_test
+      .field
+        = form.label :observation_made_at
+        - a11y_datetime_labels('report_observation_made_at').each do |label|
+          = label
+        = form.datetime_select :observation_made_at, id: :supervisor_report_observation_made_at,
+          prompt: true, ampm: true
+      .field
+        = form.label :test_due_to_employee_appearance?
+        = form.check_box :test_due_to_employee_appearance,
+          id: :supervisor_report_test_due_to_employee_appearance
+      .employee-appearance-info{style: ('display: none;' unless report.test_due_to_employee_appearance?)}
+        .field
+          = form.label :employee_appearance
+          = form.text_field :employee_appearance, id: :supervisor_report_employee_appearance
+      .field
+        = form.label :test_due_to_employee_behavior?
+        = form.check_box :test_due_to_employee_behavior,
+          id: :supervisor_report_test_due_to_employee_behavior
+      .employee-behavior-info{style: ('display: none;' unless report.test_due_to_employee_behavior?)}
+        .field
+          = form.label :employee_behavior
+          = form.text_field :employee_behavior, id: :supervisor_report_employee_behavior
+      .field
+        = form.label :test_due_to_employee_speech?
+        = form.check_box :test_due_to_employee_speech,
+          id: :supervisor_report_test_due_to_employee_speech
+      .employee-speech-info{style: ('display: none;' unless report.test_due_to_employee_speech?)}
+        .field
+          = form.label :employee_speech
+          = form.text_field :employee_speech, id: :supervisor_report_employee_speech
+      .field
+        = form.label :test_due_to_employee_odor?
+        = form.check_box :test_due_to_employee_odor,
+          id: :supervisor_report_test_due_to_employee_odor
+      .employee-odor-info{style: ('display: none;' unless report.test_due_to_employee_odor?)}
+        .field
+          = form.label :employee_odor
+          = form.text_field :employee_odor, id: :supervisor_report_employee_odor
+    .field
+      = form.label :testing_facility
+      = form.select :testing_facility,
+        options_for_select(SupervisorReport::TESTING_FACILITIES),
+        include_blank: true, id: :supervisor_report_testing_facility
+    .field
+      = form.label :test_not_conducted?
+      = form.check_box :test_not_conducted, id: :supervisor_report_test_not_conducted
     .no-test-info{style: ('display: none;' if report.completed_drug_or_alcohol_test?)}
       %h3 Please document why a test was not conducted.
       .field
@@ -68,72 +133,7 @@
         = form.label :reason_driver_discounted
         = form.text_area :reason_driver_discounted, id: :supervisor_report_reason_driver_discounted,
           size: '80x4'
-    .test-info{style: ('display: none;' unless report.completed_drug_or_alcohol_test?)}
-      .field
-        = form.label :reason_test_completed
-        = form.select :reason_test_completed,
-          options_for_select(SupervisorReport::REASONS_FOR_TEST), { include_blank: true },
-          id: :supervisor_report_reason_test_completed
-      .post-accident-info{style: ('display: none;' unless report.post_accident?)}
-        .field
-          = form.label :test_due_to_bodily_injury?
-          = form.check_box :test_due_to_bodily_injury, id: :supervisor_report_test_due_to_bodily_injury
-        .field
-          = form.label :test_due_to_disabling_damage?
-          = form.check_box :test_due_to_disabling_damage, id: :supervisor_report_test_due_to_disabling_damage
-        .field
-          = form.label :test_due_to_fatality?
-          = form.check_box :test_due_to_fatality, id: :supervisor_report_test_due_to_fatality
-      .reasonable-suspicion-info{style: ('display: none;' unless report.reasonable_suspicion?)}
-        .field
-          = form.label :completed_drug_test?
-          = form.check_box :completed_drug_test, id: :supervisor_report_completed_drug_test
-        .field
-          = form.label :completed_alcohol_test?
-          = form.check_box :completed_alcohol_test, id: :supervisor_report_completed_alcohol_test
-        .field
-          = form.label :observation_made_at
-          - a11y_datetime_labels('report_observation_made_at').each do |label|
-            = label
-          = form.datetime_select :observation_made_at, id: :supervisor_report_observation_made_at,
-            prompt: true, ampm: true
-        .field
-          = form.label :test_due_to_employee_appearance?
-          = form.check_box :test_due_to_employee_appearance,
-            id: :supervisor_report_test_due_to_employee_appearance
-        .employee-appearance-info{style: ('display: none;' unless report.test_due_to_employee_appearance?)}
-          .field
-            = form.label :employee_appearance
-            = form.text_field :employee_appearance, id: :supervisor_report_employee_appearance
-        .field
-          = form.label :test_due_to_employee_behavior?
-          = form.check_box :test_due_to_employee_behavior,
-            id: :supervisor_report_test_due_to_employee_behavior
-        .employee-behavior-info{style: ('display: none;' unless report.test_due_to_employee_behavior?)}
-          .field
-            = form.label :employee_behavior
-            = form.text_field :employee_behavior, id: :supervisor_report_employee_behavior
-        .field
-          = form.label :test_due_to_employee_speech?
-          = form.check_box :test_due_to_employee_speech,
-            id: :supervisor_report_test_due_to_employee_speech
-        .employee-speech-info{style: ('display: none;' unless report.test_due_to_employee_speech?)}
-          .field
-            = form.label :employee_speech
-            = form.text_field :employee_speech, id: :supervisor_report_employee_speech
-        .field
-          = form.label :test_due_to_employee_odor?
-          = form.check_box :test_due_to_employee_odor,
-            id: :supervisor_report_test_due_to_employee_odor
-        .employee-odor-info{style: ('display: none;' unless report.test_due_to_employee_odor?)}
-          .field
-            = form.label :employee_odor
-            = form.text_field :employee_odor, id: :supervisor_report_employee_odor
-      .field
-        = form.label :testing_facility
-        = form.select :testing_facility,
-          options_for_select(SupervisorReport::TESTING_FACILITIES),
-          include_blank: true, id: :supervisor_report_testing_facility
+    .test-info{style: ('display: none;' if report.test_not_conducted?)}
       %h3 Testing Timeline
       .field
         = form.label :testing_facility_notified_at

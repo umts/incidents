@@ -501,7 +501,7 @@ prawn_document do |pdf|
     end
 
     pdf.field_row height: 25, units: 4 do |row|
-      row.text_field field: 'Test conducted?', value: yes_no(sup_report.completed_drug_or_alcohol_test),
+      row.text_field field: 'Test conducted?', value: yes_no(sup_report.completed_drug_or_alcohol_test?),
         options: { if: sup_report.reasonable_suspicion? }
       test_types = []
       test_types << 'Drug' if sup_report.completed_drug_test?
@@ -542,23 +542,38 @@ prawn_document do |pdf|
         options: { if: sup_report.post_accident? }
     end
 
-    pdf.field_row height: 75, units: 1 do |row|
+    pdf.field_row height: 62, units: 1 do |row|
       reasons = [
         'BODILY INJURY - requiring immediate medical treatment away from the scene',
         'DISABLING DAMAGE - see note below for definition',
         'FATALITY - DOT testing is mandatory, no exceptions',
-        'THRESHOLD NOT MET - Accident does not meet FTA post-accident testing criteria.',
-        'DISCOUNTED - I can completely discount the operator, as a contributing factor to the incident.'
+        'TEST NOT CUNDUCTED',
       ]
+
       checked_reasons = [
         sup_report.test_due_to_bodily_injury?,
         sup_report.test_due_to_disabling_damage?,
         sup_report.test_due_to_fatality?,
+        sup_report.test_not_conducted?
+      ]
+
+      row.check_box_field field: 'Reason for test',
+        options: reasons, checked: checked_reasons, per_column: 4
+    end
+
+    pdf.field_row height: 39, units: 1 do |row|
+      reasons = [
+        'THRESHOLD NOT MET - Accident does not meet FTA post-accident testing criteria.',
+        'DISCOUNTED - I can completely discount the operator, as a contributing factor to the incident.'
+      ]
+
+      checked_reasons = [
         sup_report.fta_threshold_not_met?,
         sup_report.driver_discounted?
       ]
-      row.check_box_field field: 'Reason for test',
-        options: reasons, checked: checked_reasons, per_column: 5
+
+      row.check_box_field field: 'Reason test not cunducted',
+        options: reasons, checked: checked_reasons, per_column: 2
     end
 
     pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 40 do
@@ -575,7 +590,7 @@ prawn_document do |pdf|
         wipers that makes them inoperable.
       DESCRIPTION
     end
-    
+
     pdf.move_down 50
 
     pdf.field_row height: 25, units: 3 do |row|

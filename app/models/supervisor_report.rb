@@ -15,7 +15,7 @@ class SupervisorReport < ApplicationRecord
   validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
   validate :documentation_provided_for_no_test,
-    unless: :completed_drug_or_alcohol_test?
+    if: :test_not_conducted?
   validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
   validates :reason_driver_discounted, presence: { if: :driver_discounted? }
   has_one :incident
@@ -73,6 +73,10 @@ class SupervisorReport < ApplicationRecord
     reason_test_completed == 'Post-Accident'
   end
 
+  def completed_drug_or_alcohol_test?
+    !test_not_conducted
+  end
+
   def timeline
     events = {}
     %w[
@@ -94,7 +98,7 @@ class SupervisorReport < ApplicationRecord
   end
 
   private
-  
+
   def documentation_provided_for_no_test
     unless new_record? || fta_threshold_not_met? || driver_discounted?
       errors.add :base, 'You must provide a reason why no test was conducted.'
