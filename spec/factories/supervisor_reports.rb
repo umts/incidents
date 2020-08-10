@@ -5,7 +5,7 @@ FactoryBot.define do
     pictures_saved                 { false }
     passenger_statement            { FFaker::Lorem.paragraphs(5).join "\n" }
     faxed                          { [nil, Time.zone.now].sample }
-    completed_drug_or_alcohol_test { false }
+    test_not_conducted             { true }
     completed_drug_test            { false }
     completed_alcohol_test         { false }
     fta_threshold_not_met          { true }
@@ -25,7 +25,7 @@ FactoryBot.define do
     end
 
     trait :with_da_test do
-      completed_drug_or_alcohol_test { true }
+      test_not_conducted             { false }
       fta_threshold_not_met          { false }
       driver_discounted              { false }
       reason_threshold_not_met       { nil }
