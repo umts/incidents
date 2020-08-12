@@ -484,10 +484,10 @@ prawn_document do |pdf|
     end
 
     pdf.move_down 15
-    pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 50 do
+    pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 70 do
       pdf.text 'Sequence of events:', style: :bold
-      column_width  = pdf.bounds.width / 3
-      sup_report.timeline.each_slice(4).with_index do |events, i|
+      column_width  = pdf.bounds.width / 2
+      sup_report.timeline.each_slice(6).with_index do |events, i|
         pdf.bounding_box [column_width * i, pdf.cursor], width: column_width do
           pdf.text_box events.join("\n"), size: 10
         end
@@ -575,7 +575,7 @@ prawn_document do |pdf|
         wipers that makes them inoperable.
       DESCRIPTION
     end
-    
+
     pdf.move_down 50
 
     pdf.field_row height: 25, units: 3 do |row|
