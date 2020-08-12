@@ -2,8 +2,12 @@
 
 PrawnRailsForms.default_text_field_options[:style] = :bold
 prawn_document do |pdf|
+  if @incident.division.name == "NOHO"
+    pdf.start_new_page
+    pdf.image Rails.root.join('app/assets/images/vatco_coversheet.png'),
+      width: pdf.bounds.width, height: pdf.bounds.height
+  end
   report = @incident.driver_incident_report
-
   pdf.start_new_page
   pdf.bounding_box [0, pdf.bounds.height], width: 380, height: 80 do
     pdf.move_down 5
