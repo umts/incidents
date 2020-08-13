@@ -142,6 +142,18 @@
         = form.datetime_select :testing_facility_notified_at,
           id: :supervisor_report_testing_facility_notified_at, ampm: true, prompt: true
       .field
+        = form.label :employee_representative_notified_at
+        - a11y_datetime_labels('employee_representative_notified_at').each do |label|
+          = label
+        = form.datetime_select :employee_representative_notified_at,
+          id: :supervisor_report_employee_representative_notified_at, ampm: true, prompt: true
+      .field
+        = form.label :employee_representative_arrived_at
+        - a11y_datetime_labels('employee_representative_arrived_at').each do |label|
+          = label
+        = form.datetime_select :employee_representative_arrived_at,
+          id: :supervisor_report_employee_representative_arrived_at, ampm: true, prompt: true
+      .field
         = form.label :employee_notified_of_test_at
         - a11y_datetime_labels('report_employee_notified_of_test_at').each do |label|
           = label
@@ -172,11 +184,11 @@
         = form.datetime_select :test_ended_at,
           id: :supervisor_report_test_ended_at, ampm: true, prompt: true
       .field
-        = form.label :employee_returned_at
-        - a11y_datetime_labels('report_employee_returned_at').each do |label|
+        = form.label :employee_returned_to_work_or_released_from_duty_at
+        - a11y_datetime_labels('report_employee_returned_to_work_or_released_from_duty_at').each do |label|
           = label
-        = form.datetime_select :employee_returned_at,
-          id: :supervisor_report_employee_returned_at, ampm: true, prompt: true
+        = form.datetime_select :employee_returned_to_work_or_released_from_duty_at,
+          id: :supervisor_report_employee_returned_to_work_or_released_from_duty_at, ampm: true, prompt: true
       %strong If applicable:
       .field
         = form.label :superintendent_notified_at

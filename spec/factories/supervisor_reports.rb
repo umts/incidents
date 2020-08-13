@@ -25,19 +25,21 @@ FactoryBot.define do
     end
 
     trait :with_da_test do
-      completed_drug_or_alcohol_test { true }
-      fta_threshold_not_met          { false }
-      driver_discounted              { false }
-      reason_threshold_not_met       { nil }
-      reason_driver_discounted       { nil }
-      testing_facility               { SupervisorReport::TESTING_FACILITIES.sample }
-      testing_facility_notified_at   { Time.zone.now - 6.minutes }
-      employee_notified_of_test_at   { Time.zone.now - 5.minutes }
-      employee_departed_to_test_at   { Time.zone.now - 4.minutes }
-      employee_arrived_at_test_at    { Time.zone.now - 3.minutes }
-      test_started_at                { Time.zone.now - 2.minutes }
-      test_ended_at                  { Time.zone.now - 1.minute }
-      employee_returned_at           { Time.zone.now }
+      completed_drug_or_alcohol_test                        { true }
+      fta_threshold_not_met                                 { false }
+      driver_discounted                                     { false }
+      reason_threshold_not_met                              { nil }
+      reason_driver_discounted                              { nil }
+      testing_facility                                      { SupervisorReport::TESTING_FACILITIES.sample }
+      testing_facility_notified_at                          { Time.zone.now - 8.minutes }
+      employee_representative_notified_at                   { Time.zone.now - 7.minutes }
+      employee_representative_arrived_at                    { Time.zone.now - 6.minutes }
+      employee_notified_of_test_at                          { Time.zone.now - 5.minutes }
+      employee_departed_to_test_at                          { Time.zone.now - 4.minutes }
+      employee_arrived_at_test_at                           { Time.zone.now - 3.minutes }
+      test_started_at                                       { Time.zone.now - 2.minutes }
+      test_ended_at                                         { Time.zone.now - 1.minute }
+      employee_returned_to_work_or_released_from_duty_at    { Time.zone.now }
     end
 
     trait :with_drug_test do

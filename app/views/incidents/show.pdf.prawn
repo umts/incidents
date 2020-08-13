@@ -2,8 +2,12 @@
 
 PrawnRailsForms.default_text_field_options[:style] = :bold
 prawn_document do |pdf|
+  if @incident.division.name == "NOHO"
+    pdf.start_new_page
+    pdf.image Rails.root.join('app/assets/images/vatco_coversheet.png'),
+      width: pdf.bounds.width, height: pdf.bounds.height
+  end
   report = @incident.driver_incident_report
-
   pdf.start_new_page
   pdf.bounding_box [0, pdf.bounds.height], width: 380, height: 80 do
     pdf.move_down 5
@@ -496,10 +500,10 @@ prawn_document do |pdf|
     end
 
     pdf.move_down 15
-    pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 50 do
+    pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 70 do
       pdf.text 'Sequence of events:', style: :bold
-      column_width  = pdf.bounds.width / 3
-      sup_report.timeline.each_slice(4).with_index do |events, i|
+      column_width  = pdf.bounds.width / 2
+      sup_report.timeline.each_slice(6).with_index do |events, i|
         pdf.bounding_box [column_width * i, pdf.cursor], width: column_width do
           pdf.text_box events.join("\n"), size: 10
         end

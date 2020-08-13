@@ -90,6 +90,14 @@
     %p
       %strong= human_name :supervisor_report, :testing_facility_notified_at
       = report.testing_facility_notified_at.strftime '%l:%M %P'
+  - if report.employee_representative_notified_at.present?
+    %p
+      %strong= human_name :supervisor_report, :employee_representative_notified_at
+      = report.employee_representative_notified_at.strftime '%l:%M %P'
+  - if report.employee_representative_arrived_at.present?
+    %p
+      %strong= human_name :supervisor_report, :employee_representative_arrived_at
+      = report.employee_representative_arrived_at.strftime '%l:%M %P'
   - if report.employee_notified_of_test_at.present?
     %p
       %strong= human_name :supervisor_report, :employee_notified_of_test_at
@@ -110,6 +118,10 @@
     %p
       %strong= human_name :supervisor_report, :test_ended_at
       = report.test_ended_at.strftime '%l:%M %P'
+  - if report.employee_returned_to_work_or_released_from_duty_at.present?
+    %p
+      %strong= human_name :supervisor_report, :employee_returned_to_work_or_released_from_duty_at
+      = report.employee_returned_to_work_or_released_from_duty_at.strftime '%l:%M %P'
   - if report.superintendent_notified_at.present?
     %p
       %strong= human_name :supervisor_report, :superintendent_notified_at
