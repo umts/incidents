@@ -1,8 +1,5 @@
-require 'capistrano/setup'
-require 'capistrano/deploy'
-require 'capistrano/pending'
-require 'capistrano/bundler'
-require 'capistrano/rails'
-require 'capistrano/passenger'
-require 'capistrano/scm/git'
+%w[ setup deploy pending bundler rails passenger scm/git].each do |lib|
+  require "capistrano/#{lib}"
+end
+
 install_plugin Capistrano::SCM::Git

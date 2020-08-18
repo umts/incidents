@@ -10,22 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191023205953) do
+ActiveRecord::Schema.define(version: 2020_07_15_141905) do
 
-  create_table "divisions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "divisions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "claims_id"
   end
 
-  create_table "divisions_users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "divisions_users", id: false, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.bigint "division_id", null: false
     t.bigint "user_id", null: false
     t.index ["division_id", "user_id"], name: "index_divisions_users_on_division_id_and_user_id", unique: true
   end
 
-  create_table "incident_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "incident_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "run"
     t.string "block"
     t.string "bus"
@@ -111,9 +111,20 @@ ActiveRecord::Schema.define(version: 20191023205953) do
     t.boolean "other_vehicle_towed_from_scene"
     t.string "zip"
     t.string "route"
+    t.text "vehicle_distance"
+    t.boolean "wheelchair_involved", default: false
+    t.boolean "other_passenger_information_taken", default: false
+    t.boolean "property_owner_information_taken", default: false
+    t.string "state"
+    t.boolean "ambulance_present", default: false
+    t.boolean "assistance_requested", default: false
+    t.boolean "chair_on_lift", default: false
+    t.boolean "lift_deployed", default: false
+    t.boolean "incident_involved_a_van", default: false
+    t.boolean "pvta_passenger_information_taken", default: false
   end
 
-  create_table "incidents", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "incidents", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "driver_incident_report_id"
     t.integer "supervisor_incident_report_id"
     t.integer "supervisor_report_id"
@@ -134,7 +145,7 @@ ActiveRecord::Schema.define(version: 20191023205953) do
     t.integer "supplementary_reason_code_id"
   end
 
-  create_table "injured_passengers", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "injured_passengers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name"
     t.text "address"
     t.string "nature_of_injury"
@@ -145,12 +156,12 @@ ActiveRecord::Schema.define(version: 20191023205953) do
     t.integer "incident_report_id"
   end
 
-  create_table "reason_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "reason_codes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "identifier"
     t.text "description"
   end
 
-  create_table "staff_reviews", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "staff_reviews", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "incident_id"
     t.integer "user_id"
     t.text "text"
@@ -158,7 +169,7 @@ ActiveRecord::Schema.define(version: 20191023205953) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "supervisor_reports", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "supervisor_reports", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.boolean "pictures_saved"
     t.integer "saved_pictures"
     t.text "passenger_statement"
@@ -172,7 +183,7 @@ ActiveRecord::Schema.define(version: 20191023205953) do
     t.datetime "employee_arrived_at_test_at"
     t.datetime "test_started_at"
     t.datetime "test_ended_at"
-    t.datetime "employee_returned_at"
+    t.datetime "employee_returned_to_work_or_released_from_duty_at"
     t.datetime "superintendent_notified_at"
     t.datetime "program_manager_notified_at"
     t.datetime "director_notified_at"
@@ -195,14 +206,16 @@ ActiveRecord::Schema.define(version: 20191023205953) do
     t.datetime "updated_at", null: false
     t.text "reason_threshold_not_met"
     t.text "reason_driver_discounted"
+    t.datetime "employee_representative_notified_at"
+    t.datetime "employee_representative_arrived_at"
   end
 
-  create_table "supplementary_reason_codes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "supplementary_reason_codes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "identifier"
     t.string "description"
   end
 
-  create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "staff", default: false
@@ -220,7 +233,7 @@ ActiveRecord::Schema.define(version: 20191023205953) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "versions", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci" do |t|
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.integer "item_id", null: false
     t.string "event", null: false
@@ -231,7 +244,7 @@ ActiveRecord::Schema.define(version: 20191023205953) do
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
   end
 
-  create_table "witnesses", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "witnesses", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.integer "supervisor_report_id"
     t.string "name"
     t.text "address"

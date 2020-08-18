@@ -120,12 +120,14 @@ class SupervisorReport < ApplicationRecord
     events = {}
     %w[
       testing_facility_notified
+      employee_representative_notified
+      employee_representative_arrived
       employee_notified_of_test
       employee_departed_to_test
       employee_arrived_at_test
       test_started
       test_ended
-      employee_returned
+      employee_returned_to_work_or_released_from_duty
       superintendent_notified
       program_manager_notified
       director_notified

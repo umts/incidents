@@ -5,25 +5,26 @@ require 'spec_helper'
 describe 'special incident fields' do
   let(:driver) { create :user, :driver }
   before(:each) { when_current_user_is driver }
+
   describe 'collision related fields' do
     context 'without collision' do
       before :each do
         visit new_incident_path
       end
-      it 'allows filling in collision fields' do
+      it 'allows filling in collision fields', js: true do
         expect(page).not_to have_text 'Motor Vehicle Collision Information'
         check 'Did the incident involve a collision?'
         expect(page).to have_text 'Motor Vehicle Collision Information'
       end
-      it 'does not require filling in fields for collisions' do
+      it 'does not require filling in fields for collisions', js: true do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
-        click_on 'Save report and preview PDF'
-        page.driver.browser.switch_to.alert.accept
+        save_and_preview
 
         expect(page).not_to have_text('cannot be marked as completed')
       end
     end
+
     context 'with collision' do
       it 'shows collision fields for collision incidents' do
         driver_report = create :incident_report,
@@ -41,7 +42,7 @@ describe 'special incident fields' do
 
   describe 'other vehicle related fields' do
     context 'without other vehicle info' do
-      it 'allows filling in other vehicle info as necessary' do
+      it 'allows filling in other vehicle info as necessary', js: true do
         visit new_incident_path
         check 'Did the incident involve a collision?'
         expect(page).to have_field 'Other vehicle owner name'
@@ -70,22 +71,22 @@ describe 'special incident fields' do
       before :each do
         visit new_incident_path
       end
-      it 'allows filling in police info' do
+      it 'allows filling in police info', js: true do
         check 'Did the incident involve a collision?'
         expect(page).not_to have_field 'Police badge number'
         check 'Did police respond to the incident?'
         expect(page).to have_field 'Police badge number'
       end
-      it 'does not require police info' do
+      it 'does not require police info', js: true do
         fill_in_base_incident_fields
         check 'Did the incident involve a collision?'
         check 'Did police respond to the incident?'
-        click_on 'Save report and preview PDF'
-        page.driver.browser.switch_to.alert.accept
+        save_and_preview
 
         expect(page).not_to have_text('cannot be marked as completed')
       end
     end
+
     context 'with police info' do
       it 'shows police fields as necessary' do
         driver_report = create :incident_report,
@@ -107,21 +108,21 @@ describe 'special incident fields' do
       before :each do
         visit new_incident_path
       end
-      it 'allows filling in passenger incident fields' do
+      it 'allows filling in passenger incident fields', js: true do
         expect(page).not_to have_text 'Passenger Incident Information'
         check 'Did the incident involve a passenger?'
         expect(page).to have_text 'Passenger Incident Information'
       end
-      it 'does not require filling in passenger incident fields' do
+      it 'does not require filling in passenger incident fields', js: true  do
         fill_in_base_incident_fields
         check 'Did the incident involve a passenger?'
         expect(page).to have_text 'Passenger Incident Information'
-        click_on 'Save report and preview PDF'
-        page.driver.browser.switch_to.alert.accept
+        save_and_preview
 
         expect(page).not_to have_text('cannot be marked as completed')
       end
     end
+
     context 'with passenger incidents' do
       it 'shows passenger fields for passenger incidents' do
         driver_report = create :incident_report,
@@ -141,24 +142,25 @@ describe 'special incident fields' do
       visit new_incident_path
     end
     context 'without reason not up to curb' do
-      it 'allows filling in reason bus was not up to curb' do
+      it 'allows filling in reason bus was not up to curb', js: true  do
         check 'Did the incident involve a passenger?'
         expect(page).not_to have_field 'Reason not up to curb'
         select 'Stopped', from: 'Motion of bus'
         uncheck 'Was the bus pulled completely up to the curb?'
         expect(page).to have_field 'Reason not up to curb'
       end
-      it 'does not require filling in reason not up to curb' do
+
+      it 'does not require filling in reason not up to curb', js: true do
         fill_in_base_incident_fields
         check 'Did the incident involve a passenger?'
         select 'Stopped', from: 'Motion of bus'
         uncheck 'Was the bus pulled completely up to the curb?'
-        click_on 'Save report and preview PDF'
-        page.driver.browser.switch_to.alert.accept
+        save_and_preview
 
         expect(page).not_to have_text('cannot be marked as completed')
       end
     end
+
     context 'with reason not up to curb' do
       it 'shows reason not up to curb field as necessary' do
         driver_report = create :incident_report,
@@ -174,3 +176,4 @@ describe 'special incident fields' do
     end
   end
 end
+

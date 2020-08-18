@@ -6,7 +6,7 @@ describe 'editing supervisor reports as a supervisor' do
   let(:incident) { create :incident }
   let(:supervisor) { incident.supervisor }
   before(:each) { when_current_user_is supervisor }
-  it 'allows editing supervisor reports' do
+  it 'allows editing supervisor reports', js: true do
     visit edit_incident_url(incident)
     click_on 'Edit Supervisor Report'
     expect(page.current_url)
@@ -14,7 +14,6 @@ describe 'editing supervisor reports as a supervisor' do
     check 'Were pictures taken?'
     fill_in 'Number of pictures saved', with: 37
     click_button 'Save supervisor report'
-    wait_for_ajax!
     expect(page).to have_selector 'p.notice',
                                   text: 'Incident report was successfully saved.'
     expect(page).to have_text 'Number of pictures saved: 37'
@@ -28,9 +27,8 @@ describe 'editing supervisor reports as a supervisor' do
     select 'Post Accident: Threshold met and discounted' # But don't give a reason
 
     click_button 'Save supervisor report'
-    wait_for_ajax!
 
-    expect(page.current_path).to eq supervisor_report_path(incident.supervisor_report)
+    expect(page).to have_current_path supervisor_report_path(incident.supervisor_report)
     expect(page).to have_text 'cannot be marked as complete'
   end
   context 'admin deletes the incident' do
@@ -40,13 +38,12 @@ describe 'editing supervisor reports as a supervisor' do
       expect(page).to have_content 'Editing Supervisor Report'
       incident.destroy
       click_button 'Save supervisor report'
-      wait_for_ajax!
       expect(page).to have_selector 'p.notice',
                                     text: 'This incident report no longer exists.'
     end
   end
   context 'adding multiple witnesses' do
-    it 'displays all of them' do
+    it 'displays all of them', js: true do
       # there is one witness filled in otherwise
       incident.supervisor_report.witnesses = []
       visit edit_incident_url(incident)
@@ -74,7 +71,7 @@ describe 'editing supervisor reports as a supervisor' do
     end
   end
   context 'deleting a witness' do
-    it 'displays the current witnesses' do
+    it 'displays the current witnesses', js: true do
       incident.supervisor_report.witnesses = []
       witness = create :witness, supervisor_report: incident.supervisor_report
       witness2 = create :witness, supervisor_report: incident.supervisor_report

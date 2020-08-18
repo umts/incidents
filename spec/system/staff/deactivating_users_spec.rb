@@ -5,7 +5,7 @@ require 'spec_helper'
 describe 'deactivating and reactivating users as staff' do
   let(:staff) { create :user, :staff }
   before(:each) { when_current_user_is staff }
-  it 'allows deactivating users' do
+  it 'allows deactivating users', js: true  do
     driver = create :user, :driver
     visit users_url
     click_button 'Drivers'
@@ -20,7 +20,7 @@ describe 'deactivating and reactivating users as staff' do
     expect(page.current_url).to end_with users_path
     expect(page).to have_selector 'table.index tbody tr', count: 1
   end
-  it 'allows reactivating users' do
+  it 'allows reactivating users', js: true  do
     create :user, :driver, active: false
     visit users_url(inactive: true)
     click_button 'Drivers'

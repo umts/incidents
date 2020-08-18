@@ -31,7 +31,6 @@ describe 'editing incidents as a supervisor' do
       expect(page).to have_content 'Editing Supervisor Account of Incident'
       @incident.destroy
       click_button 'Save report'
-      wait_for_ajax!
       expect(page).to have_selector 'p.notice', text: 'This incident report no longer exists.'
     end
   end

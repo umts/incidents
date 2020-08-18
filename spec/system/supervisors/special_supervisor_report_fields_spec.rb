@@ -4,68 +4,60 @@ require 'spec_helper'
 
 describe 'special supervisor report fields' do
   let(:supervisor) { create :user, :supervisor }
-  before(:each) { when_current_user_is supervisor }
+  before(:each) do
+    when_current_user_is supervisor
+    visit edit_supervisor_report_url(supervisor_report)
+  end
   let(:supervisor_incident_report) { create :incident_report, user: supervisor }
-  let(:incident) do
-    create :incident, supervisor_incident_report: supervisor_incident_report
+  let(:supervisor_report) { create :supervisor_report }
+  let!(:incident) do
+    create :incident,
+           supervisor_incident_report: supervisor_incident_report,
+           supervisor_report: supervisor_report
   end
   describe 'pictures saved related fields' do
     context 'without pictures saved' do
-      before :each do
-        incident.supervisor_report.update! pictures_saved: false
-        visit edit_supervisor_report_url(incident.supervisor_report)
-      end
-      it 'allows filling in the number of pictures saved' do
+      it 'allows filling in the number of pictures saved', js: true do
         expect(page).not_to have_text 'Number of pictures saved'
         check 'Were pictures taken?'
         expect(page).to have_text 'Number of pictures saved'
       end
-      it 'does not require filling in the number of saved pictures' do
+      it 'does not require filling in the number of saved pictures', js: true do
         check 'Were pictures taken?'
         fill_in 'Number of pictures saved', with: ''
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page).to have_selector 'p.notice',
                                       text: 'Incident report was successfully saved.'
       end
     end
     context 'with pictures saved' do
+      let(:supervisor_report) { create :supervisor_report, :with_pictures }
+
       it 'shows the number of saved pictures for reports where it applies' do
-        incident.supervisor_report.update! pictures_saved: true
-        visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).to have_text 'Number of pictures saved'
       end
     end
   end
 
   describe 'witness information related fields' do
-    before :each do
-      incident.supervisor_report.witnesses = []
-    end
     context 'without witnesses' do
-      before :each do
-        visit edit_supervisor_report_url(incident.supervisor_report)
-      end
-      it 'allows filling in witness information' do
+      it 'allows filling in witness information', js: true do
         expect(page).not_to have_text 'Witness Information'
         check 'Were there witnesses?'
         expect(page).to have_text 'Witness Information'
       end
-      it 'requires filling in the witness information' do
+      it 'requires filling in the witness information', js: true do
         check 'Were there witnesses?'
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page).to have_text "Witnesses name can't be blank"
       end
     end
     context 'with witnesses' do
+      let(:supervisor_report) { create :supervisor_report, :with_witness }
       it 'shows witness information for reports where it applies' do
-        create :witness, supervisor_report: incident.supervisor_report
-        visit edit_supervisor_report_url(incident.supervisor_report)
         expect(page).to have_text 'Witness Information'
         fill_in 'Name', with: 'Cornelius Fudge'
         click_button 'Save supervisor report'
-        wait_for_ajax!
         expect(page).to have_selector 'p.notice',
                                       text: 'Incident report was successfully saved.'
         expect(page).to have_text 'Cornelius Fudge'

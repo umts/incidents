@@ -8,7 +8,7 @@ describe 'editing incidents as a driver' do
   let(:report) { create :incident_report, :driver_report, user: driver }
   let!(:incident) { create :incident, driver_incident_report: report }
   context 'admin deletes the incident' do
-    it 'displays a nice error message' do
+    it 'displays a nice error message', js: true do
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
@@ -16,16 +16,14 @@ describe 'editing incidents as a driver' do
       end
       expect(page).to have_content 'Editing Driver Account of Incident'
       incident.destroy
-      click_button 'Save report and preview PDF'
-      page.driver.browser.switch_to.alert.accept
+      save_and_preview
 
-      wait_for_ajax!
       expect(page).to have_selector 'p.notice',
                                     text: 'This incident report no longer exists.'
     end
   end
   context 'adding multiple injured passengers' do
-    it 'displays all of them' do
+    it 'displays all of them', js: true do
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
@@ -46,8 +44,9 @@ describe 'editing incidents as a driver' do
         fill_in 'incident_report_injured_passengers_attributes_1_nature_of_injury',
                 with: 'Slipped on many bananas'
       end
-      click_button 'Save report and preview PDF'
-      page.driver.browser.switch_to.alert.accept
+
+      save_and_preview
+      Downloads.wait_for("#{incident.id}.pdf")
 
       visit incident_url(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
@@ -60,9 +59,8 @@ describe 'editing incidents as a driver' do
     end
   end
   context 'deleting an injured passenger' do
-    it 'displays the current injured passengers' do
-      pax = create :injured_passenger, incident_report: report
-      pax2 = create :injured_passenger, incident_report: report
+    it 'displays the current injured passengers', js: true do
+      create_list :injured_passenger, 2, incident_report: report
       visit incidents_url
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
@@ -70,8 +68,9 @@ describe 'editing incidents as a driver' do
       end
       check 'Did the incident involve a passenger?'
       click_button 'Delete injured passenger info'
-      click_button 'Save report and preview PDF'
-      page.driver.browser.switch_to.alert.accept
+
+      save_and_preview
+      Downloads.wait_for("#{incident.id}.pdf")
 
       visit incident_url(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'

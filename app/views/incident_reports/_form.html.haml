@@ -42,16 +42,34 @@
       .example 1803
     .field
       = form.label :passengers_onboard
-      = form.number_field :passengers_onboard, id: :incident_report_passengers_onboard
+      = form.number_field :passengers_onboard, id: :incident_report_passengers_onboard, min: 0
+    .field
+      = form.label :pvta_passenger_information_taken
+      = form.check_box :pvta_passenger_information_taken, id: :incident_report_pvta_passenger_information_taken
     .field
       = form.label :courtesy_cards_distributed
-      = form.number_field :courtesy_cards_distributed, id: :incident_report_courtesy_cards_distributed
+      = form.number_field :courtesy_cards_distributed, id: :incident_report_courtesy_cards_distributed, min: 0
     .field
       = form.label :courtesy_cards_collected
-      = form.number_field :courtesy_cards_collected, id: :incident_report_courtesy_cards_collected
+      = form.number_field :courtesy_cards_collected, id: :incident_report_courtesy_cards_collected, min: 0
     .field
       = form.label :speed
-      = form.number_field :speed, id: :incident_report_speed
+      = form.number_field :speed, id: :incident_report_speed, min: 0
+    .field
+      = form.fields_for :incidents, @incident do |incident_form|
+        .field
+          = incident_form.label :latitude
+          = incident_form.text_field :latitude, id: :incident_latitude
+        .field
+          = incident_form.label :longitude
+          = incident_form.text_field :longitude, id: :incident_longitude
+    - if @incident.driver_incident_report == report
+      %i Place a pin on the map below to fill the latitude and longitude.
+      .no-geocode-alert
+        Google could not place
+        = @incident.geocode_location
+        on the map.
+      #latlong-selector.map{ data: { location: @incident.geocode_location, lat: @incident.latitude, lng: @incident.longitude } }
     .field
       = form.label :location
       = form.text_field :location, id: :incident_report_location
@@ -66,6 +84,11 @@
       = form.select :town,
         options_for_select(IncidentReport::TOWN_OPTIONS, report.town),
         { include_blank: true }, id: :incident_report_town
+    .field
+      = form.label :state
+      = form.select :state,
+        options_for_select(IncidentReport::STATE_OPTIONS, report.state),
+        { include_blank: true }, id: :incident_report_state
     .field
       = form.label :zip
       = form.text_field :zip, id: :incident_report_zip
@@ -87,10 +110,46 @@
     .field
       = form.label :headlights_used?
       = form.check_box :headlights_used, id: :incident_report_headlights_used
+    .field
+      = form.label :police_on_scene?
+      = form.check_box :police_on_scene, id: :incident_report_police_on_scene
+    .police-info{style: ('display: none;' unless report.police_on_scene?)}
+      .field
+        = form.label :police_badge_number
+        = form.text_field :police_badge_number, id: :incident_report_police_badge_number
+      .field
+        = form.label :police_town_or_state
+        = form.text_field :police_town_or_state, id: :incident_report_police_town_or_state
+      .field
+        = form.label :police_case_assigned
+        = form.text_field :police_case_assigned, id: :incident_report_police_case_assigned
+        .example 17-123-AC
+    .field
+      = form.label :ambulance_present?
+      = form.check_box :ambulance_present, id: :incident_report_ambulance_present
+    .field
+      = form.label :wheelchair_involved?
+      = form.check_box :wheelchair_involved, id: :incident_report_wheelchair_involved
+    .field
+      = form.label :vehicle_distance
+      = form.text_field :vehicle_distance, id: :incident_report_vehicle_distance
+    .field
+      = form.label :incident_involved_a_van
+      = form.check_box :incident_involved_a_van, id: :incident_report_incident_involved_a_van
+    .van-info{style: ('display: none;' unless report.incident_involved_a_van?)}
+      .field
+        = form.label :assistance_requested
+        = form.check_box :assistance_requested, id: :incident_report_assistance_requested
+      .field
+        = form.label :chair_on_lift
+        = form.check_box :chair_on_lift, id: :incident_report_chair_on_lift
+      .field
+        = form.label :lift_deployed
+        = form.check_box :lift_deployed, id: :incident_report_lift_deployed
     - if report == @incident.supervisor_incident_report
       .field
         = form.label :posted_speed_limit
-        = form.number_field :posted_speed_limit, id: :incident_report_posted_speed_limit
+        = form.number_field :posted_speed_limit, id: :incident_report_posted_speed_limit, min: 0
       .field
         = form.label :surface_type
         = form.select :surface_type,
@@ -137,7 +196,10 @@
       = form.text_field :other_vehicle_color, id: :incident_report_other_vehicle_color
     .field
       = form.label :other_vehicle_passengers
-      = form.number_field :other_vehicle_passengers, id: :incident_report_other_vehicle_passengers
+      = form.number_field :other_vehicle_passengers, id: :incident_report_other_vehicle_passengers, min: 0
+    .field
+      = form.label :other_passenger_information_taken?
+      = form.check_box :other_passenger_information_taken, id: :other_passenger_information_taken
     .field
       = form.label :other_vehicle_direction
       = form.select :other_vehicle_direction,
@@ -208,20 +270,6 @@
       = form.label :other_vehicle_towed_from_scene
       = form.check_box :other_vehicle_towed_from_scene, id: :incident_report_other_vehicle_towed_from_scene
     .field
-      = form.label :police_on_scene?
-      = form.check_box :police_on_scene, id: :incident_report_police_on_scene
-    .police-info{style: ('display: none;' unless report.police_on_scene?)}
-      .field
-        = form.label :police_badge_number
-        = form.text_field :police_badge_number, id: :incident_report_police_badge_number
-      .field
-        = form.label :police_town_or_state
-        = form.text_field :police_town_or_state, id: :incident_report_police_town_or_state
-      .field
-        = form.label :police_case_assigned
-        = form.text_field :police_case_assigned, id: :incident_report_police_case_assigned
-        .example 17-123-AC
-    .field
       = form.label :point_of_impact
       = form.select :point_of_impact,
         options_for_select(IncidentReport::IMPACT_LOCATION_OPTIONS, report.point_of_impact),
@@ -245,10 +293,13 @@
         = label
       = form.date_select :insurance_effective_date, id: :incident_report_insurance_effective_date,
         prompt: true
+    .field
+      = form.label :property_owner_information_taken
+      = form.check_box :property_owner_information_taken, id: :incident_report_property_owner_information_taken
   .field
     = form.label :passenger_incident?
     = form.check_box :passenger_incident, id: :incident_report_passenger_incident
-  .passenger-incident-info{style: ('display: none;' unless report.passenger_incident?)}
+  .passenger-incident-info{ style: ('display: none;' unless report.passenger_incident? || report.has_injured_passengers? ) }
     %h3 Passenger Incident Information
     .field
       = form.label :inj_pax_info

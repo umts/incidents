@@ -9,9 +9,11 @@ end
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
-abort('The Rails environment is running in production mode!') if Rails.env.production?
+if Rails.env.production?
+  abort('The Rails environment is running in production mode!')
+end
 
-Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 require 'rspec/rails'
 require 'devise'
@@ -51,6 +53,9 @@ RSpec.configure do |config|
   config.filter_rails_from_backtrace!
 
   config.before :each, type: :system do
+    driven_by :rack_test
+  end
+  config.before :each, type: :system, js: true do
     driven_by :custom_headless_chrome
   end
 
@@ -84,14 +89,9 @@ def incident_in_divisions(divisions, *traits)
   create :incident, *traits, attributes.merge(driver_incident_report: report)
 end
 
-# source: https://robots.thoughtbot.com/automatically-wait-for-ajax-with-capybara
-def wait_for_ajax!
-  Timeout.timeout Capybara.default_max_wait_time do
-    loop do
-      break if page.evaluate_script('jQuery.active').zero?
-      rescue Selenium::WebDriver::Error::UnknownError
-        raise "User doesn't have correct traits to access the page being tested."
-    end
+def save_and_preview
+  accept_alert do
+    click_on 'Save report and preview PDF'
   end
 end
 

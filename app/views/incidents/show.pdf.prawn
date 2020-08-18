@@ -2,8 +2,12 @@
 
 PrawnRailsForms.default_text_field_options[:style] = :bold
 prawn_document do |pdf|
+  if @incident.division.name == "NOHO"
+    pdf.start_new_page
+    pdf.image Rails.root.join('app/assets/images/vatco_coversheet.png'),
+      width: pdf.bounds.width, height: pdf.bounds.height
+  end
   report = @incident.driver_incident_report
-
   pdf.start_new_page
   pdf.bounding_box [0, pdf.bounds.height], width: 380, height: 80 do
     pdf.move_down 5
@@ -163,7 +167,7 @@ prawn_document do |pdf|
       row.text_field width: 8, height: 36, field: 'License # of vehicle in bus stop', value: report.vehicle_in_bus_stop_plate
     end
   end
-
+  pdf.move_cursor_to 200
   if report.injured_passengers.present?
     pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 20 do
       pdf.move_down 5
@@ -175,27 +179,21 @@ prawn_document do |pdf|
     end
   end
 
-  pdf.move_cursor_to 130
+  if !report.long_description? && report.injured_passengers.count < 3
+    pdf.field_row height: 100, units: 1 do |row|
+      row.text_field field: 'Describe the accident or incident in detail', value: report.description,
+        options: { valign: :top, align: :left }
+    end
 
-  description = if report.long_description? || report.injured_passengers.count > 2
-                  '(Description on next page due to length)'
-                else report.description
-                end
+    pdf.field_row height: 30, units: 28 do |row|
+      row.text_field width: 9, field: "Operator's signature", value: ''
+      row.text_field width: 5, field: 'Date of this report', value: Time.zone.now.strftime('%m/%d/%Y')
+      row.text_field width: 9, field: "Recv'd by", value: ''
+      row.text_field width: 5, field: "Date recv'd", value: ''
+    end
 
-  pdf.field_row height: 100, units: 1 do |row|
-    row.text_field field: 'Describe the accident or incident in detail', value: description,
-      options: { valign: :top, align: :left }
-  end
+  else
 
-  pdf.field_row height: 30, units: 28 do |row|
-    row.text_field width: 9, field: "Operator's signature", value: ''
-    row.text_field width: 5, field: 'Date of this report', value: Time.zone.now.strftime('%m/%d/%Y')
-    row.text_field width: 9, field: "Recv'd by", value: ''
-    row.text_field width: 5, field: "Date recv'd", value: ''
-  end
-
-  if report.long_description? || report.injured_passengers.count > 2
-    
     pdf.start_new_page
 
     pdf.bounding_box [0, pdf.bounds.height], width: 380, height: 80 do
@@ -205,6 +203,7 @@ prawn_document do |pdf|
       end
       pdf.text 'Accident / Incident Narrative', size: 18, align: :center
     end
+
     pdf.bounding_box [380, pdf.bounds.height], width: 180, height: 80 do
       pdf.move_down 8
       pdf.bounds.add_left_padding 5
@@ -492,10 +491,10 @@ prawn_document do |pdf|
     end
 
     pdf.move_down 15
-    pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 50 do
+    pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 70 do
       pdf.text 'Sequence of events:', style: :bold
-      column_width  = pdf.bounds.width / 3
-      sup_report.timeline.each_slice(4).with_index do |events, i|
+      column_width  = pdf.bounds.width / 2
+      sup_report.timeline.each_slice(6).with_index do |events, i|
         pdf.bounding_box [column_width * i, pdf.cursor], width: column_width do
           pdf.text_box events.join("\n"), size: 10
         end
@@ -583,7 +582,7 @@ prawn_document do |pdf|
         wipers that makes them inoperable.
       DESCRIPTION
     end
-    
+
     pdf.move_down 50
 
     pdf.field_row height: 25, units: 3 do |row|

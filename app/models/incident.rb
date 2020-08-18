@@ -37,7 +37,7 @@ class Incident < ApplicationRecord
 
   has_many :staff_reviews, dependent: :destroy
 
-  scope :between, (lambda do |start_date, end_date| 
+  scope :between, (lambda do |start_date, end_date|
     joins(:driver_incident_report)
       .where incident_reports: { occurred_at: start_date..end_date }
   end)
@@ -104,43 +104,53 @@ class Incident < ApplicationRecord
     row
   end
 
-  def export_claims_xml!
+  def export_claims_xml(current_user)
     report = driver_incident_report
     builder = Nokogiri::XML::Builder.new do |doc|
       doc.claims_incident_data do
-        doc.incident do
-          doc.date_entered        Date.today.strftime('%Y-%m-%d')
+        doc.drivers_report do
           doc.incident_date       report.occurred_at.iso8601
           doc.street              report.location
           doc.city                report.town
-          doc.state               'MA'
+          doc.state               report.state
           doc.zip                 report.zip
           doc.longitude           longitude
           doc.latitude            latitude
           doc.company             driver.division.claims_id
-          doc.incident_desc       supervisor_incident_report.try(:description)
-          doc.employee_id         driver.badge_number
-          doc.driver              driver.badge_number
           doc.driver_desc         report.description
-          doc.vehicle_route_num   report.route
+          doc.employee_entering   current_user.badge_number
+          doc.driver              driver.badge_number
           doc.vehicle_num         report.bus
-          doc.vehicle_damage_area report.damage_to_other_vehicle_point_of_impact
+          doc.speed               report.speed
+          doc.incident_desc       supervisor_incident_report.try(:description)
           doc.point_of_contact    report.damage_to_bus_point_of_impact
-          doc.status              'ir'
           doc.reason1             reason_code.identifier
           doc.reason2             supplementary_reason_code.try(:identifier)
-        end
-        doc.drivers_report do
-          doc.citation         report.summons_or_warning_issued?
-          doc.weather          report.weather_conditions
-          doc.surr_cond        report.road_conditions
-          doc.lighting         report.light_conditions
-          doc.speed            report.speed
-          doc.point_of_contact report.damage_to_bus_point_of_impact
-          doc.total_pass       report.passengers_onboard
-          doc.ambulance        report.injured_passengers.any?(&:transported_to_hospital?)
-          doc.ov_tow           report.other_vehicle_towed_from_scene?
-          doc.pvta_tow         report.towed_from_scene?
+          doc.weather             report.weather_conditions
+          doc.surr_cond           report.road_conditions
+          doc.lighting            report.light_conditions
+          doc.direction           report.direction
+          doc.curb_distance       supervisor_incident_report.try(:curb_distance)
+          doc.vehicle_distance    report.vehicle_distance
+          doc.total_pass          report.passengers_onboard
+          doc.preventable         preventable
+          doc.police_on_scene     report.police_on_scene
+          doc.officer_info_taken  report.police_badge_number.present?
+          doc.citation            report.summons_or_warning_issued?
+          doc.wheelchair_involved report.wheelchair_involved
+          doc.ambulance           report.injured_passengers.any?(&:transported_to_hospital?)
+          doc.pvta_tow            report.towed_from_scene?
+          doc.ov_tow              report.other_vehicle_towed_from_scene?
+          doc.fatality            supervisor_report.try(:test_due_to_fatality)
+          doc.other_vehicle_info_taken   report.other_vehicle_plate.present?
+          doc.other_driver_info_taken    report.other_driver_license_number.present?
+          doc.other_passenger_info_taken report.other_passenger_information_taken
+          doc.pvta_passenger_info_taken  report.pvta_passenger_information_taken
+          doc.property_owner_info_taken  report.property_owner_information_taken
+          doc.witness_info_taken         supervisor_report.try(:witnesses).present?
+          doc.assistance_requested       report.assistance_requested
+          doc.chair_on_lift       report.chair_on_lift
+          doc.lift_deployed       report.lift_deployed
         end
       end
     end
@@ -149,10 +159,10 @@ class Incident < ApplicationRecord
     end
   end
 
-  def export_to_claims!
+  def export_to_claims(current_user)
     if completed? && valid?
       begin
-        export_claims_xml!
+        export_claims_xml(current_user)
         ci = ClaimsIncident.create claims_fields table: :incident
         update claims_id: ci.UID
         ClaimsDriversReport.create claims_fields table: :drivers_report
@@ -200,7 +210,6 @@ class Incident < ApplicationRecord
   # Field we're not providing in the first stage are implemented but commented.
   def claims_fields(table:)
     report = driver_incident_report
-
     # define associated records only when necessary
     case table
     when :incident
@@ -210,63 +219,42 @@ class Incident < ApplicationRecord
 
     fields = {
       incident: {
-        # FilePrefix, FileNum
         'DateEntered' => Date.today.strftime('%Y-%m-%d'),
-        # AppraisalMade, AppraisalNote
         'IncidentDate' => report.occurred_at.iso8601,
         street: report.location,
         city: report.town,
-        state: 'MA',
+        state: report.state,
         zip: report.zip,
         longitude: longitude,
         latitude: latitude,
-        # AccidentCode, AccidentCodeGroup
         'Company' => driver.division.claims_id,
         'IncidentDesc' => supervisor_incident_report.try(:description),
         'EmployeeID' => driver.badge_number,
         'Driver' => claims_driver.try(:UID),
         'DriverDesc' => report.description,
         'VehicleRouteNum' => report.route,
-        # VehicleDestination
         'VehicleNum' => claims_vehicle.try(:UID),
-        # VehicleAppraisalAmnt
         'VehicleDamageArea' => report.damage_to_other_vehicle_point_of_impact,
-        # Comments, ReportGiver
         'PointOfContact' => report.damage_to_bus_point_of_impact,
-        # TotalSettlement
         'Status' => 'ir',
-        # CloseDate, ReopenDate, DownDate, ac_type
         reason1: reason_code.identifier,
         reason2: supplementary_reason_code.try(:identifier),
       },
       drivers_report: {
         'FileID' => claims_id,
-      # 'PolicePresent' => report.police_on_scene?,
-        # OfficerName
-      # 'BadgeNum' => report.police_badge_number,
-        # ArrivalTime
         'Citation' => report.summons_or_warning_issued?,
-      # 'CitationWho' => report.summons_or_warning_info,
         'Weather' => report.weather_conditions,
         'SurrCond' => report.road_conditions,
         'Lighting' => report.light_conditions,
-        # LossLocation
         'Speed' => report.speed,
-      #  'MotionBus' => report.motion_of_bus,
-      # 'Direction' => report.direction,
-        # ChairOnLift, LiftDeployed, PassengersPresent, SeatBelts
         'PointOfContact' => report.damage_to_bus_point_of_impact,
-      # 'CurbDist' => report.bus_distance_from_curb,
-        # VehicleDistance, ReviewFlg
         'TotalPass' => report.passengers_onboard,
-        # PVTAatFault, Wheelchair, YellowLine, NotReported
         'Ambulance' => report.injured_passengers.any?(&:transported_to_hospital?),
         'OVTow' => report.other_vehicle_towed_from_scene?,
         'PVTATow' => report.towed_from_scene?,
-        # Fatality, assistRequest, PD, Note, externalAppraisal
       },
     }
-    
+
     fields.fetch(table)
   end
 
@@ -289,7 +277,7 @@ class Incident < ApplicationRecord
   end
 
   private
-  
+
   def supervisor_in_correct_group
     unless supervisor_incident_report.blank? ||
            supervisor_incident_report.try(:user).try(:supervisor?)
