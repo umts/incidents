@@ -134,6 +134,18 @@ describe 'special incident fields' do
         visit edit_incident_report_url(driver_report)
         expect(page).to have_text 'Passenger Incident Information'
       end
+      it 'shows passenger fields when toggling injured passenger count', js: true  do
+        visit new_incident_path
+        check 'Did the incident involve a collision?'
+        expect(page).not_to have_text 'Passenger Incident Information'
+        fill_in('# of passengers injured in bus', with: 1).send_keys(:tab)
+        expect(page).to have_checked_field 'Did the incident involve a passenger?'
+        fill_in('# of passengers injured in other vehicle (including driver)', with: 1).send_keys(:tab)
+        fill_in('# of passengers injured in bus', with: 0).send_keys(:tab)
+        expect(page).to have_checked_field 'Did the incident involve a passenger?'
+        fill_in('# of passengers injured in other vehicle (including driver)', with: 0).send_keys(:tab)
+        expect(page).not_to have_checked_field 'Did the incident involve a passenger?'
+      end
     end
   end
 
@@ -176,4 +188,3 @@ describe 'special incident fields' do
     end
   end
 end
-
