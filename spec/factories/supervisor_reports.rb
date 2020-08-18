@@ -19,6 +19,7 @@ FactoryBot.define do
       if rand(20).zero?
         report.amplifying_comments = FFaker::Lorem.paragraph
       end
+    end
     trait :with_witness do
       before :create do |report|
         create :witness, supervisor_report: report
