@@ -12,7 +12,7 @@ FactoryBot.define do
     employee_arrived_at_test_at { Time.zone.now - 3.minutes }
     test_started_at { Time.zone.now - 2.minutes }
     test_ended_at { Time.zone.now - 1.minute }
-    employee_returned_at { Time.zone.now }
+    employee_representative_arrived_at { Time.zone.now }
 
     before :create do |report|
       report.saved_pictures = rand 50 if report.pictures_saved?
