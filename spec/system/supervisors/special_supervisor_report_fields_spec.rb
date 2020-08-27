@@ -67,7 +67,7 @@ describe 'special supervisor report fields' do
 
   describe 'test completion related fields' do
     context 'with test conducted' do
-      it 'allows filling in the reason for testing' do
+      it 'allows filling in the reason for testing', js: true do
         visit edit_supervisor_report_url(incident.supervisor_report)
         select 'Post Accident: Threshold met (completed drug test)', from: 'Test status'
         within('.test-info') do

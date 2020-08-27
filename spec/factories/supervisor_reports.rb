@@ -2,7 +2,7 @@
 
 FactoryBot.define do
   factory :supervisor_report do
-    pictures_saved { [true, false].sample }
+    pictures_saved { false }
     passenger_statement { FFaker::Lorem.paragraphs(5).join "\n" }
     faxed { [nil, Time.zone.now].sample }
     testing_facility { SupervisorReport::TESTING_FACILITIES.sample }
@@ -20,10 +20,16 @@ FactoryBot.define do
         report.amplifying_comments = FFaker::Lorem.paragraph
       end
     end
+
     trait :with_witness do
       before :create do |report|
         create :witness, supervisor_report: report
       end
+    end
+
+    trait :with_pictures do
+      pictures_saved     { true }
+      saved_pictures     { rand(9_999) }
     end
   end
 end
