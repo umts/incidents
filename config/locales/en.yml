@@ -79,3 +79,4 @@ en:
         transported_to_hospital: 'Transported to hospital by ambulance?'
       user:
         division_ids: 'Divisions'
+        test_status: 'Test Status'
