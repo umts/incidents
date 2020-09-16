@@ -3,7 +3,12 @@
 class SupervisorReport < ApplicationRecord
   has_paper_trail
 
-  REASONS_FOR_TEST = ['Post-Accident', 'Reasonable Suspicion'].freeze
+  REASONS_FOR_TEST = [
+    'Post Accident: Threshold met (completed drug test)',
+    'Post Accident: No threshold met (no drug test)',
+    'Post Accident: Threshold met and discounted (no drug test)',
+    'Reasonable Suspicion: Completed drug test'
+  ].freeze
   TESTING_FACILITIES = [
     'Occuhealth East Longmeadow',
     'Occuhealth Northampton',
@@ -12,22 +17,44 @@ class SupervisorReport < ApplicationRecord
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
-  validates :reason_test_completed, inclusion: { in: REASONS_FOR_TEST,
+  validates :test_status, inclusion: { in: REASONS_FOR_TEST,
                                                  allow_blank: true }
-  validate :documentation_provided_for_no_test,
-    unless: :completed_drug_or_alcohol_test?
-  validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
   validates :reason_driver_discounted, presence: { if: :driver_discounted? }
+  validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
   has_one :incident
 
   has_many :witnesses
   accepts_nested_attributes_for :witnesses
 
   before_save do
-    # Post-accident tests always complete both kinds.
-    if completed_drug_or_alcohol_test? && post_accident?
-      assign_attributes completed_drug_test: true,
-        completed_alcohol_test: true
+    unless fta_threshold_not_met?
+      assign_attributes reason_threshold_not_met: nil
+    end
+  end
+
+  before_save do
+    unless driver_discounted?
+      assign_attributes reason_driver_discounted: nil
+    end
+  end
+
+  before_save do
+    unless post_accident_completed_drug_test?
+      assign_attributes test_due_to_bodily_injury: false,
+        test_due_to_disabling_damage: false,
+        test_due_to_fatality: false
+    end
+  end
+
+  before_save do
+    unless reasonable_suspicion?
+      assign_attributes completed_drug_test: false,
+        completed_alcohol_test: false,
+        observation_made_at: false,
+        test_due_to_employee_appearance: false,
+        test_due_to_employee_behavior: false,
+        test_due_to_employee_speech: false,
+        test_due_to_employee_odor: false
     end
   end
 
@@ -65,12 +92,28 @@ class SupervisorReport < ApplicationRecord
     User.find_by(id: last_update.whodunnit).try(:name) || 'Unknown'
   end
 
+  def post_accident_completed_drug_test?
+    test_status.try(:include?, 'Threshold met (completed drug test)')
+  end
+
   def reasonable_suspicion?
-    reason_test_completed == 'Reasonable Suspicion'
+    test_status.try(:include?, 'Reasonable Suspicion')
+  end
+
+  def fta_threshold_not_met?
+    test_status.try(:include?, 'No threshold met')
+  end
+
+  def driver_discounted?
+    test_status.try(:include?, 'discounted')
+  end
+
+  def no_drug_test?
+    test_status.try(:include, 'no drug test')
   end
 
   def post_accident?
-    reason_test_completed == 'Post-Accident'
+    test_status.try(:include?, 'completed drug test')
   end
 
   def timeline
@@ -96,12 +139,6 @@ class SupervisorReport < ApplicationRecord
   end
 
   private
-
-  def documentation_provided_for_no_test
-    unless new_record? || fta_threshold_not_met? || driver_discounted?
-      errors.add :base, 'You must provide a reason why no test was conducted.'
-    end
-  end
 
   def format_timeline(events)
     events.map do |method, time|
