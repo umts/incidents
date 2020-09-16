@@ -54,7 +54,7 @@ deleteInjuredPassengerFields = (event) ->
   deleteFields '.pax-fields', '#supervisor_report_inj_pax_info'
 
 toggleReasonsForTesting = ->
-
+  #only displays fields required for the selected test_status
   showOnly = (field) ->
     infos = [
       '.post-accident-info',
