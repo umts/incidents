@@ -56,6 +56,8 @@ class IncidentReport < ApplicationRecord
     presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
   validates :location, length: { maximum: 50 }
+  validates :damage_to_bus_point_of_impact, length: { maximum: 50 }
+  validates :damage_to_other_vehicle_point_of_impact, length: { maximum: 50 }
 
   def full_location(include_state: false)
     return unless location.present? && town.present?
