@@ -4,10 +4,10 @@ class SupervisorReport < ApplicationRecord
   has_paper_trail
 
   REASONS_FOR_TEST = [
-    'Post Accident: Threshold met (completed drug test)',
-    'Post Accident: No threshold met (no drug test)',
-    'Post Accident: Threshold met and discounted (no drug test)',
-    'Reasonable Suspicion: Completed drug test'
+    'Post Accident: Threshold met (test completed)',
+    'Post Accident: No threshold met (test not conducted)',
+    'Post Accident: Threshold met and discounted (test not conducted)',
+    'Reasonable Suspicion: test completed'
   ].freeze
   TESTING_FACILITIES = [
     'Occuhealth East Longmeadow',
