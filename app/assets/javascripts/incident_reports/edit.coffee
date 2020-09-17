@@ -54,17 +54,31 @@ deleteInjuredPassengerFields = (event) ->
   deleteFields '.pax-fields', '#supervisor_report_inj_pax_info'
 
 toggleReasonsForTesting = ->
-  reason = $('#supervisor_report_reason_test_completed').val()
+  #only displays fields required for the selected test_status
+  showOnly = (field) ->
+    infos = [
+      '.post-accident-info',
+      '.reasonable-suspician-info',
+      '.driver-discounted-info',
+      '.fta-threshold-info'
+    ]
+    irrelevantInformation = infos.filter((info ) ->
+      info != field
+    )
+    $(irrelevantInformation.join()).slideUp()
+    $(field).slideDown()
+
+  reason = $('#supervisor_report_test_status').val()
   switch reason
-    when 'Post-Accident'
-      $('.post-accident-info').slideDown()
-      $('.reasonable-suspicion-info').slideUp()
-    when 'Reasonable Suspicion'
-      $('.post-accident-info').slideUp()
-      $('.reasonable-suspicion-info').slideDown()
-    when ''
-      $('.post-accident-info').slideUp()
-      $('.reasonable-suspicion-info').slideUp()
+    when 'Reasonable Suspicion: Completed drug test'
+      showOnly('.reasonable-suspicion-info')
+    when 'Post Accident: Threshold met (completed drug test)'
+      showOnly('.post-accident-info')
+    when 'Post Accident: No threshold met (no drug test)'
+      showOnly('.fta-threshold-info')
+    when 'Post Accident: Threshold met and discounted (no drug test)'
+      showOnly('.driver-discounted-info')
+    else showOnly('nothing')
 
 togglePassengerInvolved = ->
   inj_bus_pax = $('#incident_report_passengers_injured_in_bus').val()
@@ -122,7 +136,7 @@ $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#supervisor_report_driver_discounted',
                           '.driver-discounted-info'
 
-  $('form').on 'change', '#supervisor_report_reason_test_completed',
+  $('form').on 'change', '#supervisor_report_test_status',
                toggleReasonsForTesting
 
   $('form').showIfChecked '#supervisor_report_test_due_to_employee_appearance',

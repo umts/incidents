@@ -78,8 +78,7 @@ describe 'IncidentsController#show PDF' do
     expect(response.media_type).to eq 'application/pdf'
   end
   it 'prints an incident, no drug test, not FTA threshold' do
-    sup_report = create :supervisor_report, completed_drug_or_alcohol_test: false,
-      fta_threshold_not_met: true,
+    sup_report = create :supervisor_report, test_status: 'Post Accident: No threshold met (no drug test)',
       reason_threshold_not_met: 'Because I said so.'
     incident = create :incident, supervisor_report: sup_report
     incident.driver_incident_report.update user: driver
@@ -89,8 +88,7 @@ describe 'IncidentsController#show PDF' do
     expect(response.media_type).to eq 'application/pdf'
   end
   it 'prints an incident, no drug test, discounted' do
-    sup_report = create :supervisor_report, completed_drug_or_alcohol_test: false,
-      driver_discounted: true,
+    sup_report = create :supervisor_report, test_status: 'Post Accident: Threshold met and discounted (no drug test)',
       reason_driver_discounted: 'Because I said so.'
     incident = create :incident, supervisor_report: sup_report
     incident.driver_incident_report.update user: driver
