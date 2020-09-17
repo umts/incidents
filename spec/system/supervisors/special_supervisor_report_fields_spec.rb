@@ -67,22 +67,13 @@ describe 'special supervisor report fields' do
 
   describe 'test completion related fields' do
     context 'with test conducted' do
-      let(:supervisor_report) { create :supervisor_report, :tested_post_accident }
-
-      it 'allows filling in fields related to a test not being completed', js: true do
-        expect(page)
-          .not_to have_text 'Please document why a test was not conducted.'
-        uncheck 'Completed drug or alcohol test?'
-        expect(page)
-          .to have_text 'Please document why a test was not conducted.'
-      end
-
       it 'allows filling in the reason for testing', js: true do
+        visit edit_supervisor_report_url(incident.supervisor_report)
+        select 'Post Accident: Threshold met (completed drug test)', from: 'Test status'
         within('.test-info') do
           expect(page).to have_text 'bodily injury'
           expect(page).to have_text 'disabling damage'
           expect(page).to have_text 'fatality'
-          expect(page).not_to have_text 'Completed drug test'
           expect(page).not_to have_text 'Completed alcohol test'
           expect(page).not_to have_text 'Observation made at'
           expect(page).not_to have_text 'Observation made at'
@@ -90,7 +81,7 @@ describe 'special supervisor report fields' do
             expect(page).not_to have_text "Test due to employee #{reason}"
           end
         end
-        select 'Reasonable Suspicion', from: 'Reason test completed'
+        select 'Reasonable Suspicion', from: 'Test status'
         within('.test-info') do
           expect(page).not_to have_text 'bodily injury'
           expect(page).not_to have_text 'disabling damage'
@@ -103,66 +94,20 @@ describe 'special supervisor report fields' do
             expect(page).to have_text "Test due to employee #{reason}"
           end
         end
-      end
-    end
-
-    context 'without test conducted' do
-      it 'requires selecting a reason why a test was not conducted' do
-        uncheck :supervisor_report_fta_threshold_not_met
-        click_button 'Save supervisor report'
-        expect(page)
-          .to have_text 'You must provide a reason why no test was conducted.'
-      end
-    end
-  end
-
-  describe 'FTA threshold related fields' do
-    context 'with FTA threshold met' do
-      let(:supervisor_report) { create :supervisor_report, :with_da_test }
-      it 'prohibits filling in a reason why the FTA threshold was not met' do
-        expect(page)
-          .not_to have_text 'Please explain how the FTA threshold is not met.'
-      end
-    end
-    context 'without FTA threshold met' do
-      it 'shows FTA threshold information when it applies' do
-        expect(page).to have_text 'Please explain how the FTA threshold is not met.'
-      end
-      it 'requires explaining how the FTA threshold was not met' do
-        fill_in 'Please explain how the FTA threshold is not met.', with: ''
-        click_button 'Save supervisor report'
-        expect(page)
-          .to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
-      end
-    end
-  end
-
-  describe 'driver discount related fields' do
-    context 'without driver discounted' do
-      it 'allows filling in a reason why a driver can be discounted', js: true do
-        expect(page).not_to have_text 'Please explain why the driver can be discounted.'
-        check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
-        expect(page).to have_text 'Please explain why the driver can be discounted.'
-      end
-      it 'requires explaining why the driver can be discounted' do
-        check 'I can completely discount the operator, a safety-sensitive employee, as a contributing factor to the incident.'
-        click_button 'Save supervisor report'
-        expect(page)
-          .to have_text 'This supervisor report has 1 missing value and so cannot be marked as completed.'
-      end
-    end
-
-    context 'with driver discounted' do
-      let :supervisor_report do
-        create :supervisor_report,
-               driver_discounted: true,
-               fta_threshold_not_met: false,
-               reason_threshold_not_met: nil,
-               reason_driver_discounted: 'Placeholder'
-      end
-      it 'shows driver discount information when it applies' do
-        expect(page)
-          .to have_text 'Please explain why the driver can be discounted.'
+        select 'Post Accident: Threshold met and discounted', from: 'Test status'
+        within('.test-info') do
+          expect(page).not_to have_text 'bodily injury'
+          expect(page).not_to have_text 'disabling damage'
+          expect(page).not_to have_text 'fatality'
+          expect(page).to have_text 'Please explain why the driver can be discounted.'
+        end
+        select 'No threshold met', from: 'Test status'
+        within('.test-info') do
+          expect(page).not_to have_text 'bodily injury'
+          expect(page).not_to have_text 'disabling damage'
+          expect(page).not_to have_text 'fatality'
+          expect(page).to have_text 'Please explain how the FTA threshold is not met.'
+        end
       end
     end
   end

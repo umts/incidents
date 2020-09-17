@@ -11,6 +11,7 @@ append :linked_files,
        'config/secrets.yml'
 
 append :linked_dirs,
+       'claims_xml',
        'log',
        'tmp/pids',
        'tmp/cache',

@@ -175,7 +175,7 @@ ActiveRecord::Schema.define(version: 2020_07_15_141905) do
     t.text "passenger_statement"
     t.datetime "faxed"
     t.boolean "completed_drug_or_alcohol_test"
-    t.string "reason_test_completed"
+    t.string "test_status"
     t.string "testing_facility"
     t.datetime "testing_facility_notified_at"
     t.datetime "employee_notified_of_test_at"
@@ -204,8 +204,6 @@ ActiveRecord::Schema.define(version: 2020_07_15_141905) do
     t.string "employee_odor"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "fta_threshold_not_met"
-    t.boolean "driver_discounted"
     t.text "reason_threshold_not_met"
     t.text "reason_driver_discounted"
     t.datetime "employee_representative_notified_at"
