@@ -69,43 +69,31 @@ describe 'special supervisor report fields' do
     context 'with test conducted' do
       it 'allows filling in the reason for testing', js: true do
         visit edit_supervisor_report_url(incident.supervisor_report)
-        select 'Post Accident: Threshold met (completed drug test)', from: 'Test status'
-        within('.test-info') do
+        select 'Post Accident: Threshold met (test completed)', from: 'Test status'
+        within('.post-accident-info') do
           expect(page).to have_text 'bodily injury'
-          expect(page).to have_text 'disabling damage'
-          expect(page).to have_text 'fatality'
-          expect(page).not_to have_text 'Completed alcohol test'
-          expect(page).not_to have_text 'Observation made at'
-          expect(page).not_to have_text 'Observation made at'
-          %w[appearance behavior speech odor].each do |reason|
-            expect(page).not_to have_text "Test due to employee #{reason}"
-          end
         end
+        expect(page).not_to have_text 'Completed alcohol test'
+        expect(page).to have_text 'Testing Timeline'
         select 'Reasonable Suspicion', from: 'Test status'
-        within('.test-info') do
-          expect(page).not_to have_text 'bodily injury'
-          expect(page).not_to have_text 'disabling damage'
-          expect(page).not_to have_text 'fatality'
+        expect(page).not_to have_text 'bodily injury'
+        expect(page).to have_text 'Testing Timeline'
+        within('.reasonable-suspicion-info') do
           expect(page).to have_text 'Completed drug test'
-          expect(page).to have_text 'Completed alcohol test'
-          expect(page).to have_text 'Observation made at'
-          expect(page).to have_text 'Observation made at'
-          %w[appearance behavior speech odor].each do |reason|
-            expect(page).to have_text "Test due to employee #{reason}"
-          end
         end
-        select 'Post Accident: Threshold met and discounted', from: 'Test status'
-        within('.test-info') do
-          expect(page).not_to have_text 'bodily injury'
-          expect(page).not_to have_text 'disabling damage'
-          expect(page).not_to have_text 'fatality'
+        select 'Post Accident: Threshold met and discounted (test not conducted)', from: 'Test status'
+        expect(page).not_to have_text 'bodily injury'
+        expect(page).not_to have_text 'Completed drug test'
+        expect(page).not_to have_text 'Testing Timeline'
+        within('.driver-discounted-info') do
           expect(page).to have_text 'Please explain why the driver can be discounted.'
         end
         select 'No threshold met', from: 'Test status'
-        within('.test-info') do
-          expect(page).not_to have_text 'bodily injury'
-          expect(page).not_to have_text 'disabling damage'
-          expect(page).not_to have_text 'fatality'
+        expect(page).not_to have_text 'bodily injury'
+        expect(page).not_to have_text 'Completed drug test'
+        expect(page).not_to have_text 'Please explain why the driver can be discounted.'
+        expect(page).not_to have_text 'Testing Timeline'
+        within('.fta-threshold-info') do
           expect(page).to have_text 'Please explain how the FTA threshold is not met.'
         end
       end
