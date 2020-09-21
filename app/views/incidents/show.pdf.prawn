@@ -469,12 +469,6 @@ prawn_document do |pdf|
         align: :center, size: 14, style: :bold
     end
 
-    pdf.field_row height: 40, units: 1 do |row|
-      row.check_box_field field: 'Testing scenario', width: 1,
-        options: SupervisorReport::REASONS_FOR_TEST,
-        checked: SupervisorReport::REASONS_FOR_TEST.map{ |c| sup_report.test_status == c },
-        per_column: 2
-    end
     pdf.field_row height: 25, units: 6 do |row|
       row.text_field field: 'Employee', width: 1,
         value: @incident.driver.proper_name,
@@ -488,6 +482,20 @@ prawn_document do |pdf|
       row.text_field field: 'Testing location', width: 2,
         value: sup_report.testing_facility,
         options: { valign: :center }
+    end
+
+    pdf.field_row height: 40, units: 1 do |row|
+      row.check_box_field field: 'Test Conducted', width: 1,
+        options: SupervisorReport::REASONS_FOR_TEST.values_at(0,3),
+        checked: SupervisorReport::REASONS_FOR_TEST.values_at(0,3).map{ |c| sup_report.test_status == c && sup_report.test_conducted? },
+        per_column: 2
+    end
+
+    pdf.field_row height: 40, units: 1 do |row|
+      row.check_box_field field: 'Test Not Conducted', width: 1,
+        options: SupervisorReport::REASONS_FOR_TEST.values_at(1,2),
+        checked: SupervisorReport::REASONS_FOR_TEST.values_at(1,2).map{ |c| sup_report.test_status == c && !sup_report.test_conducted? },
+        per_column: 2
     end
 
     pdf.move_down 15
@@ -546,26 +554,22 @@ prawn_document do |pdf|
 
     pdf.field_row height: 25, units: 1 do |row|
       row.text_field field: 'Type of test', value: 'Drug & Alcohol',
-        options: { if: sup_report.post_accident_completed_drug_test? }
+        options: { if: sup_report.post_accident_completed_test? }
     end
 
-    pdf.field_row height: 75, units: 1 do |row|
+    pdf.field_row height: 50, units: 1 do |row|
       reasons = [
         'BODILY INJURY - requiring immediate medical treatment away from the scene',
         'DISABLING DAMAGE - see note below for definition',
-        'FATALITY - DOT testing is mandatory, no exceptions',
-        'THRESHOLD NOT MET - Accident does not meet FTA post-accident testing criteria.',
-        'DISCOUNTED - I can completely discount the operator, as a contributing factor to the incident.'
+        'FATALITY - DOT testing is mandatory, no exceptions'
       ]
       checked_reasons = [
         sup_report.test_due_to_bodily_injury?,
         sup_report.test_due_to_disabling_damage?,
-        sup_report.test_due_to_fatality?,
-        sup_report.fta_threshold_not_met?,
-        sup_report.driver_discounted?
+        sup_report.test_due_to_fatality?
       ]
       row.check_box_field field: 'Reason for test',
-        options: reasons, checked: checked_reasons, per_column: 5
+        options: reasons, checked: checked_reasons, per_column: 3
     end
 
     pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 40 do
