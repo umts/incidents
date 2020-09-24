@@ -163,9 +163,6 @@ class Incident < ApplicationRecord
     if completed? && valid?
       begin
         export_claims_xml(current_user)
-        ci = ClaimsIncident.create claims_fields table: :incident
-        update claims_id: ci.UID
-        ClaimsDriversReport.create claims_fields table: :drivers_report
         self.update exported_to_claims: true
         return { status: :success }
       rescue ActiveRecord::StatementInvalid => e
@@ -179,6 +176,7 @@ class Incident < ApplicationRecord
       return { status: :invalid }
     end
   end
+
 
   def geocode_location
     driver_incident_report.full_location include_state: true
@@ -204,58 +202,6 @@ class Incident < ApplicationRecord
 
   def reviewed?
     staff_reviews.present?
-  end
-
-  # Fields we can't provide are commented where they appear in the claims schema.
-  # Field we're not providing in the first stage are implemented but commented.
-  def claims_fields(table:)
-    report = driver_incident_report
-    # define associated records only when necessary
-    case table
-    when :incident
-      claims_driver = ClaimsDriver.find_by BadgeNum: driver.badge_number
-      claims_vehicle = ClaimsVehicle.find_by VehicleNum: report.bus, Active: 'yes'
-    end
-
-    fields = {
-      incident: {
-        'DateEntered' => Date.today.strftime('%Y-%m-%d'),
-        'IncidentDate' => report.occurred_at.iso8601,
-        street: report.location,
-        city: report.town,
-        state: report.state,
-        zip: report.zip,
-        longitude: longitude,
-        latitude: latitude,
-        'Company' => driver.division.claims_id,
-        'IncidentDesc' => supervisor_incident_report.try(:description),
-        'EmployeeID' => driver.badge_number,
-        'Driver' => claims_driver.try(:UID),
-        'DriverDesc' => report.description,
-        'VehicleRouteNum' => report.route,
-        'VehicleNum' => claims_vehicle.try(:UID),
-        'VehicleDamageArea' => report.damage_to_other_vehicle_point_of_impact,
-        'PointOfContact' => report.damage_to_bus_point_of_impact,
-        'Status' => 'ir',
-        reason1: reason_code.identifier,
-        reason2: supplementary_reason_code.try(:identifier),
-      },
-      drivers_report: {
-        'FileID' => claims_id,
-        'Citation' => report.summons_or_warning_issued?,
-        'Weather' => report.weather_conditions,
-        'SurrCond' => report.road_conditions,
-        'Lighting' => report.light_conditions,
-        'Speed' => report.speed,
-        'PointOfContact' => report.damage_to_bus_point_of_impact,
-        'TotalPass' => report.passengers_onboard,
-        'Ambulance' => report.injured_passengers.any?(&:transported_to_hospital?),
-        'OVTow' => report.other_vehicle_towed_from_scene?,
-        'PVTATow' => report.towed_from_scene?,
-      },
-    }
-
-    fields.fetch(table)
   end
 
   def to_csv
