@@ -161,16 +161,9 @@ class Incident < ApplicationRecord
 
   def export_to_claims(current_user)
     if completed? && valid?
-      begin
-        export_claims_xml(current_user)
-        self.update exported_to_claims: true
-        return { status: :success }
-      rescue ActiveRecord::StatementInvalid => e
-        # We only get here if an error was caused by a programmer.
-        ApplicationMailer.with(incident: self, cause: e.cause)
-                         .claims_export_error.deliver_now
-        return { status: :failure, reason: e.cause }
-      end
+      export_claims_xml(current_user)
+      self.update exported_to_claims: true
+      return { status: :success }
     else
       self.update completed: false
       return { status: :invalid }
