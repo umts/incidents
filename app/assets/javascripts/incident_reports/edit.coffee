@@ -58,7 +58,7 @@ toggleReasonsForTesting = ->
   showOnly = (field) ->
     infos = [
       '.post-accident-info',
-      '.reasonable-suspician-info',
+      '.reasonable-suspicion-info',
       '.driver-discounted-info',
       '.fta-threshold-info'
     ]
@@ -70,14 +70,18 @@ toggleReasonsForTesting = ->
 
   reason = $('#supervisor_report_test_status').val()
   switch reason
-    when 'Reasonable Suspicion: Completed drug test'
+    when 'Reasonable Suspicion: test completed'
       showOnly('.reasonable-suspicion-info')
-    when 'Post Accident: Threshold met (completed drug test)'
+      $('.test-info').slideDown()
+    when 'Post Accident: Threshold met (test completed)'
       showOnly('.post-accident-info')
-    when 'Post Accident: No threshold met (no drug test)'
+      $('.test-info').slideDown()
+    when 'Post Accident: No threshold met (test not conducted)'
       showOnly('.fta-threshold-info')
-    when 'Post Accident: Threshold met and discounted (no drug test)'
+      $('.test-info').slideUp()
+    when 'Post Accident: Threshold met and discounted (test not conducted)'
       showOnly('.driver-discounted-info')
+      $('.test-info').slideUp()
     else showOnly('nothing')
 
 $(document).on 'turbolinks:load', ->
@@ -107,12 +111,6 @@ $(document).on 'turbolinks:load', ->
 
   $('form').showIfChecked '#supervisor_report_pictures_saved',
                           '.saved-pictures-info'
-
-  $('form').showIfChecked '#supervisor_report_completed_drug_or_alcohol_test',
-                          '.test-info'
-
-  $('form').showIfChecked '#supervisor_report_completed_drug_or_alcohol_test',
-                          '.no-test-info', reverse: true
 
   $('form').showIfChecked '#supervisor_report_fta_threshold_not_met',
                           '.fta-threshold-info'

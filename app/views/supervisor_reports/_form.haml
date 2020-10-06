@@ -49,75 +49,75 @@
             = witness_form.text_field :work_phone
       %button.btn-default.add-witness Add witness info
       %button.btn-default.delete-witness Delete witness info
-    .test-info
+    .field
+      = form.label :test_status
+      = form.select :test_status,
+        options_for_select(SupervisorReport::REASONS_FOR_TEST, report.test_status), { include_blank: true },
+        id: :supervisor_report_test_status
+    .fta-threshold-info{style: ('display: none;' unless report.fta_threshold_not_met?)}
+      = form.label :reason_threshold_not_met
+      = form.text_area :reason_threshold_not_met, id: :supervisor_report_reason_threshold_not_met,
+        size: '80x4'
+    .driver-discounted-info{style: ('display: none;' unless report.driver_discounted?)}
+      = form.label :reason_driver_discounted
+      = form.text_area :reason_driver_discounted, id: :supervisor_report_reason_driver_discounted,
+        size: '80x4'
+    .post-accident-info{style: ('display: none;' unless report.post_accident_completed_test?)}
       .field
-        = form.label :test_status
-        = form.select :test_status,
-          options_for_select(SupervisorReport::REASONS_FOR_TEST, report.test_status), { include_blank: true },
-          id: :supervisor_report_test_status
-      .fta-threshold-info{style: ('display: none;' unless report.fta_threshold_not_met?)}
-        = form.label :reason_threshold_not_met
-        = form.text_area :reason_threshold_not_met, id: :supervisor_report_reason_threshold_not_met,
-          size: '80x4'
-      .driver-discounted-info{style: ('display: none;' unless report.driver_discounted?)}
-        = form.label :reason_driver_discounted
-        = form.text_area :reason_driver_discounted, id: :supervisor_report_reason_driver_discounted,
-          size: '80x4'
-      .post-accident-info{style: ('display: none;' unless report.post_accident_completed_drug_test?)}
+        = form.label :test_due_to_bodily_injury?
+        = form.check_box :test_due_to_bodily_injury, id: :supervisor_report_test_due_to_bodily_injury
+      .field
+        = form.label :test_due_to_disabling_damage?
+        = form.check_box :test_due_to_disabling_damage, id: :supervisor_report_test_due_to_disabling_damage
+      .field
+        = form.label :test_due_to_fatality?
+        = form.check_box :test_due_to_fatality, id: :supervisor_report_test_due_to_fatality
+    .reasonable-suspicion-info{style: ('display: none;' unless report.reasonable_suspicion?)}
+      .field
+        = form.label :completed_drug_test?
+        = form.check_box :completed_drug_test, id: :supervisor_report_completed_drug_test
+      .field
+        = form.label :completed_alcohol_test?
+        = form.check_box :completed_alcohol_test, id: :supervisor_report_completed_alcohol_test
+      .field
+        = form.label :observation_made_at
+        - a11y_datetime_labels('report_observation_made_at').each do |label|
+          = label
+        = form.datetime_select :observation_made_at, id: :supervisor_report_observation_made_at,
+          prompt: true, ampm: true
+      .field
+        = form.label :test_due_to_employee_appearance?
+        = form.check_box :test_due_to_employee_appearance,
+          id: :supervisor_report_test_due_to_employee_appearance
+      .employee-appearance-info{style: ('display: none;' unless report.test_due_to_employee_appearance?)}
         .field
-          = form.label :test_due_to_bodily_injury?
-          = form.check_box :test_due_to_bodily_injury, id: :supervisor_report_test_due_to_bodily_injury
+          = form.label :employee_appearance
+          = form.text_field :employee_appearance, id: :supervisor_report_employee_appearance
+      .field
+        = form.label :test_due_to_employee_behavior?
+        = form.check_box :test_due_to_employee_behavior,
+          id: :supervisor_report_test_due_to_employee_behavior
+      .employee-behavior-info{style: ('display: none;' unless report.test_due_to_employee_behavior?)}
         .field
-          = form.label :test_due_to_disabling_damage?
-          = form.check_box :test_due_to_disabling_damage, id: :supervisor_report_test_due_to_disabling_damage
+          = form.label :employee_behavior
+          = form.text_field :employee_behavior, id: :supervisor_report_employee_behavior
+      .field
+        = form.label :test_due_to_employee_speech?
+        = form.check_box :test_due_to_employee_speech,
+          id: :supervisor_report_test_due_to_employee_speech
+      .employee-speech-info{style: ('display: none;' unless report.test_due_to_employee_speech?)}
         .field
-          = form.label :test_due_to_fatality?
-          = form.check_box :test_due_to_fatality, id: :supervisor_report_test_due_to_fatality
-      .reasonable-suspicion-info{style: ('display: none;' unless report.reasonable_suspicion?)}
+          = form.label :employee_speech
+          = form.text_field :employee_speech, id: :supervisor_report_employee_speech
+      .field
+        = form.label :test_due_to_employee_odor?
+        = form.check_box :test_due_to_employee_odor,
+          id: :supervisor_report_test_due_to_employee_odor
+      .employee-odor-info{style: ('display: none;' unless report.test_due_to_employee_odor?)}
         .field
-          = form.label :completed_drug_test?
-          = form.check_box :completed_drug_test, id: :supervisor_report_completed_drug_test
-        .field
-          = form.label :completed_alcohol_test?
-          = form.check_box :completed_alcohol_test, id: :supervisor_report_completed_alcohol_test
-        .field
-          = form.label :observation_made_at
-          - a11y_datetime_labels('report_observation_made_at').each do |label|
-            = label
-          = form.datetime_select :observation_made_at, id: :supervisor_report_observation_made_at,
-            prompt: true, ampm: true
-        .field
-          = form.label :test_due_to_employee_appearance?
-          = form.check_box :test_due_to_employee_appearance,
-            id: :supervisor_report_test_due_to_employee_appearance
-        .employee-appearance-info{style: ('display: none;' unless report.test_due_to_employee_appearance?)}
-          .field
-            = form.label :employee_appearance
-            = form.text_field :employee_appearance, id: :supervisor_report_employee_appearance
-        .field
-          = form.label :test_due_to_employee_behavior?
-          = form.check_box :test_due_to_employee_behavior,
-            id: :supervisor_report_test_due_to_employee_behavior
-        .employee-behavior-info{style: ('display: none;' unless report.test_due_to_employee_behavior?)}
-          .field
-            = form.label :employee_behavior
-            = form.text_field :employee_behavior, id: :supervisor_report_employee_behavior
-        .field
-          = form.label :test_due_to_employee_speech?
-          = form.check_box :test_due_to_employee_speech,
-            id: :supervisor_report_test_due_to_employee_speech
-        .employee-speech-info{style: ('display: none;' unless report.test_due_to_employee_speech?)}
-          .field
-            = form.label :employee_speech
-            = form.text_field :employee_speech, id: :supervisor_report_employee_speech
-        .field
-          = form.label :test_due_to_employee_odor?
-          = form.check_box :test_due_to_employee_odor,
-            id: :supervisor_report_test_due_to_employee_odor
-        .employee-odor-info{style: ('display: none;' unless report.test_due_to_employee_odor?)}
-          .field
-            = form.label :employee_odor
-            = form.text_field :employee_odor, id: :supervisor_report_employee_odor
+          = form.label :employee_odor
+          = form.text_field :employee_odor, id: :supervisor_report_employee_odor
+    .test-info{style: ('display: none;' unless report.test_conducted?)}
       .field
         = form.label :testing_facility
         = form.select :testing_facility,
@@ -178,28 +178,28 @@
           = label
         = form.datetime_select :employee_returned_to_work_or_released_from_duty_at,
           id: :supervisor_report_employee_returned_to_work_or_released_from_duty_at, ampm: true, prompt: true
-      %strong If applicable:
-      .field
-        = form.label :superintendent_notified_at
-        - a11y_datetime_labels('report_superintendent_notified_at').each do |label|
-          = label
-        = form.datetime_select :superintendent_notified_at,
-          id: :supervisor_report_superintendent_notified_at, ampm: true, prompt: true
-      .field
-        = form.label :program_manager_notified_at
-        - a11y_datetime_labels('report_program_manager_notified_at').each do |label|
-          = label
-        = form.datetime_select :program_manager_notified_at,
-          id: :supervisor_report_program_manager_notified_at, ampm: true, prompt: true
-      .field
-        = form.label :director_notified_at
-        - a11y_datetime_labels('report_director_notified_at').each do |label|
-          = label
-        = form.datetime_select :director_notified_at,
-          id: :supervisor_report_director_notified_at, ampm: true, prompt: true
-      .field
-        = form.label :amplifying_comments
-        = form.text_area :amplifying_comments, id: :supervisor_report_amplifying_comments,
-          size: '80x4'
+    %strong If applicable:
+    .field
+      = form.label :superintendent_notified_at
+      - a11y_datetime_labels('report_superintendent_notified_at').each do |label|
+        = label
+      = form.datetime_select :superintendent_notified_at,
+        id: :supervisor_report_superintendent_notified_at, ampm: true, prompt: true
+    .field
+      = form.label :program_manager_notified_at
+      - a11y_datetime_labels('report_program_manager_notified_at').each do |label|
+        = label
+      = form.datetime_select :program_manager_notified_at,
+        id: :supervisor_report_program_manager_notified_at, ampm: true, prompt: true
+    .field
+      = form.label :director_notified_at
+      - a11y_datetime_labels('report_director_notified_at').each do |label|
+        = label
+      = form.datetime_select :director_notified_at,
+        id: :supervisor_report_director_notified_at, ampm: true, prompt: true
+    .field
+      = form.label :amplifying_comments
+      = form.text_area :amplifying_comments, id: :supervisor_report_amplifying_comments,
+        size: '80x4'
     .actions
       = form.submit 'Save supervisor report'

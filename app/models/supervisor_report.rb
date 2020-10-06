@@ -4,10 +4,10 @@ class SupervisorReport < ApplicationRecord
   has_paper_trail
 
   REASONS_FOR_TEST = [
-    'Post Accident: Threshold met (completed drug test)',
-    'Post Accident: No threshold met (no drug test)',
-    'Post Accident: Threshold met and discounted (no drug test)',
-    'Reasonable Suspicion: Completed drug test'
+    'Post Accident: Threshold met (test completed)',
+    'Post Accident: No threshold met (test not conducted)',
+    'Post Accident: Threshold met and discounted (test not conducted)',
+    'Reasonable Suspicion: test completed'
   ].freeze
   TESTING_FACILITIES = [
     'Occuhealth East Longmeadow',
@@ -39,7 +39,7 @@ class SupervisorReport < ApplicationRecord
   end
 
   before_save do
-    unless post_accident_completed_drug_test?
+    unless post_accident_completed_test?
       assign_attributes test_due_to_bodily_injury: false,
         test_due_to_disabling_damage: false,
         test_due_to_fatality: false
@@ -92,8 +92,8 @@ class SupervisorReport < ApplicationRecord
     User.find_by(id: last_update.whodunnit).try(:name) || 'Unknown'
   end
 
-  def post_accident_completed_drug_test?
-    test_status.try(:include?, 'Threshold met (completed drug test)')
+  def post_accident_completed_test?
+    test_status.try(:include?, 'Threshold met (test completed)')
   end
 
   def reasonable_suspicion?
@@ -108,12 +108,8 @@ class SupervisorReport < ApplicationRecord
     test_status.try(:include?, 'discounted')
   end
 
-  def no_drug_test?
-    test_status.try(:include, 'no drug test')
-  end
-
-  def post_accident?
-    test_status.try(:include?, 'completed drug test')
+  def test_conducted?
+    test_status.try(:include?, 'test completed')
   end
 
   def timeline
