@@ -2,9 +2,7 @@
 
 require 'simplecov'
 SimpleCov.start 'rails' do
-  add_filter '/config/'
-  add_filter '/spec/'
-  refuse_coverage_drop if ENV['CI']
+  maximum_coverage_drop 0.5 if ENV['CI']
 end
 
 ENV['RAILS_ENV'] ||= 'test'
