@@ -17,8 +17,8 @@
         { include_blank: true },
         id: :incident_driver_incident_report_attributes_user_id
     .field
-      = driver_form.label :occurred_at
-      - a11y_datetime_labels('incident_report_occurred_at').each do |label|
+      = driver_form.label :occurred_at, 'Date and time of incident'
+      - a11y_datetime_labels('incident_driver_incident_report_attributes_occurred_at').each do |label|
         = label
       = driver_form.datetime_select :occurred_at, id: :incident_driver_incident_report_attributes_occurred_at,
         prompt: true, ampm: true
