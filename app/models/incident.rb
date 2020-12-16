@@ -120,6 +120,7 @@ class Incident < ApplicationRecord
           doc.driver_desc         report.description
           doc.employee_entering   current_user.badge_number
           doc.driver              driver.badge_number
+          doc.run_number          report.route
           doc.vehicle_num         report.bus
           doc.speed               report.speed
           doc.incident_desc       supervisor_incident_report.try(:description)
