@@ -183,7 +183,7 @@ class Incident < ApplicationRecord
   def notify_supervisor_of_new_report
     if supervisor.email.present?
       ApplicationMailer.with(incident: self, destination: supervisor.email)
-        .new_incident.deliver_now
+        .new_incident.deliver_later
     end
   end
 
@@ -228,7 +228,7 @@ class Incident < ApplicationRecord
   def send_notifications
     User.staff.in_divisions(driver.divisions).with_email.each do |user|
       ApplicationMailer.with(incident: self, destination: user.email)
-                       .new_incident.deliver_now
+                       .new_incident.deliver_later
     end
   end
 end
