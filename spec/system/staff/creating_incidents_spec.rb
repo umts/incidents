@@ -29,6 +29,7 @@ describe 'creating incidents as staff' do
     it 'tells you that the report has been created successfully' do
       visit new_incident_url
       select driver_in_division.proper_name, from: 'Driver'
+      fill_in_date_and_time
       select supervisor_in_division.proper_name, from: 'Supervisor'
       click_on 'Create Incident Report'
       expect(page).to have_text 'Incident was successfully created.'
@@ -37,6 +38,7 @@ describe 'creating incidents as staff' do
       it 'creates a supervisor-less report' do
         visit new_incident_url
         select driver_in_division.proper_name, from: 'Driver'
+        fill_in_date_and_time
         select '', from: 'Supervisor'
         click_on 'Create Incident Report'
         expect(page).to have_text 'Incident was successfully created.'
@@ -46,6 +48,7 @@ describe 'creating incidents as staff' do
       it 'does not create an incident' do
         visit new_incident_url
         select '', from: 'Driver'
+        fill_in_date_and_time
         select supervisor_in_division.proper_name, from: 'Supervisor'
         click_on 'Create Incident Report'
         expect(page).not_to have_text 'Incident was successfully created.'
