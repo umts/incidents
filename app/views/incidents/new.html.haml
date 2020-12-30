@@ -9,6 +9,13 @@
       - @incident.errors.full_messages.each do |message|
         %li= message
 = form_with model: @incident, local: true do |form|
+  .field
+    = form.label :occurred_at
+    - a11y_datetime_labels('incident_attributes_occurred_at').each do |label|
+      = label
+    = form.datetime_select :occurred_at, id: :incident_attributes_occurred_at,
+      prompt: true, ampm: true
+  - unless current_user.driver?
   = form.fields_for :driver_incident_report, IncidentReport.new do |driver_form|
     .field
       = driver_form.label :user_id, 'Driver'
@@ -16,12 +23,6 @@
         options_from_collection_for_select(@drivers, :id, :proper_name, current_user.id),
         { include_blank: true },
         id: :incident_driver_incident_report_attributes_user_id
-    .field
-      = driver_form.label :occurred_at
-      - a11y_datetime_labels('incident_driver_incident_report_attributes_occurred_at').each do |label|
-        = label
-      = driver_form.datetime_select :occurred_at, id: :incident_driver_incident_report_attributes_occurred_at,
-        prompt: true, ampm: true
   = form.fields_for :supervisor_incident_report, IncidentReport.new do |supervisor_form|
     .field
       = supervisor_form.label :user_id, 'Supervisor'

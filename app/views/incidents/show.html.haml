@@ -16,6 +16,9 @@
   %p
     %strong= human_name :incident, :completed
     = yes_no_image @incident.completed?
+  %p
+    %strong= human_name :incident, :occurred_at
+    = @incident.occurred_at_readable
 
   - if @incident.completed?
     %p

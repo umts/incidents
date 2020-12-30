@@ -52,7 +52,11 @@ class IncidentsController < ApplicationController
     if @incident.save
       @incident.notify_supervisor_of_new_report if @assigning_supervisor
       @incident.remove_supervisor if @removing_supervisor
-      redirect_to incidents_path, notice: 'Incident was successfully created.'
+      if current_user.driver?
+        redirect_to edit_incident_path(@incident)
+      else
+        redirect_to incidents_path, notice: 'Incident was successfully created.'
+      end
     else render :new, status: :unprocessable_entity
     end
   end
@@ -102,11 +106,7 @@ class IncidentsController < ApplicationController
   end
 
   def new
-    if current_user.driver?
-      @incident = Incident.create driver_incident_report_attributes: { user_id: current_user.id }
-      redirect_to edit_incident_path(@incident)
-    else @incident = Incident.new
-    end
+    @incident = Incident.new
   end
 
   def search
@@ -166,6 +166,7 @@ class IncidentsController < ApplicationController
   def incident_params
     data = params.require(:incident).permit!
     sup_report_attrs = data[:supervisor_incident_report_attributes]
+    @incident.driver_incident_report = IncidentReport.create( user_id: current_user.id ) if current_user.driver?
     if sup_report_attrs.present?
       @assigning_supervisor = sup_report_attrs[:user_id].present? &&
                               @incident.supervisor_report.nil?

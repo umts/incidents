@@ -31,17 +31,14 @@ class Incident < ApplicationRecord
   validate :supervisor_in_correct_group
 
   accepts_nested_attributes_for :driver_incident_report
-  validates :occurred_at, presence: true, on: :create, if: :created_by_supervisor
-  delegate :occurred_at_readable, to: :driver_incident_report
-  delegate :occurred_at, to: :driver_incident_report
+  validates :occurred_at, presence: true, on: :create
   accepts_nested_attributes_for :supervisor_incident_report
   accepts_nested_attributes_for :supervisor_report
 
   has_many :staff_reviews, dependent: :destroy
 
   scope :between, (lambda do |start_date, end_date|
-    joins(:driver_incident_report)
-      .where incident_reports: { occurred_at: start_date..end_date }
+    where occurred_at: start_date..end_date
   end)
 
   scope :in_divisions, (lambda do |divisions|
@@ -50,7 +47,7 @@ class Incident < ApplicationRecord
   end)
 
   scope :occurred_order, (lambda do
-    joins(:driver_incident_report).order 'incident_reports.occurred_at'
+     order :occurred_at
   end)
 
   scope :for_driver, ->(user) {
@@ -72,6 +69,18 @@ class Incident < ApplicationRecord
 
   after_create :send_notifications
 
+  def occurred_at_readable
+    [occurred_date, occurred_time].join ' - '
+  end
+
+  def occurred_date
+    occurred_at.try :strftime, '%A, %B %e'
+  end
+
+  def occurred_time
+    occurred_at.try :strftime, '%l:%M %P'
+  end
+
   def claim_for(user)
     self.supervisor_incident_report = create_supervisor_incident_report user: user
     self.supervisor_report = create_supervisor_report
@@ -81,10 +90,10 @@ class Incident < ApplicationRecord
   def csv_row
     row = []
     report = driver_incident_report
-    row << report.occurred_at.strftime('%m/%d/%Y') # Date
+    row << occurred_at.strftime('%m/%d/%Y') # Date
     row << report.bus # Bus
     row << "#{driver.badge_number} | #{driver.proper_name.upcase}" # Badge # and Operator
-    row << report.occurred_at.strftime('%H:%M:%S') # Time
+    row << occurred_at.strftime('%H:%M:%S') # Time
     row << report.full_location # Location
     row << report.run # Route
     row << reason_code.try(:identifier) || "" # Classification 1
@@ -111,7 +120,7 @@ class Incident < ApplicationRecord
     builder = Nokogiri::XML::Builder.new do |doc|
       doc.claims_incident_data do
         doc.drivers_report do
-          doc.incident_date       report.occurred_at.iso8601
+          doc.incident_date       occurred_at.iso8601
           doc.street              report.location
           doc.city                report.town
           doc.state               report.state
