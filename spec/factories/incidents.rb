@@ -2,6 +2,7 @@
 
 FactoryBot.define do
   factory :incident do
+    occurred_at { DateTime.now.beginning_of_minute }
     association :driver_incident_report,
                 factory: %i[incident_report driver_report]
 

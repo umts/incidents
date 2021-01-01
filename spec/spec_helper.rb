@@ -63,7 +63,6 @@ RSpec.configure do |config|
 end
 
 def fill_in_base_incident_fields
-  fill_in_date_and_time
   fill_in 'Bus #', with: '1803'
   fill_in 'Location', with: 'Mill and Locust'
   fill_in 'ZIP', with: '01108'

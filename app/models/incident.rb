@@ -22,6 +22,7 @@ class Incident < ApplicationRecord
   # belongs_to :reason_code, optional: { unless: :completed? }
   belongs_to :reason_code, optional: true
   belongs_to :supplementary_reason_code, optional: true
+  validates :occurred_at, presence: true
   validates :reason_code, :supplementary_reason_code, :root_cause_analysis, :latitude, :longitude,
     presence: true, if: :completed?
 
@@ -31,7 +32,6 @@ class Incident < ApplicationRecord
   validate :supervisor_in_correct_group
 
   accepts_nested_attributes_for :driver_incident_report
-  validates :occurred_at, presence: true, on: :create
   accepts_nested_attributes_for :supervisor_incident_report
   accepts_nested_attributes_for :supervisor_report
 
