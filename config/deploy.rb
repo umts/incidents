@@ -19,3 +19,6 @@ append :linked_dirs,
        'tmp/sockets',
        'vendor/bundle',
        '.bundle'
+
+set :sidekiq_user, 'root'
+set :sidekiq_service_unit_user, :system
