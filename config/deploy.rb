@@ -8,7 +8,8 @@ set :deploy_to, "/srv/#{fetch :application}"
 
 append :linked_files,
        'config/database.yml',
-       'config/secrets.yml'
+       'config/secrets.yml',
+       'config/sidekiq.yml'
 
 append :linked_dirs,
        'claims_xml',
