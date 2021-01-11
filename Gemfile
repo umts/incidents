@@ -23,6 +23,7 @@ gem 'uglifier', '>= 1.3.0'
 
 group :production do
   gem 'exception_notification', '~> 4.2.2'
+  gem 'sidekiq', '~> 6.0.2'
 end
 
 group :development do
