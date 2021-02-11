@@ -31,7 +31,9 @@ class Incident < ApplicationRecord
   validate :supervisor_in_correct_group
 
   accepts_nested_attributes_for :driver_incident_report
+  validates :occurred_at, presence: true, on: :create, if: :created_by_supervisor
   delegate :occurred_at_readable, to: :driver_incident_report
+  delegate :occurred_at, to: :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report
   accepts_nested_attributes_for :supervisor_report
 
@@ -120,6 +122,7 @@ class Incident < ApplicationRecord
           doc.driver_desc         report.description
           doc.employee_entering   current_user.badge_number
           doc.driver              driver.badge_number
+          doc.run_number          report.route
           doc.vehicle_num         report.bus
           doc.speed               report.speed
           doc.incident_desc       supervisor_incident_report.try(:description)
@@ -161,24 +164,15 @@ class Incident < ApplicationRecord
 
   def export_to_claims(current_user)
     if completed? && valid?
-      begin
-        export_claims_xml(current_user)
-        ci = ClaimsIncident.create claims_fields table: :incident
-        update claims_id: ci.UID
-        ClaimsDriversReport.create claims_fields table: :drivers_report
-        self.update exported_to_claims: true
-        return { status: :success }
-      rescue ActiveRecord::StatementInvalid => e
-        # We only get here if an error was caused by a programmer.
-        ApplicationMailer.with(incident: self, cause: e.cause)
-                         .claims_export_error.deliver_now
-        return { status: :failure, reason: e.cause }
-      end
+      export_claims_xml(current_user)
+      self.update exported_to_claims: true
+      return { status: :success }
     else
       self.update completed: false
       return { status: :invalid }
     end
   end
+
 
   def geocode_location
     driver_incident_report.full_location include_state: true
@@ -206,58 +200,6 @@ class Incident < ApplicationRecord
     staff_reviews.present?
   end
 
-  # Fields we can't provide are commented where they appear in the claims schema.
-  # Field we're not providing in the first stage are implemented but commented.
-  def claims_fields(table:)
-    report = driver_incident_report
-    # define associated records only when necessary
-    case table
-    when :incident
-      claims_driver = ClaimsDriver.find_by BadgeNum: driver.badge_number
-      claims_vehicle = ClaimsVehicle.find_by VehicleNum: report.bus, Active: 'yes'
-    end
-
-    fields = {
-      incident: {
-        'DateEntered' => Date.today.strftime('%Y-%m-%d'),
-        'IncidentDate' => report.occurred_at.iso8601,
-        street: report.location,
-        city: report.town,
-        state: report.state,
-        zip: report.zip,
-        longitude: longitude,
-        latitude: latitude,
-        'Company' => driver.division.claims_id,
-        'IncidentDesc' => supervisor_incident_report.try(:description),
-        'EmployeeID' => driver.badge_number,
-        'Driver' => claims_driver.try(:UID),
-        'DriverDesc' => report.description,
-        'VehicleRouteNum' => report.route,
-        'VehicleNum' => claims_vehicle.try(:UID),
-        'VehicleDamageArea' => report.damage_to_other_vehicle_point_of_impact,
-        'PointOfContact' => report.damage_to_bus_point_of_impact,
-        'Status' => 'ir',
-        reason1: reason_code.identifier,
-        reason2: supplementary_reason_code.try(:identifier),
-      },
-      drivers_report: {
-        'FileID' => claims_id,
-        'Citation' => report.summons_or_warning_issued?,
-        'Weather' => report.weather_conditions,
-        'SurrCond' => report.road_conditions,
-        'Lighting' => report.light_conditions,
-        'Speed' => report.speed,
-        'PointOfContact' => report.damage_to_bus_point_of_impact,
-        'TotalPass' => report.passengers_onboard,
-        'Ambulance' => report.injured_passengers.any?(&:transported_to_hospital?),
-        'OVTow' => report.other_vehicle_towed_from_scene?,
-        'PVTATow' => report.towed_from_scene?,
-      },
-    }
-
-    fields.fetch(table)
-  end
-
   def to_csv
     CSV.generate do |csv|
       csv << csv_row
@@ -276,6 +218,7 @@ class Incident < ApplicationRecord
     !completed? && supervisor_incident_report.nil?
   end
 
+
   private
 
   def supervisor_in_correct_group
@@ -291,5 +234,9 @@ class Incident < ApplicationRecord
       ApplicationMailer.with(incident: self, destination: user.email)
                        .new_incident.deliver_now
     end
+  end
+
+  def created_by_supervisor
+    supervisor_incident_report.present?
   end
 end

@@ -8,7 +8,8 @@ set :deploy_to, "/srv/#{fetch :application}"
 
 append :linked_files,
        'config/database.yml',
-       'config/secrets.yml'
+       'config/secrets.yml',
+       'config/sidekiq.yml'
 
 append :linked_dirs,
        'claims_xml',
@@ -18,3 +19,6 @@ append :linked_dirs,
        'tmp/sockets',
        'vendor/bundle',
        '.bundle'
+
+set :sidekiq_user, 'root'
+set :sidekiq_service_unit_user, :system

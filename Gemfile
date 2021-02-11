@@ -23,6 +23,7 @@ gem 'uglifier', '>= 1.3.0'
 
 group :production do
   gem 'exception_notification', '~> 4.2.2'
+  gem 'sidekiq', '~> 6.1.2'
 end
 
 group :development do
@@ -31,6 +32,7 @@ group :development do
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
   gem 'capistrano-rails', require: false
+  gem 'capistrano-sidekiq', require: false
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop'
   gem 'web-console', '>= 3.3.0'
