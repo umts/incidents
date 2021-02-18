@@ -7,7 +7,7 @@ describe 'deactivating and reactivating users as staff' do
   before(:each) { when_current_user_is staff }
   it 'allows deactivating users', js: true  do
     driver = create :user, :driver
-    visit users_url
+    visit users_path
     click_button 'Drivers'
     # Only the one driver should be shown.
     expect(page).to have_text driver.last_name
@@ -17,12 +17,12 @@ describe 'deactivating and reactivating users as staff' do
     expect(page).to have_selector 'p.notice',
       text: 'User was deactivated successfully.'
     # We should be on the main users page, but have only the current user.
-    expect(page.current_url).to end_with users_path
+    expect(page).to have_current_path users_path
     expect(page).to have_selector 'table.index tbody tr', count: 1
   end
   it 'allows reactivating users', js: true  do
     create :user, :driver, active: false
-    visit users_url(inactive: true)
+    visit users_path(inactive: true)
     click_button 'Drivers'
     expect(page).to have_selector 'button',
       text: 'Reactivate', count: 1
@@ -31,7 +31,7 @@ describe 'deactivating and reactivating users as staff' do
       text: 'User was reactivated successfully.'
     # We should be on the main users page, and therefore see the current user
     # and the newly reactivated driver.
-    expect(page.current_url).to end_with users_path
+    expect(page).to have_current_path users_path
     expect(page).to have_selector 'table.index tbody tr', count: 2
   end
 end
