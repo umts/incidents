@@ -16,13 +16,13 @@ gem 'openssl'
 gem 'paper_trail', '~> 10.3'
 gem 'prawn-rails-forms', '~> 0.1.2'
 gem 'puma', '~> 3.12'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 6.0.3'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 
 group :production do
-  gem 'exception_notification', '~> 4.2.2'
+  gem 'exception_notification', '~> 4.4.3'
   gem 'sidekiq', '~> 6.1.2'
 end
 
