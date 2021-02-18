@@ -5,7 +5,7 @@ ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
 
 gem 'bootsnap'
 gem 'bootstrap-sass', '~> 3.3'
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails', '~> 5.0'
 gem 'csv'
 gem 'devise'
 gem 'haml-rails'
