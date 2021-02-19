@@ -7,7 +7,7 @@ describe 'deleting incidents as staff', js: true  do
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions(staff.divisions) }
   it 'allows deleting incidents' do
-    visit incidents_url
+    visit incidents_path
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
     click_button 'Delete'
     expect(page).to have_selector 'p.notice',

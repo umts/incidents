@@ -7,8 +7,8 @@ describe 'logging in as a driver' do
   context 'with the default password' do
     let(:driver) { create :user, :driver, :default_password }
     it 'sends you where you want to go' do
-      visit incidents_url
-      expect(page.current_url).to end_with incidents_path
+      visit incidents_path
+      expect(page).to have_current_path incidents_path
     end
   end
 end
@@ -16,7 +16,7 @@ end
 describe 'logging in with a deactivated account' do
   let!(:driver) { create :user, :driver, :default_password, active: false }
   it 'tells you that your account is deactivated' do
-    visit root_url
+    visit root_path
     fill_in 'Badge number', with: driver.badge_number
     fill_in 'Password', with: driver.last_name
     click_button 'Log in'

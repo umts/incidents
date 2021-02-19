@@ -48,7 +48,8 @@ class IncidentReportsController < ApplicationController
   def report_params
     data = params.require(:incident_report).permit!
     if data[:incidents]
-      @incident.update_attributes(latitude: data[:incidents][:latitude], longitude: data[:incidents][:longitude] )
+      @incident.update latitude: data[:incidents][:latitude],
+                       longitude: data[:incidents][:longitude]
     end
     unless data[:inj_pax_info] == '1'
       data.delete :injured_passengers_attributes

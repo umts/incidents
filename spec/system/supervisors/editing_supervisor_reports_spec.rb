@@ -7,10 +7,9 @@ describe 'editing supervisor reports as a supervisor' do
   let(:supervisor) { incident.supervisor }
   before(:each) { when_current_user_is supervisor }
   it 'allows editing supervisor reports', js: true do
-    visit edit_incident_url(incident)
+    visit edit_incident_path(incident)
     click_on 'Edit Supervisor Report'
-    expect(page.current_url)
-      .to end_with edit_supervisor_report_path(incident.supervisor_report)
+    expect(page).to have_current_path edit_supervisor_report_path(incident.supervisor_report)
     check 'Were pictures taken?'
     fill_in 'Number of pictures saved', with: 37
     click_button 'Save supervisor report'
@@ -33,7 +32,7 @@ describe 'editing supervisor reports as a supervisor' do
   end
   context 'admin deletes the incident' do
     it 'displays a nice error message' do
-      visit edit_incident_url(incident)
+      visit edit_incident_path(incident)
       click_on 'Edit Supervisor Report'
       expect(page).to have_content 'Editing Supervisor Report'
       incident.destroy
@@ -46,7 +45,7 @@ describe 'editing supervisor reports as a supervisor' do
     it 'displays all of them', js: true do
       # there is one witness filled in otherwise
       incident.supervisor_report.witnesses = []
-      visit edit_incident_url(incident)
+      visit edit_incident_path(incident)
       click_on 'Edit Supervisor Report'
       expect(page).to have_content 'Editing Supervisor Report'
       check 'Were there witnesses?'
@@ -61,7 +60,7 @@ describe 'editing supervisor reports as a supervisor' do
               with: '51 Forestry Way, Amherst'
       click_button 'Save supervisor report'
 
-      visit incident_url(incident)
+      visit incident_path(incident)
       expect(page).to have_selector 'h2', text: 'Supervisor Incident Report'
       expect(page).to have_text 'Witness Information'
       expect(page).to have_selector 'li',
@@ -75,13 +74,13 @@ describe 'editing supervisor reports as a supervisor' do
       incident.supervisor_report.witnesses = []
       witness = create :witness, supervisor_report: incident.supervisor_report
       witness2 = create :witness, supervisor_report: incident.supervisor_report
-      visit edit_incident_url(incident)
+      visit edit_incident_path(incident)
       click_on 'Edit Supervisor Report'
       expect(page).to have_content 'Editing Supervisor Report'
       click_button 'Delete witness info'
       click_button 'Save supervisor report'
 
-      visit incident_url(incident)
+      visit incident_path(incident)
       expect(page).not_to have_content witness2.name
       expect(page).to have_content witness.name
       expect(page).to have_selector 'h2', text: 'Supervisor Report'

@@ -7,7 +7,7 @@ describe 'printing incidents' do
   before(:each) { when_current_user_is driver }
   it 'shows a place to print incidents' do
     report = create :incident_report, :with_incident, user: driver
-    visit incidents_url
+    visit incidents_path
 
     expect(page)
       .to have_link('Print', href: incident_path(report.incident, format: :pdf))
