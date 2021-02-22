@@ -7,7 +7,7 @@ describe 'claiming incidents as a supervisor' do
   let(:supervisor) { create :user, :supervisor, divisions: incident.driver.divisions }
   before(:each) { when_current_user_is supervisor }
   it 'allows claiming incidents', js: true do
-    visit root_url
+    visit root_path
     click_button 'Unclaimed Incidents 1'
     click_button 'Claim'
     expect(page).to have_selector 'p.notice',

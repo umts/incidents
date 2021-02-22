@@ -34,7 +34,7 @@ describe 'special incident fields' do
                                user: driver
         create :incident, driver_incident_report: driver_report
         expect(driver_report).to be_motor_vehicle_collision
-        visit edit_incident_report_url(driver_report)
+        visit edit_incident_report_path(driver_report)
         expect(page).to have_text 'Motor Vehicle Collision Information'
       end
     end
@@ -60,7 +60,7 @@ describe 'special incident fields' do
                                user: driver
         create :incident, driver_incident_report: driver_report
         expect(driver_report).not_to be_other_vehicle_owned_by_other_driver
-        visit edit_incident_report_url(driver_report)
+        visit edit_incident_report_path(driver_report)
         expect(page).to have_field 'Other vehicle owner name'
       end
     end
@@ -97,7 +97,7 @@ describe 'special incident fields' do
                                user: driver
         create :incident, driver_incident_report: driver_report
         expect(driver_report).to be_police_on_scene
-        visit edit_incident_report_url(driver_report)
+        visit edit_incident_report_path(driver_report)
         expect(page).to have_field 'Police badge number'
       end
     end
@@ -131,7 +131,7 @@ describe 'special incident fields' do
                                :passenger_incident,
                                user: driver
         expect(driver_report).to be_passenger_incident
-        visit edit_incident_report_url(driver_report)
+        visit edit_incident_report_path(driver_report)
         expect(page).to have_text 'Passenger Incident Information'
       end
     end
@@ -170,7 +170,7 @@ describe 'special incident fields' do
                                :not_up_to_curb,
                                user: driver
         expect(driver_report).to be_needs_reason_not_up_to_curb
-        visit edit_incident_report_url(driver_report)
+        visit edit_incident_report_path(driver_report)
         expect(page).to have_field 'Reason not up to curb'
       end
     end

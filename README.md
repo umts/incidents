@@ -15,7 +15,6 @@ This is a prototype of UMass Transit's incident tracking model, designed for use
 4. Create the databases: `rails db:create:all`
 5. Setup database: `rails db:schema:load`
 6. Create development data: `rails db:seed`
-7. Create claims data: `mysql -u root --database=claims_development -e "SOURCE db/setup-claims.sql;"`
 
 Alternatively you can import your data from Hatus:
 ```
@@ -39,4 +38,3 @@ If you seeded your data you will be able to log in using these credentials:
 
 We develop using mailcatcher. They don't recommend listing it in the Gemfile, so install with `gem install mailcatcher`.
 Then run `mailcatcher`, daemon by default, to catch mail and to `localhost:1080` to view the sent mail.
-

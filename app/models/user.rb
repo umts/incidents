@@ -9,7 +9,7 @@ class User < ApplicationRecord
   has_many :divisions, through: :divisions_users
 
   validates :first_name, :last_name, :badge_number, :divisions, presence: true
-  validates :badge_number, uniqueness: true
+  validates :badge_number, uniqueness: { case_sensitive: false }
 
   validates :password,
             presence: true, confirmation: true, if: :password_required?

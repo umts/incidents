@@ -4,6 +4,7 @@ en:
       incident:
         preventable: 'Preventable?'
         video_pulled: 'Was video pulled from the vehicle?'
+        occurred_at: 'Date and time of incident'
       driver_incident_report:
         user: 'Driver'
       supervisor_incident_report:
