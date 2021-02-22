@@ -67,7 +67,7 @@
       %i Place a pin on the map below to fill the latitude and longitude.
       .no-geocode-alert
         Google could not place marker on the map.
-      #latlong-selector.map{ api: Rails.application.secrets.google_maps_api_key, 'data-lat': @incident.latitude, 'data-lng': @incident.longitude, 'data-location': @incident.geocode_location }
+      #latlong-selector.map{ 'data-lat': @incident.latitude, 'data-lng': @incident.longitude, 'data-location': @incident.geocode_location }
     .field
       = form.label :location
       = form.text_field :location, id: :incident_report_location
