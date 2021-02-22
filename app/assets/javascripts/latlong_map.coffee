@@ -5,10 +5,7 @@ PVTA = { lat: 42.105552, lng: -72.596511 }
 
 createMap = (mapSelector, latLng, newValues) ->
   map = new google.maps.Map mapSelector[0], { zoom: 15, tilt: 0, center: latLng }
-  if newValues
-    placeMarker map, latLng, mapSelector, true
-  else
-    placeMarker map, latLng, false
+  placeMarker map, latLng, newValues
   google.maps.event.addListener map, 'click', (event) ->
     latLong = { lat: event.latLng.lat(), lng: event.latLng.lng() }
     placeMarker map, latLong, true
