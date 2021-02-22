@@ -8,50 +8,59 @@ createMap = (mapSelector, latLng, newValues) ->
   if newValues
     placeMarker map, latLng, mapSelector, true
   else
-    placeMarker map, latLng, mapSelector, false
+    placeMarker map, latLng, false
   google.maps.event.addListener map, 'click', (event) ->
     latLong = { lat: event.latLng.lat(), lng: event.latLng.lng() }
-    placeMarker map, latLong, mapSelector, true
-    fillLatLngFields latLong
+    placeMarker map, latLong, true
+
 
 fillLatLngFields = (latLng) ->
   $('#incident_latitude').val Number(latLng.lat.toFixed(5))
   $('#incident_longitude').val Number(latLng.lng.toFixed(5))
 
 initLatLngMap = (mapSelector) ->
-  if mapSelector.attr 'lat'
-    lat = parseFloat mapSelector.attr('lat')
-    lng = parseFloat mapSelector.attr('lng')
+  if mapSelector[0].dataset.lat
+    lat = parseFloat mapSelector[0].dataset.lat
+    lng = parseFloat mapSelector[0].dataset.lng
     createMap mapSelector, { lat: lat, lng: lng }, false
   else
-    createMap mapSelector, PVTA, true
+    location = mapSelector.data 'location'
+    geocoder = new google.maps.Geocoder()
+    geocoder.geocode address: location, (results) ->
+      if results.length > 0
+        result = results[0]
+        lat = result.geometry.location.lat()
+        lng = result.geometry.location.lng()
+        createMap mapSelector, { lat: lat, lng: lng }, false
+      else
+        $('.no-geocode-alert').slideDown()
+        createMap mapSelector, PVTA, false
 
-placeMarker = (map, latLng, mapSelector, newValues) ->
+placeMarker = (map, latLng, newValues) ->
   unless marker == null
     marker.setMap null
   marker = new google.maps.Marker position: latLng, map: map
+  fillLatLngFields latLng
   if newValues
-    reverseGeocode latLng, mapSelector
+    reverseGeocode latLng
 
-reverseGeocode = (latLng, mapSelector) ->
-  api_key = mapSelector.attr('api')
-  url  = "https://maps.googleapis.com/maps/api/geocode/json?latlng=#{latLng.lat},#{latLng.lng}&key=#{api_key}"
-  fetch(url).then (response) ->
-    response.json().then (location) ->
-      address = location.results[0].address_components
-      [street, zip, town, state] = [undefined, undefined, undefined, undefined]
-      address.forEach (part) ->
-        if part.types.includes("route")
-          street = part.short_name
-        if part.types.includes("postal_code")
-          zip = part.long_name
-        if part.types.includes("locality")
-          town = part.long_name
-        if part.types.includes("administrative_area_level_1")
-          state = part.long_name
-      fillLocationFields street, zip, town, state
-    .catch (error) ->
-      $('.no-geocode-alert').slideDown()
+reverseGeocode = (latLng) ->
+  geocoder = new google.maps.Geocoder()
+  geocoder.geocode location: {lat: latLng.lat, lng: latLng.lng}, (results, status) ->
+    address = results[0].address_components
+    [street, zip, town, state] = [undefined, undefined, undefined, undefined]
+    address.forEach (part) ->
+      if part.types.includes("route")
+        street = part.short_name
+      if part.types.includes("postal_code")
+        zip = part.long_name
+      if part.types.includes("locality")
+        town = part.long_name
+      if part.types.includes("administrative_area_level_1")
+        state = part.long_name
+    fillLocationFields street, zip, town, state
+  .catch (error) ->
+    $('.no-geocode-alert').slideDown()
 
 fillLocationFields = (street, zip, town, state) ->
   $('#incident_report_location').val String(street)
