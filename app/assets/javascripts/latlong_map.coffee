@@ -61,9 +61,9 @@ reverseGeocode = (latLng) ->
 
 fillLocationFields = (street, zip, town, state) ->
   $('#incident_report_location').val String(street)
-  $('#incident_report_zip').val String(zip)
   $('#incident_report_town').val String(town)
   $('#incident_report_state').val String(state)
+  $('#incident_report_zip').val String(zip)
 
 $(document).on 'turbolinks:load', ->
   if $('.map').length > 0
