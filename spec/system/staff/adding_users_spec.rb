@@ -7,18 +7,18 @@ describe 'adding users as staff' do
   before(:each) { when_current_user_is staff }
 
   it 'allows adding users' do
-    visit users_url
+    visit users_path
     click_on 'Add New User'
     expect(page).to have_content 'First name'
     expect(page).to have_content 'Last name'
     expect(page).to have_content 'Badge number'
     expect(page).to have_content 'Divisions'
-    expect(page.current_url).to end_with new_user_path
+    expect(page).to have_current_path new_user_path
     expect(page).to have_selector 'h1', text: 'Add New User'
   end
 
   it 'requires first name, last name, badge number, and divisions' do
-    visit new_user_url
+    visit new_user_path
     click_button 'Save user'
     expect(page).to have_selector 'p',
       text: 'This user has 4 missing values and so cannot be saved:'
@@ -30,7 +30,7 @@ describe 'adding users as staff' do
 
   it 'accepts new users which have the required values' do
     create :division, name: 'UMASS'
-    visit new_user_url
+    visit new_user_path
     fill_in 'First name', with: 'Leopold'
     fill_in 'Last name', with: 'Markowski'
     fill_in 'Badge number', with: '4087'
@@ -38,12 +38,12 @@ describe 'adding users as staff' do
     click_button 'Save user'
     expect(page).to have_selector 'p.notice',
       text: 'User was successfully created.'
-    expect(page.current_url).to end_with users_path
+    expect(page).to have_current_path users_path
   end
 
   it 'gives new users the default password' do
     new_user = build :user, :driver
-    visit new_user_url
+    visit new_user_path
     fill_in 'First name', with: new_user.first_name
     fill_in 'Last name', with: new_user.last_name
     fill_in 'Badge number', with: new_user.badge_number

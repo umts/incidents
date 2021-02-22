@@ -5,7 +5,7 @@ ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
 
 gem 'bootsnap'
 gem 'bootstrap-sass', '~> 3.3'
-gem 'coffee-rails', '~> 4.2'
+gem 'coffee-rails', '~> 5.0'
 gem 'csv'
 gem 'devise'
 gem 'haml-rails'
@@ -16,13 +16,14 @@ gem 'openssl'
 gem 'paper_trail', '~> 10.3'
 gem 'prawn-rails-forms', '~> 0.1.2'
 gem 'puma', '~> 3.12'
-gem 'rails', '~> 5.2.4'
+gem 'rails', '~> 6.0.3'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 
 group :production do
-  gem 'exception_notification', '~> 4.2.2'
+  gem 'exception_notification', '~> 4.4.3'
+  gem 'sidekiq', '~> 6.1.2'
 end
 
 group :development do
@@ -31,6 +32,7 @@ group :development do
   gem 'capistrano-passenger', require: false
   gem 'capistrano-pending', require: false
   gem 'capistrano-rails', require: false
+  gem 'capistrano-sidekiq', require: false
   gem 'listen', '>= 3.0.5', '< 3.2'
   gem 'rubocop'
   gem 'web-console', '>= 3.3.0'

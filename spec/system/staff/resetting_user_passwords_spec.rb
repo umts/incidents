@@ -7,7 +7,7 @@ describe 'resetting user passwords', js: true do
   let!(:user) { create :user, :driver }
 
   it 'allows resetting users passwords to the default' do
-    visit users_url
+    visit users_path
     click_button 'Drivers'
     expect(page).to have_selector 'button',
       text: 'Reset Password', count: 1

@@ -17,7 +17,7 @@
     %strong= human_name :incident, :completed
     = yes_no_image @incident.completed?
 
-  - if @incident.completed?
+  - if @incident.completed? && @incident.valid?
     %p
       %strong= human_name :incident, :latitude
       = @incident.latitude

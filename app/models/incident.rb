@@ -31,7 +31,9 @@ class Incident < ApplicationRecord
   validate :supervisor_in_correct_group
 
   accepts_nested_attributes_for :driver_incident_report
+  validates :occurred_at, presence: true, on: :create, if: :created_by_supervisor
   delegate :occurred_at_readable, to: :driver_incident_report
+  delegate :occurred_at, to: :driver_incident_report
   accepts_nested_attributes_for :supervisor_incident_report
   accepts_nested_attributes_for :supervisor_report
 
@@ -120,6 +122,7 @@ class Incident < ApplicationRecord
           doc.driver_desc         report.description
           doc.employee_entering   current_user.badge_number
           doc.driver              driver.badge_number
+          doc.run_number          report.route
           doc.vehicle_num         report.bus
           doc.speed               report.speed
           doc.incident_desc       supervisor_incident_report.try(:description)
@@ -215,6 +218,7 @@ class Incident < ApplicationRecord
     !completed? && supervisor_incident_report.nil?
   end
 
+
   private
 
   def supervisor_in_correct_group
@@ -230,5 +234,9 @@ class Incident < ApplicationRecord
       ApplicationMailer.with(incident: self, destination: user.email)
                        .new_incident.deliver_later
     end
+  end
+
+  def created_by_supervisor
+    supervisor_incident_report.present?
   end
 end

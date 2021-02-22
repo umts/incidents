@@ -9,7 +9,7 @@ describe 'viewing incidents as staff' do
     it 'allows searching for incidents by claim number' do
       incident_in_divisions(staff.divisions, claim_number: 'apples')
       incident_in_divisions(staff.divisions, claim_number: 'bananas')
-      visit incidents_url
+      visit incidents_path
       expect(page).to have_selector 'table.incidents tbody tr', count: 2
       fill_in 'Search by claim number', with: 'bananas'
       click_button 'Search'
@@ -24,7 +24,7 @@ describe 'viewing incidents as staff' do
       report = pax.incident_report
       report.update passenger_incident: true
       incident = create :incident, driver_incident_report: report
-      visit incident_url(incident)
+      visit incident_path(incident)
       expect(page).to have_text 'Transported to hospital'
     end
   end
@@ -34,7 +34,7 @@ describe 'viewing incidents as staff' do
       report = pax.incident_report
       report.update passenger_incident: true
       incident = create :incident, driver_incident_report: report
-      visit incident_url(incident)
+      visit incident_path(incident)
       expect(page).to have_text 'Not transported to hospital'
     end
   end
@@ -42,34 +42,34 @@ describe 'viewing incidents as staff' do
   context 'with incomplete incidents' do
     let!(:incident) { incident_in_divisions staff.divisions, completed: false }
     it 'allows viewing incomplete incidents', js: true do
-      visit incidents_url
+      visit incidents_path
       click_button 'Incomplete Incidents 1'
-      expect(page.current_url).to end_with incomplete_incidents_path
+      expect(page).to have_current_path incomplete_incidents_path
     end
   end
   context 'with no incomplete incidents' do
     it 'tells you there are not any' do
-      visit incomplete_incidents_url
+      visit incomplete_incidents_path
       expect(page).to have_selector 'p.notice',
                                     text: 'No incomplete incidents.'
-      expect(page.current_url).to end_with incidents_path
+      expect(page).to have_current_path incidents_path
     end
   end
 
   context 'with unclaimed incidents' do
     let!(:incident) { incident_in_divisions staff.divisions, :unclaimed }
     it 'allows viewing unclaimed incidents', js: true do
-      visit incidents_url
+      visit incidents_path
       click_button 'Unclaimed Incidents 1'
-      expect(page.current_url).to end_with unclaimed_incidents_path
+      expect(page).to have_current_path unclaimed_incidents_path
     end
   end
   context 'with no unclaimed incidents' do
     it 'tells you there are not any' do
-      visit unclaimed_incidents_url
+      visit unclaimed_incidents_path
       expect(page).to have_selector 'p.notice',
                                     text: 'No unclaimed incidents.'
-      expect(page.current_url).to end_with incidents_path
+      expect(page).to have_current_path incidents_path
     end
   end
 
@@ -77,24 +77,24 @@ describe 'viewing incidents as staff' do
     before(:each) { Timecop.freeze Date.new(2018, 1, 4) }
     after(:each) { Timecop.return }
     it 'starts out navigating by month' do
-      visit incidents_url
+      visit incidents_path
       expect(page).to have_selector 'h2',
                                     text: 'Monday, January 1, 2018 — Wednesday, January 31, 2018'
     end
     it 'allows going to the previous month' do
-      visit incidents_url
+      visit incidents_path
       click_button '← Previous month'
       expect(page).to have_selector 'h2',
                                     text: 'Friday, December 1, 2017 — Sunday, December 31, 2017'
     end
     it 'allows going to the next month' do
-      visit incidents_url
+      visit incidents_path
       click_button 'Next month →'
       expect(page).to have_selector 'h2',
                                     text: 'Thursday, February 1, 2018 — Wednesday, February 28, 2018'
     end
     it 'allows navigating by week' do
-      visit incidents_url
+      visit incidents_path
       click_button 'View single week'
       expect(page).to have_selector 'h2',
                                     text: 'Sunday, December 31, 2017 — Saturday, January 6, 2018'
@@ -102,7 +102,7 @@ describe 'viewing incidents as staff' do
     context 'navigating by week' do
       it 'goes to the first week in the month, not the current week' do
         Timecop.freeze Date.new(2018, 1, 7) do
-          visit incidents_url
+          visit incidents_path
           click_button 'View single week'
           expect(page).not_to have_selector 'h2',
                                             text: 'Sunday, January 7, 2018 — Saturday, January 13, 2018'
@@ -112,7 +112,7 @@ describe 'viewing incidents as staff' do
       end
     end
     it 'allows going from week mode back to month mode' do
-      visit incidents_url(mode: 'week')
+      visit incidents_path(mode: 'week')
       expect(page).to have_selector 'h2',
                                     text: 'Sunday, December 31, 2017 — Saturday, January 6, 2018'
       click_button 'View for whole month'
@@ -122,13 +122,13 @@ describe 'viewing incidents as staff' do
                                     text: 'Friday, December 1, 2017 — Sunday, December 31, 2017'
     end
     it 'allows going to the next week' do
-      visit incidents_url(mode: 'week')
+      visit incidents_path(mode: 'week')
       click_button 'Next week →'
       expect(page).to have_selector 'h2',
                                     text: 'Sunday, January 7, 2018 — Saturday, January 13, 2018'
     end
     it 'allows going to the previous week' do
-      visit incidents_url(mode: 'week')
+      visit incidents_path(mode: 'week')
       click_button '← Previous week'
       expect(page).to have_selector 'h2',
                                     text: 'Sunday, December 24, 2017 — Saturday, December 30, 2017'
@@ -144,7 +144,7 @@ describe 'viewing incidents as staff' do
                       occurred_front_door: true,
                       occurred_while_exiting: true
       incident = create :incident, driver_incident_report: report
-      visit incident_url(incident)
+      visit incident_path(incident)
       expect(page).to have_text 'Front door, While exiting'
     end
   end
@@ -156,7 +156,7 @@ describe 'viewing incidents as staff' do
       pax2 = create :injured_passenger, name: 'Tyler', incident_report: report
       report.update passenger_incident: true
       incident = create :incident, driver_incident_report: report
-      visit incident_url(incident)
+      visit incident_path(incident)
       expect(page).to have_text pax.name
       expect(page).to have_text pax2.name
     end

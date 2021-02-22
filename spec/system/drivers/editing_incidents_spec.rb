@@ -9,7 +9,7 @@ describe 'editing incidents as a driver' do
   let!(:incident) { create :incident, driver_incident_report: report }
   context 'admin deletes the incident' do
     it 'displays a nice error message', js: true do
-      visit incidents_url
+      visit incidents_path
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
         click_button 'Edit'
@@ -24,7 +24,7 @@ describe 'editing incidents as a driver' do
   end
   context 'adding multiple injured passengers' do
     it 'displays all of them', js: true do
-      visit incidents_url
+      visit incidents_path
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
         click_button 'Edit'
@@ -48,7 +48,7 @@ describe 'editing incidents as a driver' do
       save_and_preview
       Downloads.wait_for("#{incident.id}.pdf")
 
-      visit incident_url(incident)
+      visit incident_path(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
       expect(page).to have_selector 'h3', text: 'Passenger Incident Information'
       expect(page).to have_text 'Injured Passenger Information'
@@ -61,7 +61,7 @@ describe 'editing incidents as a driver' do
   context 'deleting an injured passenger' do
     it 'displays the current injured passengers', js: true do
       create_list :injured_passenger, 2, incident_report: report
-      visit incidents_url
+      visit incidents_path
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
         click_button 'Edit'
@@ -72,7 +72,7 @@ describe 'editing incidents as a driver' do
       save_and_preview
       Downloads.wait_for("#{incident.id}.pdf")
 
-      visit incident_url(incident)
+      visit incident_path(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
       expect(page).to have_selector 'h3', text: 'Passenger Incident Information'
       expect(page).to have_text 'Injured Passenger Information'
