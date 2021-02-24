@@ -1,7 +1,7 @@
 lock '~> 3.14'
 
 set :application, 'incidents'
-set :repo_url, 'git@github.com:umts/incidents.git'
+set :repo_url, 'https://github.com/umts/incidents.git'
 set :branch, :master
 set :keep_releases, 5
 set :deploy_to, "/srv/#{fetch :application}"
