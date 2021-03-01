@@ -10,7 +10,7 @@
     = favicon_link_tag
   %body
     - if Rails.env.test?
-      :javascript
+      = javascript_tag nonce: true do
         jQuery.fx.off = true;
     = render 'layouts/navbar'
     #main-panel.panel.panel-default
