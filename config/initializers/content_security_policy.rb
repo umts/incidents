@@ -6,11 +6,11 @@
 
 Rails.application.config.content_security_policy do |policy|
   policy.default_src :self
-  policy.font_src    :self, :data
-  policy.img_src     :self, :data
+  policy.font_src    :self, 'https://fonts.gstatic.com', :data
+  policy.img_src     :self, :https, :data
   policy.object_src  :none
-  policy.script_src  :self, :https
-  policy.style_src   :self, :https
+  policy.script_src  :self, 'https://*.googleapis.com'
+  policy.style_src   :self, 'https://*.googleapis.com'
   # If you are using webpack-dev-server then specify webpack-dev-server host
   # policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035" if Rails.env.development?
 
