@@ -16,3 +16,8 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+
+// Bootstrap's .hidden is !important
+.initially-hidden {
+  display: none;
+}
