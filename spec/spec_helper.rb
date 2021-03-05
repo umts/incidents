@@ -68,7 +68,7 @@ def fill_in_base_incident_fields
   fill_in 'Location', with: 'Mill and Locust'
   fill_in 'ZIP', with: '01108'
   select 'Springfield', from: 'Town'
-  select 'North', from: 'Direction'
+  select 'North', from: 'Direction bus'
   fill_in 'Describe the incident in detail.',
     with: 'Lorem ipsum dolor sit amet.'
 end
