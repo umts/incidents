@@ -12,7 +12,7 @@
     .field
       = form.label :pictures_saved?
       = form.check_box :pictures_saved, id: :supervisor_report_pictures_saved
-    .saved-pictures-info{style: ('display: none;' unless report.pictures_saved?)}
+    .saved-pictures-info{class: ('initially-hidden' unless report.pictures_saved?)}
       .field
         = form.label :saved_pictures
         = form.number_field :saved_pictures, id: :supervisor_report_saved_pictures
@@ -29,7 +29,7 @@
       = form.label :witness_info
       = form.check_box :witness_info, checked: report.has_witnesses?,
         id: :supervisor_report_witness_info
-    .witness-info{style: ('display: none;' unless report.has_witnesses?)}
+    .witness-info{class: ('initially-hidden' unless report.has_witnesses?)}
       %h3 Witness Information
       = form.fields_for :witnesses do |witness_form|
         .witness-fields
@@ -55,15 +55,15 @@
         = form.select :test_status,
           options_for_select(SupervisorReport::REASONS_FOR_TEST, report.test_status), { include_blank: true },
           id: :supervisor_report_test_status
-      .fta-threshold-info{style: ('display: none;' unless report.fta_threshold_not_met?)}
+      .fta-threshold-info{class: ('initially-hidden' unless report.fta_threshold_not_met?)}
         = form.label :reason_threshold_not_met
         = form.text_area :reason_threshold_not_met, id: :supervisor_report_reason_threshold_not_met,
           size: '80x4'
-      .driver-discounted-info{style: ('display: none;' unless report.driver_discounted?)}
+      .driver-discounted-info{class: ('initially-hidden' unless report.driver_discounted?)}
         = form.label :reason_driver_discounted
         = form.text_area :reason_driver_discounted, id: :supervisor_report_reason_driver_discounted,
           size: '80x4'
-      .post-accident-info{style: ('display: none;' unless report.post_accident_completed_drug_test?)}
+      .post-accident-info{class: ('initially-hidden' unless report.post_accident_completed_drug_test?)}
         .field
           = form.label :test_due_to_bodily_injury?
           = form.check_box :test_due_to_bodily_injury, id: :supervisor_report_test_due_to_bodily_injury
@@ -73,7 +73,7 @@
         .field
           = form.label :test_due_to_fatality?
           = form.check_box :test_due_to_fatality, id: :supervisor_report_test_due_to_fatality
-      .reasonable-suspicion-info{style: ('display: none;' unless report.reasonable_suspicion?)}
+      .reasonable-suspicion-info{class: ('initially-hidden' unless report.reasonable_suspicion?)}
         .field
           = form.label :completed_drug_test?
           = form.check_box :completed_drug_test, id: :supervisor_report_completed_drug_test
@@ -90,7 +90,7 @@
           = form.label :test_due_to_employee_appearance?
           = form.check_box :test_due_to_employee_appearance,
             id: :supervisor_report_test_due_to_employee_appearance
-        .employee-appearance-info{style: ('display: none;' unless report.test_due_to_employee_appearance?)}
+        .employee-appearance-info{class: ('initially-hidden' unless report.test_due_to_employee_appearance?)}
           .field
             = form.label :employee_appearance
             = form.text_field :employee_appearance, id: :supervisor_report_employee_appearance
@@ -98,7 +98,7 @@
           = form.label :test_due_to_employee_behavior?
           = form.check_box :test_due_to_employee_behavior,
             id: :supervisor_report_test_due_to_employee_behavior
-        .employee-behavior-info{style: ('display: none;' unless report.test_due_to_employee_behavior?)}
+        .employee-behavior-info{class: ('initially-hidden' unless report.test_due_to_employee_behavior?)}
           .field
             = form.label :employee_behavior
             = form.text_field :employee_behavior, id: :supervisor_report_employee_behavior
@@ -106,7 +106,7 @@
           = form.label :test_due_to_employee_speech?
           = form.check_box :test_due_to_employee_speech,
             id: :supervisor_report_test_due_to_employee_speech
-        .employee-speech-info{style: ('display: none;' unless report.test_due_to_employee_speech?)}
+        .employee-speech-info{class: ('initially-hidden' unless report.test_due_to_employee_speech?)}
           .field
             = form.label :employee_speech
             = form.text_field :employee_speech, id: :supervisor_report_employee_speech
@@ -114,7 +114,7 @@
           = form.label :test_due_to_employee_odor?
           = form.check_box :test_due_to_employee_odor,
             id: :supervisor_report_test_due_to_employee_odor
-        .employee-odor-info{style: ('display: none;' unless report.test_due_to_employee_odor?)}
+        .employee-odor-info{class: ('initially-hidden' unless report.test_due_to_employee_odor?)}
           .field
             = form.label :employee_odor
             = form.text_field :employee_odor, id: :supervisor_report_employee_odor
