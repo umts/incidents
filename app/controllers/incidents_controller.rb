@@ -166,7 +166,10 @@ class IncidentsController < ApplicationController
   def incident_params
     data = params.require(:incident).permit!
     sup_report_attrs = data[:supervisor_incident_report_attributes]
-    @incident.driver_incident_report = IncidentReport.create( user_id: current_user.id ) if current_user.driver?
+    if current_user.driver?
+      data[:driver_incident_report_attributes] = { "user_id" => current_user.id }
+      @incident.driver_incident_report = IncidentReport.new
+    end
     if sup_report_attrs.present?
       @assigning_supervisor = sup_report_attrs[:user_id].present? &&
                               @incident.supervisor_report.nil?
