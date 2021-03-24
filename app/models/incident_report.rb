@@ -52,7 +52,7 @@ class IncidentReport < ApplicationRecord
 
   accepts_nested_attributes_for :injured_passengers
 
-  validates :occurred_at, :location, :direction, :town, :bus, :description,
+  validates :location, :direction, :town, :bus, :description,
     presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
   validates :location, length: { maximum: 50 }
@@ -93,18 +93,6 @@ class IncidentReport < ApplicationRecord
 
   def needs_reason_not_up_to_curb?
     motion_of_bus == 'Stopped' && !bus_up_to_curb?
-  end
-
-  def occurred_at_readable
-    [occurred_date, occurred_time].join ' - '
-  end
-
-  def occurred_date
-    occurred_at.try :strftime, '%A, %B %e'
-  end
-
-  def occurred_time
-    occurred_at.try :strftime, '%l:%M %P'
   end
 
   # rubocop:disable Metrics/LineLength

@@ -5,11 +5,16 @@ require 'spec_helper'
 describe 'special incident fields' do
   let(:driver) { create :user, :driver }
   before(:each) { when_current_user_is driver }
+  let :create_new_incident do
+    visit new_incident_url
+    fill_in_date_and_time
+    click_on 'Create Incident Report'
+  end
 
   describe 'collision related fields' do
     context 'without collision' do
       before :each do
-        visit new_incident_path
+        create_new_incident
       end
       it 'allows filling in collision fields', js: true do
         expect(page).not_to have_text 'Motor Vehicle Collision Information'
@@ -43,7 +48,7 @@ describe 'special incident fields' do
   describe 'other vehicle related fields' do
     context 'without other vehicle info' do
       it 'allows filling in other vehicle info as necessary', js: true do
-        visit new_incident_path
+        create_new_incident
         check 'Did the incident involve a collision?'
         expect(page).to have_field 'Other vehicle owner name'
         check 'Is the other driver involved the owner of the vehicle?'
@@ -69,7 +74,7 @@ describe 'special incident fields' do
   describe 'police related fields' do
     context 'without police info' do
       before :each do
-        visit new_incident_path
+        create_new_incident
       end
       it 'allows filling in police info', js: true do
         check 'Did the incident involve a collision?'
@@ -106,7 +111,7 @@ describe 'special incident fields' do
   describe 'passenger incident related fields' do
     context 'without passenger incidents' do
       before :each do
-        visit new_incident_path
+        create_new_incident
       end
       it 'allows filling in passenger incident fields', js: true do
         expect(page).not_to have_text 'Passenger Incident Information'
@@ -139,7 +144,7 @@ describe 'special incident fields' do
 
   describe 'reason not up to curb related fields' do
     before :each do
-      visit new_incident_path
+      create_new_incident
     end
     context 'without reason not up to curb' do
       it 'allows filling in reason bus was not up to curb', js: true  do
@@ -176,4 +181,3 @@ describe 'special incident fields' do
     end
   end
 end
-

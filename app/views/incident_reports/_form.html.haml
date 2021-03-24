@@ -20,12 +20,6 @@
           options_from_collection_for_select(users, :id, :proper_name, report.user_id),
           { include_blank: true }, id: :incident_report_user_id
     .field
-      = form.label :occurred_at
-      - a11y_datetime_labels('incident_report_occurred_at').each do |label|
-        = label
-      = form.datetime_select :occurred_at, id: :incident_report_occurred_at,
-        prompt: true, ampm: true
-    .field
       = form.label :run
       = form.text_field :run, id: :incident_report_run
       .example C57; VATCo always uses CAPITAL route letter and number; no symbols

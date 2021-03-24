@@ -143,6 +143,7 @@ ActiveRecord::Schema.define(version: 2021_02_18_220759) do
     t.integer "claims_id"
     t.boolean "exported_to_claims"
     t.integer "supplementary_reason_code_id"
+    t.datetime "occurred_at"
   end
 
   create_table "injured_passengers", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci", force: :cascade do |t|
@@ -233,7 +234,7 @@ ActiveRecord::Schema.define(version: 2021_02_18_220759) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", force: :cascade do |t|
+  create_table "versions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.integer "item_id", null: false
     t.string "event", null: false

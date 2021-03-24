@@ -21,7 +21,6 @@ FactoryBot.define do
     road_conditions            { IncidentReport::ROAD_OPTIONS.sample }
     light_conditions           { IncidentReport::LIGHT_OPTIONS.sample }
     description                { FFaker::Lorem.paragraphs(5).join "\n" }
-    occurred_at { DateTime.now.beginning_of_minute }
 
     trait :driver_report do
       association :user, factory: %i[user driver]
