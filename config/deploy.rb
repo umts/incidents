@@ -1,14 +1,15 @@
 lock '~> 3.14'
 
 set :application, 'incidents'
-set :repo_url, 'git@github.com:umts/incidents.git'
+set :repo_url, 'https://github.com/umts/incidents.git'
 set :branch, :master
 set :keep_releases, 5
 set :deploy_to, "/srv/#{fetch :application}"
 
 append :linked_files,
        'config/database.yml',
-       'config/secrets.yml'
+       'config/secrets.yml',
+       'config/sidekiq.yml'
 
 append :linked_dirs,
        'claims_xml',
@@ -18,3 +19,6 @@ append :linked_dirs,
        'tmp/sockets',
        'vendor/bundle',
        '.bundle'
+
+set :sidekiq_user, 'root'
+set :sidekiq_service_unit_user, :system

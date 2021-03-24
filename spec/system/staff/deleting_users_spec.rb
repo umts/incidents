@@ -7,7 +7,7 @@ describe 'deleting users as staff' do
   let!(:user) { create :user, :driver }
   context 'user has no incidents' do
     it 'allows deleting the user', js: true  do
-      visit users_url
+      visit users_path
       click_button 'Drivers'
       expect(page).to have_selector 'button',
         text: 'Delete', count: 1
@@ -24,7 +24,7 @@ describe 'deleting users as staff' do
       create :incident,
         driver_incident_report: create(:incident_report, user: user),
         supervisor_incident_report: nil, supervisor_report: nil
-      visit users_url
+      visit users_path
       click_button 'Drivers'
       expect(page).to have_selector 'button',
         text: 'Delete', count: 1

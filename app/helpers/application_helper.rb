@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'uri'
+
 module ApplicationHelper
   def a11y_date_labels(tag_id)
     a11y_rails_native_select_labels(tag_id, %w[Year Month Day])
@@ -7,6 +9,14 @@ module ApplicationHelper
 
   def a11y_datetime_labels(tag_id)
     a11y_rails_native_select_labels(tag_id, %w[Year Month Day Hour Minute])
+  end
+
+  def maps_source
+    URI::HTTPS.build host: 'maps.googleapis.com',
+                     path: '/maps/api/js',
+                     query: {
+                       key: Rails.application.secrets.google_maps_api_key
+                     }.to_query
   end
 
   def yes_no(value)

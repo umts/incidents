@@ -8,26 +8,26 @@ describe 'creating incidents as staff' do
   let!(:driver_in_division) { create :user, :driver, divisions: user.divisions }
   before(:each) { when_current_user_is user }
   it 'asks you to pick a driver', js: true do
-    visit root_url
+    visit root_path
     find('button', text: 'New Incident').click
     expect(page).to have_css 'h1', text: 'New Incident'
     expect(page).to have_select 'Driver'
   end
   it 'allows you to select other supervisors from your division' do
     create :user, :supervisor # will be in different division
-    visit new_incident_url
+    visit new_incident_path
     expect(page).to have_select 'Supervisor', options: ['', supervisor_in_division.proper_name]
   end
   context 'after creating the report' do
     it 'does not send you directly to fill in the report' do
-      visit new_incident_url
+      visit new_incident_path
       select driver_in_division.proper_name, from: 'Driver'
       select supervisor_in_division.proper_name, from: 'Supervisor'
       click_on 'Create Incident Report'
-      expect(page.current_url).to end_with incidents_path
+      expect(page).to have_current_path incidents_path
     end
     it 'tells you that the report has been created successfully' do
-      visit new_incident_url
+      visit new_incident_path
       select driver_in_division.proper_name, from: 'Driver'
       fill_in_date_and_time
       select supervisor_in_division.proper_name, from: 'Supervisor'
@@ -36,7 +36,7 @@ describe 'creating incidents as staff' do
     end
     context 'without selecting a supervisor' do
       it 'creates a supervisor-less report' do
-        visit new_incident_url
+        visit new_incident_path
         select driver_in_division.proper_name, from: 'Driver'
         fill_in_date_and_time
         select '', from: 'Supervisor'
@@ -46,7 +46,7 @@ describe 'creating incidents as staff' do
     end
     context 'without selecting a driver' do
       it 'does not create an incident' do
-        visit new_incident_url
+        visit new_incident_path
         select '', from: 'Driver'
         fill_in_date_and_time
         select supervisor_in_division.proper_name, from: 'Supervisor'

@@ -20,7 +20,7 @@
     %strong= human_name :incident, :occurred_at
     = @incident.occurred_at_readable
 
-  - if @incident.completed?
+  - if @incident.completed? && @incident.valid?
     %p
       %strong= human_name :incident, :latitude
       = @incident.latitude

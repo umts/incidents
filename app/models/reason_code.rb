@@ -3,7 +3,7 @@
 class ReasonCode < ApplicationRecord
   has_many :incidents
   validates :identifier, :description, presence: true
-  validates :identifier, uniqueness: true # description isn't unique, apparently
+  validates :identifier, uniqueness: { case_sensitive: false }
 
   def full_label
     [identifier, description].join ': '

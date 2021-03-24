@@ -19,7 +19,7 @@ describe 'creating incidents as a driver' do
     click_on 'Create Incident Report'
     expect(page).to have_text 'Editing Driver Account of Incident'
     driver_report = Incident.last.driver_incident_report
-    expect(page.current_url).to end_with edit_incident_report_path(driver_report)
+    expect(page).to have_current_path edit_incident_report_path(driver_report)
   end
 
 

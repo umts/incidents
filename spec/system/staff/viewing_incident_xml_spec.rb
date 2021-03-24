@@ -7,7 +7,7 @@ describe 'viewing incident XML as a staff member' do
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }
   it 'marks the incident as exported' do
-    visit incidents_url
+    visit incidents_path
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
     expect(page).to have_selector 'table.incidents th', text: 'Hastus?'
     # Find the column which indicates whether the incident is exported.
@@ -22,9 +22,9 @@ describe 'viewing incident XML as a staff member' do
     end
 
     # This should mark it as exported.
-    visit incident_url(incident, format: :xml)
+    visit incident_path(incident, format: :xml)
 
-    visit incidents_url
+    visit incidents_path
     # We assume that the number and positioning of the columns hasn't suddenly changed.
     exported_row_cell = page.find_all('table.incidents tbody td')[exported_column_index]
     # Expect it to have the "Yes" sign.
@@ -36,7 +36,7 @@ describe 'viewing incident XML as a staff member' do
     let(:driver_report) { create :incident_report, :driver_report, :collision }
     let(:incident) { create :incident, driver_incident_report: driver_report }
     it 'works' do
-      expect { visit incident_url(incident, format: :xml) }.not_to raise_error
+      expect { visit incident_path(incident, format: :xml) }.not_to raise_error
     end
   end
 end
@@ -45,7 +45,7 @@ describe 'viewing incident XML as a driver' do
   let(:incident) { create :incident }
   it 'you can not' do
     when_current_user_is :driver
-    visit incident_url(incident, format: :xml)
+    visit incident_path(incident, format: :xml)
     expect(page).to have_text 'You do not have permission to access this page.'
   end
 end
@@ -55,7 +55,7 @@ describe 'batch exporting XML' do
   before(:each) { when_current_user_is staff }
   let!(:incident) { incident_in_divisions staff.divisions }
   it 'marks incidents as exported', js: true do
-    visit incidents_url
+    visit incidents_path
     expect(page).to have_selector 'table.incidents tbody tr', count: 1
     expect(page).to have_selector 'table.incidents th', text: 'Hastus?'
     # Find the column which indicates whether the incident is exported.
@@ -74,7 +74,7 @@ describe 'batch exporting XML' do
     check 'batch_export'
     click_button 'Generate XML export (1 selected)'
 
-    visit incidents_url
+    visit incidents_path
     # We assume that the number and positioning of the columns hasn't suddenly changed.
     exported_row_cell = page.find_all('table.incidents tbody td')[exported_column_index]
     # Expect it to have the "Yes" sign.
@@ -86,7 +86,7 @@ describe 'batch exporting XML' do
   it 'allows selecting all shown incidents', js: true do
     # 3 plus the one we created above should be 4.
     3.times { incident_in_divisions staff.divisions }
-    visit incidents_url
+    visit incidents_path
     click_button 'Batch export'
 
     expect(page).to have_unchecked_field 'batch_export', count: 4
@@ -105,7 +105,7 @@ describe 'batch exporting incident XML or CSV as a staff member' do
       3.times { incident_in_divisions [division1] }
       3.times { incident_in_divisions [division2] }
 
-      visit incidents_url
+      visit incidents_path
       expect(page).to have_selector 'table.incidents tbody tr', count: 6
       click_button division1.name
       expect(page).to have_selector 'table.incidents tbody tr', count: 3
