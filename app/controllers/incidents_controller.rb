@@ -11,7 +11,7 @@ class IncidentsController < ApplicationController
   def batch_hastus_export
     @incidents = Incident.where(id: params[:ids])
     if params[:format] == 'xml-button'
-      send_data render_to_string('batch_export.xml.haml'),
+      send_data render_to_string('batch_export', formats: [:xml]),
         filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
         disposition: 'attachment'
     elsif params[:format] == 'csv-button'
@@ -119,18 +119,16 @@ class IncidentsController < ApplicationController
   def show
     respond_to do |format|
       format.csv { send_data @incident.to_csv, filename: "#{@incident.id}.csv" }
-      format.html { render 'show' }
+      format.html
       format.pdf do
         record_print_event
         @filename = "#{@incident.id}.pdf"
-        render pdf: 'show.pdf.prawn'
       end
       format.xml do
         unless Rails.env.development?
           response.set_header 'Content-Disposition', 'attachment'
         end
         @incident.mark_as_exported_to_hastus
-        render 'show.xml.haml'
       end
     end
   end
