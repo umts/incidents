@@ -62,8 +62,8 @@ class User < ApplicationRecord
   end
 
   def inactive_message
-    if !active? then :inactive
-    else super
+    if active? then super
+    else :inactive
     end
   end
 
@@ -77,8 +77,8 @@ class User < ApplicationRecord
 
   def set_default_password
     assign_attributes password: last_name,
-      password_confirmation: last_name,
-      password_changed_from_default: false
+                      password_confirmation: last_name,
+                      password_changed_from_default: false
   end
 
   def self.import_from_xml(xml)
@@ -132,8 +132,6 @@ class User < ApplicationRecord
   end
 
   def track_password_changed
-    unless valid_password?(last_name)
-      assign_attributes password_changed_from_default: true
-    end
+    assign_attributes password_changed_from_default: true unless valid_password?(last_name)
   end
 end

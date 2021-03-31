@@ -43,9 +43,9 @@ FactoryBot.define do
       other_vehicle_state                     { %w[MA RI CT NY].sample }
       other_vehicle_make                      { FFaker::Vehicle.make }
       other_vehicle_model                     { FFaker::Vehicle.model }
-      other_vehicle_year                      { 1_997 + rand(20) }
+      other_vehicle_year                      { rand(1997..2016) }
       other_vehicle_color                     { %w[Red White Blue].sample }
-      other_vehicle_passengers                { 1 + rand(3) }
+      other_vehicle_passengers                { rand(1..3) }
       other_vehicle_direction                 { %w[North South East West].sample }
       other_driver_name                       { FFaker::Name.name }
       other_driver_license_number             { 'S' + rand(99_999_999).to_s.rjust(8, '0') }

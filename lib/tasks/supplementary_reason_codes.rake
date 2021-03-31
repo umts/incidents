@@ -27,14 +27,12 @@ namespace :supplementary_reason_codes do
       identifier, description = code.split ': '
       new_code = SupplementaryReasonCode.create! identifier: identifier,
                                                  description: description
-      unless new_code.full_label == code
-        fail 'You dun goofed'
-      end
+      raise 'You dun goofed' unless new_code.full_label == code
     end
   end
 
   task migrate: :environment do
-  # Example invocation: rails supplementary_reason_codes:migrate
+    # Example invocation: rails supplementary_reason_codes:migrate
     incidents = Incident.where.not second_reason_code: nil
     incidents.each do |incident|
       identifier = incident.second_reason_code.split(': ').first

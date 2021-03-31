@@ -36,13 +36,9 @@ namespace :users do
     statuses = User.import_from_xml(doc)
     if statuses
       message = "Imported #{statuses[:imported]} new users"
-      unless statuses[:updated].zero?
-        message += " and updated #{statuses[:updated]}"
-      end
+      message += " and updated #{statuses[:updated]}" unless statuses[:updated].zero?
       message += '.'
-      unless statuses[:rejected].zero?
-        message << " #{statuses[:rejected]} were rejected."
-      end
+      message << " #{statuses[:rejected]} were rejected." unless statuses[:rejected].zero?
       puts message
     else puts 'Could not import from file.'
     end

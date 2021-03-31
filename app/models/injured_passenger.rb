@@ -4,8 +4,7 @@ class InjuredPassenger < ApplicationRecord
 
   def display_info
     [name, address, nature_of_injury, transported_to_hospital_display,
-     phone_display(:home), phone_display(:cell), phone_display(:work)
-    ].reject(&:blank?).join '; '
+     phone_display(:home), phone_display(:cell), phone_display(:work)].reject(&:blank?).join '; '
   end
 
   def transported_to_hospital_display
@@ -17,9 +16,8 @@ class InjuredPassenger < ApplicationRecord
 
   def phone_display(phone_type)
     raise ArgumentError unless %i[home cell work].include? phone_type
+
     phone = send "#{phone_type}_phone"
-    if phone.present?
-      "#{phone_type.capitalize}: #{phone}"
-    end
+    "#{phone_type.capitalize}: #{phone}" if phone.present?
   end
 end

@@ -44,7 +44,7 @@ class IncidentReport < ApplicationRecord
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
-  STATE_OPTIONS = %w[ Massachusetts Connecticut ].freeze
+  STATE_OPTIONS = %w[Massachusetts Connecticut].freeze
 
   belongs_to :user
   has_one :incident
@@ -53,16 +53,15 @@ class IncidentReport < ApplicationRecord
   accepts_nested_attributes_for :injured_passengers
 
   validates :occurred_at, :location, :direction, :town, :bus, :description,
-    presence: true, if: :changed?, unless: :new_record?
+            presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
   validates :location, length: { maximum: 50 }
 
   def full_location(include_state: false)
     return unless location.present? && town.present?
+
     parts = [location, town]
-    if include_state
-      parts << "MA #{zip}"
-    end
+    parts << "MA #{zip}" if include_state
     parts.join ', '
   end
 

@@ -18,7 +18,7 @@ class ApplicationController < ActionController::Base
 
     if current_user.requires_password_change?
       redirect_to change_password_path,
-        notice: 'You must change your password from the default before continuing.'
+                  notice: 'You must change your password from the default before continuing.'
     end
   end
 
@@ -41,8 +41,6 @@ class ApplicationController < ActionController::Base
   end
 
   def restrict_to_supervisors
-    unless current_user.supervisor? || current_user.staff?
-      deny_access and return
-    end
+    deny_access and return unless current_user.supervisor? || current_user.staff?
   end
 end

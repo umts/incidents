@@ -7,9 +7,7 @@ end
 
 ENV['RAILS_ENV'] ||= 'test'
 require File.expand_path('../config/environment', __dir__)
-if Rails.env.production?
-  abort('The Rails environment is running in production mode!')
-end
+abort('The Rails environment is running in production mode!') if Rails.env.production?
 
 Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
@@ -70,7 +68,7 @@ def fill_in_base_incident_fields
   select 'Springfield', from: 'Town'
   select 'North', from: 'Direction bus'
   fill_in 'Describe the incident in detail.',
-    with: 'Lorem ipsum dolor sit amet.'
+          with: 'Lorem ipsum dolor sit amet.'
 end
 
 def fill_in_date_and_time
@@ -84,7 +82,7 @@ end
 def incident_in_divisions(divisions, *traits)
   attributes = if traits.last.is_a? Hash
                  traits.pop
-               else Hash.new
+               else {}
                end
   driver = create :user, :driver, divisions: divisions
   report = create :incident_report, user: driver

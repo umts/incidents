@@ -40,13 +40,9 @@ class UsersController < ApplicationController
       statuses = User.import_from_xml(xml)
       if statuses
         message = "Imported #{statuses[:imported]} new users"
-        unless statuses[:updated].zero?
-          message += " and updated #{statuses[:updated]}"
-        end
+        message += " and updated #{statuses[:updated]}" unless statuses[:updated].zero?
         message += '.'
-        unless statuses[:deactivated].zero?
-          message += " #{statuses[:deactivated]} users were deactivated."
-        end
+        message += " #{statuses[:deactivated]} users were deactivated." unless statuses[:deactivated].zero?
         if statuses[:rejected].zero?
           redirect_to users_path, notice: message
         else
@@ -84,7 +80,7 @@ class UsersController < ApplicationController
     @user.set_default_password
     @user.save!
     redirect_to users_path,
-      notice: "#{@user.full_name}'s password was reset to the default password."
+                notice: "#{@user.full_name}'s password was reset to the default password."
   end
 
   def update

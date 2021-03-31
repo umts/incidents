@@ -17,4 +17,3 @@ describe 'viewing incident report history as staff' do
     expect(page).to have_current_path history_supervisor_report_path(incident.supervisor_report)
   end
 end
-

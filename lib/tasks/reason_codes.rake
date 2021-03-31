@@ -12,6 +12,7 @@ namespace :reason_codes do
       identifier = code_data.at_css('identifier').text
       code = ReasonCode.find_by identifier: identifier
       next if code.present?
+
       description = code_data.at_css('description').text
       ReasonCode.create! identifier: identifier, description: description
       imported += 1
