@@ -10,11 +10,12 @@ class IncidentsController < ApplicationController
 
   def batch_hastus_export
     @incidents = Incident.where(id: params[:ids])
-    if params[:format] == 'xml-button'
+    case params[:format]
+    when 'xml-button'
       send_data render_to_string('batch_export.xml.haml'),
                 filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
                 disposition: 'attachment'
-    elsif params[:format] == 'csv-button'
+    when 'csv-button'
       send_data @incidents.to_csv,
                 filename: "#{@incidents.map(&:id).sort.join(',')}.csv",
                 disposition: 'attachment'

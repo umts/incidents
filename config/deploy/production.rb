@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 server 'incidents.pvta.com',
        roles: %w[app db web],
        ssh_options: { forward_agent: false }

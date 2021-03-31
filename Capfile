@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 %w[setup deploy pending bundler rails passenger scm/git sidekiq].each do |lib|
   require "capistrano/#{lib}"
 end

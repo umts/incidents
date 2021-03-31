@@ -18,7 +18,7 @@ SECOND_REASON_CODES = [
   'b-6: Right Turn',
   'b-7: Left Turn',
   'b-8: Miscellaneous'
-]
+].freeze
 
 namespace :supplementary_reason_codes do
   # Example invocation: rails supplementary_reason_codes:create

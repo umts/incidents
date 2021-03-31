@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative 'downloads'
+
 options = Selenium::WebDriver::Chrome::Options.new
 options.add_preference(:plugins, always_open_pdf_externally: true)
 options.add_preference(:download, default_directory: Downloads::PATH)

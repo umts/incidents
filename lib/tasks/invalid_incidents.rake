@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :incidents do
   desc 'fix invalid incidents'
   task update_incidents: :environment do

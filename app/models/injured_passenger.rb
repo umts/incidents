@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class InjuredPassenger < ApplicationRecord
   belongs_to :incident_report
   validates :name, :nature_of_injury, presence: true

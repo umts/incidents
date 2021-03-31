@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Witness < ApplicationRecord
   belongs_to :supervisor_report
   validates :name, presence: true

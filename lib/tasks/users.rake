@@ -16,7 +16,7 @@ namespace :users do
     text = file.read
     elevated = 0
     text.each_line do |name|
-      first_name, last_name = name.split ' '
+      first_name, last_name = name.split
       user = User.supervisors.find_by first_name: first_name,
                                       last_name: last_name
       unless user.present?
