@@ -27,13 +27,6 @@ To elevate the appropriate administrative staff, record their full names in a .t
 rails users:elevate_staff staff.txt
 ```
 
-### Logging into the Rails server
-When you connect to the Rails server you will be prompted to log in.
-If you seeded your data you will be able to log in using these credentials:
-
-**Badge number:** 5000
-**Password:** password
-
 ### Email
 
 We develop using mailcatcher. They don't recommend listing it in the Gemfile, so install with `gem install mailcatcher`.
