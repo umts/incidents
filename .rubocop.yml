@@ -12,33 +12,6 @@ AllCops:
     - vendor/**/*
   NewCops: enable
 
-# Incidents have complicated validation conditions.
-Layout/BlockEndNewline:
-  Exclude:
-    - 'app/models/incident.rb'
-
-Layout/MultilineBlockLayout:
-  Exclude:
-    - 'app/models/incident.rb'
-
-Layout/MultilineOperationIndentation:
-  Exclude:
-    - 'app/models/incident.rb'
-
-# It's nice to align the xml tags and their values.
-Layout/ExtraSpacing:
-  Exclude:
-    - 'lib/tasks/incidents.rake'
-
-# It's nice to align the xml tags and their values.
-Layout/SpaceBeforeFirstArg:
-  Exclude:
-    - 'lib/tasks/incidents.rake'
-
-# I've never seen this one go bad.
-Lint/AmbiguousBlockAssociation:
-  Enabled: false
-
 Metrics/AbcSize:
   Max: 36
 
@@ -49,8 +22,6 @@ Metrics/BlockLength:
 
 Metrics/ClassLength:
   Max: 125
-  Exclude:
-    - app/models/incident.rb
 
 Metrics/MethodLength:
   Max: 18
