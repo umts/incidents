@@ -107,7 +107,7 @@ class IncidentReport < ApplicationRecord
     occurred_at.try :strftime, '%l:%M %P'
   end
 
-  # rubocop:disable Metrics/LineLength
+  # rubocop:disable Layout/LineLength
   def other_vehicle_driver_full_address
     first_line = other_vehicle_driver_address
     second_line = "#{other_vehicle_driver_address_town}, #{other_vehicle_driver_address_state} #{other_vehicle_driver_address_zip}"
@@ -119,7 +119,7 @@ class IncidentReport < ApplicationRecord
     second_line = "#{other_vehicle_owner_address_town}, #{other_vehicle_owner_address_state} #{other_vehicle_owner_address_zip}"
     [first_line, second_line]
   end
-  # rubocop:enable Metrics/LineLength
+  # rubocop:enable Layout/LineLength
 
   def occurred_full_location
     PASSENGER_INCIDENT_LOCATIONS.select do |loc|
