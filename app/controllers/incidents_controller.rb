@@ -74,10 +74,10 @@ class IncidentsController < ApplicationController
 
     @reason_codes = ReasonCode.order(:identifier)
     @supplementary_reason_codes = SupplementaryReasonCode.order(:identifier)
-    if current_user.driver?
-      # It's the only thing they can edit anyway.
-      redirect_to edit_incident_report_path(@incident.driver_incident_report)
-    end
+    return unless current_user.driver?
+
+    # It's the only thing they can edit anyway.
+    redirect_to edit_incident_report_path(@incident.driver_incident_report)
   end
 
   def incomplete

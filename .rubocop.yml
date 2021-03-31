@@ -45,52 +45,16 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Max: 50
   Exclude:
-    - test/factories/*.rb
+    - 'spec/**/*.rb'
 
 Metrics/ClassLength:
   Max: 125
   Exclude:
     - app/models/incident.rb
-    - test/system/completing_incidents_test.rb
-
-# Factory DSL plus random data means you'll have long lines. I'm okay with that.
-Layout/LineLength:
-  Exclude: 
-    - test/factories/*.rb
 
 Metrics/MethodLength:
   Max: 18
-  Exclude:
-    - test/system/completing_incidents_test.rb
-
-# 'and' and && are different. I know when I want one and when I want the other.
-Style/AndOr:
-  Enabled: false
-
-# It's straight from the Rails docs.
-Style/ClassAndModuleChildren:
-  Exclude:
-    - test/test_helper.rb
 
 # Not bothering for this repo.
 Style/Documentation:
   Enabled: false
-
-# This doesn't apply to controllers, where the final render is implied.
-Style/GuardClause:
-  Exclude:
-    - app/controllers/*
-
-Style/IfUnlessModifier:
-  Enabled: true
-
-# The only alternative with long lambdas is to say (lambda do ... end),
-# wrapped in parentheses, which looks TERRIBLE.
-Style/Lambda:
-  Exclude:
-    - 'app/models/incident.rb'
-
-# I like to write FactoryGirl calls without parentheses.
-Style/NestedParenthesizedCalls:
-  Exclude:
-    - test/**/*

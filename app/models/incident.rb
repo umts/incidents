@@ -38,36 +38,36 @@ class Incident < ApplicationRecord
 
   has_many :staff_reviews, dependent: :destroy
 
-  scope :between, (lambda do |start_date, end_date|
+  scope :between, lambda { |start_date, end_date|
     joins(:driver_incident_report)
       .where incident_reports: { occurred_at: start_date..end_date }
-  end)
+  }
 
-  scope :in_divisions, (lambda do |divisions|
+  scope :in_divisions, lambda { |divisions|
     joins(driver: :divisions_users)
       .where divisions_users: { division_id: divisions.pluck(:id) }
-  end)
+  }
 
-  scope :occurred_order, (lambda do
+  scope :occurred_order, lambda {
     joins(:driver_incident_report).order 'incident_reports.occurred_at'
-  end)
+  }
 
-  scope :for_driver, ->(user) {
+  scope :for_driver, lambda { |user|
     joins(:driver_incident_report)
       .where(incident_reports: { user_id: user.id })
   }
-  scope :for_supervisor, ->(user) {
+
+  scope :for_supervisor, lambda { |user|
     joins(:supervisor_incident_report)
       .where(incident_reports: { user_id: user.id })
   }
+
   scope :incomplete, -> { where completed: false }
   scope :completed, -> { where completed: true }
   scope :unclaimed, -> { incomplete.where supervisor_incident_report_id: nil }
 
   # It turns out that with MySQL, this *is* case-insensitive.
-  scope :by_claim, ->(number) {
-    where claim_number: number
-  }
+  scope :by_claim, ->(number) { where claim_number: number }
 
   after_create :send_notifications
 
@@ -182,10 +182,10 @@ class Incident < ApplicationRecord
   end
 
   def notify_supervisor_of_new_report
-    if supervisor.email.present?
-      ApplicationMailer.with(incident: self, destination: supervisor.email)
-                       .new_incident.deliver_later
-    end
+    return if supervisor.email.blank?
+
+    ApplicationMailer.with(incident: self, destination: supervisor.email)
+                     .new_incident.deliver_later
   end
 
   def remove_supervisor

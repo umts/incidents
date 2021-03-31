@@ -35,22 +35,22 @@ class UsersController < ApplicationController
   end
 
   def import
-    if request.post?
-      xml = Nokogiri::XML params.require(:file).open
-      statuses = User.import_from_xml(xml)
-      if statuses
-        message = "Imported #{statuses[:imported]} new users"
-        message += " and updated #{statuses[:updated]}" unless statuses[:updated].zero?
-        message += '.'
-        message += " #{statuses[:deactivated]} users were deactivated." unless statuses[:deactivated].zero?
-        if statuses[:rejected].zero?
-          redirect_to users_path, notice: message
-        else
-          message += " #{statuses[:rejected]} were rejected."
-          redirect_to users_path, alert: message
-        end
-      else render :import, alert: 'Could not import from file.'
+    return unless request.post?
+
+    xml = Nokogiri::XML params.require(:file).open
+    statuses = User.import_from_xml(xml)
+    if statuses
+      message = "Imported #{statuses[:imported]} new users"
+      message += " and updated #{statuses[:updated]}" unless statuses[:updated].zero?
+      message += '.'
+      message += " #{statuses[:deactivated]} users were deactivated." unless statuses[:deactivated].zero?
+      if statuses[:rejected].zero?
+        redirect_to users_path, notice: message
+      else
+        message += " #{statuses[:rejected]} were rejected."
+        redirect_to users_path, alert: message
       end
+    else render :import, alert: 'Could not import from file.'
     end
   end
 
