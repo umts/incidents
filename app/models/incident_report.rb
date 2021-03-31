@@ -65,7 +65,7 @@ class IncidentReport < ApplicationRecord
     parts.join ', '
   end
 
-  def has_injured_passengers?
+  def injured_passengers?
     injured_passengers.present? && injured_passengers.any?(&:persisted?)
   end
 

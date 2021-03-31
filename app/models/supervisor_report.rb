@@ -68,7 +68,7 @@ class SupervisorReport < ApplicationRecord
     sections.join("\n")
   end
 
-  def has_witnesses?
+  def witnesses?
     witnesses.present? && witnesses.any?(&:persisted?)
   end
 
