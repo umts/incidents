@@ -111,7 +111,7 @@
     .field
       = form.label :police_on_scene?
       = form.check_box :police_on_scene, id: :incident_report_police_on_scene
-    .police-info{style: ('display: none;' unless report.police_on_scene?)}
+    .police-info{class: ('initially-hidden' unless report.police_on_scene?)}
       .field
         = form.label :police_badge_number
         = form.text_field :police_badge_number, id: :incident_report_police_badge_number
@@ -134,7 +134,7 @@
     .field
       = form.label :incident_involved_a_van
       = form.check_box :incident_involved_a_van, id: :incident_report_incident_involved_a_van
-    .van-info{style: ('display: none;' unless report.incident_involved_a_van?)}
+    .van-info{class: ('initially-hidden' unless report.incident_involved_a_van?)}
       .field
         = form.label :assistance_requested
         = form.check_box :assistance_requested, id: :incident_report_assistance_requested
@@ -164,7 +164,7 @@
       .field
         = form.label :summons_or_warning_issued?
         = form.check_box :summons_or_warning_issued, id: :incident_report_summons_or_warning_issued
-      .summons-info{style: ('display: none;' unless report.summons_or_warning_issued?)}
+      .summons-info{class: ('initially-hidden' unless report.summons_or_warning_issued?)}
         .field
           = form.label :summons_or_warning_info
           = form.text_area :summons_or_warning_info, id: :incident_report_summons_or_warning_info,
@@ -172,7 +172,7 @@
     .field
       = form.label :motor_vehicle_collision?
       = form.check_box :motor_vehicle_collision, id: :incident_report_motor_vehicle_collision
-  .motor-vehicle-collision-info{style: ('display: none;' unless report.motor_vehicle_collision?)}
+  .motor-vehicle-collision-info{class: ('initially-hidden' unless report.motor_vehicle_collision?)}
     %h3 Motor Vehicle Collision Information
     .field
       = form.label :other_vehicle_plate
@@ -236,7 +236,7 @@
     .field
       = form.label :other_vehicle_owned_by_other_driver?
       = form.check_box :other_vehicle_owned_by_other_driver, id: :incident_report_other_vehicle_owned_by_other_driver
-    .other-vehicle-owner-info{style: ('display: none;' if report.other_vehicle_owned_by_other_driver?)}
+    .other-vehicle-owner-info{class: ('initially-hidden' if report.other_vehicle_owned_by_other_driver?)}
       .field
         = form.label :other_vehicle_owner_name
         = form.text_field :other_vehicle_owner_name, id: :incident_report_other_vehicle_owner_name
@@ -297,13 +297,13 @@
   .field
     = form.label :passenger_incident?
     = form.check_box :passenger_incident, id: :incident_report_passenger_incident
-  .passenger-incident-info{ style: ('display: none;' unless report.passenger_incident? || report.has_injured_passengers? ) }
+  .passenger-incident-info{ class: ('initially-hidden' unless report.passenger_incident? || report.has_injured_passengers? ) }
     %h3 Passenger Incident Information
     .field
       = form.label :inj_pax_info
       = form.check_box :inj_pax_info, checked: report.has_injured_passengers?,
         id: :supervisor_report_inj_pax_info
-    .inj-pax-info{style: ('display: none;' unless report.has_injured_passengers?)}
+    .inj-pax-info{class: ('initially-hidden' unless report.has_injured_passengers?)}
       %h3 Injured Passenger Info
       = form.fields_for :injured_passengers do |pax_form|
         .pax-fields
@@ -377,7 +377,7 @@
       .field
         = form.label :bus_distance_from_curb
         = form.number_field :bus_distance_from_curb, id: :incident_report_bus_distance_from_curb
-    .reason-not-up-to-curb-info{style: ('display: none;' unless report.needs_reason_not_up_to_curb?)}
+    .reason-not-up-to-curb-info{class: ('initially-hidden' unless report.needs_reason_not_up_to_curb?)}
       .field
         = form.label :reason_not_up_to_curb
         = form.text_field :reason_not_up_to_curb, id: :incident_report_reason_not_up_to_curb
