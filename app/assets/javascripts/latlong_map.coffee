@@ -43,12 +43,14 @@ placeMarker = (map, latLng, newValues) ->
 
 reverseGeocode = (latLng) ->
   geocoder = new google.maps.Geocoder()
-  geocoder.geocode location: {lat: latLng.lat, lng: latLng.lng}, (results, status) ->
+  geocoder.geocode location: latLng, (results, status) ->
     address = results[0].address_components
-    [street, zip, town, state] = [undefined, undefined, undefined, undefined]
+    [street, zip, town, state] = ["", undefined, undefined, undefined]
     address.forEach (part) ->
+      if part.types.includes("street_number")
+        street += part.short_name + " "
       if part.types.includes("route")
-        street = part.short_name
+        street += part.short_name
       if part.types.includes("postal_code")
         zip = part.long_name
       if part.types.includes("locality")
