@@ -17,8 +17,8 @@ fillLatLngFields = (latLng) ->
 
 initLatLngMap = (mapSelector) ->
   if mapSelector[0].dataset.lat
-    lat = parseFloat mapSelector[0].dataset.lat
-    lng = parseFloat mapSelector[0].dataset.lng
+    lat = parseFloat mapSelector.data('lat')
+    lng = parseFloat mapSelector.data('lng')
     createMap mapSelector, { lat: lat, lng: lng }, false
   else
     location = mapSelector.data 'location'
@@ -26,9 +26,7 @@ initLatLngMap = (mapSelector) ->
     geocoder.geocode address: location, (results) ->
       if results.length > 0
         result = results[0]
-        lat = result.geometry.location.lat()
-        lng = result.geometry.location.lng()
-        createMap mapSelector, { lat: lat, lng: lng }, false
+        createMap mapSelector, result.geometry.location, false
       else
         $('.no-geocode-alert').slideDown()
         createMap mapSelector, PVTA, false
