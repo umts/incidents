@@ -124,6 +124,12 @@ class User < ApplicationRecord
     statuses
   end
 
+  def self.dev_login_options
+    order(:last_name).group_by(&:group).transform_values do |users|
+      users.map { |user| [user.proper_name, user.id] }
+    end
+  end
+
   private
 
   def password_required?

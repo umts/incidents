@@ -30,15 +30,6 @@ drivers = Array.new(50) do
                     divisions: [divisions.sample]
 end
 
-# FactoryBot.create a known test user for simplicity
-user = FactoryBot.create :user,
-                         :staff,
-                         first_name: 'first',
-                         last_name: 'last',
-                         badge_number: 5000,
-                         divisions: [divisions.sample]
-user.update password: 'password', password_confirmation: 'password'
-
 codes = {
   collision: FactoryBot.create(:reason_code, description: 'Collision'),
   passenger_incident: FactoryBot.create(:reason_code, description: 'Passenger Incident'),
