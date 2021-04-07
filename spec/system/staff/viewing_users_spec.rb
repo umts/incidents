@@ -27,12 +27,12 @@ describe 'viewing users as staff' do
       it 'allows viewing a drivers incidents', js: true do
         visit users_path
         expect(page).to have_selector 'button',
-          text: 'View incidents', count: 1
+                                      text: 'View incidents', count: 1
         click_button 'View incidents'
         expect(page).to have_current_path incidents_user_path(driver)
         expect(page).to have_content 'No incidents found.'
         expect(page).to have_selector 'h1',
-          text: "#{driver.full_name}'s Incidents"
+                                      text: "#{driver.full_name}'s Incidents"
       end
       it 'allows filtering by drivers', js: true do
         expect(page).to have_selector 'table.index tbody tr', count: 3

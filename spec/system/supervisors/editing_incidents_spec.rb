@@ -23,7 +23,7 @@ describe 'editing incidents as a supervisor' do
     fill_in_base_incident_fields
     click_button 'Save report'
     expect(page).to have_selector 'p.notice',
-      text: 'Incident report was successfully saved. Please complete the supervisor report.'
+                                  text: 'Incident report was successfully saved. Please complete the supervisor report.'
   end
   context 'admin deletes the incident' do
     it 'displays a nice error message' do

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe User do
@@ -57,8 +59,8 @@ describe User do
     context 'user already exists' do
       before :each do
         create :user, :driver, first_name: 'John',
-          last_name: 'Smith', badge_number: 1234,
-          divisions: [umass]
+                               last_name: 'Smith', badge_number: 1234,
+                               divisions: [umass]
       end
       it 'does not re-import them' do
         expect { import! }.not_to change User.active, :count
@@ -102,7 +104,7 @@ describe User do
       context 'user Hastus ID / badge number has changed' do
         let(:hastus_id) { 5678 }
         it 'imports a new user' do # because this is how we identify users
-          statuses =import!
+          statuses = import!
           expect(statuses[:imported]).to be 1
         end
       end
@@ -184,13 +186,13 @@ describe User do
     let(:pw) { 'GoodPassword' }
 
     it 'starts out as default' do
-      expect(user.valid_password? user.last_name).to be true
+      expect(user.valid_password?(user.last_name)).to be true
       expect(user.password_changed_from_default?).to be false
     end
 
     it 'records that users changed their password' do
       user.update(password: pw, password_confirmation: pw)
-      expect(user.valid_password? pw).to be true
+      expect(user.valid_password?(pw)).to be true
       expect(user.password_changed_from_default?).to be true
     end
 
@@ -199,7 +201,7 @@ describe User do
       user.set_default_password
       user.save!
 
-      expect(user.valid_password? user.last_name).to be true
+      expect(user.valid_password?(user.last_name)).to be true
       expect(user.password_changed_from_default?).to be false
     end
   end

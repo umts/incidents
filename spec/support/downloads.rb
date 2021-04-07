@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Downloads
-  extend self
+  module_function
 
   PATH = Rails.root.join('spec', 'downloads')
 

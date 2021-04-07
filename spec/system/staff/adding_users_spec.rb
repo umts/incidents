@@ -21,7 +21,7 @@ describe 'adding users as staff' do
     visit new_user_path
     click_button 'Save user'
     expect(page).to have_selector 'p',
-      text: 'This user has 4 missing values and so cannot be saved:'
+                                  text: 'This user has 4 missing values and so cannot be saved:'
     expect(page).to have_text "First name can't be blank"
     expect(page).to have_text "Last name can't be blank"
     expect(page).to have_text "Badge number can't be blank"
@@ -37,7 +37,7 @@ describe 'adding users as staff' do
     select 'UMASS', from: 'Divisions'
     click_button 'Save user'
     expect(page).to have_selector 'p.notice',
-      text: 'User was successfully created.'
+                                  text: 'User was successfully created.'
     expect(page).to have_current_path users_path
   end
 
@@ -51,7 +51,7 @@ describe 'adding users as staff' do
     click_button 'Save user'
 
     user = User.find_by(badge_number: new_user.badge_number)
-    expect(user.valid_password? user.last_name).to be true
+    expect(user.valid_password?(user.last_name)).to be true
     expect(user.password_changed_from_default?).to be false
   end
 end

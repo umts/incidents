@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 lock '~> 3.14'
 
 set :application, 'incidents'
