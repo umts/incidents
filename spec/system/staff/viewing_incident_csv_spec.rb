@@ -38,4 +38,3 @@ describe 'batch exporting CSV' do
     end
   end
 end
-

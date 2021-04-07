@@ -7,7 +7,6 @@ class Incident < ApplicationRecord
 
   has_paper_trail
 
-
   belongs_to :driver_incident_report,
              class_name: 'IncidentReport',
              foreign_key: :driver_incident_report_id
@@ -23,7 +22,7 @@ class Incident < ApplicationRecord
   belongs_to :reason_code, optional: true
   belongs_to :supplementary_reason_code, optional: true
   validates :reason_code, :supplementary_reason_code, :root_cause_analysis, :latitude, :longitude,
-    presence: true, if: :completed?
+            presence: true, if: :completed?
 
   has_one :driver, through: :driver_incident_report, source: :user
   delegate :division, to: :driver
@@ -39,36 +38,36 @@ class Incident < ApplicationRecord
 
   has_many :staff_reviews, dependent: :destroy
 
-  scope :between, (lambda do |start_date, end_date|
+  scope :between, lambda { |start_date, end_date|
     joins(:driver_incident_report)
       .where incident_reports: { occurred_at: start_date..end_date }
-  end)
+  }
 
-  scope :in_divisions, (lambda do |divisions|
+  scope :in_divisions, lambda { |divisions|
     joins(driver: :divisions_users)
       .where divisions_users: { division_id: divisions.pluck(:id) }
-  end)
+  }
 
-  scope :occurred_order, (lambda do
+  scope :occurred_order, lambda {
     joins(:driver_incident_report).order 'incident_reports.occurred_at'
-  end)
+  }
 
-  scope :for_driver, ->(user) {
+  scope :for_driver, lambda { |user|
     joins(:driver_incident_report)
       .where(incident_reports: { user_id: user.id })
   }
-  scope :for_supervisor, ->(user) {
+
+  scope :for_supervisor, lambda { |user|
     joins(:supervisor_incident_report)
       .where(incident_reports: { user_id: user.id })
   }
+
   scope :incomplete, -> { where completed: false }
   scope :completed, -> { where completed: true }
   scope :unclaimed, -> { incomplete.where supervisor_incident_report_id: nil }
 
   # It turns out that with MySQL, this *is* case-insensitive.
-  scope :by_claim, ->(number) {
-    where claim_number: number
-  }
+  scope :by_claim, ->(number) { where claim_number: number }
 
   after_create :send_notifications
 
@@ -87,17 +86,17 @@ class Incident < ApplicationRecord
     row << report.occurred_at.strftime('%H:%M:%S') # Time
     row << report.full_location # Location
     row << report.run # Route
-    row << reason_code.try(:identifier) || "" # Classification 1
+    row << reason_code.try(:identifier) || '' # Classification 1
     row << supplementary_reason_code.try(:identifier) # Classification 2
     # AVOIDABLE, UNAVOIDABLE, OTHER VEHICLE, PEDESTRIAN, BICYCLE,
     # STATIONARY OBJ, STATIONARY VEH, COMPANY VEH, BOARDING, ALIGHTING,
     # ONBOARD, THROWN IN BUS, INJURED ON BUS, CAUGHT IN DOOR, MISC,
     # AMB REQUESTED, # OF INJURED
-    row += [""] * 17
+    row += [''] * 17
     row << report.block # Block
     row << root_cause_analysis
     # Video File Name
-    row << ""
+    row << ''
     classification = if report.passenger_incident? then 'Passenger Incident'
                      elsif report.motor_vehicle_collision? then 'Collision'
                      else 'Other'
@@ -165,14 +164,13 @@ class Incident < ApplicationRecord
   def export_to_claims(current_user)
     if completed? && valid?
       export_claims_xml(current_user)
-      self.update exported_to_claims: true
-      return { status: :success }
+      update exported_to_claims: true
+      { status: :success }
     else
-      self.update completed: false
-      return { status: :invalid }
+      update completed: false
+      { status: :invalid }
     end
   end
-
 
   def geocode_location
     driver_incident_report.full_location include_state: true
@@ -184,10 +182,10 @@ class Incident < ApplicationRecord
   end
 
   def notify_supervisor_of_new_report
-    if supervisor.email.present?
-      ApplicationMailer.with(incident: self, destination: supervisor.email)
-        .new_incident.deliver_later
-    end
+    return if supervisor.email.blank?
+
+    ApplicationMailer.with(incident: self, destination: supervisor.email)
+                     .new_incident.deliver_later
   end
 
   def remove_supervisor
@@ -217,7 +215,6 @@ class Incident < ApplicationRecord
   def unclaimed?
     !completed? && supervisor_incident_report.nil?
   end
-
 
   private
 

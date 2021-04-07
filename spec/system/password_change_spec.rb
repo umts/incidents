@@ -46,6 +46,6 @@ describe 'changing your password' do
 
     expect(page).to have_current_path root_path
     expect(page).to have_text 'password has been successfully changed'
-    expect(user.reload.valid_password? new_password).to be true
+    expect(user.reload.valid_password?(new_password)).to be true
   end
 end

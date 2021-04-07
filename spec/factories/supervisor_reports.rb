@@ -16,9 +16,7 @@ FactoryBot.define do
 
     before :create do |report|
       report.saved_pictures = rand 50 if report.pictures_saved?
-      if rand(20).zero?
-        report.amplifying_comments = FFaker::Lorem.paragraph
-      end
+      report.amplifying_comments = FFaker::Lorem.paragraph if rand(20).zero?
     end
 
     trait :with_witness do

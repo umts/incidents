@@ -10,3 +10,13 @@
     = f.password_field :password, autocomplete: :off
   %i The default password is your last name.
   .actions= f.submit 'Log in'
+
+- if Rails.env.development?
+  %hr
+  %h2 Dev Login
+  = form_with url: dev_login_path, local: true do |f|
+    .field
+      = f.label :user_id
+      %br
+      = f.select :user_id, User.dev_login_options
+    .actions= f.submit 'Log in'

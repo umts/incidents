@@ -18,7 +18,7 @@ class SupervisorReport < ApplicationRecord
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
   validates :test_status, inclusion: { in: REASONS_FOR_TEST,
-                                                 allow_blank: true }
+                                       allow_blank: true }
   validates :reason_driver_discounted, presence: { if: :driver_discounted? }
   validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
   has_one :incident
@@ -27,34 +27,30 @@ class SupervisorReport < ApplicationRecord
   accepts_nested_attributes_for :witnesses
 
   before_save do
-    unless fta_threshold_not_met?
-      assign_attributes reason_threshold_not_met: nil
-    end
+    assign_attributes reason_threshold_not_met: nil unless fta_threshold_not_met?
   end
 
   before_save do
-    unless driver_discounted?
-      assign_attributes reason_driver_discounted: nil
-    end
+    assign_attributes reason_driver_discounted: nil unless driver_discounted?
   end
 
   before_save do
     unless post_accident_completed_drug_test?
       assign_attributes test_due_to_bodily_injury: false,
-        test_due_to_disabling_damage: false,
-        test_due_to_fatality: false
+                        test_due_to_disabling_damage: false,
+                        test_due_to_fatality: false
     end
   end
 
   before_save do
     unless reasonable_suspicion?
       assign_attributes completed_drug_test: false,
-        completed_alcohol_test: false,
-        observation_made_at: false,
-        test_due_to_employee_appearance: false,
-        test_due_to_employee_behavior: false,
-        test_due_to_employee_speech: false,
-        test_due_to_employee_odor: false
+                        completed_alcohol_test: false,
+                        observation_made_at: false,
+                        test_due_to_employee_appearance: false,
+                        test_due_to_employee_behavior: false,
+                        test_due_to_employee_speech: false,
+                        test_due_to_employee_odor: false
     end
   end
 
@@ -67,16 +63,12 @@ class SupervisorReport < ApplicationRecord
 
   def fta_justifications
     sections = []
-    if reason_threshold_not_met.present?
-      sections << "Reason FTA threshold not met: #{reason_threshold_not_met}"
-    end
-    if reason_driver_discounted.present?
-      sections << "Reason driver was discounted: #{reason_driver_discounted}"
-    end
+    sections << "Reason FTA threshold not met: #{reason_threshold_not_met}" if reason_threshold_not_met.present?
+    sections << "Reason driver was discounted: #{reason_driver_discounted}" if reason_driver_discounted.present?
     sections.join("\n")
   end
 
-  def has_witnesses?
+  def witnesses?
     witnesses.present? && witnesses.any?(&:persisted?)
   end
 

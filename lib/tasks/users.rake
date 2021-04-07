@@ -16,7 +16,7 @@ namespace :users do
     text = file.read
     elevated = 0
     text.each_line do |name|
-      first_name, last_name = name.split ' '
+      first_name, last_name = name.split
       user = User.supervisors.find_by first_name: first_name,
                                       last_name: last_name
       unless user.present?
@@ -36,13 +36,9 @@ namespace :users do
     statuses = User.import_from_xml(doc)
     if statuses
       message = "Imported #{statuses[:imported]} new users"
-      unless statuses[:updated].zero?
-        message += " and updated #{statuses[:updated]}"
-      end
+      message += " and updated #{statuses[:updated]}" unless statuses[:updated].zero?
       message += '.'
-      unless statuses[:rejected].zero?
-        message << " #{statuses[:rejected]} were rejected."
-      end
+      message << " #{statuses[:rejected]} were rejected." unless statuses[:rejected].zero?
       puts message
     else puts 'Could not import from file.'
     end

@@ -26,7 +26,7 @@ describe 'reviewing incidents as staff' do
       fill_in 'Add your review', with: 'This is my review.'
       click_button 'Create staff review'
       expect(page).to have_selector 'p.notice',
-        text: 'Review successfully submitted.'
+                                    text: 'Review successfully submitted.'
       expect(page).to have_selector '.staff-review', count: 1
       within '.staff-review' do
         expect(page).to have_selector '.data .staff-name', text: staff.proper_name
@@ -43,7 +43,7 @@ describe 'reviewing incidents as staff' do
           click_button 'Save'
         end
         expect(page).to have_selector 'p.notice',
-          text: 'Review successfully updated.'
+                                      text: 'Review successfully updated.'
         within '.staff-review' do
           expect(page).to have_selector '.text p', text: 'This is a change.'
         end
@@ -55,7 +55,7 @@ describe 'reviewing incidents as staff' do
           click_button 'Delete'
         end
         expect(page).to have_selector 'p.notice',
-          text: 'Review successfully removed.'
+                                      text: 'Review successfully removed.'
         expect(page).not_to have_selector '.staff-review'
       end
       context 'with a review belonging to someone else' do

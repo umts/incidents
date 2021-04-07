@@ -10,12 +10,12 @@ describe 'resetting user passwords', js: true do
     visit users_path
     click_button 'Drivers'
     expect(page).to have_selector 'button',
-      text: 'Reset Password', count: 1
+                                  text: 'Reset Password', count: 1
 
     click_button 'Reset Password'
     expect(page).to have_selector 'p.notice',
-      text: 'password was reset to the default password'
+                                  text: 'password was reset to the default password'
 
-    expect(user.reload.valid_password? user.last_name).to be true
+    expect(user.reload.valid_password?(user.last_name)).to be true
   end
 end

@@ -16,6 +16,7 @@ class StaffReview < ApplicationRecord
 
   def user_is_staff
     return if user.staff?
+
     errors.add :user, 'must be a staff member'
   end
 end

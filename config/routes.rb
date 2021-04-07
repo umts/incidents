@@ -9,6 +9,8 @@ Rails.application.routes.draw do
     patch 'users/:id' => 'users/registrations#update', as: :user_registration
   end
 
+  post '/dev_login', to: 'dev_login#create', as: 'dev_login' if Rails.env.development?
+
   resources :incidents do
     collection do
       get  :batch_hastus_export

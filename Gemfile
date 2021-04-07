@@ -49,7 +49,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'webdrivers', '~> 4.0'
   gem 'rspec-rails'
   gem 'simplecov', '~> 0.15'
+  gem 'webdrivers', '~> 4.0'
 end
