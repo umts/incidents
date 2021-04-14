@@ -297,13 +297,13 @@
   .field
     = form.label :passenger_incident?
     = form.check_box :passenger_incident, id: :incident_report_passenger_incident
-  .passenger-incident-info{ class: ('initially-hidden' unless report.passenger_incident? || report.has_injured_passengers? ) }
+  .passenger-incident-info{ class: ('initially-hidden' unless report.passenger_incident? || report.injured_passengers? ) }
     %h3 Passenger Incident Information
     .field
       = form.label :inj_pax_info
-      = form.check_box :inj_pax_info, checked: report.has_injured_passengers?,
+      = form.check_box :inj_pax_info, checked: report.injured_passengers?,
         id: :supervisor_report_inj_pax_info
-    .inj-pax-info{class: ('initially-hidden' unless report.has_injured_passengers?)}
+    .inj-pax-info{class: ('initially-hidden' unless report.injured_passengers?)}
       %h3 Injured Passenger Info
       = form.fields_for :injured_passengers do |pax_form|
         .pax-fields

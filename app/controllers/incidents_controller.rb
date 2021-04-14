@@ -5,19 +5,20 @@ class IncidentsController < ApplicationController
   before_action :restrict_to_staff, only: %i[destroy incomplete]
   before_action :restrict_to_supervisors, only: :claim
   before_action :set_incident,
-    only: %i[claim claims_export destroy edit show update]
+                only: %i[claim claims_export destroy edit show update]
   before_action :set_user_lists, only: %i[create new]
 
   def batch_hastus_export
     @incidents = Incident.where(id: params[:ids])
-    if params[:format] == 'xml-button'
+    case params[:format]
+    when 'xml-button'
       send_data render_to_string('batch_export.xml.haml'),
-        filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
-        disposition: 'attachment'
-    elsif params[:format] == 'csv-button'
+                filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
+                disposition: 'attachment'
+    when 'csv-button'
       send_data @incidents.to_csv,
-        filename: "#{@incidents.map(&:id).sort.join(',')}.csv",
-        disposition: 'attachment'
+                filename: "#{@incidents.map(&:id).sort.join(',')}.csv",
+                disposition: 'attachment'
     end
     @incidents.each(&:mark_as_exported_to_hastus)
   end
@@ -43,7 +44,7 @@ class IncidentsController < ApplicationController
         'before attempting another export.'
     end
     redirect_back fallback_location: @incident,
-      notice: notice, alert: alert
+                  notice: notice, alert: alert
   end
 
   def create
@@ -70,19 +71,18 @@ class IncidentsController < ApplicationController
 
   def edit
     deny_access and return if !current_user.staff? && @incident.reviewed?
+
     @reason_codes = ReasonCode.order(:identifier)
     @supplementary_reason_codes = SupplementaryReasonCode.order(:identifier)
-    if current_user.driver?
-      # It's the only thing they can edit anyway.
-      redirect_to edit_incident_report_path(@incident.driver_incident_report)
-    end
+    return unless current_user.driver?
+
+    # It's the only thing they can edit anyway.
+    redirect_to edit_incident_report_path(@incident.driver_incident_report)
   end
 
   def incomplete
     @incidents = Incident.in_divisions(current_user.divisions).incomplete.occurred_order
-    if @incidents.blank?
-      redirect_to incidents_path, notice: 'No incomplete incidents.'
-    end
+    redirect_to incidents_path, notice: 'No incomplete incidents.' if @incidents.blank?
   end
 
   def index
@@ -110,7 +110,7 @@ class IncidentsController < ApplicationController
   end
 
   def search
-    @incidents = Incident.in_divisions(current_user.divisions).by_claim(params.require :claim_number)
+    @incidents = Incident.in_divisions(current_user.divisions).by_claim(params.require(:claim_number))
                          .includes(:driver, :supervisor, :staff_reviews)
                          .occurred_order
     render :by_date
@@ -126,9 +126,7 @@ class IncidentsController < ApplicationController
         render pdf: 'show.pdf.prawn'
       end
       format.xml do
-        unless Rails.env.development?
-          response.set_header 'Content-Disposition', 'attachment'
-        end
+        response.set_header 'Content-Disposition', 'attachment' unless Rails.env.development?
         @incident.mark_as_exported_to_hastus
         render 'show.xml.haml'
       end
@@ -137,9 +135,7 @@ class IncidentsController < ApplicationController
 
   def unclaimed
     @incidents = Incident.in_divisions(current_user.divisions).unclaimed.occurred_order
-    if @incidents.blank?
-      redirect_to incidents_path, notice: 'No unclaimed incidents.'
-    end
+    redirect_to incidents_path, notice: 'No unclaimed incidents.' if @incidents.blank?
   end
 
   def update
@@ -209,7 +205,7 @@ class IncidentsController < ApplicationController
   def record_print_event
     reports = [@incident.driver_incident_report]
     unless current_user == @incident.driver
-     reports += [@incident.supervisor_incident_report, @incident.supervisor_report]
+      reports += [@incident.supervisor_incident_report, @incident.supervisor_report]
     end
     reports.compact.each do |report|
       report.versions.create! event: 'print', whodunnit: current_user.id
@@ -220,10 +216,9 @@ class IncidentsController < ApplicationController
     @incident = Incident.find(params[:id])
     @staff_reviews = @incident.staff_reviews.order :created_at
     return if current_user.staff?
+
     current_user_is_involved = [@incident.driver, @incident.supervisor].include?(current_user)
     current_user_can_claim_incident = current_user.supervisor? && @incident.supervisor.nil?
-    unless current_user_is_involved || current_user_can_claim_incident
-      deny_access and return
-    end
+    deny_access and return unless current_user_is_involved || current_user_can_claim_incident
   end
 end

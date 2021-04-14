@@ -1,5 +1,4 @@
 AllCops:
-  TargetRubyVersion: 2.5
   Exclude:
     - Rakefile
     - bin/**/*
@@ -10,33 +9,7 @@ AllCops:
     - db/schema.rb
     - db/migrate/**/*
     - vendor/**/*
-
-# Incidents have complicated validation conditions.
-Layout/BlockEndNewline:
-  Exclude:
-    - 'app/models/incident.rb'
-
-Layout/MultilineBlockLayout:
-  Exclude:
-    - 'app/models/incident.rb'
-
-Layout/MultilineOperationIndentation:
-  Exclude:
-    - 'app/models/incident.rb'
-
-# It's nice to align the xml tags and their values.
-Layout/ExtraSpacing:
-  Exclude:
-    - 'lib/tasks/incidents.rake'
-
-# It's nice to align the xml tags and their values.
-Layout/SpaceBeforeFirstArg:
-  Exclude:
-    - 'lib/tasks/incidents.rake'
-
-# I've never seen this one go bad.
-Lint/AmbiguousBlockAssociation:
-  Enabled: false
+  NewCops: enable
 
 Metrics/AbcSize:
   Max: 36
@@ -44,52 +17,14 @@ Metrics/AbcSize:
 Metrics/BlockLength:
   Max: 50
   Exclude:
-    - test/factories/*.rb
+    - 'spec/**/*.rb'
 
 Metrics/ClassLength:
   Max: 125
-  Exclude:
-    - app/models/incident.rb
-    - test/system/completing_incidents_test.rb
-
-# Factory DSL plus random data means you'll have long lines. I'm okay with that.
-Metrics/LineLength:
-  Exclude: 
-    - test/factories/*.rb
 
 Metrics/MethodLength:
   Max: 18
-  Exclude:
-    - test/system/completing_incidents_test.rb
-
-# 'and' and && are different. I know when I want one and when I want the other.
-Style/AndOr:
-  Enabled: false
-
-# It's straight from the Rails docs.
-Style/ClassAndModuleChildren:
-  Exclude:
-    - test/test_helper.rb
 
 # Not bothering for this repo.
 Style/Documentation:
   Enabled: false
-
-# This doesn't apply to controllers, where the final render is implied.
-Style/GuardClause:
-  Exclude:
-    - app/controllers/*
-
-Style/IfUnlessModifier:
-  Enabled: true
-
-# The only alternative with long lambdas is to say (lambda do ... end),
-# wrapped in parentheses, which looks TERRIBLE.
-Style/Lambda:
-  Exclude:
-    - 'app/models/incident.rb'
-
-# I like to write FactoryGirl calls without parentheses.
-Style/NestedParenthesizedCalls:
-  Exclude:
-    - test/**/*

@@ -40,11 +40,11 @@ class IncidentReport < ApplicationRecord
     Agawam Amherst Chicopee East\ Longmeadow Easthampton Enfield Feeding\ Hills
     Florence Hadley Holyoke Indian\ Orchard Leeds Longmeadow Ludlow Northampton
     South\ Hadley Springfield West\ Springfield Westfield Williamsburg
-  ]
+  ].freeze
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
-  STATE_OPTIONS = %w[ Massachusetts Connecticut ].freeze
+  STATE_OPTIONS = %w[Massachusetts Connecticut].freeze
 
   belongs_to :user
   has_one :incident
@@ -53,20 +53,19 @@ class IncidentReport < ApplicationRecord
   accepts_nested_attributes_for :injured_passengers
 
   validates :occurred_at, :location, :direction, :town, :bus, :description,
-    presence: true, if: :changed?, unless: :new_record?
+            presence: true, if: :changed?, unless: :new_record?
   validates :run, length: { maximum: 5 }
   validates :location, length: { maximum: 50 }
 
   def full_location(include_state: false)
     return unless location.present? && town.present?
+
     parts = [location, town]
-    if include_state
-      parts << "MA #{zip}"
-    end
+    parts << "MA #{zip}" if include_state
     parts.join ', '
   end
 
-  def has_injured_passengers?
+  def injured_passengers?
     injured_passengers.present? && injured_passengers.any?(&:persisted?)
   end
 
@@ -107,29 +106,35 @@ class IncidentReport < ApplicationRecord
     occurred_at.try :strftime, '%l:%M %P'
   end
 
-  # rubocop:disable Metrics/LineLength
   def other_vehicle_driver_full_address
     first_line = other_vehicle_driver_address
-    second_line = "#{other_vehicle_driver_address_town}, #{other_vehicle_driver_address_state} #{other_vehicle_driver_address_zip}"
+    second_line = <<-ADDRESS.squish
+      #{other_vehicle_driver_address_town},
+      #{other_vehicle_driver_address_state}
+      #{other_vehicle_driver_address_zip}
+    ADDRESS
     [first_line, second_line]
   end
 
   def other_vehicle_owner_full_address
     first_line = other_vehicle_owner_address
-    second_line = "#{other_vehicle_owner_address_town}, #{other_vehicle_owner_address_state} #{other_vehicle_owner_address_zip}"
+    second_line = <<-ADDRESS.squish
+      #{other_vehicle_owner_address_town},
+      #{other_vehicle_owner_address_state}
+      #{other_vehicle_owner_address_zip}
+    ADDRESS
     [first_line, second_line]
   end
-  # rubocop:enable Metrics/LineLength
 
   def occurred_full_location
     PASSENGER_INCIDENT_LOCATIONS.select do |loc|
-      send(('occurred ' + loc.downcase).tr(' ', '_') + '?')
+      send("occurred_#{loc.downcase.tr(' ', '_')}?")
     end.join ', '
   end
 
   def occurred_location_matrix
     PASSENGER_INCIDENT_LOCATIONS.map do |loc|
-      send(('occurred ' + loc.downcase).tr(' ', '_') + '?')
+      send("occurred_#{loc.downcase.tr(' ', '_')}?")
     end
   end
 

@@ -16,7 +16,7 @@ FactoryBot.define do
     speed                      { rand 40 }
     location                   { FFaker::Address.street_name }
     town                       { %w[Amherst Northampton Springfield].sample }
-    zip                        { '01' + rand(1_000).to_s.rjust(3, '0') }
+    zip                        { format('01%03d', rand(1000)) }
     weather_conditions         { IncidentReport::WEATHER_OPTIONS.sample }
     road_conditions            { IncidentReport::ROAD_OPTIONS.sample }
     light_conditions           { IncidentReport::LIGHT_OPTIONS.sample }
@@ -43,12 +43,12 @@ FactoryBot.define do
       other_vehicle_state                     { %w[MA RI CT NY].sample }
       other_vehicle_make                      { FFaker::Vehicle.make }
       other_vehicle_model                     { FFaker::Vehicle.model }
-      other_vehicle_year                      { 1_997 + rand(20) }
+      other_vehicle_year                      { rand(1997..2016) }
       other_vehicle_color                     { %w[Red White Blue].sample }
-      other_vehicle_passengers                { 1 + rand(3) }
+      other_vehicle_passengers                { rand(1..3) }
       other_vehicle_direction                 { %w[North South East West].sample }
       other_driver_name                       { FFaker::Name.name }
-      other_driver_license_number             { 'S' + rand(99_999_999).to_s.rjust(8, '0') }
+      other_driver_license_number             { format('S%08d', rand(100_000_000)) }
       other_driver_license_state              { %w[MA RI CT NY].sample }
       other_vehicle_driver_address            { FFaker::Address.street_address }
       other_vehicle_driver_address_town       { FFaker::Address.city }
@@ -59,7 +59,7 @@ FactoryBot.define do
       damage_to_bus_point_of_impact           { %w[Scratches Dents Major\ dents].sample }
       damage_to_other_vehicle_point_of_impact { %w[Scratches Dents Major\ dents].sample }
       insurance_carrier                       { %w[Geico Progressive AAA].sample }
-      insurance_policy_number                 { rand(999_999_999) }
+      insurance_policy_number                 { rand(1_000_000_000) }
       insurance_effective_date                { Date.today - rand(365).days }
     end
 
@@ -75,9 +75,9 @@ FactoryBot.define do
 
     trait :police_on_scene do
       police_on_scene      { true }
-      police_badge_number  { rand(9_999) }
+      police_badge_number  { rand(10_000) }
       police_town_or_state { %w[Amherst Northampton Springfield State].sample }
-      police_case_assigned { rand(99_999_999) }
+      police_case_assigned { rand(100_000_000) }
     end
 
     trait :passenger_incident do
