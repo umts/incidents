@@ -12,7 +12,7 @@ class IncidentsController < ApplicationController
     @incidents = Incident.where(id: params[:ids])
     case params[:format]
     when 'xml-button'
-      send_data render_to_string('batch_export.xml.haml'),
+      send_data render_to_string('batch_export', formats: [:xml]),
                 filename: "#{@incidents.map(&:id).sort.join(',')}.xml",
                 disposition: 'attachment'
     when 'csv-button'
@@ -119,16 +119,14 @@ class IncidentsController < ApplicationController
   def show
     respond_to do |format|
       format.csv { send_data @incident.to_csv, filename: "#{@incident.id}.csv" }
-      format.html { render 'show' }
+      format.html
       format.pdf do
         record_print_event
         @filename = "#{@incident.id}.pdf"
-        render pdf: 'show.pdf.prawn'
       end
       format.xml do
         response.set_header 'Content-Disposition', 'attachment' unless Rails.env.development?
         @incident.mark_as_exported_to_hastus
-        render 'show.xml.haml'
       end
     end
   end

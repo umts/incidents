@@ -13,10 +13,10 @@ gem 'jbuilder', '~> 2.5'
 gem 'mysql2'
 gem 'nokogiri', '>= 1.8.1'
 gem 'openssl'
-gem 'paper_trail', '~> 10.3'
+gem 'paper_trail', '~> 12.0'
 gem 'prawn-rails-forms', '~> 0.1.2'
 gem 'puma', '~> 3.12'
-gem 'rails', '~> 6.0.3'
+gem 'rails', '~> 6.1.3'
 gem 'sass-rails', '~> 5.0'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
@@ -49,7 +49,7 @@ end
 
 group :test do
   gem 'capybara'
-  gem 'rspec-rails', '~> 3.7'
+  gem 'rspec-rails'
   gem 'simplecov', '~> 0.15'
   gem 'webdrivers', '~> 4.0'
 end

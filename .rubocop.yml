@@ -2,10 +2,8 @@ AllCops:
   Exclude:
     - Rakefile
     - bin/**/*
-    - config/environments/**/*
-    - config/initializers/**/*
-    - config/application.rb
-    - config/puma.rb
+    - config/**/*
+    - config.ru
     - db/schema.rb
     - db/migrate/**/*
     - vendor/**/*
