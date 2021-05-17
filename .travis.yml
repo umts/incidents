@@ -1,4 +1,5 @@
 language: ruby
+cache: bundler
 env:
   global:
     - CC_TEST_REPORTER_ID=611cda7a6df35c4ca4df08319797b6eba033ca5f61068f90072cb148f71714c8
@@ -7,7 +8,12 @@ addons:
 services:
   - mysql
 before_install:
+  - nvm install 'lts/*'
+  - nvm use 'lts/*'
   - npm install --global yarn
+install:
+  - bundle config set --local deployment 'true'
+  - bundle install --jobs=3 --retry=3
   - yarn install
 before_script:
   - cp config/database.travis.yml config/database.yml
