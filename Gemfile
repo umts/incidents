@@ -35,7 +35,7 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-sidekiq', require: false
   gem 'ed25519', '>= 1.2', '< 2.0', require: false
-  gem 'listen', '>= 3.0.5', '< 3.2'
+  gem 'listen'
   gem 'rubocop'
   gem 'web-console', '>= 3.3.0'
 end
