@@ -24,7 +24,7 @@ initLatLngMap = (mapSelector) ->
     location = mapSelector.data 'location'
     geocoder = new google.maps.Geocoder()
     geocoder.geocode address: location, (results) ->
-      if results.length > 0
+      if results
         result = results[0]
         createMap mapSelector, result.geometry.location, false
       else
