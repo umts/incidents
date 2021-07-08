@@ -23,8 +23,8 @@ initLatLngMap = (mapSelector) ->
   else
     location = mapSelector.data 'location'
     geocoder = new google.maps.Geocoder()
-    geocoder.geocode address: location, (results) ->
-      if results.length > 0
+    geocoder.geocode address: location, (results, status) ->
+      if status == google.maps.GeocoderStatus.OK
         result = results[0]
         createMap mapSelector, result.geometry.location, false
       else
