@@ -1,3 +1,8 @@
+require:
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-rspec
+
 AllCops:
   Exclude:
     - Rakefile
@@ -10,19 +15,65 @@ AllCops:
   NewCops: enable
 
 Metrics/AbcSize:
-  Max: 36
+  CountRepeatedAttributes: false
 
 Metrics/BlockLength:
-  Max: 50
-  Exclude:
-    - 'spec/**/*.rb'
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+  IgnoredMethods:
+    - configure
+
+    # ActiveSupport::Concern
+    - class_methods
+    - included
+    - prepended
+
+    # FactoryBot
+    - define
+    - factory
+    - trait
+
+    # Gemfile
+    - group
+
+    # Rake
+    - namespace
+    - task
+
+    # RSpec
+    - before
+    - context
+    - describe
+    - it
 
 Metrics/ClassLength:
-  Max: 125
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
 
 Metrics/MethodLength:
-  Max: 18
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
 
-# Not bothering for this repo.
+Metrics/ModuleLength:
+  CountAsOne:
+    - array
+    - hash
+    - heredoc
+
 Style/Documentation:
+  Enabled: false
+
+Style/ModuleFunction:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Max: 4
+
+RSpec/MultipleMemoizedHelpers:
   Enabled: false

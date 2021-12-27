@@ -35,8 +35,12 @@ group :development do
   gem 'capistrano-rails', require: false
   gem 'capistrano-sidekiq', require: false
   gem 'ed25519', '>= 1.2', '< 2.0', require: false
+  gem 'haml_lint', require: false
   gem 'listen'
-  gem 'rubocop'
+  gem 'rubocop', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-rspec', require: false
   gem 'web-console', '>= 3.3.0'
 end
 
