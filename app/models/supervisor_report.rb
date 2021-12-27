@@ -3,13 +3,12 @@
 class SupervisorReport < ApplicationRecord
   has_paper_trail
 
-  REASONS_FOR_TEST = {
-    'Post Accident: Threshold met (completed drug test)' => 'Reason(s) FTA threshold was met: ',
-    'Post Accident: No threshold met (no drug test)' => 'Reason(s) FTA threshold not met: ',
-    'Post Accident: Threshold met and discounted (no drug test)' => 'Reason(s) driver was discounted: ',
-    'Reasonable Suspicion: Completed drug test' => 'Reason(s) for suspicion: '
-  }.freeze
-
+  REASONS_FOR_TEST = [
+    'Post Accident: Threshold met (completed drug test)',
+    'Post Accident: No threshold met (no drug test)',
+    'Post Accident: Threshold met and discounted (no drug test)',
+    'Reasonable Suspicion: Completed drug test'
+  ].freeze
   TESTING_FACILITIES = [
     'Occuhealth East Longmeadow',
     'Occuhealth Northampton',
@@ -18,10 +17,12 @@ class SupervisorReport < ApplicationRecord
 
   HISTORY_EXCLUDE_FIELDS = %w[id created_at updated_at].freeze
 
-  validates :test_status, inclusion: { in: REASONS_FOR_TEST, allow_blank: true }
-  validates :amplifying_comments, presence: { if: :test_status? }
-
+  validates :test_status, inclusion: { in: REASONS_FOR_TEST,
+                                       allow_blank: true }
+  validates :reason_driver_discounted, presence: { if: :driver_discounted? }
+  validates :reason_threshold_not_met, presence: { if: :fta_threshold_not_met? }
   has_one :incident
+
   has_many :witnesses
   accepts_nested_attributes_for :witnesses
 
@@ -53,8 +54,18 @@ class SupervisorReport < ApplicationRecord
     end
   end
 
+  def additional_comments
+    if completed_drug_or_alcohol_test?
+      amplifying_comments
+    else fta_justifications
+    end
+  end
+
   def fta_justifications
-    REASONS_FOR_TEST[test_status] + amplifying_comments
+    sections = []
+    sections << "Reason FTA threshold not met: #{reason_threshold_not_met}" if reason_threshold_not_met.present?
+    sections << "Reason driver was discounted: #{reason_driver_discounted}" if reason_driver_discounted.present?
+    sections.join("\n")
   end
 
   def witnesses?

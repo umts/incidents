@@ -58,7 +58,7 @@ toggleReasonsForTesting = ->
   showOnly = (field) ->
     infos = [
       '.post-accident-info',
-      '.reasonable-suspicion-info',
+      '.reasonable-suspician-info',
       '.driver-discounted-info',
       '.fta-threshold-info'
     ]
