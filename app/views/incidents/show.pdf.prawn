@@ -471,9 +471,9 @@ prawn_document do |pdf|
 
     pdf.field_row height: 40, units: 1 do |row|
       row.check_box_field field: 'Testing scenario', width: 1,
-        options: SupervisorReport::REASONS_FOR_TEST,
-        checked: SupervisorReport::REASONS_FOR_TEST.map{ |c| sup_report.test_status == c },
-        per_column: 2
+                          options: SupervisorReport::REASONS_FOR_TEST.keys,
+                          checked: SupervisorReport::REASONS_FOR_TEST.keys.map { |c| sup_report.test_status == c },
+                          per_column: 2
     end
     pdf.field_row height: 25, units: 6 do |row|
       row.text_field field: 'Employee', width: 1,
@@ -583,17 +583,10 @@ prawn_document do |pdf|
       DESCRIPTION
     end
 
-    pdf.move_down 50
-
-    pdf.field_row height: 25, units: 3 do |row|
-      row.text_field width: 1, field: "Supervisor's signature", value: ''
-    end
-
-    if sup_report.additional_comments.present?
-      pdf.start_new_page
+    if sup_report.test_status
       pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
         pdf.move_down 15
-        pdf.text 'Amplifying Comments'.upcase,
+        pdf.text 'POST-ACCIDENT TEST COMMENTS',
           align: :center, size: 14, style: :bold
       end
       pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
@@ -605,10 +598,16 @@ prawn_document do |pdf|
           additional information, if needed.
         DESCRIPTION
       end
-      pdf.field_row height: 300, units: 1 do |row|
-        row.text_field field: 'Amplifying comments', value: sup_report.additional_comments,
+      pdf.field_row height: 150, units: 1 do |row|
+        row.text_field field: 'Test comments', value: sup_report.fta_justifications,
           options: { valign: :top, align: :left }
       end
+    end
+
+    pdf.move_down 50
+
+    pdf.field_row height: 25, units: 3 do |row|
+      row.text_field width: 1, field: "Supervisor's signature", value: ''
     end
   end
 end

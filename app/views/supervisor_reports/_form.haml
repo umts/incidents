@@ -9,197 +9,201 @@
         - report.errors.full_messages.each do |message|
           %li= message
   .basic-info
-    .field
+    .form-group
       = form.label :pictures_saved?
       = form.check_box :pictures_saved, id: :supervisor_report_pictures_saved
     .saved-pictures-info{class: ('initially-hidden' unless report.pictures_saved?)}
-      .field
+      .form-group
         = form.label :saved_pictures
-        = form.number_field :saved_pictures, id: :supervisor_report_saved_pictures
-    .field
+        = form.number_field :saved_pictures, id: :supervisor_report_saved_pictures, class: 'form-control', min: '0'
+    .form-group
       = form.label :passenger_statement
-      = form.text_area :passenger_statement, id: :supervisor_report_passenger_statement,
-        size: '80x8'
-    .field
+      = form.text_area :passenger_statement, id: :supervisor_report_passenger_statement, class: 'form-control',
+        rows: '3'
+    .form-group
       = form.label :faxed
       - a11y_datetime_labels('report_faxed').each do |label|
         = label
       = form.datetime_select :faxed, id: :supervisor_report_faxed, prompt: true, ampm: true
-    .field
+    .form-group
       = form.label :witness_info
-      = form.check_box :witness_info, checked: report.witnesses?,
-        id: :supervisor_report_witness_info
+      = form.check_box :witness_info, checked: report.witnesses?, id: :supervisor_report_witness_info
     .witness-info{class: ('initially-hidden' unless report.witnesses?)}
       %h3 Witness Information
       = form.fields_for :witnesses do |witness_form|
         .witness-fields
-          .field
-            = witness_form.label :name
-            = witness_form.text_field :name
-            = witness_form.label :address
-            = witness_form.text_field :address
+          .form-group
             = witness_form.label :onboard_bus
             = witness_form.check_box :onboard_bus
-          .field
+          .form-group
+            = witness_form.label :name
+            = witness_form.text_field :name, class: 'form-control'
+          .form-group
+            = witness_form.label :address
+            = witness_form.text_field :address, class: 'form-control'
+          .form-group
             = witness_form.label :home_phone
-            = witness_form.text_field :home_phone
+            = witness_form.phone_field :home_phone, class: 'form-control'
+          .form-group
             = witness_form.label :cell_phone
-            = witness_form.text_field :cell_phone
+            = witness_form.phone_field :cell_phone, class: 'form-control'
+          .form-group
             = witness_form.label :work_phone
-            = witness_form.text_field :work_phone
-      %button.btn-default.add-witness Add witness info
-      %button.btn-default.delete-witness Delete witness info
+            = witness_form.phone_field :work_phone, class: 'form-control'
+      .form-group
+        %button.btn-default.add-witness Add witness info
+        %button.btn-default.delete-witness Delete witness info
     .test-info
-      .field
+      .form-group
         = form.label :test_status
-        = form.select :test_status,
-          options_for_select(SupervisorReport::REASONS_FOR_TEST, report.test_status), { include_blank: true },
-          id: :supervisor_report_test_status
+        = form.select :test_status, options_for_select(SupervisorReport::REASONS_FOR_TEST.keys, report.test_status),
+          { include_blank: true }, id: :supervisor_report_test_status, class: 'form-control'
       .fta-threshold-info{class: ('initially-hidden' unless report.fta_threshold_not_met?)}
         = form.label :reason_threshold_not_met
         = form.text_area :reason_threshold_not_met, id: :supervisor_report_reason_threshold_not_met,
-          size: '80x4'
+          class: 'form-control', rows: '3', placeholder: 'Please explain how the FTA threshold is not met.'
       .driver-discounted-info{class: ('initially-hidden' unless report.driver_discounted?)}
         = form.label :reason_driver_discounted
         = form.text_area :reason_driver_discounted, id: :supervisor_report_reason_driver_discounted,
-          size: '80x4'
+          class: 'form-control', rows: '3', placeholder: 'Please explain why the driver can be discounted.'
       .post-accident-info{class: ('initially-hidden' unless report.post_accident_completed_drug_test?)}
-        .field
+        .form-group
+          = form.label :reason_threshold_met
+          = form.text_area :amplifying_comments, id: :post_accident_info_comments, class: 'form-control', rows: '3',
+            placeholder: 'Please list which FTA threshold(s) were met.'
+        .form-group
           = form.label :test_due_to_bodily_injury?
           = form.check_box :test_due_to_bodily_injury, id: :supervisor_report_test_due_to_bodily_injury
-        .field
+        .form-group
           = form.label :test_due_to_disabling_damage?
           = form.check_box :test_due_to_disabling_damage, id: :supervisor_report_test_due_to_disabling_damage
-        .field
+        .form-group
           = form.label :test_due_to_fatality?
           = form.check_box :test_due_to_fatality, id: :supervisor_report_test_due_to_fatality
       .reasonable-suspicion-info{class: ('initially-hidden' unless report.reasonable_suspicion?)}
-        .field
+        .form-group
+          = form.label :reasonable_suspicion
+          = form.text_area :amplifying_comments, id: :post_accident_info_comments, class: 'form-control', rows: '3',
+            placeholder: 'Please document any relevant information or observations that led to the decision to initiate testing.'
+        .form-group
           = form.label :completed_drug_test?
           = form.check_box :completed_drug_test, id: :supervisor_report_completed_drug_test
-        .field
+        .form-group
           = form.label :completed_alcohol_test?
           = form.check_box :completed_alcohol_test, id: :supervisor_report_completed_alcohol_test
-        .field
+        .form-group
           = form.label :observation_made_at
           - a11y_datetime_labels('report_observation_made_at').each do |label|
             = label
           = form.datetime_select :observation_made_at, id: :supervisor_report_observation_made_at,
             prompt: true, ampm: true
-        .field
+        .form-group
           = form.label :test_due_to_employee_appearance?
           = form.check_box :test_due_to_employee_appearance,
             id: :supervisor_report_test_due_to_employee_appearance
         .employee-appearance-info{class: ('initially-hidden' unless report.test_due_to_employee_appearance?)}
-          .field
+          .form-group
             = form.label :employee_appearance
-            = form.text_field :employee_appearance, id: :supervisor_report_employee_appearance
-        .field
+            = form.text_field :employee_appearance, id: :supervisor_report_employee_appearance, class: 'form-control'
+        .form-group
           = form.label :test_due_to_employee_behavior?
-          = form.check_box :test_due_to_employee_behavior,
-            id: :supervisor_report_test_due_to_employee_behavior
+          = form.check_box :test_due_to_employee_behavior, id: :supervisor_report_test_due_to_employee_behavior
         .employee-behavior-info{class: ('initially-hidden' unless report.test_due_to_employee_behavior?)}
-          .field
+          .form-group
             = form.label :employee_behavior
-            = form.text_field :employee_behavior, id: :supervisor_report_employee_behavior
-        .field
+            = form.text_field :employee_behavior, id: :supervisor_report_employee_behavior, class: 'form-control'
+        .form-group
           = form.label :test_due_to_employee_speech?
-          = form.check_box :test_due_to_employee_speech,
-            id: :supervisor_report_test_due_to_employee_speech
+          = form.check_box :test_due_to_employee_speech, id: :supervisor_report_test_due_to_employee_speech
         .employee-speech-info{class: ('initially-hidden' unless report.test_due_to_employee_speech?)}
-          .field
+          .form-group
             = form.label :employee_speech
-            = form.text_field :employee_speech, id: :supervisor_report_employee_speech
-        .field
+            = form.text_field :employee_speech, id: :supervisor_report_employee_speech, class: 'form-control'
+        .form-group
           = form.label :test_due_to_employee_odor?
-          = form.check_box :test_due_to_employee_odor,
-            id: :supervisor_report_test_due_to_employee_odor
+          = form.check_box :test_due_to_employee_odor, id: :supervisor_report_test_due_to_employee_odor
         .employee-odor-info{class: ('initially-hidden' unless report.test_due_to_employee_odor?)}
-          .field
+          .form-group
             = form.label :employee_odor
-            = form.text_field :employee_odor, id: :supervisor_report_employee_odor
-      .field
+            = form.text_field :employee_odor, id: :supervisor_report_employee_odor, class: 'form-control'
+      .form-group
         = form.label :testing_facility
         = form.select :testing_facility,
           options_for_select(SupervisorReport::TESTING_FACILITIES, report.testing_facility),
-          include_blank: true, id: :supervisor_report_testing_facility
+          { include_blank: true }, id: :supervisor_report_testing_facility, class: 'form-control'
       %h3 Testing Timeline
-      .field
+      .form-group
         = form.label :testing_facility_notified_at
         - a11y_datetime_labels('report_testing_facility_notified_at').each do |label|
           = label
         = form.datetime_select :testing_facility_notified_at,
           id: :supervisor_report_testing_facility_notified_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :employee_representative_notified_at
         - a11y_datetime_labels('employee_representative_notified_at').each do |label|
           = label
         = form.datetime_select :employee_representative_notified_at,
           id: :supervisor_report_employee_representative_notified_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :employee_representative_arrived_at
         - a11y_datetime_labels('employee_representative_arrived_at').each do |label|
           = label
         = form.datetime_select :employee_representative_arrived_at,
           id: :supervisor_report_employee_representative_arrived_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :employee_notified_of_test_at
         - a11y_datetime_labels('report_employee_notified_of_test_at').each do |label|
           = label
         = form.datetime_select :employee_notified_of_test_at,
           id: :supervisor_report_employee_notified_of_test_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :employee_departed_to_test_at
         - a11y_datetime_labels('report_employee_departed_to_test_at').each do |label|
           = label
         = form.datetime_select :employee_departed_to_test_at,
           id: :supervisor_report_employee_departed_to_test_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :employee_arrived_at_test_at
         - a11y_datetime_labels('report_employee_arrived_at_test_at').each do |label|
           = label
         = form.datetime_select :employee_arrived_at_test_at,
           id: :supervisor_report_employee_arrived_at_test_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :test_started_at
         - a11y_datetime_labels('report_test_started_at').each do |label|
           = label
         = form.datetime_select :test_started_at,
           id: :supervisor_report_test_started_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :test_ended_at
         - a11y_datetime_labels('report_test_ended_at').each do |label|
           = label
         = form.datetime_select :test_ended_at,
           id: :supervisor_report_test_ended_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :employee_returned_to_work_or_released_from_duty_at
         - a11y_datetime_labels('report_employee_returned_to_work_or_released_from_duty_at').each do |label|
           = label
         = form.datetime_select :employee_returned_to_work_or_released_from_duty_at,
           id: :supervisor_report_employee_returned_to_work_or_released_from_duty_at, ampm: true, prompt: true
       %strong If applicable:
-      .field
+      .form-group
         = form.label :superintendent_notified_at
         - a11y_datetime_labels('report_superintendent_notified_at').each do |label|
           = label
         = form.datetime_select :superintendent_notified_at,
           id: :supervisor_report_superintendent_notified_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :program_manager_notified_at
         - a11y_datetime_labels('report_program_manager_notified_at').each do |label|
           = label
         = form.datetime_select :program_manager_notified_at,
           id: :supervisor_report_program_manager_notified_at, ampm: true, prompt: true
-      .field
+      .form-group
         = form.label :director_notified_at
         - a11y_datetime_labels('report_director_notified_at').each do |label|
           = label
         = form.datetime_select :director_notified_at,
           id: :supervisor_report_director_notified_at, ampm: true, prompt: true
-      .field
-        = form.label :amplifying_comments
-        = form.text_area :amplifying_comments, id: :supervisor_report_amplifying_comments,
-          size: '80x4'
-    .actions
-      = form.submit 'Save supervisor report'
+    .form-group.center
+      = form.submit 'Save supervisor report', class: 'btn btn-primary'
