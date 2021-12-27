@@ -48,6 +48,9 @@
       = simple_format report.reason_threshold_not_met
 - if report.post_accident_completed_drug_test?
   %p
+    %strong= human_name :supervisor_report, :accident_completed_drug_test
+    = simple_format report.amplifying_comments
+  %p
     %strong= human_name :supervisor_report, :test_due_to_bodily_injury?
     = yes_no_image report.test_due_to_bodily_injury?
   %p
@@ -57,6 +60,9 @@
     %strong= human_name :supervisor_report, :test_due_to_fatality?
     = yes_no_image report.test_due_to_fatality?
 - if report.reasonable_suspicion?
+  %p
+    %strong= human_name :supervisor_report, :reasonable_suspicion
+    = simple_format report.amplifying_comments
   %p
     %strong= human_name :supervisor_report, :completed_drug_test?
     = yes_no_image report.completed_drug_test?
@@ -133,9 +139,5 @@
   %p
     %strong= human_name :supervisor_report, :director_notified_at
     = report.director_notified_at.strftime '%l:%M %P'
-- if report.amplifying_comments.present?
-  %p
-    %strong= human_name :supervisor_report, :amplifying_comments
-    = simple_format report.amplifying_comments
 - if @current_user.staff? || @current_user == report.incident.supervisor
   = link_to 'Edit Supervisor Report', edit_supervisor_report_path(report)
