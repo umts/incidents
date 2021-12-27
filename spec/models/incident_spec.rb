@@ -21,7 +21,7 @@ describe Incident do
   end
 
   describe 'validations' do
-    context 'supervisor report not belonging to a supervisor' do
+    context 'when the supervisor report does not belong to a supervisor' do
       it 'fails' do
         driver = create :user, :driver
         report = create :incident_report, user: driver
