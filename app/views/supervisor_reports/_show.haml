@@ -37,7 +37,7 @@
   - if report.driver_discounted?
     %p
       %strong= human_name :supervisor_report, :reason_driver_discounted
-      = simple_format report.reason_driver_discounted
+      = simple_format report.amplifying_comments
 - if report.fta_threshold_not_met?
   %p
     %strong= human_name :supervisor_report, :fta_threshold_not_met
@@ -45,7 +45,7 @@
   - if report.fta_threshold_not_met?
     %p
       %strong= human_name :supervisor_report, :reason_threshold_not_met
-      = simple_format report.reason_threshold_not_met
+      = simple_format report.amplifying_comments
 - if report.post_accident_completed_drug_test?
   %p
     %strong= human_name :supervisor_report, :accident_completed_drug_test

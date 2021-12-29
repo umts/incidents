@@ -26,14 +26,6 @@ class SupervisorReport < ApplicationRecord
   accepts_nested_attributes_for :witnesses
 
   before_save do
-    assign_attributes reason_threshold_not_met: nil unless fta_threshold_not_met?
-  end
-
-  before_save do
-    assign_attributes reason_driver_discounted: nil unless driver_discounted?
-  end
-
-  before_save do
     unless post_accident_completed_drug_test?
       assign_attributes test_due_to_bodily_injury: false,
                         test_due_to_disabling_damage: false,

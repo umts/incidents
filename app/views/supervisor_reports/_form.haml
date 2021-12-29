@@ -60,11 +60,11 @@
           { include_blank: true }, id: :supervisor_report_test_status, class: 'form-control'
       .fta-threshold-info{class: ('initially-hidden' unless report.fta_threshold_not_met?)}
         = form.label :reason_threshold_not_met
-        = form.text_area :reason_threshold_not_met, id: :supervisor_report_reason_threshold_not_met,
+        = form.text_area :amplifying_comments, id: :supervisor_report_reason_threshold_not_met,
           class: 'form-control', rows: '3', placeholder: 'Please explain how the FTA threshold is not met.'
       .driver-discounted-info{class: ('initially-hidden' unless report.driver_discounted?)}
         = form.label :reason_driver_discounted
-        = form.text_area :reason_driver_discounted, id: :supervisor_report_reason_driver_discounted,
+        = form.text_area :amplifying_comments, id: :supervisor_report_reason_driver_discounted,
           class: 'form-control', rows: '3', placeholder: 'Please explain why the driver can be discounted.'
       .post-accident-info{class: ('initially-hidden' unless report.post_accident_completed_drug_test?)}
         .form-group
