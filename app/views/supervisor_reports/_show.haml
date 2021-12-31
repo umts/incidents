@@ -16,7 +16,7 @@
     = report.saved_pictures
 %p
   %strong= human_name :supervisor_report, :passenger_statement
-  = simple_format report.passenger_statement
+  = simple_format report.passenger_statement, {}, wrapper_tag: 'br'
 - if report.faxed.present?
   %p
     %strong= human_name :supervisor_report, :faxed
@@ -37,7 +37,7 @@
   - if report.driver_discounted?
     %p
       %strong= human_name :supervisor_report, :reason_driver_discounted
-      = simple_format report.amplifying_comments
+      = simple_format report.amplifying_comments, {}, wrapper_tag: 'br'
 - if report.fta_threshold_not_met?
   %p
     %strong= human_name :supervisor_report, :fta_threshold_not_met
@@ -45,11 +45,11 @@
   - if report.fta_threshold_not_met?
     %p
       %strong= human_name :supervisor_report, :reason_threshold_not_met
-      = simple_format report.amplifying_comments
+      = simple_format report.amplifying_comments, {}, wrapper_tag: 'br'
 - if report.post_accident_completed_drug_test?
   %p
     %strong= human_name :supervisor_report, :accident_completed_drug_test
-    = simple_format report.amplifying_comments
+    = simple_format report.amplifying_comments, {}, wrapper_tag: 'br'
   %p
     %strong= human_name :supervisor_report, :test_due_to_bodily_injury?
     = yes_no_image report.test_due_to_bodily_injury?
@@ -62,7 +62,7 @@
 - if report.reasonable_suspicion?
   %p
     %strong= human_name :supervisor_report, :reasonable_suspicion
-    = simple_format report.amplifying_comments
+    = simple_format report.amplifying_comments, {}, wrapper_tag: 'br'
   %p
     %strong= human_name :supervisor_report, :completed_drug_test?
     = yes_no_image report.completed_drug_test?
