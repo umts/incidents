@@ -53,32 +53,40 @@ deleteInjuredPassengerFields = (event) ->
   event.preventDefault()
   deleteFields '.pax-fields', '#supervisor_report_inj_pax_info'
 
-toggleReasonsForTesting = ->
-  #only displays fields required for the selected test_status
-  showOnly = (field) ->
-    infos = [
-      '.post-accident-info',
-      '.reasonable-suspicion-info',
-      '.driver-discounted-info',
-      '.fta-threshold-info'
-    ]
-    irrelevantInformation = infos.filter((info ) ->
-      info != field
-    )
-    $(irrelevantInformation.join()).slideUp()
-    $(field).slideDown()
-
-  reason = $('#supervisor_report_test_status').val()
+testStatusClass = (reason) ->
   switch reason
     when 'Reasonable Suspicion: Completed drug test'
-      showOnly('.reasonable-suspicion-info')
+      '.reasonable-suspicion-info'
     when 'Post Accident: Threshold met (completed drug test)'
-      showOnly('.post-accident-info')
+      '.threshold-met-info'
     when 'Post Accident: No threshold met (no drug test)'
-      showOnly('.fta-threshold-info')
+      '.fta-threshold-info'
     when 'Post Accident: Threshold met and discounted (no drug test)'
-      showOnly('.driver-discounted-info')
-    else showOnly('nothing')
+      '.driver-discounted-info'
+
+otherTestStatuses = (field) ->
+  infos = [
+    '.threshold-met-info',
+    '.reasonable-suspicion-info',
+    '.driver-discounted-info',
+    '.fta-threshold-info'
+  ]
+  infos.filter((info ) -> info != field)
+
+toggleReasonsForTesting = ->
+  reason = $('#supervisor_report_test_status').val()
+  reasonClass = testStatusClass(reason)
+  irrelevantReasons = otherTestStatuses(reasonClass)
+  $(irrelevantReasons.join()).slideUp()
+  $(reasonClass).slideDown()
+
+removeIrrelavantComments = (event) ->
+  event.preventDefault()
+  reason = $('#supervisor_report_test_status').val()
+  irrelevantReasons = otherTestStatuses(testStatusClass(reason))
+  for r in irrelevantReasons
+    $(r).remove()
+  $('#supervisor-report-form').submit()
 
 $(document).on 'turbolinks:load', ->
   $('form').showIfChecked '#incident_report_motor_vehicle_collision',
@@ -148,3 +156,5 @@ $(document).on 'turbolinks:load', ->
   $('form').on 'click', 'button.delete-witness', deleteWitnessFields
 
   $('form').on 'click', 'button.delete-pax', deleteInjuredPassengerFields
+
+  $('form').on 'click', 'button#supervisor-report-submit', removeIrrelavantComments

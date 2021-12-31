@@ -1,4 +1,4 @@
-= form_with model: report, local: true do |form|
+= form_with model: report, local: true, id: 'supervisor-report-form' do |form|
   - if report.errors.any?
     #error_explanation
       %h2
@@ -60,16 +60,16 @@
           { include_blank: true }, id: :supervisor_report_test_status, class: 'form-control'
       .fta-threshold-info{class: ('initially-hidden' unless report.fta_threshold_not_met?)}
         = form.label :reason_threshold_not_met
-        = form.text_area :amplifying_comments, id: :supervisor_report_reason_threshold_not_met,
+        = form.text_area :amplifying_comments, id: 'reason-threshold-not-met-comments',
           class: 'form-control', rows: '3', placeholder: 'Please explain how the FTA threshold is not met.'
       .driver-discounted-info{class: ('initially-hidden' unless report.driver_discounted?)}
         = form.label :reason_driver_discounted
-        = form.text_area :amplifying_comments, id: :supervisor_report_reason_driver_discounted,
+        = form.text_area :amplifying_comments, id: 'reason-driver-discounted-comments',
           class: 'form-control', rows: '3', placeholder: 'Please explain why the driver can be discounted.'
-      .post-accident-info{class: ('initially-hidden' unless report.post_accident_completed_drug_test?)}
+      .threshold-met-info{class: ('initially-hidden' unless report.post_accident_completed_drug_test?)}
         .form-group
           = form.label :reason_threshold_met
-          = form.text_area :amplifying_comments, id: :post_accident_info_comments, class: 'form-control', rows: '3',
+          = form.text_area :amplifying_comments, id: 'threshold-met-comments', class: 'form-control', rows: '3',
             placeholder: 'Please list which FTA threshold(s) were met.'
         .form-group
           = form.label :test_due_to_bodily_injury?
@@ -83,7 +83,7 @@
       .reasonable-suspicion-info{class: ('initially-hidden' unless report.reasonable_suspicion?)}
         .form-group
           = form.label :reasonable_suspicion
-          = form.text_area :amplifying_comments, id: :post_accident_info_comments, class: 'form-control', rows: '3',
+          = form.text_area :amplifying_comments, id: 'reasonable-suspicion-comments', class: 'form-control', rows: '3',
             placeholder: 'Please document any relevant information or observations that led to the decision to initiate testing.'
         .form-group
           = form.label :completed_drug_test?
@@ -206,4 +206,5 @@
         = form.datetime_select :director_notified_at,
           id: :supervisor_report_director_notified_at, ampm: true, prompt: true
     .form-group.center
-      = form.submit 'Save supervisor report', class: 'btn btn-primary'
+      -# The form is submitted via coffee script in incident_reports/edit.coffee
+      %button.btn.btn-primary#supervisor-report-submit Save supervisor report
