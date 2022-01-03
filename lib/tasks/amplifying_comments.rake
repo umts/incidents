@@ -12,11 +12,10 @@ namespace :db do
         next
       end
 
-      if s.amplifying_comments.present? && new_comment != s.amplifying_comments
+      if new_comment && s.amplifying_comments.present? && new_comment != s.amplifying_comments
         new_comment += "\n\n#{s.amplifying_comments}"
+        s.update(amplifying_comments: new_comment)
       end
-
-      s.update(amplifying_comments: new_comment)
     end
   end
 end

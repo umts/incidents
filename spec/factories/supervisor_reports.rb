@@ -19,7 +19,7 @@ FactoryBot.define do
     end
 
     after :build do |report|
-      report.amplifying_comments = FFaker::Lorem.paragraph if report.test_status?
+      report.amplifying_comments ||= FFaker::Lorem.paragraph if report.test_status?
     end
 
     trait :with_witness do
