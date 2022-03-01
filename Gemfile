@@ -17,7 +17,7 @@ gem 'paper_trail', '~> 12.0'
 gem 'prawn-rails-forms', '~> 0.1.2'
 gem 'puma'
 gem 'rails', '~> 6.1.3'
-gem 'sass-rails', '~> 5.0'
+gem 'sassc-rails'
 gem 'turbolinks', '~> 5'
 gem 'uglifier', '>= 1.3.0'
 
