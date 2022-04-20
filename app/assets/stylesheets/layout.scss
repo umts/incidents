@@ -22,7 +22,7 @@ body{
 
   background: #cdacac !important;
   font-size: 200% !important;
-    
+
   .navbar.navbar-default{
     background: #bbbcbf;
     border-bottom: 2px solid $border-color;
@@ -59,10 +59,6 @@ body{
 
     a:hover{
       background-color: inherit;
-    }
-
-    .field_with_errors{
-      background: #ff9999;
     }
 
     h1,h2{

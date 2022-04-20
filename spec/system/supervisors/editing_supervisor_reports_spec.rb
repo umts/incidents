@@ -5,7 +5,9 @@ require 'spec_helper'
 describe 'editing supervisor reports as a supervisor' do
   let(:incident) { create :incident }
   let(:supervisor) { incident.supervisor }
-  before(:each) { when_current_user_is supervisor }
+
+  before { when_current_user_is supervisor }
+
   it 'allows editing supervisor reports', js: true do
     visit edit_incident_path(incident)
     click_on 'Edit Supervisor Report'
@@ -17,6 +19,7 @@ describe 'editing supervisor reports as a supervisor' do
                                   text: 'Incident report was successfully saved.'
     expect(page).to have_text 'Number of pictures saved: 37'
   end
+
   it 'reloads the edit page if the report is invalid' do
     incident.remove_supervisor
     incident.claim_for(supervisor)
@@ -30,7 +33,8 @@ describe 'editing supervisor reports as a supervisor' do
     expect(page).to have_current_path supervisor_report_path(incident.supervisor_report)
     expect(page).to have_text 'cannot be marked as complete'
   end
-  context 'admin deletes the incident' do
+
+  context 'when admin deletes the incident' do
     it 'displays a nice error message' do
       visit edit_incident_path(incident)
       click_on 'Edit Supervisor Report'
@@ -41,7 +45,8 @@ describe 'editing supervisor reports as a supervisor' do
                                     text: 'This incident report no longer exists.'
     end
   end
-  context 'adding multiple witnesses' do
+
+  context 'when adding multiple witnesses' do
     it 'displays all of them', js: true do
       # there is one witness filled in otherwise
       incident.supervisor_report.witnesses = []
@@ -69,7 +74,8 @@ describe 'editing supervisor reports as a supervisor' do
                                     text: 'Karin; 51 Forestry Way, Amherst'
     end
   end
-  context 'deleting a witness' do
+
+  context 'when deleting a witness' do
     it 'displays the current witnesses', js: true do
       incident.supervisor_report.witnesses = []
       witness = create :witness, supervisor_report: incident.supervisor_report
@@ -86,6 +92,40 @@ describe 'editing supervisor reports as a supervisor' do
       expect(page).to have_selector 'h2', text: 'Supervisor Report'
       expect(page).to have_text 'Witness Information'
       expect(page).to have_selector 'li', count: 1
+    end
+  end
+
+  context 'when submitting with a test status' do
+    let(:supervisor_report) { incident.supervisor_report }
+    let(:comment) { 'A nice comment.' }
+
+    before do
+      visit edit_supervisor_report_path(supervisor_report)
+      select 'Post Accident: Threshold met and discounted', from: 'Test status'
+    end
+
+    it 'saves the correct amplifying comment', js: true do
+      fill_in 'Please explain why the driver can be discounted.', with: 'Some dumb comment.'
+      select 'Post Accident: Threshold met (completed drug test)', from: 'Test status'
+      # Capybara can't find the new label even when it's visible
+      fill_in id: 'threshold-met-comments', with: comment
+      click_button 'Save supervisor report'
+      expect(page).to have_css('p', text: comment)
+    end
+
+    context 'without amplifying comments' do
+      before do
+        fill_in 'Please explain why the driver can be discounted.', with: ''
+        click_button 'Save supervisor report'
+      end
+
+      it 'does not let you leave amplifying comments blank' do
+        expect(page).to have_css('#error_explanation', text: "Amplifying comments can't be blank")
+      end
+
+      it 'shows the correct amplifying comments field to fill' do
+        expect(page).to have_css('textarea#reason-driver-discounted-comments')
+      end
     end
   end
 end
