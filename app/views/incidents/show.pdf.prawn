@@ -583,7 +583,7 @@ prawn_document do |pdf|
       DESCRIPTION
     end
 
-    if sup_report.test_status
+    if sup_report.test_status.present?
       pdf.bounding_box [0, pdf.cursor], width: pdf.bounds.width, height: 30 do
         pdf.move_down 15
         pdf.text 'POST-ACCIDENT TEST COMMENTS',
