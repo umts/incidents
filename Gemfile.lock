@@ -182,6 +182,14 @@ GEM
     minitest (5.15.0)
     msgpack (1.4.5)
     mysql2 (0.5.3)
+    net-imap (0.2.3)
+      digest
+      net-protocol
+      strscan
+    net-pop (0.1.1)
+      digest
+      net-protocol
+      timeout
     net-protocol (0.1.2)
       io-wait
       timeout
@@ -342,6 +350,7 @@ GEM
     sshkit (1.21.2)
       net-scp (>= 1.1.2)
       net-ssh (>= 2.8.0)
+    strscan (3.0.1)
     sysexits (1.2.0)
     temple (0.8.2)
     thor (1.2.1)
@@ -402,6 +411,8 @@ DEPENDENCIES
   listen
   matrix (~> 0.4)
   mysql2
+  net-imap
+  net-pop
   net-smtp
   nokogiri (>= 1.8.1)
   openssl
