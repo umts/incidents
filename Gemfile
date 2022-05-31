@@ -11,18 +11,15 @@ gem 'devise'
 gem 'haml-rails'
 gem 'jbuilder', '~> 2.5'
 
+# Required for net-* dependencies
+# can be removed once 2.8.0 is ofically released
+gem 'mail', '= 2.8.0.rc1'
+
 # Former default gem - dependency of prawn
 # can be removed when prawn is updated to depend on it
 gem 'matrix', '~> 0.4'
 
 gem 'mysql2'
-
-# Former default gems - Dependencies of mail
-# can be removed when mail is updated to depend on it
-gem 'net-imap'
-gem 'net-pop'
-gem 'net-smtp'
-
 gem 'nokogiri', '>= 1.8.1'
 gem 'openssl'
 gem 'paper_trail', '~> 12.0'
