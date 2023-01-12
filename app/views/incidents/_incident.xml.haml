@@ -17,7 +17,7 @@
   %ai_division= incident.division.name
   %ai_dvr_pulled= incident.video_pulled?
   %ai_employee= report.user.badge_number
-  %ai_is_preventable= incident.preventable?
+  %ai_preventability= incident.preventable? ? 'PREVENTABLE' : 'NON_PREVENTABLE'
   - if report.route.present?
     %ai_route= report.route
   - if report.point_of_impact.present?
