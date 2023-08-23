@@ -24,7 +24,6 @@ gem 'puma'
 gem 'rails', '~> 6.1.3'
 gem 'sassc-rails'
 gem 'turbolinks', '~> 5'
-gem 'uglifier', '>= 1.3.0'
 
 group :production do
   gem 'exception_notification', '~> 4.4.3'
