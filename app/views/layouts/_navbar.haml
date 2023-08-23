@@ -20,8 +20,9 @@
             %button.btn.btn-default.navbar-btn.navbar-left
               Unclaimed Incidents
               .number-icon= @unclaimed_incidents.count
-      = link_to new_incident_path do
-        %button.btn.btn-default.navbar-btn.navbar-left New Incident
+      = button_to new_incident_path, method: :get, class: 'btn btn-default navbar-btn navbar-left',
+                  form: { id: 'new-incident-navbar-form' } do
+        New Incident
       = link_to destroy_user_session_path, method: :delete do
         %button.btn.btn-default.navbar-btn.navbar-right.auth{type: :button} Logout
       = link_to change_password_path do
