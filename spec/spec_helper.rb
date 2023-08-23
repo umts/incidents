@@ -51,8 +51,11 @@ RSpec.configure do |config|
   config.before :each, type: :system do
     driven_by :rack_test
   end
+
   config.before :each, type: :system, js: true do
-    driven_by :custom_headless_chrome
+    driven_by :selenium, using: :headless_chrome do |driver_options|
+      driver_options.add_preference :download, default_directory: Downloads::PATH
+    end
   end
 
   config.before :suite do
