@@ -110,7 +110,7 @@ Rails.application.configure do
   config.action_mailer.smtp_settings = {
     address: 'skylark.websitewelcome.com',
     authentication: :plain,
-    password: Rails.application.secrets.smtp_password,
+    password: Rails.application.credentials.smtp_password,
     user_name: 'incidents@pvtaapps.com'
   }
   # Inserts middleware to perform automatic connection switching.

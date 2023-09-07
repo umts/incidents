@@ -49,3 +49,5 @@ contrib/*.sql
 /claims_xml/*.xml
 
 /config/credentials/development.key
+
+/config/credentials/production.key
