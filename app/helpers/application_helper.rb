@@ -15,7 +15,7 @@ module ApplicationHelper
     URI::HTTPS.build host: 'maps.googleapis.com',
                      path: '/maps/api/js',
                      query: {
-                       key: Rails.application.secrets.google_maps_api_key
+                       key: Rails.application.credentials.google_maps_api_key
                      }.to_query
   end
 

@@ -47,3 +47,4 @@ contrib/*.sql
 
 # Ignore claims XML files
 /claims_xml/*.xml
+/config/credentials/production.key
