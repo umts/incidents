@@ -59,10 +59,8 @@ Rails.application.configure do
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
 
-  # Use a real queuing backend for Active Job (and separate queues per environment).
+  # Use a real queuing backend for Active Job
   config.active_job.queue_adapter     = :sidekiq
-  config.active_job.queue_name_prefix = "incidents_production"
-  config.action_mailer.deliver_later_queue_name = 'mailers'
 
   config.action_mailer.perform_caching = false
 
@@ -108,8 +106,10 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: 'incidents.pvta.com' }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: 'skylark.websitewelcome.com',
-    authentication: :plain,
+    address: 'mail.pvtaapps.com',
+    port: 465,
+    ssl: true,
+    authentication: :login,
     password: Rails.application.credentials.smtp_password,
     user_name: 'incidents@pvtaapps.com'
   }
