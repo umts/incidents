@@ -27,7 +27,7 @@ gem 'turbolinks', '~> 5'
 
 group :production do
   gem 'exception_notification', '~> 4.4.3'
-  gem 'sidekiq', '~> 6.5.12'
+  gem 'sidekiq', '~> 7.0'
   gem 'terser'
 end
 
