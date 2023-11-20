@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 source 'https://rubygems.org'
-ruby IO.read(File.expand_path('.ruby-version', __dir__)).strip
+ruby file: '.ruby-version'
 
 gem 'bootsnap', require: false
 gem 'bootstrap-sass', '~> 3.3'
