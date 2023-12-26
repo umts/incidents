@@ -22,7 +22,7 @@ Metrics/BlockLength:
     - array
     - hash
     - heredoc
-  IgnoredMethods:
+  AllowedMethods:
     - configure
 
     # ActiveSupport::Concern
