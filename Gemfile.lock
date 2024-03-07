@@ -69,6 +69,7 @@ GEM
       execjs
     bcrypt (3.1.16)
     bcrypt_pbkdf (1.1.0)
+    bigdecimal (3.1.6)
     bindex (0.8.1)
     bootsnap (1.10.3)
       msgpack (~> 1.2)
@@ -211,10 +212,11 @@ GEM
     parser (3.2.2.4)
       ast (~> 2.4.1)
       racc
-    pdf-core (0.9.0)
-    prawn (2.4.0)
-      pdf-core (~> 0.9.0)
-      ttfunk (~> 1.7)
+    pdf-core (0.10.0)
+    prawn (2.5.0)
+      matrix (~> 0.4)
+      pdf-core (~> 0.10.0)
+      ttfunk (~> 1.8)
     prawn-rails (1.4.0)
       prawn
       prawn-table
@@ -364,7 +366,8 @@ GEM
     tilt (2.0.10)
     timecop (0.9.4)
     timeout (0.4.1)
-    ttfunk (1.7.0)
+    ttfunk (1.8.0)
+      bigdecimal (~> 3.1)
     turbolinks (5.2.1)
       turbolinks-source (~> 5.2)
     turbolinks-source (5.2.0)
@@ -411,7 +414,6 @@ DEPENDENCIES
   haml_lint
   jbuilder (~> 2.5)
   listen
-  matrix (~> 0.4)
   mysql2
   nokogiri (>= 1.8.1)
   openssl
