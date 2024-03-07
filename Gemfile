@@ -10,11 +10,6 @@ gem 'csv'
 gem 'devise'
 gem 'haml-rails'
 gem 'jbuilder', '~> 2.5'
-
-# Former default gem - dependency of prawn
-# can be removed when prawn is updated to depend on it
-gem 'matrix', '~> 0.4'
-
 gem 'mysql2'
 gem 'nokogiri', '>= 1.8.1'
 gem 'openssl'
