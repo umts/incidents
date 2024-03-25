@@ -67,6 +67,7 @@ GEM
     ast (2.4.2)
     autoprefixer-rails (10.2.4.0)
       execjs
+    base64 (0.2.0)
     bcrypt (3.1.16)
     bcrypt_pbkdf (1.1.0)
     bigdecimal (3.1.6)
@@ -336,7 +337,8 @@ GEM
       sprockets (> 3.0)
       sprockets-rails
       tilt
-    selenium-webdriver (4.11.0)
+    selenium-webdriver (4.18.1)
+      base64 (~> 0.2)
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
@@ -387,7 +389,7 @@ GEM
       activemodel (>= 6.0.0)
       bindex (>= 0.4.0)
       railties (>= 6.0.0)
-    websocket (1.2.9)
+    websocket (1.2.10)
     websocket-driver (0.7.6)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.5)
