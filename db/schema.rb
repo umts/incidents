@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_03_30_181133) do
+ActiveRecord::Schema.define(version: 2024_03_25_133311) do
 
   create_table "active_storage_attachments", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
     t.string "name", null: false
@@ -261,15 +261,19 @@ ActiveRecord::Schema.define(version: 2021_03_30_181133) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  create_table "versions", charset: "utf8mb4", force: :cascade do |t|
+  create_table "versions", charset: "utf8mb4", collation: "utf8mb4_general_ci", force: :cascade do |t|
     t.string "item_type", limit: 191, null: false
     t.integer "item_id", null: false
     t.string "event", null: false
     t.string "whodunnit"
-    t.text "object", size: :long
+    t.text "old_object", size: :long
     t.datetime "created_at"
-    t.text "object_changes"
+    t.text "old_object_changes"
+    t.text "object", size: :long, collation: "utf8mb4_bin"
+    t.text "object_changes", size: :long, collation: "utf8mb4_bin"
     t.index ["item_type", "item_id"], name: "index_versions_on_item_type_and_item_id"
+    t.check_constraint "json_valid(`object_changes`)", name: "object_changes"
+    t.check_constraint "json_valid(`object`)", name: "object"
   end
 
   create_table "witnesses", charset: "utf8mb4", collation: "utf8mb4_unicode_ci", force: :cascade do |t|
