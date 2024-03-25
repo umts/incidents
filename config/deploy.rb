@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-lock '~> 3.14'
-
 set :application, 'incidents'
 set :repo_url, 'https://github.com/umts/incidents.git'
 set :branch, :main
