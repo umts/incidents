@@ -20,5 +20,9 @@ append :linked_dirs,
        'vendor/bundle',
        '.bundle'
 
+set :bundle_bins, fetch(:bundle_bins, []).push('bootsnap')
+
 set :sidekiq_user, 'root'
 set :sidekiq_service_unit_user, :system
+
+before 'deploy:updated', 'bootsnap:precompile'
