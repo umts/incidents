@@ -24,6 +24,9 @@
 
 .byebug_history
 
+# Ignore bootsnap cache
+/bootsnap
+
 # Ignore all of coverage, except the .last_run.json
 /coverage/index.html
 /coverage/assets/*
