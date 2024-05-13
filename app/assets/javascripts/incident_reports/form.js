@@ -1,11 +1,7 @@
+const pvtaLatLong = [42.105552, -72.596511]
+
 $(document).on('turbolinks:load', () => {
-  const map = L.map('latlong-selector').setView([51.505, -0.09], 13);
-
-  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-  }).addTo(map);
-
-  L.marker([51.5, -0.09]).addTo(map)
-    .bindPopup('A pretty CSS popup.<br> Easily customizable.')
-    .openPopup();
+  const map = L.map('latlong-selector').setView(pvtaLatLong, 13);
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+  L.marker(pvtaLatLong).addTo(map);
 });
