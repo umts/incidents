@@ -1,4 +1,6 @@
 $(document).on('turbolinks:load', () => {
+  if ($('#latlong-selector').length === 0) return;
+
   let initialLatLng = [parseFloat($('#incident_latitude').val()), parseFloat($('#incident_longitude').val())];
   if (isNaN(initialLatLng[0]) || isNaN(initialLatLng[1])) {
     initialLatLng = [42.105552, -72.596511];
