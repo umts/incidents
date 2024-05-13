@@ -12,6 +12,7 @@ Rails.application.config.content_security_policy do |policy|
   policy.script_src  :self, 'https://*.googleapis.com'
   policy.style_src   :self, 'https://*.googleapis.com'
   policy.connect_src :self, 'https://*.googleapis.com'
+  policy.connect_src :self, 'https://nominatim.openstreetmap.org/reverse'
   # If you are using webpack-dev-server then specify webpack-dev-server host
   # policy.connect_src :self, :https, "http://localhost:3035", "ws://localhost:3035" if Rails.env.development?
 
