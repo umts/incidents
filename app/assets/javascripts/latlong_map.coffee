@@ -65,6 +65,6 @@ fillLocationFields = (street, zip, town, state) ->
   $('#incident_report_state').val String(state)
   $('#incident_report_zip').val String(zip)
 
-$(document).on 'turbolinks:load', ->
-  if $('.map').length > 0
-    initLatLngMap $('.map')
+# $(document).on 'turbolinks:load', ->
+  # if $('.map').length > 0
+    # initLatLngMap $('.map')
