@@ -16,3 +16,8 @@
 //= require bootstrap-sprockets
 //= require leaflet
 //= require_tree .
+
+L.Icon.Default.imagePath = '';
+L.Icon.Default.prototype.options.iconUrl = '<%= asset_path('leaflet/dist/images/marker-icon.png') %>';
+L.Icon.Default.prototype.options.iconRetinaUrl = '<%= asset_path('leaflet/dist/images/marker-icon-2x.png') %>';
+L.Icon.Default.prototype.options.shadowUrl = '<%= asset_path('leaflet/dist/images/marker-shadow.png') %>';
