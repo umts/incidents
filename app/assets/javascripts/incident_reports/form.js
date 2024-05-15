@@ -7,7 +7,9 @@ $(document).on('turbolinks:load', () => {
   }
 
   const map = L.map('latlong-selector').setView(initialLatLng, 13);
-  const tileLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png');
+  const tileLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+  });
   const marker = L.marker(initialLatLng, {draggable: true});
 
   const updateFields = () => {
