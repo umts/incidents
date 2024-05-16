@@ -66,8 +66,6 @@
           = incident_form.text_field :longitude, id: :incident_longitude
     - if @incident.driver_incident_report == report
       %i Place a pin on the map below to fill the latitude and longitude.
-      .no-geocode-alert
-        Google could not place marker on the map.
       #latlong-selector.map{ data: { lat: @incident.latitude, lng: @incident.longitude, location: @incident.geocode_location } }
     .field
       = form.label :location
