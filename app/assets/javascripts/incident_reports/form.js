@@ -25,7 +25,7 @@ $(document).on('turbolinks:load', () => {
       success: (data) => {
         const location = [data.address['house_number'], data.address['road']].filter((x) => !!(x)).join(' ');
         $('#incident_report_location').val(location);
-        $('#incident_report_town').val(data.address['city']);
+        $('#incident_report_town').val(data.address['city'] || data.address['town']);
         $('#incident_report_state').val(data.address['state']);
         $('#incident_report_zip').val(data.address['postcode']);
       },
