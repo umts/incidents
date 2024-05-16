@@ -8,7 +8,6 @@
       nonce: content_security_policy_nonce, data: { turbolinks_track: 'reload' }
     = javascript_include_tag 'application',
       nonce: true, data: { turbolinks_track: 'reload' }
-    %script{ src: maps_source, nonce: content_security_policy_nonce }
     = favicon_link_tag
   %body
     - if Rails.env.test?

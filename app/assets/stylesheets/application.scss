@@ -16,8 +16,13 @@
 
 @import "bootstrap-sprockets";
 @import "bootstrap";
+@import "leaflet/dist/leaflet";
 
 // Bootstrap's .hidden is !important
 .initially-hidden {
   display: none;
+}
+
+.leaflet-grab {
+  cursor: unset;
 }

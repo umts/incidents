@@ -11,14 +11,6 @@ module ApplicationHelper
     a11y_rails_native_select_labels(tag_id, %w[Year Month Day Hour Minute])
   end
 
-  def maps_source
-    URI::HTTPS.build host: 'maps.googleapis.com',
-                     path: '/maps/api/js',
-                     query: {
-                       key: Rails.application.credentials.google_maps_api_key
-                     }.to_query
-  end
-
   def yes_no(value)
     value ? 'Yes' : 'No'
   end
