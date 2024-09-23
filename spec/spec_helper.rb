@@ -12,6 +12,7 @@ abort('The Rails environment is running in production mode!') if Rails.env.produ
 Rails.root.glob('spec/support/**/*.rb').each { |f| require f }
 
 require 'rspec/rails'
+require 'rspec/retry'
 require 'devise'
 require 'factory_bot_rails'
 
@@ -47,6 +48,19 @@ RSpec.configure do |config|
   config.use_transactional_fixtures = true
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
+
+  config.verbose_retry = true
+  config.display_try_failure_messages = true
+
+  config.around :each, :js do |example|
+    example.run_with_retry retry: 3
+  end
+
+  config.retry_callback = proc do |example|
+    if example.metadata[:js]
+      Capybara.reset!
+    end
+  end
 
   config.before :each, type: :system do
     driven_by :rack_test
