@@ -16,7 +16,7 @@ gem 'openssl'
 gem 'paper_trail', '~> 15.2'
 gem 'prawn-rails-forms'
 gem 'puma'
-gem 'rails', '~> 6.1.7'
+gem 'rails', '~> 7.2.1'
 gem 'sassc-rails'
 gem 'turbolinks'
 
