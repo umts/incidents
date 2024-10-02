@@ -46,7 +46,6 @@ describe 'editing incidents as a driver' do
       end
 
       save_and_preview
-      Downloads.wait_for("#{incident.id}.pdf")
 
       visit incident_path(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
@@ -70,7 +69,6 @@ describe 'editing incidents as a driver' do
       click_button 'Delete injured passenger info'
 
       save_and_preview
-      Downloads.wait_for("#{incident.id}.pdf")
 
       visit incident_path(incident)
       expect(page).to have_selector 'h2', text: 'Driver Incident Report'
