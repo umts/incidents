@@ -13,7 +13,7 @@ gem 'jbuilder'
 gem 'mysql2'
 gem 'nokogiri'
 gem 'openssl'
-gem 'paper_trail', '~> 15.1'
+gem 'paper_trail', '~> 15.2'
 gem 'prawn-rails-forms'
 gem 'puma'
 gem 'rails', '~> 6.1.7'
@@ -57,6 +57,7 @@ end
 group :test do
   gem 'capybara'
   gem 'rspec-rails'
+  gem 'rspec-retry'
   gem 'selenium-webdriver'
   gem 'simplecov'
 end
