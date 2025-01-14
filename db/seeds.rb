@@ -5,6 +5,8 @@ require 'ffaker'
 require 'paper_trail'
 require 'timecop'
 
+exit if Rails.env.test?
+
 divisions = %w[SPFLD NOHO SMECH].map do |n|
   FactoryBot.create :division, name: n
 end
