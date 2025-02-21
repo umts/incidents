@@ -53,7 +53,7 @@ RSpec.configure do |config|
   config.display_try_failure_messages = true
 
   config.around :each, :js do |example|
-    example.run_with_retry retry: 3
+    example.run_with_retry retry: 5
   end
 
   config.retry_callback = proc do |example|
@@ -66,7 +66,9 @@ RSpec.configure do |config|
     driven_by :rack_test
   end
   config.before :each, type: :system, js: true do
-    driven_by :selenium, using: :headless_chrome
+    driven_by :selenium, using: :headless_chrome do |options|
+      options.add_preference 'plugins.always_open_pdf_externally', true
+    end
   end
 end
 

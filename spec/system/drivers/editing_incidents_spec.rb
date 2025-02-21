@@ -60,12 +60,12 @@ describe 'editing incidents as a driver' do
   context 'deleting an injured passenger' do
     it 'displays the current injured passengers', js: true do
       create_list :injured_passenger, 2, incident_report: report
+      report.update(passenger_incident: true)
       visit incidents_path
       expect(page).to have_selector 'table.incidents tbody tr', count: 1
       within 'tr', text: driver.proper_name do
         click_button 'Edit'
       end
-      check 'Did the incident involve a passenger?'
       click_button 'Delete injured passenger info'
 
       save_and_preview
