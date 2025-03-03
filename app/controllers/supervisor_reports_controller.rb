@@ -35,23 +35,7 @@ class SupervisorReportsController < ApplicationController
   end
 
   def report_params
-    data = params.require(:supervisor_report).permit(:pictures_saved, :saved_pictures, :passenger_statement, :faxed,
-                                                     :witness_info, :test_status, :amplifying_comments,
-                                                     :test_due_to_bodily_injury, :test_due_to_disabling_damage,
-                                                     :test_due_to_fatality, :completed_drug_test,
-                                                     :completed_alcohol_test, :observation_made_at,
-                                                     :test_due_to_employee_appearance, :employee_appearance,
-                                                     :test_due_to_employee_behavior, :employee_behavior,
-                                                     :test_due_to_employee_speech, :employee_speech,
-                                                     :test_due_to_employee_odor, :employee_odor, :testing_facility,
-                                                     :testing_facility_notified_at,
-                                                     :employee_representative_notified_at,
-                                                     :employee_representative_arrived_at, :employee_notified_of_test_at,
-                                                     :employee_departed_to_test_at, :employee_arrived_at_test_at,
-                                                     :test_started_at, :test_ended_at,
-                                                     :employee_returned_to_work_or_released_from_duty_at,
-                                                     :superintendent_notified_at, :program_manager_notified_at,
-                                                     :director_notified_at,
+    data = params.require(:supervisor_report).permit(*AssignmentAttributes::SUPERVISOR_REPORT,
                                                      witnesses_attributes: %i[id onboard_bus name address
                                                                               home_phone cell_phone work_phone])
     unless data[:witness_info] == '1'

@@ -1,0 +1,43 @@
+# frozen_string_literal: true
+
+module AssignmentAttributes
+  INCIDENT = %i[
+    latitude longitude root_cause_analysis reason_code_id supplementary_reason_code_id preventable video_pulled
+    completed claim_number
+  ].freeze
+
+  INCIDENT_REPORT = %i[
+    user_id occurred_at run block route bus passengers_onboard pvta_passenger_information_taken
+    courtesy_cards_distributed courtesy_cards_collected speed location direction town state zip weather_conditions
+    road_conditions light_conditions headlights_used police_on_scene police_badge_number police_town_or_state
+    police_case_assigned ambulance_present wheelchair_involved vehicle_distance incident_involved_a_van
+    assistance_requested chair_on_lift lift_deployed posted_speed_limit surface_type surface_grade credentials_exchanged
+    summons_or_warning_issued summons_or_warning_info motor_vehicle_collision other_vehicle_plate other_vehicle_state
+    other_vehicle_make other_vehicle_model other_vehicle_year other_vehicle_color other_vehicle_passengers
+    other_passenger_information_taken other_vehicle_direction other_driver_name other_driver_license_number
+    other_driver_license_state other_vehicle_driver_address other_vehicle_driver_address_town
+    other_vehicle_driver_address_state other_vehicle_driver_address_zip other_vehicle_driver_home_phone
+    other_vehicle_driver_cell_phone other_vehicle_driver_work_phone other_vehicle_owned_by_other_driver
+    other_vehicle_owner_name other_vehicle_owner_address other_vehicle_owner_address_town
+    other_vehicle_owner_address_state other_vehicle_owner_address_zip other_vehicle_owner_home_phone
+    other_vehicle_owner_cell_phone other_vehicle_owner_work_phone towed_from_scene other_vehicle_towed_from_scene
+    point_of_impact damage_to_bus_point_of_impact damage_to_other_vehicle_point_of_impact insurance_carrier
+    insurance_policy_number insurance_effective_date property_owner_information_taken passenger_incident inj_pax_info
+    occurred_front_door occurred_rear_door occurred_front_steps occurred_rear_steps occurred_sudden_stop
+    occurred_before_boarding occurred_while_boarding occurred_after_boarding occurred_while_exiting
+    occurred_after_exiting motion_of_bus condition_of_steps bus_kneeled bus_up_to_curb bus_distance_from_curb
+    reason_not_up_to_curb vehicle_in_bus_stop_plate description
+  ].freeze
+
+  SUPERVISOR_REPORT = %i[
+    pictures_saved saved_pictures passenger_statement faxed witness_info test_status amplifying_comments
+    test_due_to_bodily_injury test_due_to_disabling_damage test_due_to_fatality completed_drug_test
+    completed_alcohol_test observation_made_at test_due_to_employee_appearance employee_appearance
+    test_due_to_employee_behavior employee_behavior test_due_to_employee_speech employee_speech
+    test_due_to_employee_odor employee_odor testing_facility testing_facility_notified_at
+    employee_representative_notified_at employee_representative_arrived_at employee_notified_of_test_at
+    employee_departed_to_test_at employee_arrived_at_test_at test_started_at test_ended_at
+    employee_returned_to_work_or_released_from_duty_at superintendent_notified_at program_manager_notified_at
+    director_notified_at
+  ].freeze
+end
