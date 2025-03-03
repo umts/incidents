@@ -158,7 +158,11 @@ class IncidentsController < ApplicationController
   private
 
   def incident_params
-    data = params.require(:incident).permit!
+    data = params.require(:incident).permit(:latitude, :longitude, :root_cause_analysis, :reason_code_id,
+                                            :supplementary_reason_code_id, :preventable, :video_pulled, :completed,
+                                            :claim_number, driver_incident_report_attributes: %i[user_id occurred_at],
+                                            supervisor_incident_report_attributes: [:id, :user_id])
+
     sup_report_attrs = data[:supervisor_incident_report_attributes]
     if sup_report_attrs.present?
       @assigning_supervisor = sup_report_attrs[:user_id].present? &&
