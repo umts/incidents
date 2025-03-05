@@ -158,7 +158,9 @@ class IncidentsController < ApplicationController
   private
 
   def incident_params
-    data = params.require(:incident).permit!
+    data = params.require(:incident).permit(*AssignmentAttributes::INCIDENT,
+                                            driver_incident_report_attributes: %i[id user_id occurred_at],
+                                            supervisor_incident_report_attributes: %i[id user_id])
     sup_report_attrs = data[:supervisor_incident_report_attributes]
     if sup_report_attrs.present?
       @assigning_supervisor = sup_report_attrs[:user_id].present? &&

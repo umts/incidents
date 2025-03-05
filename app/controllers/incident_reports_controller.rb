@@ -42,7 +42,11 @@ class IncidentReportsController < ApplicationController
   end
 
   def report_params
-    data = params.require(:incident_report).permit!
+    data = params.require(:incident_report).permit(*AssignmentAttributes::INCIDENT_REPORT,
+                                                   incidents: %i[latitude longitude],
+                                                   injured_passengers_attributes: %i[name address nature_of_injury
+                                                                                     transported_to_hospital
+                                                                                     home_phone cell_phone work_phone])
     if data[:incidents]
       @incident.update latitude: data[:incidents][:latitude],
                        longitude: data[:incidents][:longitude]

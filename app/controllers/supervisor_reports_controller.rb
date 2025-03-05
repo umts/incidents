@@ -35,7 +35,9 @@ class SupervisorReportsController < ApplicationController
   end
 
   def report_params
-    data = params.require(:supervisor_report).permit!
+    data = params.require(:supervisor_report).permit(*AssignmentAttributes::SUPERVISOR_REPORT,
+                                                     witnesses_attributes: %i[id onboard_bus name address
+                                                                              home_phone cell_phone work_phone])
     unless data[:witness_info] == '1'
       data.delete :witnesses_attributes
       @report.witnesses.destroy_all
