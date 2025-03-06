@@ -32,3 +32,9 @@ jobs:
           name: failed-test-screenshots
           path: tmp/capybara/*.png
           if-no-files-found: ignore
+  brakeman:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: bundle exec brakeman --no-pager
