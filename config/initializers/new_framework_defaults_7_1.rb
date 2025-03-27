@@ -25,7 +25,7 @@ Rails.application.config.action_dispatch.default_headers = {
 # Do not treat an `ActionController::Parameters` instance
 # as equal to an equivalent `Hash` by default.
 #++
-# Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
+Rails.application.config.action_controller.allow_deprecated_parameters_hash_equality = false
 
 ###
 # Active Record Encryption now uses SHA-256 as its hash digest algorithm.
@@ -91,7 +91,7 @@ Rails.application.config.active_record.allow_deprecated_singular_associations_na
 # Options are `true`, and `false`. If `false`, the exception will be reported
 # as `handled` and logged instead.
 #++
-# Rails.application.config.active_support.raise_on_invalid_cache_expiration_time = true
+Rails.application.config.active_support.raise_on_invalid_cache_expiration_time = true
 
 ###
 # Specify whether Query Logs will format tags using the SQLCommenter format
@@ -171,7 +171,7 @@ Rails.application.config.active_record.belongs_to_required_validates_foreign_key
 # Enable precompilation of `config.filter_parameters`. Precompilation can
 # improve filtering performance, depending on the quantity and types of filters.
 #++
-# Rails.application.config.precompile_filter_parameters = true
+Rails.application.config.precompile_filter_parameters = true
 
 ###
 # Enable before_committed! callbacks on all enrolled records in a transaction.
@@ -204,7 +204,7 @@ Rails.application.config.active_record.default_column_serializer = nil
 # This matches the behaviour of all other callbacks.
 # In previous versions of Rails, they ran in the inverse order.
 #++
-# Rails.application.config.active_record.run_after_transaction_callbacks_in_order_defined = true
+Rails.application.config.active_record.run_after_transaction_callbacks_in_order_defined = true
 
 ###
 # Whether a `transaction` block is committed or rolled back when exited via `return`, `break` or `throw`.
