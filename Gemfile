@@ -9,6 +9,7 @@ gem 'coffee-rails'
 gem 'csv'
 gem 'devise'
 gem 'haml-rails'
+gem 'irb'
 gem 'jbuilder'
 gem 'mysql2'
 gem 'nokogiri'
@@ -51,9 +52,9 @@ group :development do
 end
 
 group :development, :test do
+  gem 'debug'
   gem 'factory_bot_rails'
   gem 'ffaker'
-  gem 'pry-byebug'
   gem 'timecop'
 end
 
