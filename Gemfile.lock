@@ -101,7 +101,6 @@ GEM
     brakeman (7.0.0)
       racc
     builder (3.3.0)
-    byebug (12.0.0)
     capistrano (3.19.2)
       airbrussh (>= 1.0.0)
       i18n
@@ -131,7 +130,6 @@ GEM
       xpath (~> 3.2)
     childprocess (5.1.0)
       logger (~> 1.5)
-    coderay (1.1.3)
     coffee-rails (5.0.0)
       coffee-script (>= 2.2.0)
       railties (>= 5.2.0)
@@ -144,6 +142,9 @@ GEM
     crass (1.0.6)
     csv (3.3.3)
     date (3.4.1)
+    debug (1.10.0)
+      irb (~> 1.10)
+      reline (>= 0.3.8)
     devise (4.9.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -211,7 +212,6 @@ GEM
       net-smtp
     marcel (1.0.4)
     matrix (0.4.2)
-    method_source (1.1.0)
     mini_mime (1.1.5)
     mini_portile2 (2.8.8)
     minitest (5.25.5)
@@ -233,12 +233,12 @@ GEM
       net-protocol
     net-ssh (7.3.0)
     nio4r (2.7.4)
-    nokogiri (1.18.6)
+    nokogiri (1.18.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.18.6-arm64-darwin)
+    nokogiri (1.18.7-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.6-x86_64-darwin)
+    nokogiri (1.18.7-x86_64-darwin)
       racc (~> 1.4)
     openssl (3.3.0)
     orm_adapter (0.5.0)
@@ -271,12 +271,6 @@ GEM
       prawn (>= 1.3.0, < 3.0.0)
     prettyprint (0.2.0)
     prism (1.4.0)
-    pry (0.15.2)
-      coderay (~> 1.1)
-      method_source (~> 1.0)
-    pry-byebug (3.11.0)
-      byebug (~> 12.0)
-      pry (>= 0.13, < 0.16)
     psych (5.2.3)
       date
       stringio
@@ -491,6 +485,7 @@ DEPENDENCIES
   capybara
   coffee-rails
   csv
+  debug
   devise
   ed25519
   exception_notification
@@ -498,6 +493,7 @@ DEPENDENCIES
   ffaker
   haml-rails
   haml_lint
+  irb
   jbuilder
   listen
   mysql2
@@ -506,7 +502,6 @@ DEPENDENCIES
   overcommit
   paper_trail (~> 16.0)
   prawn-rails-forms
-  pry-byebug
   puma
   rails (~> 7.1.5)
   rspec-rails
@@ -556,7 +551,6 @@ CHECKSUMS
   bootstrap-sass (3.4.1) sha256=ba4673535eb0a8334a39a258ea8d81904832f47607069d0a1735b0937645c7df
   brakeman (7.0.0) sha256=1a0122b0c70f17519a61548a53a332c0acc19e3aa10b445e15e025a4b13b8577
   builder (3.3.0) sha256=497918d2f9dca528fdca4b88d84e4ef4387256d984b8154e9d5d3fe5a9c8835f
-  byebug (12.0.0) sha256=d4a150d291cca40b66ec9ca31f754e93fed8aa266a17335f71bb0afa7fca1a1e
   capistrano (3.19.2) sha256=e0c79823edf604ba513533b224f85f5a9fe33c4c6c9cbde9483a56b48838f563
   capistrano-bundler (2.1.1) sha256=c234a72c1698265885522ba7da77b522c683e2ca350f90ac94d7e84d6f8f4f94
   capistrano-passenger (0.2.1) sha256=07a1d25edd5c1d909c19d4fe45fe2ea5f11200569f6967f6bff1d605ade98e13
@@ -565,7 +559,6 @@ CHECKSUMS
   capistrano-sidekiq (3.0.0) sha256=02765d5ee3cb64aac118921cf86375b5bd1743ea4ff90dd1a742e15f64f10921
   capybara (3.40.0) sha256=42dba720578ea1ca65fd7a41d163dd368502c191804558f6e0f71b391054aeef
   childprocess (5.1.0) sha256=9a8d484be2fd4096a0e90a0cd3e449a05bc3aa33f8ac9e4d6dcef6ac1455b6ec
-  coderay (1.1.3) sha256=dc530018a4684512f8f38143cd2a096c9f02a1fc2459edcfe534787a7fc77d4b
   coffee-rails (5.0.0) sha256=5daaa1ba51fd4907c98a333b6a9e7c1a99b1fff57fcef999b6c62d813cb91a9c
   coffee-script (2.4.1) sha256=82fe281e11b93c8117b98c5ea8063e71741870f1c4fbb27177d7d6333dd38765
   coffee-script-source (1.12.2) sha256=e12b16fd8927fbbf8b87cb2e9a85a6cf457c6881cc7ff8b1af15b31f70da07a4
@@ -574,6 +567,7 @@ CHECKSUMS
   crass (1.0.6) sha256=dc516022a56e7b3b156099abc81b6d2b08ea1ed12676ac7a5657617f012bd45d
   csv (3.3.3) sha256=7e2966befb7bdaf7d5e9b36e1de73e6a5e7a72f584f180a1726aec88a1b0a900
   date (3.4.1) sha256=bf268e14ef7158009bfeaec40b5fa3c7271906e88b196d958a89d4b408abe64f
+  debug (1.10.0) sha256=11e28ca74875979e612444104f3972bd5ffb9e79179907d7ad46dba44bd2e7a4
   devise (4.9.4) sha256=920042fe5e704c548aa4eb65ebdd65980b83ffae67feb32c697206bfd975a7f8
   diff-lcs (1.6.0) sha256=a1e7f7b272962f8fc769358ad00001b87cdcf32ba349d6c70c6b544613d2da2e
   docile (1.4.0) sha256=5f1734bde23721245c20c3d723e76c104208e1aa01277a69901ce770f0ebb8d3
@@ -604,7 +598,6 @@ CHECKSUMS
   mail (2.8.1) sha256=ec3b9fadcf2b3755c78785cb17bc9a0ca9ee9857108a64b6f5cfc9c0b5bfc9ad
   marcel (1.0.4) sha256=0d5649feb64b8f19f3d3468b96c680bae9746335d02194270287868a661516a4
   matrix (0.4.2) sha256=71083ccbd67a14a43bfa78d3e4dc0f4b503b9cc18e5b4b1d686dc0f9ef7c4cc0
-  method_source (1.1.0) sha256=181301c9c45b731b4769bc81e8860e72f9161ad7d66dd99103c9ab84f560f5c5
   mini_mime (1.1.5) sha256=8681b7e2e4215f2a159f9400b5816d85e9d8c6c6b491e96a12797e798f8bccef
   mini_portile2 (2.8.8) sha256=8e47136cdac04ce81750bb6c09733b37895bf06962554e4b4056d78168d70a75
   minitest (5.25.5) sha256=391b6c6cb43a4802bfb7c93af1ebe2ac66a210293f4a3fb7db36f2fc7dc2c756
@@ -619,9 +612,9 @@ CHECKSUMS
   net-smtp (0.5.1) sha256=ed96a0af63c524fceb4b29b0d352195c30d82dd916a42f03c62a3a70e5b70736
   net-ssh (7.3.0) sha256=172076c4b30ce56fb25a03961b0c4da14e1246426401b0f89cba1a3b54bf3ef0
   nio4r (2.7.4) sha256=d95dee68e0bb251b8ff90ac3423a511e3b784124e5db7ff5f4813a220ae73ca9
-  nokogiri (1.18.6) sha256=4d283431d7829719ea1287ca388f24c6ce343af736bbcbd1365cbdb83bce41a4
-  nokogiri (1.18.6-arm64-darwin) sha256=727a441d179d934b4b7c73e0e28e6723ee46463d96bb0cc6e2e33a13540962c4
-  nokogiri (1.18.6-x86_64-darwin) sha256=fb72568c97ccd90a8d68cb765b0ff0720b109bd62e3babbf372e854ef8fef995
+  nokogiri (1.18.7) sha256=6b63ff5defe48f30d1d3b3122f65255ca91df2caf5378c6e0482ce73ff46fb31
+  nokogiri (1.18.7-arm64-darwin) sha256=083abb2e9ed2646860f6b481a981485a658c6064caafaa81bf1cda1bada2e9d5
+  nokogiri (1.18.7-x86_64-darwin) sha256=081d1aa517454ba3415304e2ea51fe411d6a3a809490d0c4aa42799cada417b7
   openssl (3.3.0) sha256=ff3a573fc97ab30f69483fddc80029f91669bf36532859bd182d1836f45aee79
   orm_adapter (0.5.0) sha256=aa5d0be5d540cbb46d3a93e88061f4ece6a25f6e97d6a47122beb84fe595e9b9
   ostruct (0.6.1) sha256=09a3fb7ecc1fa4039f25418cc05ae9c82bd520472c5c6a6f515f03e4988cb817
@@ -637,8 +630,6 @@ CHECKSUMS
   prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb
   prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
   prism (1.4.0) sha256=dc0e3e00e93160213dc2a65519d9002a4a1e7b962db57d444cf1a71565bb703e
-  pry (0.15.2) sha256=12d54b8640d3fa29c9211dd4ffb08f3fd8bf7a4fd9b5a73ce5b59c8709385b6b
-  pry-byebug (3.11.0) sha256=0b0abb7d309bc7f00044d512a3c8567274f7012b944b38becc8440439a1cea72
   psych (5.2.3) sha256=84a54bb952d14604fea22d99938348814678782f58b12648fcdfa4d2fce859ee
   public_suffix (5.0.4) sha256=35cd648e0d21d06b8dce9331d19619538d1d898ba6d56a6f2258409d2526d1ae
   puma (6.6.0) sha256=f25c06873eb3d5de5f0a4ebc783acc81a4ccfe580c760cfe323497798018ad87
