@@ -1,0 +1,49 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "warning_code": 2,
+      "fingerprint": "e1ce3ec67a5c5ccbe17fe40d82f695107c80b910d18940942cb9a5ef95c748ef",
+      "check_name": "CrossSiteScripting",
+      "message": "Unescaped model attribute",
+      "file": "app/views/incident_reports/_form.html.haml",
+      "line": 69,
+      "link": "https://brakemanscanner.org/docs/warning_types/cross_site_scripting",
+      "code": "::Haml::AttributeBuilder.build_data(true, \"'\", :lat => IncidentReport.find(params.require(:id)).incident.latitude, :lng => IncidentReport.find(params.require(:id)).incident.longitude, :location => IncidentReport.find(params.require(:id)).incident.geocode_location)",
+      "render_path": [
+        {
+          "type": "controller",
+          "class": "IncidentReportsController",
+          "method": "update",
+          "line": 23,
+          "file": "app/controllers/incident_reports_controller.rb",
+          "rendered": {
+            "name": "incident_reports/edit",
+            "file": "app/views/incident_reports/edit.html.haml"
+          }
+        },
+        {
+          "type": "template",
+          "name": "incident_reports/edit",
+          "line": 2,
+          "file": "app/views/incident_reports/edit.html.haml",
+          "rendered": {
+            "name": "incident_reports/_form",
+            "file": "app/views/incident_reports/_form.html.haml"
+          }
+        }
+      ],
+      "location": {
+        "type": "template",
+        "template": "incident_reports/_form"
+      },
+      "user_input": "IncidentReport.find(params.require(:id)).incident",
+      "confidence": "Weak",
+      "cwe_id": [
+        79
+      ],
+      "note": "As far as I can see, HAML _does_ escape the values passed to data: and aria:"
+    }
+  ],
+  "brakeman_version": "7.1.0"
+}
