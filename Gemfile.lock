@@ -173,7 +173,7 @@ GEM
       activesupport (>= 5.1)
       haml (>= 4.0.6)
       railties (>= 5.1)
-    haml_lint (0.65.1)
+    haml_lint (0.66.0)
       haml (>= 5.0)
       parallel (~> 1.10)
       rainbow
@@ -319,7 +319,7 @@ GEM
       psych (>= 4.0.0)
     redis-client (0.25.1)
       connection_pool
-    regexp_parser (2.10.0)
+    regexp_parser (2.11.0)
     reline (0.6.1)
       io-console (~> 0.5)
     request_store (1.7.0)
@@ -581,7 +581,7 @@ CHECKSUMS
   globalid (1.2.1) sha256=70bf76711871f843dbba72beb8613229a49429d1866828476f9c9d6ccc327ce9
   haml (6.3.0) sha256=8e6eb87d869639e348852009e74a2a1663d79663ed7e7dbcb38beb1f12bcdd97
   haml-rails (2.1.0) sha256=273ba0189e2f82ce4b2385019dd9138884017e3103cc2eaebeee7f45186f59ea
-  haml_lint (0.65.1) sha256=abfe8c4a1396fb23ce72a2e720be4fb839412f45963a88430095eb98da0138a6
+  haml_lint (0.66.0) sha256=4b5d7814f3d7152f7b4a766cf58e5bd037766b02461656d689cfd5c9d6b2c4ec
   i18n (1.14.7) sha256=ceba573f8138ff2c0915427f1fc5bdf4aa3ab8ae88c8ce255eb3ecf0a11a5d0f
   iniparse (1.5.0) sha256=36a165e98d8a250b7631c4a7f9afba32af78f089970cd6446a39771189c761f1
   io-console (0.8.0) sha256=cd6a9facbc69871d69b2cb8b926fc6ea7ef06f06e505e81a64f14a470fddefa2
@@ -645,7 +645,7 @@ CHECKSUMS
   rb-inotify (0.10.1) sha256=050062d4f31d307cca52c3f6a7f4b946df8de25fc4bd373e1a5142e41034a7ca
   rdoc (6.14.1) sha256=905efa796cd296ef252af4fb31fe41c073dee894de6aad715821f335c632516b
   redis-client (0.25.1) sha256=40130f8f95194c9c73eec322516781b0bfdd8293369a67dc175bd7bc391a68bd
-  regexp_parser (2.10.0) sha256=cb6f0ddde88772cd64bff1dbbf68df66d376043fe2e66a9ef77fcb1b0c548c61
+  regexp_parser (2.11.0) sha256=d9dd78b475d18893ce3da55ea1a913499b75f26180a3463e9233d7e419c0cd40
   reline (0.6.1) sha256=1afcc9d7cb1029cdbe780d72f2f09251ce46d3780050f3ec39c3ccc6b60675fb
   request_store (1.7.0) sha256=e1b75d5346a315f452242a68c937ef8e48b215b9453a77a6c0acdca2934c88cb
   responders (3.1.1) sha256=92f2a87e09028347368639cfb468f5fefa745cb0dc2377ef060db1cdd79a341a
