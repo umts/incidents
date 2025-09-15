@@ -37,7 +37,7 @@ class SupervisorReport < ApplicationRecord
     unless reasonable_suspicion?
       assign_attributes completed_drug_test: false,
                         completed_alcohol_test: false,
-                        observation_made_at: false,
+                        observation_made_at: nil,
                         test_due_to_employee_appearance: false,
                         test_due_to_employee_behavior: false,
                         test_due_to_employee_speech: false,
