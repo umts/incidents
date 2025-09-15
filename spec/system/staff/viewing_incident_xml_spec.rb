@@ -43,10 +43,10 @@ end
 
 describe 'viewing incident XML as a driver' do
   let(:incident) { create :incident }
-  it 'you can not' do
+  it 'is not permitted' do
     when_current_user_is :driver
     visit incident_path(incident, format: :xml)
-    expect(page).to have_text 'You do not have permission to access this page.'
+    expect(page).to have_http_status :unauthorized
   end
 end
 
