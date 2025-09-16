@@ -10,7 +10,7 @@ This is a prototype of UMass Transit's incident tracking model, designed for use
 
 ### Setup
 1. `bundle`
-2. `yarn`
+2. `npm install`
 3. Create your database.yml: `cp config/database.yml.example config/database.yml`
 4. Create the databases: `rails db:create:all`
 5. Setup database: `rails db:schema:load`
