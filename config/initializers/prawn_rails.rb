@@ -1,4 +1,4 @@
-require 'prawn-rails'
+require 'prawn-rails/document'
 require 'prawn-rails-forms'
 
 include PrawnRailsForms
