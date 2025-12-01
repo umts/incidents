@@ -1,7 +1,8 @@
-require 'prawn-rails'
+require 'prawn-rails/document'
 require 'prawn-rails-forms'
 
-include PrawnRailsForms
+#TODO: Fixed by umts/prawn-rails-forms#23
+PrawnRailsForms.send(:extend, PrawnRailsForms)
 
 PrawnRails.config do |config|
   config.page_layout = :portrait
