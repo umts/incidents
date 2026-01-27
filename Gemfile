@@ -14,7 +14,7 @@ gem 'jbuilder'
 gem 'nokogiri'
 gem 'openssl'
 gem 'paper_trail', '~> 17.0'
-gem 'prawn-rails-forms', require: false
+gem 'prawn-rails'
 gem 'puma'
 gem 'rails', '~> 8.0.4'
 gem 'sassc-rails'
