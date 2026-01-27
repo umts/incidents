@@ -261,8 +261,6 @@ GEM
       activesupport (>= 3.1.0)
       prawn
       prawn-table
-    prawn-rails-forms (0.1.2)
-      prawn-rails (~> 1.0)
     prawn-table (0.2.2)
       prawn (>= 1.3.0, < 3.0.0)
     prettyprint (0.2.0)
@@ -506,7 +504,7 @@ DEPENDENCIES
   openssl
   overcommit
   paper_trail (~> 17.0)
-  prawn-rails-forms
+  prawn-rails
   puma
   rails (~> 8.0.4)
   rspec-rails
@@ -630,7 +628,6 @@ CHECKSUMS
   pp (0.6.3) sha256=2951d514450b93ccfeb1df7d021cae0da16e0a7f95ee1e2273719669d0ab9df6
   prawn (2.5.0) sha256=f4e20e3b4f30bf5b9ae37dad15eb421831594553aa930b2391b0fa0a99c43cb6
   prawn-rails (1.6.0) sha256=99ad1927c8ef02f6d1b33b9902014035fc053a54198cceeb8181d955f94b77c8
-  prawn-rails-forms (0.1.2) sha256=64f6c64422d2d7367e168414e912067974588cc259b690a30ae82e4448549266
   prawn-table (0.2.2) sha256=336d46e39e003f77bf973337a958af6a68300b941c85cb22288872dc2b36addb
   prettyprint (0.2.0) sha256=2bc9e15581a94742064a3cc8b0fb9d45aae3d03a1baa6ef80922627a0766f193
   prism (1.8.0) sha256=84453a16ef5530ea62c5f03ec16b52a459575ad4e7b9c2b360fd8ce2c39c1254

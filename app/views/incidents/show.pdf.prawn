@@ -1,6 +1,5 @@
 # PDF is 740 x 560
 
-PrawnRailsForms.default_text_field_options[:style] = :bold
 prawn_document do |pdf|
   if @incident.division.name == "NOHO"
     pdf.start_new_page

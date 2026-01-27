@@ -69,6 +69,10 @@ Metrics/ModuleLength:
     - hash
     - heredoc
 
+Metrics/ParameterLists:
+  Exclude:
+    - 'lib/prawn_rails_forms/*'
+
 Style/Documentation:
   Enabled: false
 
