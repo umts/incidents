@@ -36,7 +36,6 @@ RSpec.configure do |config|
 
   config.before :all do
     FactoryBot.reload
-    Rails.application.reload_routes_unless_loaded # TODO: heartcombo/devise#5728
   end
 
   config.expect_with :rspec do |expectations|
