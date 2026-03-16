@@ -246,7 +246,6 @@ ActiveRecord::Schema[8.1].define(version: 2026_03_13_203338) do
     t.boolean "active", default: true
     t.string "badge_number"
     t.datetime "created_at", precision: nil, null: false
-    t.string "division"
     t.string "email"
     t.string "encrypted_password", default: "", null: false
     t.string "first_name"
