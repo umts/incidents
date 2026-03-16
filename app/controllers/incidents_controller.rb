@@ -62,8 +62,7 @@ class IncidentsController < ApplicationController
     @incident.destroy
     respond_to do |format|
       format.html do
-        redirect_to request.referer,
-                    notice: 'Incident was successfully deleted.'
+        redirect_back_or_to incidents_path, notice: 'Incident was successfully deleted.'
       end
       format.json { head :no_content }
     end
