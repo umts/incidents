@@ -7,6 +7,12 @@
     {
       "matchManagers": ["ruby-version", "nodenv"],
       "dependencyDashboardApproval": true
+    },
+    {
+      "matchPackageNames": ["mysql"],
+      "matchDatasources": ["docker"],
+      "matchUpdateTypes": ["major", "minor", "patch"],
+      "enabled": false
     }
   ]
 }
