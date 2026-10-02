@@ -2,7 +2,7 @@
   "name": "incidents",
   "private": true,
   "dependencies": {
-    "jquery": "^4.0.0",
+    "jquery": "^4.0",
     "leaflet": "*"
   }
 }
