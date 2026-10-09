@@ -21,6 +21,7 @@ append :linked_dirs,
        'vendor/bundle',
        '.bundle'
 
+set :bundle_version, 4
 set :bundle_bins, fetch(:bundle_bins, []).push('bootsnap')
 
 set :service_unit_user, :system
