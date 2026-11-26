@@ -5,7 +5,12 @@
   ],
   "packageRules": [
     {
-      "matchManagers": ["ruby-version", "nodenv"],
+      "matchManagers": ["ruby-version"],
+      "dependencyDashboardApproval": true
+    },
+    {
+      "matchManagers": ["nodenv"],
+      "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
     },
     {
